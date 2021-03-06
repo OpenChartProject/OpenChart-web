@@ -1,10 +1,16 @@
 import assert from "assert";
 
+/**
+ * Represents a (name, value) pair.
+ */
 export interface Field {
     name: string;
     value: string;
 }
 
+/**
+ * The different states the reader can be in.
+ */
 enum State {
     LookingForField,
     ReadingName,
@@ -12,14 +18,23 @@ enum State {
     InComment,
 }
 
-const token = {
-    COMMENT: "/",
-    FIELD_START: "#",
-    FIELD_NAME_END: ":",
-    FIELD_VALUE_END: ";",
-    NEWLINE: "\n",
-};
+/**
+ * The different tokens that trigger the reader to change states.
+ */
+enum Token {
+    Comment = "/",
+    FieldStart = "#",
+    FieldNameEnd = ":",
+    FieldValueEnd = ";",
+    NewLine = "\n",
+}
 
+/**
+ * Reads the fields from a .sm file.
+ * @param contents The string contents of the file.
+ * @returns A list of fields.
+ * @throws `AssertionError` if the reader hits EOF unexpectedly.
+ */
 export function readFields(contents: string): Field[] {
     const fields: Field[] = [];
     let state = State.LookingForField;
@@ -31,7 +46,7 @@ export function readFields(contents: string): Field[] {
     for (const c of contents) {
         if (c === "\r") continue;
 
-        if (c === token.COMMENT && prevChar === token.COMMENT) {
+        if (c === Token.Comment && prevChar === Token.Comment) {
             preCommentState = state;
             state = State.InComment;
 
@@ -42,7 +57,7 @@ export function readFields(contents: string): Field[] {
 
         switch (state as State) {
             case State.LookingForField:
-                if (c === token.FIELD_START) {
+                if (c === Token.FieldStart) {
                     buffer = "";
                     state = State.ReadingName;
                 }
@@ -50,7 +65,7 @@ export function readFields(contents: string): Field[] {
                 break;
 
             case State.ReadingName:
-                if (c === token.FIELD_NAME_END) {
+                if (c === Token.FieldNameEnd) {
                     fieldName = buffer.toUpperCase();
                     buffer = "";
                     state = State.ReadingValue;
@@ -61,7 +76,7 @@ export function readFields(contents: string): Field[] {
                 break;
 
             case State.ReadingValue:
-                if (c === token.FIELD_VALUE_END) {
+                if (c === Token.FieldValueEnd) {
                     fields.push({
                         name: fieldName,
                         value: buffer.trim(),
@@ -76,7 +91,7 @@ export function readFields(contents: string): Field[] {
                 break;
 
             case State.InComment:
-                if (c === token.NEWLINE) {
+                if (c === Token.NewLine) {
                     state = preCommentState;
                     buffer += c;
                 }
