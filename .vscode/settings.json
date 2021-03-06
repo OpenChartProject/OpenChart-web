@@ -8,5 +8,6 @@
     "typescript.format.enable": true,
     "javascript.format.semicolons": "insert",
     "javascript.preferences.quoteStyle": "double",
-    "typescript.preferences.quoteStyle": "double"
+    "typescript.preferences.quoteStyle": "double",
+    "tslint.packageManager": "yarn"
 }
