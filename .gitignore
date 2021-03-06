@@ -1,0 +1,6 @@
+*.log
+
+.cache/
+.parcel_cache/
+build/
+node_modules/

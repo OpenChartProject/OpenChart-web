@@ -1,0 +1,4 @@
+spec: client/src/**/*.spec.ts
+exclude:
+  - node_modules/
+require: ts-node/register
