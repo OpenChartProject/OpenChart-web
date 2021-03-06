@@ -1,12 +1,12 @@
 {
-  "python.formatting.provider": "black",
-  "python.linting.pylintEnabled": false,
-  "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true,
-  "files.trimFinalNewlines": true,
-  "files.insertFinalNewline": true,
-  "typescript.format.enable": true,
-  "javascript.format.semicolons": "insert",
-  "javascript.preferences.quoteStyle": "double",
-  "typescript.preferences.quoteStyle": "double"
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": true,
+    "typescript.format.enable": true,
+    "javascript.format.semicolons": "insert",
+    "javascript.preferences.quoteStyle": "double",
+    "typescript.preferences.quoteStyle": "double"
 }

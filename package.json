@@ -1,32 +1,32 @@
 {
-  "name": "openchart",
-  "version": "1.0.0",
-  "main": "build/index.js",
-  "author": "Jesse <2302541+Kangaroux@users.noreply.github.com>",
-  "private": true,
-  "scripts": {
-    "build": "rm -rf build/* && parcel build --no-source-maps -d build/ client/index.html",
-    "serve": "parcel serve --hmr-port 8001 -d build/ client/index.html",
-    "format": "prettier -w client/",
-    "lint": "tslint --project tsconfig.json",
-    "test": "mocha"
-  },
-  "devDependencies": {
-    "@types/assert": "^1.5.4",
-    "@types/mocha": "^8.2.0",
-    "@types/parcel-env": "^0.0.0",
-    "assert": "^2.0.0",
-    "mocha": "^8.3.0",
-    "parcel": "^1.12.4",
-    "prettier": "^2.2.1",
-    "sass": "^1.26.10",
-    "ts-node": "^9.1.1",
-    "tslint": "^6.1.3",
-    "typescript": "^3.9.7"
-  },
-  "dependencies": {
-    "normalize.css": "^8.0.1",
-    "preact": "^10.4.7",
-    "preact-router": "^3.2.1"
-  }
+    "name": "openchart",
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "author": "Jesse <2302541+Kangaroux@users.noreply.github.com>",
+    "private": true,
+    "scripts": {
+        "build": "rm -rf build/* && parcel build --no-source-maps -d build/ client/index.html",
+        "serve": "parcel serve --hmr-port 8001 -d build/ client/index.html",
+        "format": "prettier -w .",
+        "lint": "tslint --project tsconfig.json",
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "@types/assert": "^1.5.4",
+        "@types/mocha": "^8.2.0",
+        "@types/parcel-env": "^0.0.0",
+        "assert": "^2.0.0",
+        "mocha": "^8.3.0",
+        "parcel": "^1.12.4",
+        "prettier": "^2.2.1",
+        "sass": "^1.26.10",
+        "ts-node": "^9.1.1",
+        "tslint": "^6.1.3",
+        "typescript": "^3.9.7"
+    },
+    "dependencies": {
+        "normalize.css": "^8.0.1",
+        "preact": "^10.4.7",
+        "preact-router": "^3.2.1"
+    }
 }

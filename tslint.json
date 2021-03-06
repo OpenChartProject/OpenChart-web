@@ -1,8 +1,8 @@
 {
-  "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
-  "rules": {
-    "no-console": [false],
-    "semicolon": [true, "always"]
-  }
+    "defaultSeverity": "error",
+    "extends": ["tslint:recommended"],
+    "rules": {
+        "no-console": [false],
+        "semicolon": [true, "always"]
+    }
 }

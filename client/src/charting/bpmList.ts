@@ -1,9 +1,9 @@
 import { BPM } from "./bpm";
 
 export class BPMList {
-  bpms: BPM[];
+    bpms: BPM[];
 
-  constructor(bpms: BPM[] = null) {
-    this.bpms = bpms ?? [];
-  }
+    constructor(bpms: BPM[] = null) {
+        this.bpms = bpms ?? [];
+    }
 }

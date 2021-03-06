@@ -3,11 +3,11 @@ import { KeyIndex } from "../keyIndex";
 import { ChartObject } from "./chartObject";
 
 export class Tap implements ChartObject {
-  beat: Beat;
-  key: KeyIndex;
+    beat: Beat;
+    key: KeyIndex;
 
-  constructor(beat: Beat, key: KeyIndex) {
-    this.beat = beat;
-    this.key = key;
-  }
+    constructor(beat: Beat, key: KeyIndex) {
+        this.beat = beat;
+        this.key = key;
+    }
 }
