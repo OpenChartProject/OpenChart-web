@@ -1,7 +1,5 @@
 import { h, render } from "preact";
+import { Canvas } from "./Canvas";
 
-const App = () => {
-    return <p>Hello, world!</p>;
-};
 
-render(<App />, document.getElementById("app") as HTMLElement);
+render(<Canvas />, document.getElementById("app") as HTMLElement);
