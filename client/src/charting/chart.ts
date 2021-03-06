@@ -7,11 +7,7 @@ export class Chart {
     keyCount: KeyCount;
     objects: ChartObject[];
 
-    constructor(
-        bpms: BPMList = null,
-        keyCount: KeyCount = null,
-        objects: ChartObject[] = null
-    ) {
+    constructor(bpms?: BPMList, keyCount?: KeyCount, objects?: ChartObject[]) {
         this.bpms = bpms ?? new BPMList();
         this.keyCount = keyCount ?? new KeyCount(4);
         this.objects = objects ?? [];

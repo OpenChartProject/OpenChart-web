@@ -1,9 +1,9 @@
-import * as assert from "assert";
+import assert from "assert";
 import { Beat } from "./beat";
 
 export class BPM {
     beat: Beat;
-    private _value: number;
+    private _value: number = 0;
 
     constructor(beat: Beat, value: number) {
         this.beat = beat;

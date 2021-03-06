@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 
 export class Beat {
     private _value: number = 0;

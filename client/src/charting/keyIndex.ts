@@ -1,7 +1,7 @@
-import * as assert from "assert";
+import assert from "assert";
 
 export class KeyIndex {
-    private _value: number;
+    private _value: number = 0;
 
     constructor(value: number) {
         this.value = value;
