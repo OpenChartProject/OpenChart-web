@@ -44,13 +44,17 @@ export function readFields(contents: string): Field[] {
     let fieldName = "";
 
     for (const c of contents) {
-        if (c === "\r") continue;
+        if (c === "\r") {
+            continue;
+        }
 
         if (c === Token.Comment && prevChar === Token.Comment) {
             preCommentState = state;
             state = State.InComment;
 
-            if (buffer.length > 0) buffer = buffer.slice(0, buffer.length - 1);
+            if (buffer.length > 0) {
+                buffer = buffer.slice(0, buffer.length - 1);
+            }
 
             continue;
         }

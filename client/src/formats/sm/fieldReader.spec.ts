@@ -28,9 +28,14 @@ describe("sm/fieldReader", () => {
             ]);
         });
 
-        it("ignores comments", () => {
+        it("ignores lines that start with a comment", () => {
             const fields = readFields("//#FIELD1:a;\n#FIELD2:b;");
             assert.deepStrictEqual(fields, [{ name: "FIELD2", value: "b" }]);
+        });
+
+        it("ignores comments in values", () => {
+            const fields = readFields("#FIELD:multi// foo\nline;");
+            assert.deepStrictEqual(fields, [{ name: "FIELD", value: "multi\nline" }]);
         });
 
         it("throws an error if it hits EOF while reading", () => {
