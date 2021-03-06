@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rm -rf build/* && parcel build --no-source-maps -d build/ client/index.html",
     "serve": "parcel serve --hmr-port 8001 -d build/ client/index.html",
+    "format": "prettier -w client/",
     "lint": "tslint --project tsconfig.json",
     "test": "mocha"
   },
@@ -17,6 +18,7 @@
     "assert": "^2.0.0",
     "mocha": "^8.3.0",
     "parcel": "^1.12.4",
+    "prettier": "^2.2.1",
     "sass": "^1.26.10",
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",
