@@ -1,0 +1,9 @@
+FROM node:lts-alpine
+
+USER node
+WORKDIR /home/node
+
+COPY --chown=node package.json yarn.lock ./
+RUN yarn
+
+COPY --chown=node . .
