@@ -10,6 +10,7 @@
         "format": "prettier -w client/",
         "format-check": "prettier -c client/",
         "lint": "tslint --project tsconfig.json",
+        "watch": "parcel watch client/index.html",
         "test": "mocha"
     },
     "devDependencies": {
