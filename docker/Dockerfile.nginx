@@ -1,1 +1,4 @@
 FROM nginx
+
+COPY dist/ /usr/share/nginx/html/
+COPY client/img/ /usr/share/nginx/html/img/

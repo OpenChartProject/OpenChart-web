@@ -1,13 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 cd ${0%/*}
 script=$0
-
-fnBuildParcel() {
-    docker build -f docker/Dockerfile.parcel -t openchart/parcel .
-}
 
 case "$1" in
 build)
@@ -18,16 +14,15 @@ build)
         rm -rf dist/*
     fi
 
-    fnBuildParcel
-
-    # Build and copy assets to dist/
-    docker run --rm -v $(pwd)/dist/:/home/node/dist/ openchart/parcel yarn run build
+    yarn run build
+    docker build -f docker/Dockerfile.nginx -t openchart/nginx .
     ;;
 
 check)
-    fnBuildParcel
+    yarn format-check && yarn lint && yarn test
+    ;;
 
-    # Check the formatting, linting, and test suite
-    docker run -t --rm openchart/parcel /bin/sh -c "yarn format-check && yarn lint && yarn test"
+start)
+    docker run --rm -p "8000:80" openchart/nginx
     ;;
 esac
