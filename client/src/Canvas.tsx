@@ -1,6 +1,5 @@
 import { h, Component, createRef } from "preact";
 
-
 export class Canvas extends Component {
     ref = createRef();
 
@@ -20,8 +19,6 @@ export class Canvas extends Component {
     }
 
     render() {
-        return (
-            <canvas ref={this.ref} onClick={this.onClick}></canvas>
-        );
+        return <canvas ref={this.ref} onClick={this.onClick}></canvas>;
     }
 }
