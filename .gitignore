@@ -2,5 +2,5 @@
 
 .cache/
 .parcel_cache/
-build/
+dist/
 node_modules/
