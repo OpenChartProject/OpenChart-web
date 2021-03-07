@@ -55,10 +55,8 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
     for (let i = 0; i < ns.keyCount; i++) {
         promises.push(
             new Promise<void>((resolve) => {
-                console.log("asdf");
                 const img = new Image();
                 img.onload = () => {
-                    console.log("resolved");
                     resolve();
                 };
                 img.src = src.hold[i];

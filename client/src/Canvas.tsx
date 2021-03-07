@@ -1,6 +1,11 @@
 import { h, Component, createRef } from "preact";
+import { NoteSkin } from "./noteskin";
 
-export class Canvas extends Component {
+export interface Props {
+    noteSkin?: NoteSkin;
+}
+
+export class Canvas extends Component<Props> {
     ref = createRef();
 
     componentDidMount() {
@@ -15,7 +20,7 @@ export class Canvas extends Component {
         const x = e.x - canvas.offsetLeft;
         const y = e.y - canvas.offsetTop;
 
-        console.log(x, y);
+        console.log("click:", x, y);
     }
 
     render() {

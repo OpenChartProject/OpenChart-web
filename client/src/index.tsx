@@ -1,10 +1,9 @@
 import { h, render } from "preact";
 import { Canvas } from "./Canvas";
-import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
+import { getNoteSkinSource, loadNoteSkin, NoteSkin } from "./noteskin";
 
-const src = getNoteSkinSource("default_4k", 4);
-console.log("Loading noteskin...");
-const ns = loadNoteSkin(src);
-ns.then(() => console.log("done loading", ns));
+let ns: NoteSkin;
 
-render(<Canvas />, document.getElementById("app") as HTMLElement);
+loadNoteSkin(getNoteSkinSource("default_4k", 4)).then(result => ns = result);
+
+render(<Canvas noteSkin={ns!} />, document.getElementById("app") as HTMLElement);
