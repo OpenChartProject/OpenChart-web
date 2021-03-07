@@ -1,13 +1,14 @@
 {
     "name": "openchart",
     "version": "1.0.0",
-    "main": "build/index.js",
+    "main": "dist/index.js",
     "author": "Jesse <2302541+Kangaroux@users.noreply.github.com>",
     "private": true,
     "scripts": {
-        "build": "rm -rf build/* && parcel build --no-source-maps -d build/ client/index.html",
-        "serve": "parcel serve --hmr-port 8001 -d build/ client/index.html",
-        "format": "prettier -w .",
+        "build": "parcel build --no-source-maps client/index.html",
+        "serve": "parcel serve --hmr-port 8001 client/index.html",
+        "format": "prettier -w client/",
+        "format-check": "prettier -c client/",
         "lint": "tslint --project tsconfig.json",
         "test": "mocha"
     },
