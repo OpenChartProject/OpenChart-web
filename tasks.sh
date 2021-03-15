@@ -5,15 +5,17 @@ set -e
 cd ${0%/*}
 script=$0
 
-case "$1" in
-build)
-    # Make the dist/ dir if it doesn't exist, otherwise clean it
+function make_dist_dir() {
     if [[ ! -d "dist/" ]]; then
         mkdir dist/
     else
         rm -rf dist/*
     fi
+}
 
+case "$1" in
+build)
+    make_dist_dir
     yarn run build
     docker build \
         -f docker/Dockerfile.nginx \
@@ -22,17 +24,20 @@ build)
     ;;
 
 check)
-    yarn format-check && yarn lint && yarn test
+    yarn format-check
+    yarn lint
+    yarn test
     ;;
 
 watch)
+    make_dist_dir
     docker run \
         --rm \
         -p "8000:80" \
         -p "8001:8001" \
         -v "$(pwd)/dist/:/usr/share/nginx/html/" \
         -v "$(pwd)/client/img/:/usr/share/nginx/html/img/" \
-        openchart/nginx &
+        nginx &
 
     yarn watch &
     trap "kill 0" SIGINT
