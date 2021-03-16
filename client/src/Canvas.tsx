@@ -1,52 +1,55 @@
-import { h, Component, createRef } from "preact";
+import { h } from "preact";
+import { useEffect, useRef, Ref, useState } from "preact/hooks";
 import { NoteSkin } from "./noteskin";
 
 export interface Props {
     noteSkin?: NoteSkin;
 }
 
-export class Canvas extends Component<Props> {
-    ref = createRef();
+export function Canvas(props: Props) {
+    const ref: Ref<HTMLCanvasElement | null> = useRef(null);
+    const [dim, setDim] = useState({ width: 0, height: 0 });
 
-    get el() {
-        return this.ref.current as HTMLCanvasElement;
+    function updateDim() {
+        if (!ref.current) return;
+
+        setDim({
+            height: ref.current?.clientHeight,
+            width: ref.current?.clientWidth,
+        });
     }
 
-    componentDidMount() {
-        this.requestDraw();
-    }
+    // Resize the canvas after it's created.
+    useEffect(updateDim, [ref]);
 
-    draw() {
-        const ctx = this.el.getContext("2d") as CanvasRenderingContext2D;
+    // Setup the resize event listener.
+    useEffect(() => {
+        window.addEventListener("resize", updateDim);
+        return () => window.removeEventListener("resize", updateDim);
+    });
+
+    // Update the canvas draw dimensions.
+    useEffect(() => {
+        if (!ref.current) return;
+
+        ref.current.height = dim.height;
+        ref.current.width = dim.width;
+    }, [dim, ref]);
+
+    // Redraw when the dimensions change.
+    useEffect(() => {
+        if (!ref.current) return;
+
+        const ctx = ref.current.getContext("2d") as CanvasRenderingContext2D;
         ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, this.el.width, this.el.height);
+        ctx.fillRect(0, 0, dim.width, dim.height);
 
-        if (this.props.noteSkin) {
-            ctx.drawImage(this.props.noteSkin.receptor[0], 0, 0);
+        if (props.noteSkin) {
+            ctx.drawImage(props.noteSkin.receptor[0], 0, 0);
         }
 
-        // TODO: Only redraw when needed
-        this.requestDraw();
-    }
+        console.log("redraw");
+    }, [dim]);
 
-    onClick(e: MouseEvent) {
-        const canvas = e.target as HTMLCanvasElement;
-        const x = e.x - canvas.offsetLeft;
-        const y = e.y - canvas.offsetTop;
-
-        console.log("click:", x, y);
-    }
-
-    requestDraw() {
-        requestAnimationFrame(() => this.draw());
-    }
-
-    render() {
-        return (
-            <canvas
-                ref={this.ref}
-                onClick={this.onClick}
-            ></canvas>
-        );
-    }
+    return <canvas ref={ref}></canvas>;
 }
