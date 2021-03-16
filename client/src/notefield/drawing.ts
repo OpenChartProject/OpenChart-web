@@ -16,6 +16,8 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
     ctx.lineWidth = 1;
 
     while (y < h) {
+        y = config.chart.bpms.timeAt(beat).value * config.pixelsPerSecond;
+
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
         }
@@ -24,7 +26,7 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
         ctx.lineTo(w, y);
         ctx.stroke();
 
-        y += 100;
+        beat.value++;
     }
 
     // Draw the receptors.
