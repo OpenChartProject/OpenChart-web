@@ -8,11 +8,25 @@ export interface Props {
 export class Canvas extends Component<Props> {
     ref = createRef();
 
+    get el() {
+        return this.ref.current as HTMLCanvasElement;
+    }
+
     componentDidMount() {
-        const canvas = this.ref.current as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d")!;
+        this.requestDraw();
+    }
+
+    draw() {
+        const ctx = this.el.getContext("2d") as CanvasRenderingContext2D;
         ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, this.el.width, this.el.height);
+
+        if (this.props.noteSkin) {
+            ctx.drawImage(this.props.noteSkin.receptor[0], 0, 0);
+        }
+
+        // TODO: Only redraw when needed
+        this.requestDraw();
     }
 
     onClick(e: MouseEvent) {
@@ -21,6 +35,10 @@ export class Canvas extends Component<Props> {
         const y = e.y - canvas.offsetTop;
 
         console.log("click:", x, y);
+    }
+
+    requestDraw() {
+        requestAnimationFrame(() => this.draw());
     }
 
     render() {

@@ -52,16 +52,23 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
         tap: [],
     };
 
+    const loadImage = (url: string, dst: CanvasImageSource[]): Promise<void> => {
+        return new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                resolve();
+            };
+            img.src = url;
+            dst.push(img);
+        });
+    }
+
     for (let i = 0; i < ns.keyCount; i++) {
         promises.push(
-            new Promise<void>((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    resolve();
-                };
-                img.src = src.hold[i];
-                ns.hold.push(img);
-            })
+            loadImage(src.hold[i], ns.hold),
+            loadImage(src.holdBody[i], ns.holdBody),
+            loadImage(src.receptor[i], ns.receptor),
+            loadImage(src.tap[i], ns.tap),
         );
     }
 
