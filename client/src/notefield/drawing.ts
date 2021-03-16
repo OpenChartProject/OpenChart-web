@@ -2,15 +2,19 @@ import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { NoteFieldConfig } from "./config";
 
-export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
-    const ctx = el.getContext("2d") as CanvasRenderingContext2D;
-    const { width: w, height: h } = el;
+interface DrawProps {
+    ctx: CanvasRenderingContext2D;
+    w: number;
+    h: number;
+    config: NoteFieldConfig;
+}
 
-    // Clear the notefield with the background color.
+function clear({ ctx, w, h, config }: DrawProps) {
     ctx.fillStyle = config.colors.background;
     ctx.fillRect(0, 0, w, h);
+}
 
-    // Draw the beat lines.
+function drawBeatLines({ ctx, w, h, config }: DrawProps) {
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
 
@@ -25,9 +29,20 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
         ctx.lineTo(w, y);
         ctx.stroke();
     }
+}
 
-    // Draw the receptors.
+function drawReceptors({ ctx, w, h, config }: DrawProps) {
     for (let i = 0; i < config.keyCount; i++) {
         ctx.drawImage(config.noteSkin.receptor[i], i * config.columnWidth, 0);
     }
+}
+
+export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
+    const ctx = el.getContext("2d") as CanvasRenderingContext2D;
+    const { width: w, height: h } = el;
+    const drawProps = { ctx, w, h, config };
+
+    clear(drawProps);
+    drawBeatLines(drawProps);
+    drawReceptors(drawProps);
 }
