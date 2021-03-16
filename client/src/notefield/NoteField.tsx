@@ -3,11 +3,14 @@ import { useEffect, useRef, Ref, useState } from "preact/hooks";
 import { drawNoteField } from "./drawing";
 import { NoteFieldConfig } from "./config";
 
-export interface Props extends NoteFieldConfig { };
+export type Props = NoteFieldConfig;
 
 export function NoteField(props: Props) {
     const ref: Ref<HTMLCanvasElement | null> = useRef(null);
-    const [dim, setDim] = useState({ width: props.keyCount * props.columnWidth, height: 0 });
+    const [dim, setDim] = useState({
+        width: props.keyCount * props.columnWidth,
+        height: 0,
+    });
 
     function updateDim() {
         setDim({

@@ -23,4 +23,8 @@ export class Beat {
 
         return new Beat(val);
     }
+
+    static get Zero(): Beat {
+        return new Beat(0);
+    }
 }
