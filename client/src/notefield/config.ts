@@ -12,4 +12,11 @@ export interface NoteFieldConfig {
     keyCount: number;
     noteSkin: NoteSkin;
     pixelsPerSecond: number;
+    secondsPerScrollTick: number;
+}
+
+export interface NoteFieldState {
+    width: number;
+    height: number;
+    scroll: number;
 }
