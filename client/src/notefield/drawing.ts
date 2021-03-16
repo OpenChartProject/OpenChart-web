@@ -1,4 +1,5 @@
-import { Beat } from "../charting/beat";
+import { getBeatLineTimes } from "./beatlines";
+import { Time } from "../charting/time";
 import { NoteFieldConfig } from "./config";
 
 export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
@@ -10,13 +11,11 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
     ctx.fillRect(0, 0, w, h);
 
     // Draw the beat lines.
-    const beat = Beat.Zero;
-    let y = 0;
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
 
-    while (y < h) {
-        y = config.chart.bpms.timeAt(beat).value * config.pixelsPerSecond;
+    for (const time of getBeatLineTimes(config.chart, Time.Zero, new Time(10))) {
+        let y = time.value * config.pixelsPerSecond;
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
@@ -25,8 +24,6 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
         ctx.moveTo(0, y);
         ctx.lineTo(w, y);
         ctx.stroke();
-
-        beat.value++;
     }
 
     // Draw the receptors.

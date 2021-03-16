@@ -16,15 +16,19 @@ export class Beat {
         return this._value;
     }
 
-    static convert(val: number | Beat): Beat {
-        if (val instanceof Beat) {
-            return val;
-        }
-
-        return new Beat(val);
-    }
-
     static get Zero(): Beat {
         return new Beat(0);
+    }
+
+    isWholeBeat(): boolean {
+        return (this.value - Math.floor(this.value)) < 0.001;
+    }
+
+    next(): Beat {
+        if (this.isWholeBeat()) {
+            return new Beat(this.value + 1);
+        }
+
+        return new Beat(Math.ceil(this.value));
     }
 }
