@@ -3,19 +3,21 @@ import { useEffect, useRef, Ref, useState } from "preact/hooks";
 import { NoteSkin } from "./noteskin";
 
 export interface Props {
-    noteSkin?: NoteSkin;
+    columnWidth: number;
+    keyCount: number;
+    noteSkin: NoteSkin;
 }
 
 export function Canvas(props: Props) {
     const ref: Ref<HTMLCanvasElement | null> = useRef(null);
-    const [dim, setDim] = useState({ width: 0, height: 0 });
+    const [dim, setDim] = useState({ width: props.keyCount * props.columnWidth, height: 0 });
 
     function updateDim() {
         if (!ref.current) return;
 
         setDim({
-            height: ref.current?.clientHeight,
-            width: ref.current?.clientWidth,
+            height: ref.current.clientHeight,
+            width: dim.width,
         });
     }
 
@@ -28,7 +30,7 @@ export function Canvas(props: Props) {
         return () => window.removeEventListener("resize", updateDim);
     });
 
-    // Update the canvas draw dimensions.
+    // Update the canvas draw dimensions to match the size of the canvas element.
     useEffect(() => {
         if (!ref.current) return;
 
@@ -44,12 +46,12 @@ export function Canvas(props: Props) {
         ctx.fillStyle = "#000";
         ctx.fillRect(0, 0, dim.width, dim.height);
 
-        if (props.noteSkin) {
-            ctx.drawImage(props.noteSkin.receptor[0], 0, 0);
+        for (let i = 0; i < props.keyCount; i++) {
+            ctx.drawImage(props.noteSkin.receptor[i], i * props.columnWidth, 0);
         }
 
         console.log("redraw");
-    }, [dim]);
+    }, [dim, ref]);
 
     return <canvas ref={ref}></canvas>;
 }
