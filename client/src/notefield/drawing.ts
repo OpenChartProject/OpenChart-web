@@ -2,9 +2,12 @@ import { NoteFieldConfig } from "./config";
 
 export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
     const ctx = el.getContext("2d") as CanvasRenderingContext2D;
-    ctx.fillStyle = "#000";
+
+    // Clear the notefield with the background color.
+    ctx.fillStyle = config.bgColor;
     ctx.fillRect(0, 0, el.width, el.height);
 
+    // Draw the receptors.
     for (let i = 0; i < config.keyCount; i++) {
         ctx.drawImage(config.noteSkin.receptor[i], i * config.columnWidth, 0);
     }

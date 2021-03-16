@@ -10,20 +10,23 @@ export function NoteField(props: Props) {
     const [dim, setDim] = useState({ width: props.keyCount * props.columnWidth, height: 0 });
 
     function updateDim() {
-        if (!ref.current) return;
-
         setDim({
-            height: ref.current.clientHeight,
+            height: ref.current!.clientHeight,
             width: dim.width,
         });
     }
 
     // Resize the canvas after it's created.
-    useEffect(updateDim, [ref]);
+    useEffect(() => {
+        if (!ref.current) return;
+
+        updateDim();
+    }, [ref]);
 
     // Setup the resize event listener.
     useEffect(() => {
         window.addEventListener("resize", updateDim);
+
         return () => window.removeEventListener("resize", updateDim);
     });
 
@@ -38,8 +41,9 @@ export function NoteField(props: Props) {
     // Redraw when the dimensions change.
     useEffect(() => {
         if (!ref.current) return;
+
         drawNoteField(ref.current, props);
-    }, [dim, ref]);
+    }, [dim]);
 
     return <canvas ref={ref}></canvas>;
 }
