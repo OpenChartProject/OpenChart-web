@@ -42,6 +42,11 @@ export class Canvas extends Component<Props> {
     }
 
     render() {
-        return <canvas ref={this.ref} onClick={this.onClick}></canvas>;
+        return (
+            <canvas
+                ref={this.ref}
+                onClick={this.onClick}
+            ></canvas>
+        );
     }
 }

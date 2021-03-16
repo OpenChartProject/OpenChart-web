@@ -52,7 +52,10 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
         tap: [],
     };
 
-    const loadImage = (url: string, dst: CanvasImageSource[]): Promise<void> => {
+    const loadImage = (
+        url: string,
+        dst: CanvasImageSource[]
+    ): Promise<void> => {
         return new Promise<void>((resolve) => {
             const img = new Image();
             img.onload = () => {
@@ -61,14 +64,14 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
             img.src = url;
             dst.push(img);
         });
-    }
+    };
 
     for (let i = 0; i < ns.keyCount; i++) {
         promises.push(
             loadImage(src.hold[i], ns.hold),
             loadImage(src.holdBody[i], ns.holdBody),
             loadImage(src.receptor[i], ns.receptor),
-            loadImage(src.tap[i], ns.tap),
+            loadImage(src.tap[i], ns.tap)
         );
     }
 
