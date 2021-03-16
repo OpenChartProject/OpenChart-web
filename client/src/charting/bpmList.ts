@@ -5,17 +5,22 @@ import { Beat } from "./beat";
 import { BPM } from "./bpm";
 import { Time } from "./time";
 
+export interface BPMTime {
+    bpm: BPM;
+    time: Time;
+}
+
 export class BPMList {
-    private bpms: BPM[] = [];
+    private bpms: BPMTime[] = [];
 
     constructor(bpms?: BPM[]) {
         this.setBPMs(bpms ?? [new BPM(Beat.Zero, 120)]);
     }
 
     /**
-     * Returns a deep clone of the BPMs.
+     * Returns the BPM changes.
      */
-    getBPMS(): BPM[] {
+    getBPMS(): BPMTime[] {
         return _.cloneDeep(this.bpms);
     }
 
@@ -30,28 +35,73 @@ export class BPMList {
             bpms[0].beat.value === 0,
             "the first bpm change must be at beat 0"
         );
-        this.bpms = bpms;
+
+        this.bpms = bpms.map(bpm => {
+            return { bpm, time: Time.Zero };
+        });
+
+        for (const bpm of this.bpms) {
+            bpm.time = this.timeAt(bpm.bpm.beat, false);
+        }
+    }
+
+    /**
+     * Returns the beat at a particular time.
+     */
+    beatAt(time: Time): Beat {
+        let i = 1;
+
+        // Use the cached BPM times to quickly find the BPM interval that the target
+        // time is in.
+        for (; i < this.bpms.length; i++) {
+            if (this.bpms[i].time.value > time.value)
+                break;
+        }
+
+        const bt = this.bpms[i - 1];
+
+        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond());
     }
 
     /**
      * Returns the time at a particular beat.
      */
-    timeAt(beat: Beat): Time {
+    timeAt(beat: Beat, cache = true): Time {
+        if (!cache)
+            return this.uncachedTimeAt(beat);
+
+        let bt = this.bpms[0];
+
+        // Use the cached BPM times to quickly find the BPM interval that the target
+        // time is in.
+        for (let i = 0; i < this.bpms.length - 1; i++) {
+            const next = this.bpms[i + 1];
+
+            if (next.bpm.beat.value >= beat.value)
+                break;
+
+            bt = next;
+        }
+
+        return new Time(bt.time.value + (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat());
+    }
+
+    private uncachedTimeAt(beat: Beat): Time {
         let time = 0;
 
         for (let i = 0; i < this.bpms.length; i++) {
-            const bpm = this.bpms[i];
+            const bt = this.bpms[i];
             let end = 0;
 
             // If there is another BPM change after this we need to take that into
             // account, otherwise we can go straight to the target beat.
             if (i < this.bpms.length - 1) {
-                end = Math.min(this.bpms[i + 1].beat.value, beat.value);
+                end = Math.min(this.bpms[i + 1].bpm.beat.value, beat.value);
             } else {
                 end = beat.value;
             }
 
-            time += (end - bpm.beat.value) * bpm.secondsPerBeat();
+            time += (end - bt.bpm.beat.value) * bt.bpm.secondsPerBeat();
 
             if (end === beat.value) break;
         }

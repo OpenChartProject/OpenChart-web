@@ -15,4 +15,8 @@ export class Time {
     get value(): number {
         return this._value;
     }
+
+    static get Zero(): Time {
+        return new Time(0);
+    }
 }

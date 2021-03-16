@@ -10,7 +10,7 @@ export function drawNoteField(el: HTMLCanvasElement, config: NoteFieldConfig) {
     ctx.fillRect(0, 0, w, h);
 
     // Draw the beat lines.
-    let beat = Beat.Zero;
+    const beat = Beat.Zero;
     let y = 0;
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
