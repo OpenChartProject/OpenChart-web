@@ -4,11 +4,17 @@ import { BPM } from "./bpm";
 import { BPMList } from "./bpmList";
 
 describe("BPMList", () => {
-    describe("#timeAt", () => {
-        it("throws an error when empty", () => {
-            assert.throws(() => new BPMList().timeAt(Beat.Zero));
+    describe("#setBPMS", () => {
+        it("throws if list is empty", () => {
+            assert.throws(() => new BPMList([]));
         });
 
+        it("throws if the first BPM is not at beat 0", () => {
+            assert.throws(() => new BPMList([new BPM(new Beat(1), 120)]));
+        });
+    });
+
+    describe("#timeAt", () => {
         it("returns 0 if beat is 0", () => {
             const lst = new BPMList([new BPM(Beat.Zero, 120)]);
             assert(lst.timeAt(Beat.Zero).value === 0);
