@@ -36,7 +36,7 @@ export class BPMList {
             "the first bpm change must be at beat 0"
         );
 
-        this.bpms = bpms.map(bpm => {
+        this.bpms = bpms.map((bpm) => {
             return { bpm, time: Time.Zero };
         });
 
@@ -54,21 +54,22 @@ export class BPMList {
         // Use the cached BPM times to quickly find the BPM interval that the target
         // time is in.
         for (; i < this.bpms.length; i++) {
-            if (this.bpms[i].time.value > time.value)
-                break;
+            if (this.bpms[i].time.value > time.value) break;
         }
 
         const bt = this.bpms[i - 1];
 
-        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond());
+        return new Beat(
+            bt.bpm.beat.value +
+                (time.value - bt.time.value) * bt.bpm.beatsPerSecond()
+        );
     }
 
     /**
      * Returns the time at a particular beat.
      */
     timeAt(beat: Beat, cache = true): Time {
-        if (!cache)
-            return this.uncachedTimeAt(beat);
+        if (!cache) return this.uncachedTimeAt(beat);
 
         let bt = this.bpms[0];
 
@@ -77,13 +78,15 @@ export class BPMList {
         for (let i = 0; i < this.bpms.length - 1; i++) {
             const next = this.bpms[i + 1];
 
-            if (next.bpm.beat.value >= beat.value)
-                break;
+            if (next.bpm.beat.value >= beat.value) break;
 
             bt = next;
         }
 
-        return new Time(bt.time.value + (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat());
+        return new Time(
+            bt.time.value +
+                (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat()
+        );
     }
 
     private uncachedTimeAt(beat: Beat): Time {

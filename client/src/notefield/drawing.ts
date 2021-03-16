@@ -18,7 +18,11 @@ function drawBeatLines({ ctx, w, h, config }: DrawProps) {
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
 
-    for (const time of getBeatLineTimes(config.chart, Time.Zero, new Time(10))) {
+    for (const time of getBeatLineTimes(
+        config.chart,
+        Time.Zero,
+        new Time(10)
+    )) {
         let y = time.value * config.pixelsPerSecond;
 
         if (ctx.lineWidth % 2 === 1) {

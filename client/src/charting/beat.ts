@@ -21,7 +21,7 @@ export class Beat {
     }
 
     isWholeBeat(): boolean {
-        return (this.value - Math.floor(this.value)) < 0.001;
+        return this.value - Math.floor(this.value) < 0.001;
     }
 
     next(): Beat {
