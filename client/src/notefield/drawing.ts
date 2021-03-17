@@ -29,8 +29,10 @@ function drawBeatLines({ ctx, w, h, config, t0, t1 }: DrawProps) {
             y += 0.5;
         }
 
+        ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(w, y);
+        ctx.closePath();
         ctx.stroke();
     }
 }
