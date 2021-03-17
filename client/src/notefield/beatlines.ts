@@ -9,7 +9,7 @@ export function getBeatLineTimes(chart: Chart, start: Time, end: Time): Time[] {
     const times: Time[] = [];
     let beat = chart.bpms.beatAt(start);
 
-    if (!beat.isWholeBeat) {
+    if (!beat.isWholeBeat()) {
         beat = beat.next();
     }
 
