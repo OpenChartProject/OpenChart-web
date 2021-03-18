@@ -2,9 +2,9 @@ import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { NoteFieldConfig, NoteFieldState } from "./config";
 
-type DrawConfig = NoteFieldConfig & NoteFieldState;
+export type DrawConfig = NoteFieldConfig & NoteFieldState;
 
-interface DrawProps {
+export interface DrawProps {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;
@@ -37,9 +37,22 @@ function drawBeatLines({ ctx, w, h, config, t0, t1 }: DrawProps) {
     }
 }
 
+/**
+ * Returns the new height after scaling to fit a particular width.
+ */
+export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
+    return (dstW / srcW) * srcH;
+}
+
 function drawReceptors({ ctx, w, h, config }: DrawProps) {
     for (let i = 0; i < config.keyCount; i++) {
-        ctx.drawImage(config.noteSkin.receptor[i], i * config.columnWidth, 0);
+        const r = config.noteSkin.receptor[i];
+        const h = scaleToWidth(
+            r.width as number,
+            r.height as number,
+            config.columnWidth
+        );
+        ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
     }
 }
 
