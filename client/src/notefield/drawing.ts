@@ -18,7 +18,7 @@ function clear({ ctx, w, h, config }: DrawProps) {
     ctx.fillRect(0, 0, w, h);
 }
 
-function drawBeatLines({ ctx, w, h, config, t0, t1 }: DrawProps) {
+function drawBeatLines({ ctx, w, config, t0, t1 }: DrawProps) {
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
 
@@ -44,13 +44,13 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
     return (dstW / srcW) * srcH;
 }
 
-function drawReceptors({ ctx, w, h, config }: DrawProps) {
+function drawReceptors({ ctx, config }: DrawProps) {
     for (let i = 0; i < config.keyCount; i++) {
         const r = config.noteSkin.receptor[i];
         const h = scaleToWidth(
             r.width as number,
             r.height as number,
-            config.columnWidth
+            config.columnWidth,
         );
         ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
     }

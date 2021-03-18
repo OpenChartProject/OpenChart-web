@@ -22,7 +22,7 @@ describe("beatlines", () => {
 
         it("includes start and end if they are whole beats", () => {
             const actual = getBeatLineTimes(c, Time.Zero, new Time(1)).map(
-                (t) => t.value
+                (t) => t.value,
             );
             assert.deepStrictEqual(actual, [0, 0.5, 1]);
         });
@@ -34,7 +34,7 @@ describe("beatlines", () => {
             ]);
             c = new Chart(bpms);
             const actual = getBeatLineTimes(c, Time.Zero, new Time(3)).map(
-                (t) => t.value
+                (t) => t.value,
             );
             assert.deepStrictEqual(actual, [0, 1, 2, 2.5, 3]);
         });

@@ -20,7 +20,7 @@ export interface NoteSkin {
 
 export function getNoteSkinSource(
     name: string,
-    keyCount: number
+    keyCount: number,
 ): NoteSkinSource {
     const ns: NoteSkinSource = {
         name,
@@ -54,7 +54,7 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
 
     const loadImage = (
         url: string,
-        dst: CanvasImageSource[]
+        dst: CanvasImageSource[],
     ): Promise<void> => {
         return new Promise<void>((resolve) => {
             const img = new Image();
@@ -71,7 +71,7 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
             loadImage(src.hold[i], ns.hold),
             loadImage(src.holdBody[i], ns.holdBody),
             loadImage(src.receptor[i], ns.receptor),
-            loadImage(src.tap[i], ns.tap)
+            loadImage(src.tap[i], ns.tap),
         );
     }
 
