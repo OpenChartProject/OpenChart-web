@@ -73,8 +73,6 @@ export class BPMList {
 
         let bt = this.bpms[0];
 
-        // Use the cached BPM times to quickly find the BPM interval that the target
-        // time is in.
         for (let i = 0; i < this.bpms.length - 1; i++) {
             const next = this.bpms[i + 1];
 
@@ -89,6 +87,10 @@ export class BPMList {
         );
     }
 
+    /**
+     * This calcuates the time a beat occurs at by going through each BPM and
+     * calculating what time that BPM change occurs.
+     */
     private uncachedTimeAt(beat: Beat): Time {
         let time = 0;
 
