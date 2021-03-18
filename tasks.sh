@@ -31,16 +31,17 @@ check)
 
 watch)
     make_dist_dir
-    docker run \
+    container=$(docker run \
         --rm \
+        -d \
         -p "8000:80" \
         -p "8001:8001" \
         -v "$(pwd)/dist/:/usr/share/nginx/html/" \
         -v "$(pwd)/client/img/:/usr/share/nginx/html/img/" \
-        nginx &
+        nginx)
 
     yarn watch &
-    trap "kill 0" SIGINT
+    trap "docker kill $container && kill 0" SIGINT
     wait
     ;;
 
