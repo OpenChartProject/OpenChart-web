@@ -1,9 +1,31 @@
 import assert from "assert";
 import { Time } from "../charting/time";
+import { Baseline } from "./config";
 
-import { DrawProps, scaleToWidth, timeToPosition } from "./drawing";
+import { adjustToBaseline, scaleToWidth, timeToPosition } from "./drawing";
 
 describe("notefield", () => {
+    describe("#adjustToBaseline", () => {
+        let dp: any;
+
+        beforeEach(() => (dp = { config: {} }));
+
+        it("returns expected value when baseline is After", () => {
+            dp.config.baseline = Baseline.After;
+            assert.strictEqual(adjustToBaseline(dp, 0, 50), 0);
+        });
+
+        it("returns expected value when baseline is Before", () => {
+            dp.config.baseline = Baseline.Before;
+            assert.strictEqual(adjustToBaseline(dp, 0, 50), -50);
+        });
+
+        it("returns expected value when baseline is Centered", () => {
+            dp.config.baseline = Baseline.Centered;
+            assert.strictEqual(adjustToBaseline(dp, 0, 50), -25);
+        });
+    });
+
     describe("#scaleToWidth", () => {
         it("returns expected value for 1:1 scaling", () => {
             assert.strictEqual(scaleToWidth(2, 4, 2), 4);
