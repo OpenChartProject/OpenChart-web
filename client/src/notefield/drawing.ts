@@ -1,6 +1,7 @@
 import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { NoteFieldConfig, NoteFieldState } from "./config";
+import { KeyIndex } from "../charting/keyIndex";
 
 export type DrawConfig = NoteFieldConfig & NoteFieldState;
 
@@ -50,9 +51,40 @@ function drawReceptors({ ctx, config }: DrawProps) {
         const h = scaleToWidth(
             r.width as number,
             r.height as number,
-            config.columnWidth
+            config.columnWidth,
         );
         ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
+    }
+}
+
+function drawObjects({ ctx, config, t0, t1 }: DrawProps) {
+    for (let i = 0; i < config.keyCount; i++) {
+        const r = config.noteSkin.tap[i];
+        const h = scaleToWidth(
+            r.width as number,
+            r.height as number,
+            config.columnWidth,
+        );
+        const objects = config.chart.getObjectsInInterval(
+            new KeyIndex(i),
+            t0,
+            t1,
+        );
+
+        for (const obj of objects) {
+            // TODO: Add time property to ChartObject
+            const t = config.chart.bpms.timeAt(obj.beat);
+
+            if (obj.type === "tap") {
+                ctx.drawImage(
+                    r,
+                    i * config.columnWidth,
+                    t.value * config.pixelsPerSecond,
+                    config.columnWidth,
+                    h,
+                );
+            }
+        }
     }
 }
 
@@ -70,4 +102,5 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
     clear(drawProps);
     drawBeatLines(drawProps);
     drawReceptors(drawProps);
+    drawObjects(drawProps);
 }
