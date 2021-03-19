@@ -50,6 +50,8 @@ export function NoteField(props: Props) {
             case "4":
                 key = 3;
                 break;
+            default:
+                return;
         }
 
         const modified = c.placeObject(
