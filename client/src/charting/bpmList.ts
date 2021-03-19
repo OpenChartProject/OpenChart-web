@@ -33,7 +33,7 @@ export class BPMList {
         assert(bpms.length > 0, "bpm list cannot be empty");
         assert(
             bpms[0].beat.value === 0,
-            "the first bpm change must be at beat 0",
+            "the first bpm change must be at beat 0"
         );
 
         this.bpms = bpms.map((bpm) => {
@@ -61,7 +61,7 @@ export class BPMList {
 
         return new Beat(
             bt.bpm.beat.value +
-                (time.value - bt.time.value) * bt.bpm.beatsPerSecond(),
+                (time.value - bt.time.value) * bt.bpm.beatsPerSecond()
         );
     }
 
@@ -83,7 +83,7 @@ export class BPMList {
 
         return new Time(
             bt.time.value +
-                (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat(),
+                (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat()
         );
     }
 

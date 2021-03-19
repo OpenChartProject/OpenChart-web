@@ -1,12 +1,17 @@
 import assert from "assert";
+import { Beat, BeatTime } from "../charting/beat";
 
 import { Chart } from "../charting/chart";
 import { Time } from "../charting/time";
 
-export function getBeatLineTimes(chart: Chart, start: Time, end: Time): Time[] {
+export function getBeatLineTimes(
+    chart: Chart,
+    start: Time,
+    end: Time
+): BeatTime[] {
     assert(start.value < end.value, "start must be less than end");
 
-    const times: Time[] = [];
+    const result: BeatTime[] = [];
     let beat = chart.bpms.beatAt(start);
 
     if (!beat.isWholeBeat()) {
@@ -20,9 +25,9 @@ export function getBeatLineTimes(chart: Chart, start: Time, end: Time): Time[] {
             break;
         }
 
-        times.push(time);
+        result.push({ beat, time });
         beat = beat.next();
     }
 
-    return times;
+    return result;
 }

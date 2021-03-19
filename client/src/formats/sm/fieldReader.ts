@@ -108,7 +108,7 @@ export function readFields(contents: string): Field[] {
 
     assert(
         state !== State.ReadingName && state !== State.ReadingValue,
-        "unexpected EOF while reading fields",
+        "unexpected EOF while reading fields"
     );
 
     return fields;

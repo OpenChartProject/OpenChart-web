@@ -14,6 +14,7 @@ export function NoteField(props: Props) {
     const [scroll, setScroll] = useState(0);
 
     function onScroll(e: WheelEvent) {
+        console.log(e);
         setScroll((prev) => Math.max(prev + e.deltaY, 0));
     }
 

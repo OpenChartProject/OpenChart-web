@@ -1,4 +1,10 @@
 import assert from "assert";
+import { Time } from "./time";
+
+export interface BeatTime {
+    beat: Beat;
+    time: Time;
+}
 
 export class Beat {
     private _value: number = 0;

@@ -23,6 +23,6 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
 
     render(
         <NoteField {...config} />,
-        document.getElementById("app") as HTMLElement,
+        document.getElementById("app") as HTMLElement
     );
 });

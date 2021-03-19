@@ -22,8 +22,8 @@ function drawBeatLines({ ctx, w, config, t0, t1 }: DrawProps) {
     ctx.strokeStyle = config.colors.beatLines;
     ctx.lineWidth = 1;
 
-    for (const time of getBeatLineTimes(config.chart, t0, t1)) {
-        let y = (time.value - t0.value) * config.pixelsPerSecond;
+    for (const bt of getBeatLineTimes(config.chart, t0, t1)) {
+        let y = (bt.time.value - t0.value) * config.pixelsPerSecond;
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
@@ -50,7 +50,7 @@ function drawReceptors({ ctx, config }: DrawProps) {
         const h = scaleToWidth(
             r.width as number,
             r.height as number,
-            config.columnWidth,
+            config.columnWidth
         );
         ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
     }
