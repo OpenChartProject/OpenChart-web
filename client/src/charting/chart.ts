@@ -28,16 +28,25 @@ export class Chart {
     }
 
     /**
-     * Adds an object to the chart. Returns true if the object was added successfully.
+     * Places an object on the chart. By default, if you attempt to place an object
+     * over an existing object, it will remove the existing object instead.
+     *
+     * @returns true if the chart was modified
      */
-    addObject(obj: ChartObject): boolean {
+    placeObject(obj: ChartObject, opts?: { removeIfExists: boolean }): boolean {
         assert(obj.key.value < this.keyCount.value, "key index is out of range");
 
         // TODO: optimize this
         const objList = this.objects[obj.key.value];
+        const i = objList.findIndex(o => o.beat.value === obj.beat.value);
 
-        if(objList.findIndex(o => o.beat.value === obj.beat.value) !== -1) {
-            return false;
+        if(i !== -1) {
+            if(opts?.removeIfExists === true) {
+                objList.splice(i, 1);
+                return true;
+            } else {
+                return false;
+            }
         }
 
         objList.push(obj);

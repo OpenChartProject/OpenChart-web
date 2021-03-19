@@ -2,6 +2,10 @@ import { h } from "preact";
 import { useEffect, useRef, Ref, useState } from "preact/hooks";
 import { drawNoteField } from "./drawing";
 import { NoteFieldConfig, NoteFieldState } from "./config";
+import { Beat, BeatTime } from "../charting/beat";
+import { Time } from "../charting/time";
+import { KeyIndex } from "../charting/keyIndex";
+import { Tap } from "../charting/objects/tap";
 
 export type Props = NoteFieldConfig;
 
@@ -11,23 +15,54 @@ export function NoteField(props: Props) {
         width: props.keyCount * props.columnWidth,
         height: 0,
     });
-    const [scroll, setScroll] = useState(0);
+    const [scroll, setScroll] = useState<BeatTime>({beat: Beat.Zero, time: Time.Zero});
+
+    function redraw() {
+        if (!ref.current) return;
+
+        const drawState: NoteFieldState = {
+            width: dim.width,
+            height: dim.height,
+            scroll,
+        };
+
+        drawNoteField(ref.current, { ...props, ...drawState });
+    }
 
     function onKeyUp(e: KeyboardEvent) {
+        const c = props.chart;
+        const opts = { removeIfExists: true };
+        let key = 0;
+
         switch (e.key) {
             case "1":
+                key = 0;
                 break;
             case "2":
+                key = 1;
                 break;
             case "3":
+                key = 2;
                 break;
             case "4":
+                key = 3;
                 break;
+        }
+
+        const modified = c.placeObject(new Tap(scroll.beat, new KeyIndex(key)), opts);
+
+        if(modified) {
+            redraw();
         }
     }
 
     function onScroll(e: WheelEvent) {
-        setScroll((prev) => Math.max(prev + e.deltaY, 0));
+        setScroll((prev) => {
+            const rawTime = prev.time.value + (e.deltaY * props.secondsPerScrollTick);
+            const time = new Time(Math.max(rawTime, 0));
+            const beat = props.chart.bpms.beatAt(time);
+            return { beat, time };
+        });
     }
 
     function updateDim() {
@@ -64,15 +99,7 @@ export function NoteField(props: Props) {
 
     // Redraw when the dimensions change.
     useEffect(() => {
-        if (!ref.current) return;
-
-        const drawState: NoteFieldState = {
-            width: dim.width,
-            height: dim.height,
-            scroll,
-        };
-
-        drawNoteField(ref.current, { ...props, ...drawState });
+        redraw();
     }, [dim, scroll]);
 
     return <canvas ref={ref}></canvas>;

@@ -150,7 +150,7 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
 
     if (h === 0) return;
 
-    const t0 = new Time(config.scroll * config.secondsPerScrollTick);
+    const t0 = config.scroll.time;
     const t1 = new Time(t0.value + h / config.pixelsPerSecond);
 
     const drawProps = { ctx, w, h, config, t0, t1 };

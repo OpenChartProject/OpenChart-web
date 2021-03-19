@@ -19,39 +19,39 @@ describe("Chart", () => {
         });
     });
 
-    describe("#addObject", () => {
+    describe("#placeObject", () => {
         let c: Chart;
 
         beforeEach(() => c = new Chart());
 
         it("throws if key index is out of range", () => {
-            assert.throws(() => c.addObject(new Tap(Beat.Zero, new KeyIndex(c.keyCount.value))));
+            assert.throws(() => c.placeObject(new Tap(Beat.Zero, new KeyIndex(c.keyCount.value))));
         });
 
         it("returns true if object is added", () => {
-            const ret = c.addObject(new Tap(Beat.Zero, new KeyIndex(0)));
+            const ret = c.placeObject(new Tap(Beat.Zero, new KeyIndex(0)));
             assert.strictEqual(ret, true);
         });
 
         it("returns false if object is not added", () => {
             const tap = new Tap(Beat.Zero, new KeyIndex(0));
             const hold = new Hold(Beat.Zero, new Beat(1), new KeyIndex(0));
-            c.addObject(tap);
-            const ret = c.addObject(hold);
+            c.placeObject(tap);
+            const ret = c.placeObject(hold);
             assert.strictEqual(ret, false);
             assert.deepStrictEqual(c.objects[0], [tap]);
         });
 
         it("adds object when list is empty", () => {
             const obj = new Tap(Beat.Zero, new KeyIndex(0));
-            c.addObject(obj);
+            c.placeObject(obj);
             assert.deepStrictEqual(c.objects, [[obj],[],[],[]]);
         });
 
         it("adds object to appropriate key", () => {
             for(let i = 0; i < c.keyCount.value; i++) {
                 const obj = new Tap(Beat.Zero, new KeyIndex(i));
-                c.addObject(obj);
+                c.placeObject(obj);
                 assert.deepStrictEqual(c.objects[i], [obj]);
             }
         });
@@ -61,8 +61,8 @@ describe("Chart", () => {
                 new Tap(new Beat(1), new KeyIndex(0)),
                 new Tap(Beat.Zero, new KeyIndex(0)),
             ];
-            c.addObject(obj[0]);
-            c.addObject(obj[1]);
+            c.placeObject(obj[0]);
+            c.placeObject(obj[1]);
             assert.deepStrictEqual(c.objects[0], [obj[1], obj[0]]);
         });
 
@@ -71,8 +71,8 @@ describe("Chart", () => {
                 new Tap(Beat.Zero, new KeyIndex(0)),
                 new Tap(new Beat(1), new KeyIndex(0)),
             ];
-            c.addObject(obj[0]);
-            c.addObject(obj[1]);
+            c.placeObject(obj[0]);
+            c.placeObject(obj[1]);
             assert.deepStrictEqual(c.objects[0], [obj[0], obj[1]]);
         });
     });
