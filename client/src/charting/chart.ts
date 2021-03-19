@@ -7,6 +7,10 @@ import assert from "assert";
 
 export type KeyObjects = ChartObject[];
 
+export interface PlaceObjectOpts {
+    removeIfExists?: boolean;
+}
+
 export class Chart {
     bpms: BPMList;
     readonly keyCount: Readonly<KeyCount>;
@@ -33,15 +37,21 @@ export class Chart {
      *
      * @returns true if the chart was modified
      */
-    placeObject(obj: ChartObject, opts?: { removeIfExists: boolean }): boolean {
-        assert(obj.key.value < this.keyCount.value, "key index is out of range");
+    placeObject(
+        obj: ChartObject,
+        { removeIfExists }: PlaceObjectOpts = {},
+    ): boolean {
+        assert(
+            obj.key.value < this.keyCount.value,
+            "key index is out of range",
+        );
 
         // TODO: optimize this
         const objList = this.objects[obj.key.value];
-        const i = objList.findIndex(o => o.beat.value === obj.beat.value);
+        const i = objList.findIndex((o) => o.beat.value === obj.beat.value);
 
-        if(i !== -1) {
-            if(opts?.removeIfExists === true) {
+        if (i !== -1) {
+            if (removeIfExists === true) {
                 objList.splice(i, 1);
                 return true;
             } else {
@@ -50,7 +60,7 @@ export class Chart {
         }
 
         objList.push(obj);
-        objList.sort((a, b) => a.beat.value < b.beat.value ? -1 : 1);
+        objList.sort((a, b) => (a.beat.value < b.beat.value ? -1 : 1));
 
         return true;
     }

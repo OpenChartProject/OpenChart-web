@@ -22,10 +22,14 @@ describe("Chart", () => {
     describe("#placeObject", () => {
         let c: Chart;
 
-        beforeEach(() => c = new Chart());
+        beforeEach(() => (c = new Chart()));
 
         it("throws if key index is out of range", () => {
-            assert.throws(() => c.placeObject(new Tap(Beat.Zero, new KeyIndex(c.keyCount.value))));
+            assert.throws(() =>
+                c.placeObject(
+                    new Tap(Beat.Zero, new KeyIndex(c.keyCount.value)),
+                ),
+            );
         });
 
         it("returns true if object is added", () => {
@@ -45,11 +49,11 @@ describe("Chart", () => {
         it("adds object when list is empty", () => {
             const obj = new Tap(Beat.Zero, new KeyIndex(0));
             c.placeObject(obj);
-            assert.deepStrictEqual(c.objects, [[obj],[],[],[]]);
+            assert.deepStrictEqual(c.objects, [[obj], [], [], []]);
         });
 
         it("adds object to appropriate key", () => {
-            for(let i = 0; i < c.keyCount.value; i++) {
+            for (let i = 0; i < c.keyCount.value; i++) {
                 const obj = new Tap(Beat.Zero, new KeyIndex(i));
                 c.placeObject(obj);
                 assert.deepStrictEqual(c.objects[i], [obj]);
@@ -75,6 +79,20 @@ describe("Chart", () => {
             c.placeObject(obj[1]);
             assert.deepStrictEqual(c.objects[0], [obj[0], obj[1]]);
         });
+
+        it("removes existing object if option is set", () => {
+            const obj = new Tap(Beat.Zero, new KeyIndex(0));
+            c.placeObject(obj);
+            c.placeObject(obj, { removeIfExists: true });
+            assert.deepStrictEqual(c.objects[0], []);
+        });
+
+        it("returns true if object is removed", () => {
+            const obj = new Tap(Beat.Zero, new KeyIndex(0));
+            c.placeObject(obj);
+            const ret = c.placeObject(obj, { removeIfExists: true });
+            assert.strictEqual(ret, true);
+        });
     });
 
     describe("#getObjectsInInterval", () => {
@@ -83,7 +101,11 @@ describe("Chart", () => {
             const t = [new Time(0), new Time(1)];
 
             assert.throws(() =>
-                c.getObjectsInInterval(new KeyIndex(c.keyCount.value), t[0], t[1]),
+                c.getObjectsInInterval(
+                    new KeyIndex(c.keyCount.value),
+                    t[0],
+                    t[1],
+                ),
             );
         });
 

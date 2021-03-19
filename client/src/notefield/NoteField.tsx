@@ -15,7 +15,10 @@ export function NoteField(props: Props) {
         width: props.keyCount * props.columnWidth,
         height: 0,
     });
-    const [scroll, setScroll] = useState<BeatTime>({beat: Beat.Zero, time: Time.Zero});
+    const [scroll, setScroll] = useState<BeatTime>({
+        beat: Beat.Zero,
+        time: Time.Zero,
+    });
 
     function redraw() {
         if (!ref.current) return;
@@ -49,16 +52,20 @@ export function NoteField(props: Props) {
                 break;
         }
 
-        const modified = c.placeObject(new Tap(scroll.beat, new KeyIndex(key)), opts);
+        const modified = c.placeObject(
+            new Tap(scroll.beat, new KeyIndex(key)),
+            opts,
+        );
 
-        if(modified) {
+        if (modified) {
             redraw();
         }
     }
 
     function onScroll(e: WheelEvent) {
         setScroll((prev) => {
-            const rawTime = prev.time.value + (e.deltaY * props.secondsPerScrollTick);
+            const rawTime =
+                prev.time.value + e.deltaY * props.secondsPerScrollTick;
             const time = new Time(Math.max(rawTime, 0));
             const beat = props.chart.bpms.beatAt(time);
             return { beat, time };
