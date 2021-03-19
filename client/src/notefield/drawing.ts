@@ -67,8 +67,10 @@ function drawObjects({ ctx, config, t0, t1 }: DrawProps) {
         );
         const objects = config.chart.getObjectsInInterval(
             new KeyIndex(i),
-            t0,
-            t1,
+            // Extend the interval a bit to prevent notes at the edge of the screen from
+            // getting cut off
+            new Time(Math.max(t0.value - 2, 0)),
+            new Time(t1.value + 2),
         );
 
         for (const obj of objects) {
@@ -79,7 +81,7 @@ function drawObjects({ ctx, config, t0, t1 }: DrawProps) {
                 ctx.drawImage(
                     r,
                     i * config.columnWidth,
-                    t.value * config.pixelsPerSecond,
+                    (t.value - t0.value) * config.pixelsPerSecond,
                     config.columnWidth,
                     h,
                 );

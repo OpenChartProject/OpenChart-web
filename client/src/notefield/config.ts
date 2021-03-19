@@ -18,5 +18,9 @@ export interface NoteFieldConfig {
 export interface NoteFieldState {
     width: number;
     height: number;
+
+    /**
+     * The number of scroll ticks. Multiply with `secondsPerScrollTick` to calculate position.
+     */
     scroll: number;
 }
