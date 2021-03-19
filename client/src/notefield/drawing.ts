@@ -154,12 +154,10 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
 
     if (h === 0) return;
 
-    const margin = 512;
-
     ctx.save();
-    ctx.translate(0, margin - config.scroll.time.value * config.pixelsPerSecond);
+    ctx.translate(0, config.margin - config.scroll.time.value * config.pixelsPerSecond);
 
-    const y0 = config.scroll.time.value * config.pixelsPerSecond - margin;
+    const y0 = config.scroll.time.value * config.pixelsPerSecond - config.margin;
     let t0: Time;
 
     if(y0 <= 0) {
@@ -170,7 +168,6 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
 
     const t1 = new Time((y0 + h) / config.pixelsPerSecond);
     const tReceptor = config.scroll.time;
-
     const drawProps = { ctx, w, h, config, t0, t1, tReceptor };
 
     clear(drawProps);

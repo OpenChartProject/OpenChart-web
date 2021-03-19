@@ -36,6 +36,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         noteSkin: skin,
         pixelsPerSecond: 512,
         secondsPerScrollTick: 0.25,
+        margin: 512,
     };
 
     render(
