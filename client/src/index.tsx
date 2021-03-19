@@ -3,7 +3,7 @@ import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { KeyIndex } from "./charting/keyIndex";
 import { Tap } from "./charting/objects/tap";
-import { NoteFieldConfig } from "./notefield/config";
+import { Baseline, NoteFieldConfig } from "./notefield/config";
 import { NoteField } from "./notefield/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 
@@ -29,6 +29,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         colors: {
             background: "#000",
         },
+        baseline: Baseline.Centered,
         chart,
         columnWidth: 128,
         keyCount: 4,

@@ -1,8 +1,7 @@
 import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
-import { NoteFieldConfig, NoteFieldState } from "./config";
+import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 import { KeyIndex } from "../charting/keyIndex";
-import { KeyObjects } from "../charting/chart";
 import { ChartObject } from "../charting/objects/chartObject";
 
 export type DrawConfig = NoteFieldConfig & NoteFieldState;
@@ -14,6 +13,24 @@ export interface DrawProps {
     config: DrawConfig;
     t0: Time;
     t1: Time;
+}
+
+/**
+ * Returns the new position of the object after taking the baseline into account.
+ */
+export function adjustToBaseline(
+    { config }: DrawProps,
+    pos: number,
+    h: number,
+): number {
+    switch (config.baseline) {
+        case Baseline.After:
+            return pos;
+        case Baseline.Before:
+            return pos - h;
+        case Baseline.Centered:
+            return pos - h / 2;
+    }
 }
 
 /**
@@ -41,8 +58,6 @@ function drawBeatLines(dp: DrawProps) {
     const { ctx, w, config, t0, t1 } = dp;
 
     for (const bt of getBeatLineTimes(config.chart, t0, t1)) {
-        let y = (bt.time.value - t0.value) * config.pixelsPerSecond;
-
         if (bt.beat.isStartOfMeasure()) {
             ctx.strokeStyle = config.beatLines.measureLines.color;
             ctx.lineWidth = config.beatLines.measureLines.lineWidth;
@@ -50,6 +65,8 @@ function drawBeatLines(dp: DrawProps) {
             ctx.strokeStyle = config.beatLines.nonMeasureLines.color;
             ctx.lineWidth = config.beatLines.nonMeasureLines.lineWidth;
         }
+
+        let y = timeToPosition(dp, bt.time);
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
@@ -73,7 +90,9 @@ function drawReceptors(dp: DrawProps) {
             r.height as number,
             config.columnWidth,
         );
-        ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
+        const y = adjustToBaseline(dp, 0, h);
+
+        ctx.drawImage(r, i * config.columnWidth, y, config.columnWidth, h);
     }
 }
 
@@ -89,8 +108,9 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
 
     // TODO: Add time property to ChartObject
     const t = config.chart.bpms.timeAt(obj.beat);
+    const y = adjustToBaseline(dp, timeToPosition(dp, t), h);
 
-    ctx.drawImage(img, 0, timeToPosition(dp, t), config.columnWidth, h);
+    ctx.drawImage(img, 0, y, config.columnWidth, h);
 }
 
 function drawObjects(dp: DrawProps) {

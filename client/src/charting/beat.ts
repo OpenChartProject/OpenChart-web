@@ -27,7 +27,7 @@ export class Beat {
     }
 
     isStartOfMeasure(): boolean {
-        return this.isWholeBeat() && this.value % 4 == 0;
+        return this.isWholeBeat() && this.value % 4 === 0;
     }
 
     isWholeBeat(): boolean {

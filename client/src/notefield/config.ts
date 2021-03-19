@@ -1,6 +1,16 @@
 import { Chart } from "../charting/chart";
 import { NoteSkin } from "../noteskin";
 
+/**
+ * The different baseline options for how the notefield is displayed. This affects
+ * how objects are aligned relative to the beat lines.
+ */
+export enum Baseline {
+    Before,
+    Centered,
+    After,
+}
+
 export interface NoteFieldConfig {
     beatLines: {
         measureLines: {
@@ -18,6 +28,7 @@ export interface NoteFieldConfig {
         background: string;
     };
 
+    baseline: Baseline;
     chart: Chart;
     columnWidth: number;
     keyCount: number;
