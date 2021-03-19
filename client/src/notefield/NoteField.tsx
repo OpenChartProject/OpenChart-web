@@ -67,8 +67,6 @@ export function NoteField(props: Props) {
     }
 
     function onScroll(e: WheelEvent) {
-        e.preventDefault();
-
         setScroll((prev) => {
             const delta = e.deltaY > 0 ? 1 : -1;
             const rawTime =
@@ -89,23 +87,27 @@ export function NoteField(props: Props) {
     // Resize the canvas after it's created.
     useEffect(() => {
         if (!ref.current) return;
-
         updateDim();
-        ref.current.addEventListener("wheel", onScroll);
     }, [ref]);
 
-    // Setup the resize event listener.
+    // Setup event listener for handling page resizes.
     useEffect(() => {
         window.addEventListener("resize", updateDim);
         return () => window.removeEventListener("resize", updateDim);
     }, []);
 
-    // Setup the key listener.
+    // Setup event listener for handling mouse wheel events.
+    useEffect(() => {
+        document.body.addEventListener("wheel", onScroll);
+        return () => document.body.removeEventListener("wheel", onScroll);
+    }, []);
+
+    // Setup the keyboard listener.
     // NOTE: This effect runs each time the component is rendered, otherwise there is
     // an issue where the onKeyUp function references state that's stale.
     useEffect(() => {
-        window.addEventListener("keyup", onKeyUp);
-        return () => window.removeEventListener("keyup", onKeyUp);
+        document.body.addEventListener("keyup", onKeyUp);
+        return () => document.body.removeEventListener("keyup", onKeyUp);
     });
 
     // Update the canvas draw dimensions to match the size of the canvas element.
