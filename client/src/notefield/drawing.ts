@@ -6,14 +6,33 @@ import { ChartObject } from "../charting/objects/chartObject";
 
 export type DrawConfig = NoteFieldConfig & NoteFieldState;
 
-export interface DrawProps {
+export interface Viewport {
+    /**
+     * The scroll position, in pixels. This is the y-pos with respect to the canvas origin.
+     */
+    y0: number;
+
+    /**
+     * The time at the top of the viewport.
+     */
+    t0: Time;
+
+    /**
+     * The time at the bottom of the viewport.
+     */
+    t1: Time;
+
+    /**
+     * The time at the receptors.
+     */
+    tReceptor: Time;
+}
+
+export interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;
     config: DrawConfig;
-    t0: Time;
-    t1: Time;
-    tReceptor: Time;
 }
 
 /**
@@ -32,6 +51,24 @@ export function adjustToBaseline(
         case Baseline.Centered:
             return pos - h / 2;
     }
+}
+
+/**
+ * This calculates both the scroll position of the viewport as well as the boundaries
+ * for what should be rendered.
+ *
+ * The term "viewport" in this context is just a concept, it's not a physical object.
+ * The objects on the notefield are rendered with respect to the canvas origin, not
+ * with respect to the scrolling.
+ */
+export function calculateViewport(config: DrawConfig): Viewport {
+    const y0 =
+        config.scroll.time.value * config.pixelsPerSecond - config.margin;
+    const t0 = y0 <= 0 ? Time.Zero : new Time(y0 / config.pixelsPerSecond);
+    const t1 = new Time((y0 + config.height) / config.pixelsPerSecond);
+    const tReceptor = config.scroll.time;
+
+    return { y0, t0, t1, tReceptor };
 }
 
 /**
@@ -94,7 +131,11 @@ function drawReceptors(dp: DrawProps) {
             r.height as number,
             config.columnWidth,
         );
-        const y = adjustToBaseline(dp, tReceptor.value * config.pixelsPerSecond, h);
+        const y = adjustToBaseline(
+            dp,
+            tReceptor.value * config.pixelsPerSecond,
+            h,
+        );
 
         ctx.drawImage(r, i * config.columnWidth, y, config.columnWidth, h);
     }
@@ -155,13 +196,12 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
     if (h === 0) return;
 
     ctx.save();
-    ctx.translate(0, config.margin - config.scroll.time.value * config.pixelsPerSecond);
 
-    const y0 = config.scroll.time.value * config.pixelsPerSecond - config.margin;
-    const t0 = (y0 <= 0) ? Time.Zero : new Time(y0 / config.pixelsPerSecond);
-    const t1 = new Time((y0 + h) / config.pixelsPerSecond);
-    const tReceptor = config.scroll.time;
-    const drawProps = { ctx, w, h, config, t0, t1, tReceptor };
+    const viewport = calculateViewport(config);
+    const drawProps = { ctx, w, h, config, ...viewport };
+
+    // Move the viewport to the current scroll position.
+    ctx.translate(0, -viewport.y0);
 
     clear(drawProps);
     drawBeatLines(drawProps);
