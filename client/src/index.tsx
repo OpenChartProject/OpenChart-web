@@ -34,8 +34,8 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         columnWidth: 128,
         keyCount: 4,
         noteSkin: skin,
-        pixelsPerSecond: 400,
-        secondsPerScrollTick: 0.1,
+        pixelsPerSecond: 512,
+        secondsPerScrollTick: 0.25,
     };
 
     render(

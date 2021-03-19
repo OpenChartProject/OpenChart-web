@@ -13,6 +13,7 @@ export interface DrawProps {
     config: DrawConfig;
     t0: Time;
     t1: Time;
+    tReceptor: Time;
 }
 
 /**
@@ -41,17 +42,20 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 }
 
 /**
- * Returns the position of an object with respect to the current scroll position.
+ * Converts time to position.
  */
-export function timeToPosition({ config, t0 }: DrawProps, time: Time): number {
-    return (time.value - t0.value) * config.pixelsPerSecond;
+export function timeToPosition({ config }: DrawProps, time: Time): number {
+    return time.value * config.pixelsPerSecond;
 }
 
 function clear(dp: DrawProps) {
     const { ctx, w, h, config } = dp;
 
+    ctx.save();
+    ctx.resetTransform();
     ctx.fillStyle = config.colors.background;
     ctx.fillRect(0, 0, w, h);
+    ctx.restore();
 }
 
 function drawBeatLines(dp: DrawProps) {
@@ -81,7 +85,7 @@ function drawBeatLines(dp: DrawProps) {
 }
 
 function drawReceptors(dp: DrawProps) {
-    const { ctx, config } = dp;
+    const { ctx, config, tReceptor } = dp;
 
     for (let i = 0; i < config.keyCount; i++) {
         const r = config.noteSkin.receptor[i];
@@ -90,7 +94,7 @@ function drawReceptors(dp: DrawProps) {
             r.height as number,
             config.columnWidth,
         );
-        const y = adjustToBaseline(dp, 0, h);
+        const y = adjustToBaseline(dp, tReceptor.value * config.pixelsPerSecond, h);
 
         ctx.drawImage(r, i * config.columnWidth, y, config.columnWidth, h);
     }
@@ -150,13 +154,29 @@ export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
 
     if (h === 0) return;
 
-    const t0 = config.scroll.time;
-    const t1 = new Time(t0.value + h / config.pixelsPerSecond);
+    const margin = 512;
 
-    const drawProps = { ctx, w, h, config, t0, t1 };
+    ctx.save();
+    ctx.translate(0, margin - config.scroll.time.value * config.pixelsPerSecond);
+
+    const y0 = config.scroll.time.value * config.pixelsPerSecond - margin;
+    let t0: Time;
+
+    if(y0 <= 0) {
+        t0 = Time.Zero;
+    } else {
+        t0 = new Time(y0 / config.pixelsPerSecond);
+    }
+
+    const t1 = new Time((y0 + h) / config.pixelsPerSecond);
+    const tReceptor = config.scroll.time;
+
+    const drawProps = { ctx, w, h, config, t0, t1, tReceptor };
 
     clear(drawProps);
     drawBeatLines(drawProps);
     drawReceptors(drawProps);
     drawObjects(drawProps);
+
+    ctx.restore();
 }

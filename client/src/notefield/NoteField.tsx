@@ -70,8 +70,9 @@ export function NoteField(props: Props) {
         e.preventDefault();
 
         setScroll((prev) => {
+            const delta = e.deltaY > 0 ? 1 : -1;
             const rawTime =
-                prev.time.value + e.deltaY * props.secondsPerScrollTick;
+                prev.time.value + delta * props.secondsPerScrollTick;
             const time = new Time(Math.max(rawTime, 0));
             const beat = props.chart.bpms.beatAt(time);
             return { beat, time };
