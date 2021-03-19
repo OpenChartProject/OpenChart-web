@@ -2,6 +2,8 @@ import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { NoteFieldConfig, NoteFieldState } from "./config";
 import { KeyIndex } from "../charting/keyIndex";
+import { KeyObjects } from "../charting/chart";
+import { ChartObject } from "../charting/objects/chartObject";
 
 export type DrawConfig = NoteFieldConfig & NoteFieldState;
 
@@ -70,16 +72,26 @@ function drawReceptors(dp: DrawProps) {
     }
 }
 
+function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
+    const { ctx, config } = dp;
+
+    const img = config.noteSkin.tap[key];
+    const h = scaleToWidth(
+        img.width as number,
+        img.height as number,
+        config.columnWidth,
+    );
+
+    // TODO: Add time property to ChartObject
+    const t = config.chart.bpms.timeAt(obj.beat);
+
+    ctx.drawImage(img, 0, timeToPosition(dp, t), config.columnWidth, h);
+}
+
 function drawObjects(dp: DrawProps) {
     const { ctx, config, t0, t1 } = dp;
 
     for (let i = 0; i < config.keyCount; i++) {
-        const r = config.noteSkin.tap[i];
-        const h = scaleToWidth(
-            r.width as number,
-            r.height as number,
-            config.columnWidth,
-        );
         const objects = config.chart.getObjectsInInterval(
             new KeyIndex(i),
             // Extend the interval a bit to prevent notes at the edge of the screen from
@@ -88,20 +100,22 @@ function drawObjects(dp: DrawProps) {
             new Time(t1.value + 2),
         );
 
+        ctx.save();
+
+        // Move to the correct column.
+        ctx.translate(i * config.columnWidth, 0);
+
         for (const obj of objects) {
-            // TODO: Add time property to ChartObject
-            const t = config.chart.bpms.timeAt(obj.beat);
+            ctx.save();
 
             if (obj.type === "tap") {
-                ctx.drawImage(
-                    r,
-                    i * config.columnWidth,
-                    timeToPosition(dp, t),
-                    config.columnWidth,
-                    h,
-                );
+                drawTap(dp, i, obj);
             }
+
+            ctx.restore();
         }
+
+        ctx.restore();
     }
 }
 
