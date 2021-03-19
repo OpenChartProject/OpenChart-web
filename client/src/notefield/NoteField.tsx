@@ -54,6 +54,8 @@ export function NoteField(props: Props) {
                 return;
         }
 
+        e.preventDefault();
+
         const modified = c.placeObject(
             new Tap(scroll.beat, new KeyIndex(key)),
             opts,
@@ -65,6 +67,8 @@ export function NoteField(props: Props) {
     }
 
     function onScroll(e: WheelEvent) {
+        e.preventDefault();
+
         setScroll((prev) => {
             const rawTime =
                 prev.time.value + e.deltaY * props.secondsPerScrollTick;
@@ -86,10 +90,7 @@ export function NoteField(props: Props) {
         if (!ref.current) return;
 
         updateDim();
-        window.addEventListener("keyup", onKeyUp);
         ref.current.addEventListener("wheel", onScroll);
-
-        return () => window.removeEventListener("keyup", onKeyUp);
     }, [ref]);
 
     // Setup the resize event listener.
@@ -97,6 +98,11 @@ export function NoteField(props: Props) {
         window.addEventListener("resize", updateDim);
         return () => window.removeEventListener("resize", updateDim);
     }, []);
+
+    useEffect(() => {
+        window.addEventListener("keyup", onKeyUp);
+        return () => window.removeEventListener("keyup", onKeyUp);
+    });
 
     // Update the canvas draw dimensions to match the size of the canvas element.
     useEffect(() => {
