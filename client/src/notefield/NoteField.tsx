@@ -99,6 +99,9 @@ export function NoteField(props: Props) {
         return () => window.removeEventListener("resize", updateDim);
     }, []);
 
+    // Setup the key listener.
+    // NOTE: This effect runs each time the component is rendered, otherwise there is
+    // an issue where the onKeyUp function references state that's stale.
     useEffect(() => {
         window.addEventListener("keyup", onKeyUp);
         return () => window.removeEventListener("keyup", onKeyUp);
