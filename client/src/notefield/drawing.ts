@@ -14,7 +14,17 @@ export interface DrawProps {
     t1: Time;
 }
 
-export function timeToPosition({ config, t0 } : DrawProps, time: Time): number {
+/**
+ * Returns the new height after scaling to fit a particular width.
+ */
+export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
+    return (dstW / srcW) * srcH;
+}
+
+/**
+ * Returns the position of an object with respect to the current scroll position.
+ */
+export function timeToPosition({ config, t0 }: DrawProps, time: Time): number {
     return (time.value - t0.value) * config.pixelsPerSecond;
 }
 
@@ -44,13 +54,6 @@ function drawBeatLines(dp: DrawProps) {
         ctx.closePath();
         ctx.stroke();
     }
-}
-
-/**
- * Returns the new height after scaling to fit a particular width.
- */
-export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
-    return (dstW / srcW) * srcH;
 }
 
 function drawReceptors(dp: DrawProps) {
