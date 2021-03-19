@@ -7,7 +7,7 @@ import { Time } from "../charting/time";
 export function getBeatLineTimes(
     chart: Chart,
     start: Time,
-    end: Time
+    end: Time,
 ): BeatTime[] {
     assert(start.value < end.value, "start must be less than end");
 

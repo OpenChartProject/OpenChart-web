@@ -5,6 +5,7 @@ import { ChartObject } from "./chartObject";
 export class Tap implements ChartObject {
     beat: Beat;
     key: KeyIndex;
+    readonly type = "tap";
 
     constructor(beat: Beat, key: KeyIndex) {
         this.beat = beat;

@@ -6,6 +6,7 @@ export class Hold implements ChartObject {
     beat: Beat;
     duration: Beat;
     key: KeyIndex;
+    readonly type = "hold";
 
     constructor(beat: Beat, duration: Beat, key: KeyIndex) {
         this.beat = beat;
