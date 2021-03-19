@@ -94,7 +94,7 @@ export function NoteField(props: Props) {
     useEffect(() => {
         window.addEventListener("resize", updateDim);
         return () => window.removeEventListener("resize", updateDim);
-    });
+    }, []);
 
     // Update the canvas draw dimensions to match the size of the canvas element.
     useEffect(() => {
