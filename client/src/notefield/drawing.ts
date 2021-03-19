@@ -40,11 +40,16 @@ function clear(dp: DrawProps) {
 function drawBeatLines(dp: DrawProps) {
     const { ctx, w, config, t0, t1 } = dp;
 
-    ctx.strokeStyle = config.colors.beatLines;
-    ctx.lineWidth = 1;
-
     for (const bt of getBeatLineTimes(config.chart, t0, t1)) {
         let y = (bt.time.value - t0.value) * config.pixelsPerSecond;
+
+        if (bt.beat.isStartOfMeasure()) {
+            ctx.strokeStyle = config.beatLines.measureLines.color;
+            ctx.lineWidth = config.beatLines.measureLines.lineWidth;
+        } else {
+            ctx.strokeStyle = config.beatLines.nonMeasureLines.color;
+            ctx.lineWidth = config.beatLines.nonMeasureLines.lineWidth;
+        }
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;

@@ -26,6 +26,10 @@ export class Beat {
         return new Beat(0);
     }
 
+    isStartOfMeasure(): boolean {
+        return this.isWholeBeat() && this.value % 4 == 0;
+    }
+
     isWholeBeat(): boolean {
         return Math.round(this.value) === this.value;
     }

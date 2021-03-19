@@ -2,9 +2,20 @@ import { Chart } from "../charting/chart";
 import { NoteSkin } from "../noteskin";
 
 export interface NoteFieldConfig {
+    beatLines: {
+        measureLines: {
+            color: string;
+            lineWidth: number;
+        };
+
+        nonMeasureLines: {
+            color: string;
+            lineWidth: number;
+        };
+    };
+
     colors: {
         background: string;
-        beatLines: string;
     };
 
     chart: Chart;

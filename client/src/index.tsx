@@ -16,9 +16,18 @@ chart.objects[3].push(new Tap(new Beat(3), new KeyIndex(3)));
 loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     console.log(skin);
     const config: NoteFieldConfig = {
+        beatLines: {
+            measureLines: {
+                color: "#999",
+                lineWidth: 3,
+            },
+            nonMeasureLines: {
+                color: "#555",
+                lineWidth: 2,
+            },
+        },
         colors: {
             background: "#000",
-            beatLines: "#AAA",
         },
         chart,
         columnWidth: 128,
