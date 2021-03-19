@@ -36,6 +36,7 @@ export interface NoteFieldConfig {
     noteSkin: NoteSkin;
     pixelsPerSecond: number;
     secondsPerScrollTick: number;
+    margin: number;
 }
 
 export interface NoteFieldState {

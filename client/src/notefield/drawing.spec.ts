@@ -2,7 +2,12 @@ import assert from "assert";
 import { Time } from "../charting/time";
 import { Baseline } from "./config";
 
-import { adjustToBaseline, scaleToWidth, timeToPosition } from "./drawing";
+import {
+    adjustToBaseline,
+    calculateViewport,
+    scaleToWidth,
+    timeToPosition,
+} from "./drawing";
 
 describe("notefield", () => {
     describe("#adjustToBaseline", () => {
@@ -26,6 +31,72 @@ describe("notefield", () => {
         });
     });
 
+    describe("#calculateViewport", () => {
+        it("returns expected value when scroll and margin are 0", () => {
+            const config = {
+                height: 500,
+                pixelsPerSecond: 100,
+                margin: 0,
+                scroll: {
+                    time: Time.Zero,
+                },
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            assert.strictEqual(y0, 0);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 5);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scroll is 0 and margin is >0", () => {
+            const config = {
+                height: 500,
+                pixelsPerSecond: 100,
+                margin: 100,
+                scroll: {
+                    time: Time.Zero,
+                },
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            assert.strictEqual(y0, -100);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 4);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scroll is >0 and margin is 0", () => {
+            const config = {
+                height: 500,
+                pixelsPerSecond: 100,
+                margin: 0,
+                scroll: {
+                    time: new Time(1),
+                },
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            assert.strictEqual(y0, 100);
+            assert.strictEqual(t0.value, 1);
+            assert.strictEqual(t1.value, 6);
+            assert.strictEqual(tReceptor.value, 1);
+        });
+
+        it("returns expected value when scroll is >0 and margin is >0", () => {
+            const config = {
+                height: 500,
+                pixelsPerSecond: 100,
+                margin: 100,
+                scroll: {
+                    time: new Time(1),
+                },
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            assert.strictEqual(y0, 0);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 5);
+            assert.strictEqual(tReceptor.value, 1);
+        });
+    });
+
     describe("#scaleToWidth", () => {
         it("returns expected value for 1:1 scaling", () => {
             assert.strictEqual(scaleToWidth(2, 4, 2), 4);
@@ -41,32 +112,21 @@ describe("notefield", () => {
     });
 
     describe("#timeToPosition", () => {
-        let dp: any;
-        const pps = 100;
-
-        beforeEach(() => {
-            dp = {
+        it("returns expected value", () => {
+            const dp = {
                 config: {
-                    pixelsPerSecond: pps,
+                    pixelsPerSecond: 100,
                 },
-                t0: Time.Zero,
             };
-        });
-
-        it("returns 0 if scroll matches object position", () => {
-            assert.strictEqual(timeToPosition(dp, dp.t0), 0);
-        });
-
-        it("returns positive values for times in the future", () => {
+            assert.strictEqual(timeToPosition(dp as any, Time.Zero), 0);
             assert.strictEqual(
-                timeToPosition(dp, new Time(dp.t0.value + 1)),
-                pps,
+                timeToPosition(dp as any, new Time(1)),
+                dp.config.pixelsPerSecond,
             );
-        });
-
-        it("returns negative values for times in the past", () => {
-            dp.t0 = new Time(1);
-            assert.strictEqual(timeToPosition(dp, Time.Zero), -pps);
+            assert.strictEqual(
+                timeToPosition(dp as any, new Time(2)),
+                2 * dp.config.pixelsPerSecond,
+            );
         });
     });
 });
