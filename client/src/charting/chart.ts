@@ -9,7 +9,7 @@ export type KeyObjects = ChartObject[];
 
 export class Chart {
     bpms: BPMList;
-    keyCount: KeyCount;
+    readonly keyCount: Readonly<KeyCount>;
     objects: KeyObjects[];
 
     constructor(bpms?: BPMList, keyCount?: KeyCount, objects?: KeyObjects[]) {
@@ -25,6 +25,25 @@ export class Chart {
         } else {
             this.objects = objects;
         }
+    }
+
+    /**
+     * Adds an object to the chart. Returns true if the object was added successfully.
+     */
+    addObject(obj: ChartObject): boolean {
+        assert(obj.key.value < this.keyCount.value, "key index is out of range");
+
+        // TODO: optimize this
+        const objList = this.objects[obj.key.value];
+
+        if(objList.findIndex(o => o.beat.value === obj.beat.value) !== -1) {
+            return false;
+        }
+
+        objList.push(obj);
+        objList.sort((a, b) => a.beat.value < b.beat.value ? -1 : 1);
+
+        return true;
     }
 
     getObjectsInInterval(key: KeyIndex, start: Time, end: Time): KeyObjects {

@@ -5,6 +5,7 @@ import { BPMList } from "./bpmList";
 import { Chart } from "./chart";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";
+import { Hold } from "./objects/hold";
 import { Tap } from "./objects/tap";
 import { Time } from "./time";
 
@@ -18,13 +19,71 @@ describe("Chart", () => {
         });
     });
 
+    describe("#addObject", () => {
+        let c: Chart;
+
+        beforeEach(() => c = new Chart());
+
+        it("throws if key index is out of range", () => {
+            assert.throws(() => c.addObject(new Tap(Beat.Zero, new KeyIndex(c.keyCount.value))));
+        });
+
+        it("returns true if object is added", () => {
+            const ret = c.addObject(new Tap(Beat.Zero, new KeyIndex(0)));
+            assert.strictEqual(ret, true);
+        });
+
+        it("returns false if object is not added", () => {
+            const tap = new Tap(Beat.Zero, new KeyIndex(0));
+            const hold = new Hold(Beat.Zero, new Beat(1), new KeyIndex(0));
+            c.addObject(tap);
+            const ret = c.addObject(hold);
+            assert.strictEqual(ret, false);
+            assert.deepStrictEqual(c.objects[0], [tap]);
+        });
+
+        it("adds object when list is empty", () => {
+            const obj = new Tap(Beat.Zero, new KeyIndex(0));
+            c.addObject(obj);
+            assert.deepStrictEqual(c.objects, [[obj],[],[],[]]);
+        });
+
+        it("adds object to appropriate key", () => {
+            for(let i = 0; i < c.keyCount.value; i++) {
+                const obj = new Tap(Beat.Zero, new KeyIndex(i));
+                c.addObject(obj);
+                assert.deepStrictEqual(c.objects[i], [obj]);
+            }
+        });
+
+        it("adds object before existing object", () => {
+            const obj = [
+                new Tap(new Beat(1), new KeyIndex(0)),
+                new Tap(Beat.Zero, new KeyIndex(0)),
+            ];
+            c.addObject(obj[0]);
+            c.addObject(obj[1]);
+            assert.deepStrictEqual(c.objects[0], [obj[1], obj[0]]);
+        });
+
+        it("adds object after existing object", () => {
+            const obj = [
+                new Tap(Beat.Zero, new KeyIndex(0)),
+                new Tap(new Beat(1), new KeyIndex(0)),
+            ];
+            c.addObject(obj[0]);
+            c.addObject(obj[1]);
+            assert.deepStrictEqual(c.objects[0], [obj[0], obj[1]]);
+        });
+    });
+
     describe("#getObjectsInInterval", () => {
         it("throws if key index is out of range", () => {
             const c = new Chart();
             const t = [new Time(0), new Time(1)];
 
             assert.throws(() =>
-                c.getObjectsInInterval(new KeyIndex(5), t[0], t[1]),
+                c.getObjectsInInterval(new KeyIndex(c.keyCount.value), t[0], t[1]),
             );
         });
 

@@ -13,8 +13,20 @@ export function NoteField(props: Props) {
     });
     const [scroll, setScroll] = useState(0);
 
+    function onKeyUp(e: KeyboardEvent) {
+        switch (e.key) {
+            case "1":
+                break;
+            case "2":
+                break;
+            case "3":
+                break;
+            case "4":
+                break;
+        }
+    }
+
     function onScroll(e: WheelEvent) {
-        console.log(e);
         setScroll((prev) => Math.max(prev + e.deltaY, 0));
     }
 
@@ -30,7 +42,10 @@ export function NoteField(props: Props) {
         if (!ref.current) return;
 
         updateDim();
+        window.addEventListener("keyup", onKeyUp);
         ref.current.addEventListener("wheel", onScroll);
+
+        return () => window.removeEventListener("keyup", onKeyUp);
     }, [ref]);
 
     // Setup the resize event listener.
