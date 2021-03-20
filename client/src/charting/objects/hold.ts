@@ -1,5 +1,6 @@
 import { Beat } from "../beat";
 import { KeyIndex } from "../keyIndex";
+import { toBeat, toKeyIndex } from "../util";
 import { ChartObject } from "./chartObject";
 
 export class Hold implements ChartObject {
@@ -8,9 +9,13 @@ export class Hold implements ChartObject {
     key: KeyIndex;
     readonly type = "hold";
 
-    constructor(beat: Beat, duration: Beat, key: KeyIndex) {
-        this.beat = beat;
-        this.duration = duration;
-        this.key = key;
+    constructor(
+        beat: Beat | number,
+        duration: Beat | number,
+        key: KeyIndex | number,
+    ) {
+        this.beat = toBeat(beat);
+        this.duration = toBeat(duration);
+        this.key = toKeyIndex(key);
     }
 }

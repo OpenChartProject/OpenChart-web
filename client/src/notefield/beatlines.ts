@@ -3,12 +3,16 @@ import { BeatTime } from "../charting/beat";
 
 import { Chart } from "../charting/chart";
 import { Time } from "../charting/time";
+import { toTime } from "../charting/util";
 
 export function getBeatLineTimes(
     chart: Chart,
-    start: Time,
-    end: Time,
+    start: Time | number,
+    end: Time | number,
 ): BeatTime[] {
+    start = toTime(start);
+    end = toTime(end);
+
     assert(start.value < end.value, "start must be less than end");
 
     const result: BeatTime[] = [];

@@ -1,8 +1,8 @@
 import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
-import { KeyIndex } from "../charting/keyIndex";
 import { ChartObject } from "../charting/objects/chartObject";
+import { toTime } from "../charting/util";
 
 export type DrawConfig = NoteFieldConfig & NoteFieldState;
 
@@ -81,7 +81,11 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition({ config }: DrawProps, time: Time): number {
+export function timeToPosition(
+    { config }: DrawProps,
+    time: Time | number,
+): number {
+    time = toTime(time);
     return time.value * config.pixelsPerSecond;
 }
 
@@ -163,11 +167,11 @@ function drawObjects(dp: DrawProps) {
 
     for (let i = 0; i < config.keyCount; i++) {
         const objects = config.chart.getObjectsInInterval(
-            new KeyIndex(i),
+            i,
             // Extend the interval a bit to prevent notes at the edge of the screen from
             // getting cut off
-            new Time(Math.max(t0.value - 2, 0)),
-            new Time(t1.value + 2),
+            Math.max(t0.value - 2, 0),
+            t1.value + 2,
         );
 
         ctx.save();

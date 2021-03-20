@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Beat } from "./beat";
 import { BPM } from "./bpm";
 import { Time } from "./time";
+import { toBeat, toTime } from "./util";
 
 export interface BPMTime {
     bpm: BPM;
@@ -48,7 +49,8 @@ export class BPMList {
     /**
      * Returns the beat at a particular time.
      */
-    beatAt(time: Time): Beat {
+    beatAt(time: Time | number): Beat {
+        time = toTime(time);
         let i = 1;
 
         // Use the cached BPM times to quickly find the BPM interval that the target
@@ -68,8 +70,12 @@ export class BPMList {
     /**
      * Returns the time at a particular beat.
      */
-    timeAt(beat: Beat, cache = true): Time {
-        if (!cache) return this.uncachedTimeAt(beat);
+    timeAt(beat: Beat | number, cache = true): Time {
+        beat = toBeat(beat);
+
+        if (!cache) {
+            return this.uncachedTimeAt(beat);
+        }
 
         let bt = this.bpms[0];
 

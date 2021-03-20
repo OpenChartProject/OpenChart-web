@@ -1,4 +1,4 @@
-import { Beat } from "./beat";
+import { Beat, BeatTime } from "./beat";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";
 import { Time } from "./time";
@@ -12,6 +12,15 @@ export function toBeat(val: Beat | number): Beat {
     }
 
     return val;
+}
+
+/**
+ * Converts the inputs to their respective type and returns a new BeatTime object.
+ */
+export function toBeatTime(beat: Beat | number, time: Time | number): BeatTime {
+    beat = toBeat(beat);
+    time = toTime(time);
+    return { beat, time };
 }
 
 /**

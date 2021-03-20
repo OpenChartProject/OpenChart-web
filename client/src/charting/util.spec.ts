@@ -3,7 +3,7 @@ import { Beat } from "./beat";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";
 import { Time } from "./time";
-import { toBeat, toKeyCount, toKeyIndex, toTime } from "./util";
+import { toBeat, toBeatTime, toKeyCount, toKeyIndex, toTime } from "./util";
 
 describe("charting/util", () => {
     describe("#toBeat", () => {
@@ -15,6 +15,14 @@ describe("charting/util", () => {
         it("returns new object when input is a number", () => {
             const beat = toBeat(0);
             assert.deepStrictEqual(beat, Beat.Zero);
+        });
+    });
+
+    describe("#toBeatTime", () => {
+        it("returns a beat time object", () => {
+            const bt = toBeatTime(1, 2);
+            assert.deepStrictEqual(bt.beat.value, 1);
+            assert.deepStrictEqual(bt.time.value, 2);
         });
     });
 

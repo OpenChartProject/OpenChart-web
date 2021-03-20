@@ -118,13 +118,13 @@ describe("notefield", () => {
                     pixelsPerSecond: 100,
                 },
             };
-            assert.strictEqual(timeToPosition(dp as any, Time.Zero), 0);
+            assert.strictEqual(timeToPosition(dp as any, 0), 0);
             assert.strictEqual(
-                timeToPosition(dp as any, new Time(1)),
+                timeToPosition(dp as any, 1),
                 dp.config.pixelsPerSecond,
             );
             assert.strictEqual(
-                timeToPosition(dp as any, new Time(2)),
+                timeToPosition(dp as any, 2),
                 2 * dp.config.pixelsPerSecond,
             );
         });

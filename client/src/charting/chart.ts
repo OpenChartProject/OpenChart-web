@@ -4,6 +4,7 @@ import { KeyCount } from "./keyCount";
 import { Time } from "./time";
 import { KeyIndex } from "./keyIndex";
 import assert from "assert";
+import { toKeyCount, toKeyIndex, toTime } from "./util";
 
 export type KeyObjects = ChartObject[];
 
@@ -16,9 +17,18 @@ export class Chart {
     readonly keyCount: Readonly<KeyCount>;
     objects: KeyObjects[];
 
-    constructor(bpms?: BPMList, keyCount?: KeyCount, objects?: KeyObjects[]) {
+    constructor(
+        bpms?: BPMList,
+        keyCount?: KeyCount | number,
+        objects?: KeyObjects[],
+    ) {
         this.bpms = bpms ?? new BPMList();
-        this.keyCount = keyCount ?? new KeyCount(4);
+
+        if (keyCount !== undefined) {
+            this.keyCount = toKeyCount(keyCount!);
+        } else {
+            this.keyCount = toKeyCount(4);
+        }
 
         if (objects === undefined) {
             this.objects = [];
@@ -65,7 +75,15 @@ export class Chart {
         return true;
     }
 
-    getObjectsInInterval(key: KeyIndex, start: Time, end: Time): KeyObjects {
+    getObjectsInInterval(
+        key: KeyIndex | number,
+        start: Time | number,
+        end: Time | number,
+    ): KeyObjects {
+        key = toKeyIndex(key);
+        start = toTime(start);
+        end = toTime(end);
+
         assert(key.value < this.keyCount.value, "key index is out of range");
         assert(start.value < end.value, "start must come before end");
 

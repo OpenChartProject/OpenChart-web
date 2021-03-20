@@ -1,12 +1,13 @@
 import assert from "assert";
 import { Beat } from "./beat";
+import { toBeat } from "./util";
 
 export class BPM {
     beat: Beat;
     private _value: number = 0;
 
-    constructor(beat: Beat, value: number) {
-        this.beat = beat;
+    constructor(beat: Beat | number, value: number) {
+        this.beat = toBeat(beat);
         this.value = value;
     }
 

@@ -4,8 +4,8 @@ import { drawNoteField } from "./drawing";
 import { NoteFieldConfig, NoteFieldState } from "./config";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
-import { KeyIndex } from "../charting/keyIndex";
 import { Tap } from "../charting/objects/tap";
+import { toBeatTime } from "../charting/util";
 
 export type Props = NoteFieldConfig;
 
@@ -56,10 +56,7 @@ export function NoteField(props: Props) {
 
         e.preventDefault();
 
-        const modified = c.placeObject(
-            new Tap(scroll.beat, new KeyIndex(key)),
-            opts,
-        );
+        const modified = c.placeObject(new Tap(scroll.beat, key), opts);
 
         if (modified) {
             redraw();
@@ -69,11 +66,11 @@ export function NoteField(props: Props) {
     function onScroll(e: WheelEvent) {
         setScroll((prev) => {
             const delta = e.deltaY > 0 ? 1 : -1;
-            const rawTime =
-                prev.time.value + delta * props.secondsPerScrollTick;
-            const time = new Time(Math.max(rawTime, 0));
-            const beat = props.chart.bpms.beatAt(time);
-            return { beat, time };
+            const time = Math.max(
+                prev.time.value + delta * props.secondsPerScrollTick,
+                0,
+            );
+            return toBeatTime(props.chart.bpms.beatAt(time), time);
         });
     }
 
