@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Beat, BeatTime } from "../charting/beat";
+import { BeatTime } from "../charting/beat";
 
 import { Chart } from "../charting/chart";
 import { Time } from "../charting/time";
