@@ -57,27 +57,27 @@ export function NoteField(props: Props) {
         let key = 0;
 
         switch (e.key) {
-            case "1":
+            case props.keyBinds.keys[4][0]:
                 if (e.repeat) return;
                 key = 0;
                 break;
-            case "2":
+            case props.keyBinds.keys[4][1]:
                 if (e.repeat) return;
                 key = 1;
                 break;
-            case "3":
+            case props.keyBinds.keys[4][2]:
                 if (e.repeat) return;
                 key = 2;
                 break;
-            case "4":
+            case props.keyBinds.keys[4][3]:
                 if (e.repeat) return;
                 key = 3;
                 break;
-            case "ArrowUp":
+            case props.keyBinds.scroll.up:
                 e.preventDefault();
                 scrollBy({ time: -1 * props.secondsPerScrollTick });
                 return;
-            case "ArrowDown":
+            case props.keyBinds.scroll.down:
                 e.preventDefault();
                 scrollBy({ time: 1 * props.secondsPerScrollTick });
                 return;

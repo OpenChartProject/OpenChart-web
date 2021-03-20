@@ -23,9 +23,21 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
                 lineWidth: 2,
             },
         },
+
         colors: {
             background: "#000",
         },
+
+        keyBinds: {
+            keys: {
+                4: ["1", "2", "3", "4"],
+            },
+            scroll: {
+                up: "ArrowUp",
+                down: "ArrowDown",
+            },
+        },
+
         baseline: Baseline.Centered,
         chart,
         columnWidth: 128,

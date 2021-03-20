@@ -12,6 +12,17 @@ export enum Baseline {
     After,
 }
 
+export interface KeyBinds {
+    keys: {
+        [key: number]: string[];
+    };
+
+    scroll: {
+        up: string;
+        down: string;
+    };
+}
+
 export interface NoteFieldConfig {
     beatLines: {
         measureLines: {
@@ -29,6 +40,7 @@ export interface NoteFieldConfig {
         background: string;
     };
 
+    keyBinds: KeyBinds;
     baseline: Baseline;
     chart: Chart;
     columnWidth: number;
