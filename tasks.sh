@@ -15,8 +15,17 @@ function make_dist_dir() {
 
 case "$1" in
 build)
+set -x
     make_dist_dir
-    yarn run build
+
+    # Build the parcel image
+    docker build \
+        -f docker/Dockerfile.parcel \
+        -t openchart/parcel \
+        .
+
+    docker run --rm -v "$(pwd)/dist/:/home/node/dist/" openchart/parcel
+
     docker build \
         -f docker/Dockerfile.nginx \
         -t openchart/nginx \

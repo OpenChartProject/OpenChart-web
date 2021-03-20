@@ -1,4 +1,8 @@
-FROM nginx
+FROM nginx:alpine
+
+COPY client/img/ /usr/share/nginx/html/img/
+
+# Remove the original image files (.psd)
+RUN rm -rf /usr/share/nginx/html/img/**/__original__
 
 COPY dist/ /usr/share/nginx/html/
-COPY client/img/ /usr/share/nginx/html/img/

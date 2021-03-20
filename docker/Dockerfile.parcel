@@ -1,0 +1,11 @@
+FROM node:12-alpine
+
+USER node
+WORKDIR /home/node/
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
+COPY . .
+
+CMD yarn build
