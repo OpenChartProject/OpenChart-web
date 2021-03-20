@@ -1,5 +1,4 @@
-import { h } from "preact";
-import { useEffect, useRef, Ref, useState } from "preact/hooks";
+import React, { useEffect, useRef, useState } from "react";
 import { drawNoteField } from "./drawing";
 import { NoteFieldConfig, NoteFieldState } from "./config";
 import { Beat, BeatTime } from "../charting/beat";
@@ -9,7 +8,7 @@ import { Tap } from "../charting/objects/tap";
 export type Props = NoteFieldConfig;
 
 export function NoteField(props: Props) {
-    const ref: Ref<HTMLCanvasElement | null> = useRef(null);
+    const ref = useRef<HTMLCanvasElement>(null);
     const [dim, setDim] = useState({
         width: props.keyCount * props.columnWidth,
         height: 0,

@@ -7,7 +7,7 @@
     "lib": ["dom", "es6"],
     "moduleResolution": "node",
     "jsx": "react",
-    "jsxFactory": "h",
+    "jsxFactory": "React.createElement",
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true,

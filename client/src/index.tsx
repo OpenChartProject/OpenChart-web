@@ -1,4 +1,5 @@
-import { h, render } from "preact";
+import React from "react";
+import ReactDOM from "react-dom";
 import { Chart } from "./charting/chart";
 import { Tap } from "./charting/objects/tap";
 import { Baseline, NoteFieldConfig } from "./notefield/config";
@@ -48,7 +49,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         margin: 512,
     };
 
-    render(
+    ReactDOM.render(
         <NoteField {...config} />,
         document.getElementById("app") as HTMLElement,
     );
