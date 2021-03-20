@@ -1,8 +1,9 @@
 FROM nginx:alpine
 
-COPY client/img/ /usr/share/nginx/html/img/
+WORKDIR /usr/share/nginx/html/
+COPY client/img/ img/
 
 # Remove the original image files (.psd)
-RUN rm -rf /usr/share/nginx/html/img/**/__original__
+RUN find img/ -name __original__ | xargs rm -rf
 
-COPY dist/ /usr/share/nginx/html/
+COPY dist/ .
