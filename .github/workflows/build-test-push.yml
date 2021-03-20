@@ -1,0 +1,36 @@
+name: Build, Test, Push
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Check formatting
+        run: yarn lint && yarn format-check
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build image
+        run: ./tasks.sh build
+
+      - name: Login to DockerHub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image to DockerHub
+        if: github.event_name == 'push'
+        run: docker push openchart/nginx
