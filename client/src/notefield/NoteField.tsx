@@ -32,7 +32,11 @@ export function NoteField(props: Props) {
         drawNoteField(ref.current, { ...props, ...drawState });
     }
 
-    function onKeyUp(e: KeyboardEvent) {
+    function onKeyDown(e: KeyboardEvent) {
+        if(e.repeat) {
+            return;
+        }
+
         const c = props.chart;
         const opts = { removeIfExists: true };
         let key = 0;
@@ -101,10 +105,10 @@ export function NoteField(props: Props) {
 
     // Setup the keyboard listener.
     // NOTE: This effect runs each time the component is rendered, otherwise there is
-    // an issue where the onKeyUp function references state that's stale.
+    // an issue where the onKeyDown function references state that's stale.
     useEffect(() => {
-        document.body.addEventListener("keyup", onKeyUp);
-        return () => document.body.removeEventListener("keyup", onKeyUp);
+        document.body.addEventListener("keydown", onKeyDown);
+        return () => document.body.removeEventListener("keydown", onKeyDown);
     });
 
     // Update the canvas draw dimensions to match the size of the canvas element.
