@@ -5,7 +5,6 @@ import { NoteFieldConfig, NoteFieldState } from "./config";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
 import { Tap } from "../charting/objects/tap";
-import { toBeatTime } from "../charting/util";
 
 export type Props = NoteFieldConfig;
 
@@ -20,6 +19,28 @@ export function NoteField(props: Props) {
         time: Time.Zero,
     });
 
+    function scrollTo({ beat, time }: Partial<BeatTime>) {
+        if (beat !== undefined) {
+            time = props.chart.bpms.timeAt(beat);
+            setScroll({ beat, time });
+        } else if (time !== undefined) {
+            beat = props.chart.bpms.beatAt(time);
+            setScroll({ beat, time });
+        } else {
+            throw Error("beat or time must be set");
+        }
+    }
+
+    function scrollBy({ beat, time }: { beat?: number; time?: number }) {
+        if (beat !== undefined) {
+            scrollTo({ beat: new Beat(Math.max(beat + scroll.beat.value, 0)) });
+        } else if (time !== undefined) {
+            scrollTo({ time: new Time(Math.max(time + scroll.time.value, 0)) });
+        } else {
+            throw Error("beat or time must be set");
+        }
+    }
+
     function redraw() {
         if (!ref.current) return;
 
@@ -33,33 +54,39 @@ export function NoteField(props: Props) {
     }
 
     function onKeyDown(e: KeyboardEvent) {
-        if(e.repeat) {
-            return;
-        }
-
-        const c = props.chart;
-        const opts = { removeIfExists: true };
         let key = 0;
 
         switch (e.key) {
             case "1":
+                if (e.repeat) return;
                 key = 0;
                 break;
             case "2":
+                if (e.repeat) return;
                 key = 1;
                 break;
             case "3":
+                if (e.repeat) return;
                 key = 2;
                 break;
             case "4":
+                if (e.repeat) return;
                 key = 3;
                 break;
+            case "ArrowUp":
+                e.preventDefault();
+                scrollBy({ time: -1 * props.secondsPerScrollTick });
+                return;
+            case "ArrowDown":
+                e.preventDefault();
+                scrollBy({ time: 1 * props.secondsPerScrollTick });
+                return;
             default:
                 return;
         }
 
-        e.preventDefault();
-
+        const c = props.chart;
+        const opts = { removeIfExists: true };
         const modified = c.placeObject(new Tap(scroll.beat, key), opts);
 
         if (modified) {
@@ -68,14 +95,8 @@ export function NoteField(props: Props) {
     }
 
     function onScroll(e: WheelEvent) {
-        setScroll((prev) => {
-            const delta = e.deltaY > 0 ? 1 : -1;
-            const time = Math.max(
-                prev.time.value + delta * props.secondsPerScrollTick,
-                0,
-            );
-            return toBeatTime(props.chart.bpms.beatAt(time), time);
-        });
+        const delta = e.deltaY > 0 ? 1 : -1;
+        scrollBy({ time: delta * props.secondsPerScrollTick });
     }
 
     function updateDim() {
@@ -101,7 +122,7 @@ export function NoteField(props: Props) {
     useEffect(() => {
         document.body.addEventListener("wheel", onScroll);
         return () => document.body.removeEventListener("wheel", onScroll);
-    }, []);
+    });
 
     // Setup the keyboard listener.
     // NOTE: This effect runs each time the component is rendered, otherwise there is
