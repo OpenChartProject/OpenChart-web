@@ -8,8 +8,10 @@ import { toKeyCount, toKeyIndex, toTime } from "./util";
 
 export type KeyObjects = ChartObject[];
 
-export interface PlaceObjectOpts {
-    removeIfExists?: boolean;
+export interface ChartOpts {
+    bpms?: BPMList;
+    keyCount?: KeyCount | number;
+    objects?: KeyObjects[];
 }
 
 export class Chart {
@@ -17,11 +19,7 @@ export class Chart {
     readonly keyCount: Readonly<KeyCount>;
     objects: KeyObjects[];
 
-    constructor(
-        bpms?: BPMList,
-        keyCount?: KeyCount | number,
-        objects?: KeyObjects[],
-    ) {
+    constructor({ bpms, keyCount, objects }: ChartOpts = {}) {
         this.bpms = bpms ?? new BPMList();
 
         if (keyCount !== undefined) {
@@ -47,10 +45,7 @@ export class Chart {
      *
      * @returns true if the chart was modified
      */
-    placeObject(
-        obj: ChartObject,
-        { removeIfExists }: PlaceObjectOpts = {},
-    ): boolean {
+    placeObject(obj: ChartObject, { removeIfExists = false } = {}): boolean {
         assert(
             obj.key.value < this.keyCount.value,
             "key index is out of range",

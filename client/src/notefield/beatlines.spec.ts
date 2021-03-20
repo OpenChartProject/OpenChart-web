@@ -30,7 +30,7 @@ describe("beatlines", () => {
 
         it("handles BPM changes", () => {
             const bpms = new BPMList([new BPM(0, 60), new BPM(2, 120)]);
-            c = new Chart(bpms);
+            c = new Chart({ bpms });
             const actual = getBeatLineTimes(c, 0, 3);
             assert.deepStrictEqual(actual, [
                 toBeatTime(0, 0),

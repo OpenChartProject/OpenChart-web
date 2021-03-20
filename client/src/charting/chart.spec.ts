@@ -96,7 +96,7 @@ describe("Chart", () => {
 
         it("returns objects for each key", () => {
             const objs = [[new Tap(0, 0)], [new Tap(1, 1)]];
-            const c = new Chart(undefined, 2, objs);
+            const c = new Chart({ keyCount: 2, objects: objs });
 
             assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), objs[0]);
             assert.deepStrictEqual(c.getObjectsInInterval(1, 0, 1), objs[1]);
