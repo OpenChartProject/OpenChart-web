@@ -1,6 +1,6 @@
 version: "3"
 services:
-    nginx:
-        image: openchart/nginx
-        ports:
-            - 8000:80
+  nginx:
+    image: openchart/nginx
+    ports:
+      - 8000:80

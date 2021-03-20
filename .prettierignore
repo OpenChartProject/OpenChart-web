@@ -1,6 +1,5 @@
-*.log
-
 .cache/
-.parcel_cache/
+.git/
+.vscode/
 dist/
 node_modules/

@@ -1,4 +1,13 @@
 {
-    "tabWidth": 4,
-    "trailingComma": "all"
+  "tabWidth": 4,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": ["*.yml", "*.yaml", "*.json"],
+      "excludeFiles": "package.json",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }

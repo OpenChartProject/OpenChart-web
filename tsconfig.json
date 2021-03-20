@@ -1,16 +1,16 @@
 {
-    "include": ["./client/src/**/*.ts", "./client/src/**/*.tsx"],
-    "compilerOptions": {
-        "types": ["mocha"],
-        "target": "es5",
-        "module": "commonjs",
-        "lib": ["dom", "es6"],
-        "moduleResolution": "node",
-        "jsx": "react",
-        "jsxFactory": "h",
-        "strict": true,
-        "noEmit": true,
-        "experimentalDecorators": true,
-        "esModuleInterop": true
-    }
+  "include": ["./client/src/**/*.ts", "./client/src/**/*.tsx"],
+  "compilerOptions": {
+    "types": ["mocha"],
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["dom", "es6"],
+    "moduleResolution": "node",
+    "jsx": "react",
+    "jsxFactory": "h",
+    "strict": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true
+  }
 }
