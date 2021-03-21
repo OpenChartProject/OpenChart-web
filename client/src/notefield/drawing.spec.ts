@@ -34,14 +34,19 @@ describe("notefield", () => {
     describe("#calculateViewport", () => {
         it("returns expected value when scroll and margin are 0", () => {
             const config = {
-                height: 500,
                 pixelsPerSecond: 100,
                 margin: 0,
+            };
+            const state = {
+                height: 500,
                 scroll: {
                     time: Time.Zero,
                 },
             };
-            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);
@@ -50,14 +55,19 @@ describe("notefield", () => {
 
         it("returns expected value when scroll is 0 and margin is >0", () => {
             const config = {
-                height: 500,
                 pixelsPerSecond: 100,
                 margin: 100,
+            };
+            const state = {
+                height: 500,
                 scroll: {
                     time: Time.Zero,
                 },
             };
-            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 4);
@@ -66,14 +76,19 @@ describe("notefield", () => {
 
         it("returns expected value when scroll is >0 and margin is 0", () => {
             const config = {
-                height: 500,
                 pixelsPerSecond: 100,
                 margin: 0,
+            };
+            const state = {
+                height: 500,
                 scroll: {
                     time: new Time(1),
                 },
             };
-            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
             assert.strictEqual(y0, 100);
             assert.strictEqual(t0.value, 1);
             assert.strictEqual(t1.value, 6);
@@ -82,14 +97,19 @@ describe("notefield", () => {
 
         it("returns expected value when scroll is >0 and margin is >0", () => {
             const config = {
-                height: 500,
                 pixelsPerSecond: 100,
                 margin: 100,
+            };
+            const state = {
+                height: 500,
                 scroll: {
                     time: new Time(1),
                 },
             };
-            const { y0, t0, t1, tReceptor } = calculateViewport(config as any);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);

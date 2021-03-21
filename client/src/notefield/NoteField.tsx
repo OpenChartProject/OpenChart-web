@@ -16,7 +16,7 @@ export const NoteField = observer(({ store }: Props) => {
     function redraw() {
         if (!ref.current) return;
 
-        drawNoteField(ref.current, { ...config, ...state });
+        drawNoteField(ref.current, config, state);
     }
 
     function onKeyDown(e: KeyboardEvent) {

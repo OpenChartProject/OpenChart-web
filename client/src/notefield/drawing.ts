@@ -4,8 +4,6 @@ import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 import { ChartObject } from "../charting/objects/chartObject";
 import { toTime } from "../charting/util";
 
-export type DrawConfig = NoteFieldConfig & NoteFieldState;
-
 export interface Viewport {
     /**
      * The scroll position, in pixels. This is the y-pos with respect to the canvas origin.
@@ -32,7 +30,8 @@ export interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;
-    config: DrawConfig;
+    config: NoteFieldConfig;
+    state: NoteFieldState;
 }
 
 /**
@@ -61,14 +60,16 @@ export function adjustToBaseline(
  * The objects on the notefield are rendered with respect to the canvas origin, not
  * with respect to the scrolling.
  */
-export function calculateViewport(config: DrawConfig): Viewport {
-    const y0 =
-        config.scroll.time.value * config.pixelsPerSecond - config.margin;
-    const t0 = y0 <= 0 ? Time.Zero : new Time(y0 / config.pixelsPerSecond);
+export function calculateViewport(
+    config: NoteFieldConfig,
+    state: NoteFieldState,
+): Viewport {
+    const y0 = state.scroll.time.value * config.pixelsPerSecond - config.margin;
+    const t0 = new Time(Math.max(y0 / config.pixelsPerSecond, 0));
     const t1 = new Time(
-        Math.max((y0 + config.height) / config.pixelsPerSecond, 0),
+        Math.max((y0 + state.height) / config.pixelsPerSecond, 0),
     );
-    const tReceptor = config.scroll.time;
+    const tReceptor = state.scroll.time;
 
     return { y0, t0, t1, tReceptor };
 }
@@ -195,16 +196,20 @@ function drawObjects(dp: DrawProps) {
     }
 }
 
-export function drawNoteField(el: HTMLCanvasElement, config: DrawConfig) {
+export function drawNoteField(
+    el: HTMLCanvasElement,
+    config: NoteFieldConfig,
+    state: NoteFieldState,
+) {
     const ctx = el.getContext("2d") as CanvasRenderingContext2D;
-    const { width: w, height: h } = el;
+    const { width: w, height: h } = state;
 
     if (h === 0) return;
 
     ctx.save();
 
-    const viewport = calculateViewport(config);
-    const drawProps = { ctx, w, h, config, ...viewport };
+    const viewport = calculateViewport(config, state);
+    const drawProps = { ctx, w, h, config, state, ...viewport };
 
     // Move the viewport to the current scroll position.
     ctx.translate(0, -viewport.y0);
