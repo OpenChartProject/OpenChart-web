@@ -1,5 +1,6 @@
 import assert from "assert";
 import _ from "lodash";
+import { makeAutoObservable } from "mobx";
 
 import { Beat } from "./beat";
 import { BPM } from "./bpm";
@@ -16,6 +17,7 @@ export class BPMList {
 
     constructor(bpms?: BPM[]) {
         this.setBPMs(bpms ?? [new BPM(Beat.Zero, 120)]);
+        makeAutoObservable(this);
     }
 
     /**

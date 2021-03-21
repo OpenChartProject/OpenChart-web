@@ -51,19 +51,19 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         noteSkin: skin,
         pixelsPerSecond: 512,
         secondsPerScrollTick: 0.25,
-        margin: 512,
+        margin: 384,
     };
 
     const state: NoteFieldState = {
         width: config.columnWidth * chart.keyCount.value,
         height: 1,
-        scroll: { beat: new Beat(0), time: new Time(0) },
+        scroll: { beat: Beat.Zero, time: Time.Zero },
     };
 
     store = new RootStore(config, state);
 
     render(
-        <NoteField {...config} />,
+        <NoteField store={store} />,
         document.getElementById("app") as HTMLElement,
     );
 });

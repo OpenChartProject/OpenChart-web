@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { BPMList } from "./bpmList";
 import { ChartObject } from "./objects/chartObject";
 import { KeyCount } from "./keyCount";
@@ -37,6 +38,8 @@ export class Chart {
         } else {
             this.objects = objects;
         }
+
+        makeAutoObservable(this);
     }
 
     /**

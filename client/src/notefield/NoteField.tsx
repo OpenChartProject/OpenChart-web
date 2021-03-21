@@ -1,115 +1,82 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { deepObserve } from "mobx-utils";
+import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
-import { NoteFieldConfig, NoteFieldState } from "./config";
-import { Beat, BeatTime } from "../charting/beat";
-import { Time } from "../charting/time";
 import { Tap } from "../charting/objects/tap";
+import { RootStore } from "../store";
 
-export type Props = NoteFieldConfig;
+export interface Props {
+    store: RootStore;
+}
 
-export function NoteField(props: Props) {
+export const NoteField = observer(({ store }: Props) => {
+    const { config, state } = store;
     const ref = useRef<HTMLCanvasElement>(null);
-    const [dim, setDim] = useState({
-        width: props.keyCount * props.columnWidth,
-        height: 0,
-    });
-    const [scroll, setScroll] = useState<BeatTime>({
-        beat: Beat.Zero,
-        time: Time.Zero,
-    });
-
-    function scrollTo({ beat, time }: Partial<BeatTime>) {
-        if (beat !== undefined) {
-            time = props.chart.bpms.timeAt(beat);
-            setScroll({ beat, time });
-        } else if (time !== undefined) {
-            beat = props.chart.bpms.beatAt(time);
-            setScroll({ beat, time });
-        } else {
-            throw Error("beat or time must be set");
-        }
-    }
-
-    function scrollBy({ beat, time }: { beat?: number; time?: number }) {
-        if (beat !== undefined) {
-            scrollTo({ beat: new Beat(Math.max(beat + scroll.beat.value, 0)) });
-        } else if (time !== undefined) {
-            scrollTo({ time: new Time(Math.max(time + scroll.time.value, 0)) });
-        } else {
-            throw Error("beat or time must be set");
-        }
-    }
 
     function redraw() {
         if (!ref.current) return;
 
-        const drawState: NoteFieldState = {
-            width: dim.width,
-            height: dim.height,
-            scroll,
-        };
-
-        drawNoteField(ref.current, { ...props, ...drawState });
+        console.log(Date.now());
+        drawNoteField(ref.current, { ...config, ...state });
     }
 
     function onKeyDown(e: KeyboardEvent) {
         let key = 0;
 
         switch (e.key) {
-            case props.keyBinds.keys[4][0]:
+            case config.keyBinds.keys[4][0]:
                 if (e.repeat) return;
                 key = 0;
                 break;
-            case props.keyBinds.keys[4][1]:
+            case config.keyBinds.keys[4][1]:
                 if (e.repeat) return;
                 key = 1;
                 break;
-            case props.keyBinds.keys[4][2]:
+            case config.keyBinds.keys[4][2]:
                 if (e.repeat) return;
                 key = 2;
                 break;
-            case props.keyBinds.keys[4][3]:
+            case config.keyBinds.keys[4][3]:
                 if (e.repeat) return;
                 key = 3;
                 break;
-            case props.keyBinds.scroll.up:
+            case config.keyBinds.scroll.up:
                 e.preventDefault();
-                scrollBy({ time: -1 * props.secondsPerScrollTick });
+                store.scrollBy({ time: -1 * config.secondsPerScrollTick });
                 return;
-            case props.keyBinds.scroll.down:
+            case config.keyBinds.scroll.down:
                 e.preventDefault();
-                scrollBy({ time: 1 * props.secondsPerScrollTick });
+                store.scrollBy({ time: 1 * config.secondsPerScrollTick });
                 return;
             default:
                 return;
         }
 
-        const c = props.chart;
+        const c = config.chart;
         const opts = { removeIfExists: true };
-        const modified = c.placeObject(new Tap(scroll.beat, key), opts);
-
-        if (modified) {
-            redraw();
-        }
+        c.placeObject(new Tap(state.scroll.beat, key), opts);
     }
 
     function onScroll(e: WheelEvent) {
         const delta = e.deltaY > 0 ? 1 : -1;
-        scrollBy({ time: delta * props.secondsPerScrollTick });
+        store.scrollBy({ time: delta * config.secondsPerScrollTick });
     }
 
     function updateDim() {
-        setDim({
-            height: ref.current!.clientHeight,
-            width: dim.width,
-        });
+        if (!ref.current) return;
+
+        ref.current.height = ref.current.clientHeight;
+        ref.current.width = state.width;
+
+        const { width, height } = ref.current;
+        store.setDimensions({ width, height });
     }
 
-    // Resize the canvas after it's created.
+    // Watch the entire store for changes so we know when to redraw.
     useEffect(() => {
-        if (!ref.current) return;
-        updateDim();
-    }, [ref]);
+        const disposer = deepObserve(store, () => redraw());
+        return disposer;
+    }, []);
 
     // Setup event listener for handling page resizes.
     useEffect(() => {
@@ -117,32 +84,23 @@ export function NoteField(props: Props) {
         return () => window.removeEventListener("resize", updateDim);
     }, []);
 
-    // Setup event listener for handling mouse wheel events.
-    useEffect(() => {
-        document.body.addEventListener("wheel", onScroll);
-        return () => document.body.removeEventListener("wheel", onScroll);
-    });
-
-    // Setup the keyboard listener.
+    // Setup event listeners for key presses and scrolling.
     // NOTE: This effect runs each time the component is rendered, otherwise there is
     // an issue where the onKeyDown function references state that's stale.
     useEffect(() => {
         document.body.addEventListener("keydown", onKeyDown);
-        return () => document.body.removeEventListener("keydown", onKeyDown);
+        document.body.addEventListener("wheel", onScroll);
+
+        return () => {
+            document.body.removeEventListener("keydown", onKeyDown);
+            document.body.removeEventListener("wheel", onScroll);
+        };
     });
 
-    // Update the canvas draw dimensions to match the size of the canvas element.
+    // Update the dimensions once we have a reference to the element.
     useEffect(() => {
-        if (!ref.current) return;
-
-        ref.current.height = dim.height;
-        ref.current.width = dim.width;
-    }, [dim, ref]);
-
-    // Redraw when the dimensions change.
-    useEffect(() => {
-        redraw();
-    }, [dim, scroll]);
+        updateDim();
+    }, [ref]);
 
     return <canvas ref={ref}></canvas>;
-}
+});
