@@ -7,12 +7,12 @@ import { getBeatLineTimes } from "./beatlines";
 
 let c: Chart;
 
-beforeEach(() => {
-    // Uses a default BPM of 120.
-    c = new Chart();
-});
-
 describe("beatlines", () => {
+    beforeEach(() => {
+        // Uses a default BPM of 120.
+        c = new Chart();
+    });
+
     describe("#getBeatLineTimes", () => {
         it("does not throw if start equals end", () => {
             assert.doesNotThrow(() => getBeatLineTimes(c, 0, 0));
