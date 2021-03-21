@@ -1,4 +1,5 @@
 import assert from "assert";
+import sinon from "sinon";
 import { Beat } from "../charting/beat";
 import { KeyIndex } from "../charting/keyIndex";
 import { createPlaceTapAction, createScrollAction, doAction } from "./actions";
@@ -30,6 +31,8 @@ describe("notefield/actions", () => {
     });
 
     describe("#doAction", () => {
+        afterEach(() => sinon.restore());
+
         describe("PlaceTapAction", () => {
             it("throws if key index is out of range", () => {
                 const store = createStore();
@@ -40,31 +43,54 @@ describe("notefield/actions", () => {
                 assert.throws(() => doAction(action, store));
             });
 
-            it("places a new tap object", () => {
+            it("calls placeObject", () => {
                 const store = createStore();
                 const { chart } = store.config;
                 const action = createPlaceTapAction({
                     beat: Beat.Zero,
                     key: new KeyIndex(0),
                 });
+                const placeObject = sinon.spy(chart, "placeObject");
 
                 doAction(action, store);
-                assert.strictEqual(chart.objects[0].length, 1);
-                assert.strictEqual(chart.objects[0][0].type, "tap");
+                assert(
+                    placeObject.calledWith(
+                        new Tap(action.args.beat, action.args.key),
+                        { removeIfExists: true },
+                    ),
+                );
+            });
+        });
+
+        describe("ScrollAction", () => {
+            it("throws if neither arg is set", () => {
+                const store = createStore();
+                const action = createScrollAction({});
+                assert.throws(() => doAction(action, store));
             });
 
-            it("removes existing objects", () => {
+            it("calls scrollBy when 'by' arg is set", () => {
                 const store = createStore();
                 const { chart } = store.config;
-                const action = createPlaceTapAction({
-                    beat: Beat.Zero,
-                    key: new KeyIndex(0),
+                const action = createScrollAction({
+                    by: { beat: 1 },
                 });
-
-                chart.placeObject(new Tap(0, 0));
+                const scrollBy = sinon.spy(store, "scrollBy");
 
                 doAction(action, store);
-                assert.strictEqual(chart.objects[0].length, 0);
+                assert(scrollBy.calledWith(action.args.by));
+            });
+
+            it("calls setScroll when 'to' arg is set", () => {
+                const store = createStore();
+                const { chart } = store.config;
+                const action = createScrollAction({
+                    to: { beat: Beat.Zero },
+                });
+                const setScroll = sinon.spy(store, "setScroll");
+
+                doAction(action, store);
+                assert(setScroll.calledWith(action.args.to));
             });
         });
     });
