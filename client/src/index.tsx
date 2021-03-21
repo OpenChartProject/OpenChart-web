@@ -1,10 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
+import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { Tap } from "./charting/objects/tap";
-import { Baseline, NoteFieldConfig } from "./notefield/config";
+import { Time } from "./charting/time";
+import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteField } from "./notefield/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
+import { RootStore } from "./store";
+
+export let store: RootStore;
 
 const chart = new Chart();
 chart.objects[0].push(new Tap(0, 0));
@@ -49,7 +54,15 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         margin: 512,
     };
 
-    ReactDOM.render(
+    const state: NoteFieldState = {
+        width: config.columnWidth * chart.keyCount.value,
+        height: 1,
+        scroll: { beat: new Beat(0), time: new Time(0) },
+    };
+
+    store = new RootStore(config, state);
+
+    render(
         <NoteField {...config} />,
         document.getElementById("app") as HTMLElement,
     );
