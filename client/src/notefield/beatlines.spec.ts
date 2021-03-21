@@ -14,8 +14,11 @@ beforeEach(() => {
 
 describe("beatlines", () => {
     describe("#getBeatLineTimes", () => {
+        it("does not throw if start equals end", () => {
+            assert.doesNotThrow(() => getBeatLineTimes(c, 0, 0));
+        });
+
         it("throws if start is not less than end", () => {
-            assert.throws(() => getBeatLineTimes(c, 0, 0));
             assert.throws(() => getBeatLineTimes(c, 1, 0));
         });
 

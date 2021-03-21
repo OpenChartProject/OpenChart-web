@@ -16,7 +16,6 @@ export const NoteField = observer(({ store }: Props) => {
     function redraw() {
         if (!ref.current) return;
 
-        console.log(Date.now());
         drawNoteField(ref.current, { ...config, ...state });
     }
 
@@ -73,6 +72,8 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     // Watch the entire store for changes so we know when to redraw.
+    // NOTE: mobx only picks up on changes that happen inside actions, i.e. methods
+    // on an object that has makeAutoObservable called in its constructor.
     useEffect(() => {
         const disposer = deepObserve(store, () => redraw());
         return disposer;

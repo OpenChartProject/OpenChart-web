@@ -13,7 +13,7 @@ export function getBeatLineTimes(
     start = toTime(start);
     end = toTime(end);
 
-    assert(start.value < end.value, "start must be less than end");
+    assert(start.value <= end.value, "start cannot come after end");
 
     const result: BeatTime[] = [];
     let beat = chart.bpms.beatAt(start);

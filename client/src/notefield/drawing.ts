@@ -65,7 +65,9 @@ export function calculateViewport(config: DrawConfig): Viewport {
     const y0 =
         config.scroll.time.value * config.pixelsPerSecond - config.margin;
     const t0 = y0 <= 0 ? Time.Zero : new Time(y0 / config.pixelsPerSecond);
-    const t1 = new Time((y0 + config.height) / config.pixelsPerSecond);
+    const t1 = new Time(
+        Math.max((y0 + config.height) / config.pixelsPerSecond, 0),
+    );
     const tReceptor = config.scroll.time;
 
     return { y0, t0, t1, tReceptor };
