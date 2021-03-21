@@ -3,7 +3,6 @@ import { Chart } from "../charting/chart";
 import { NoteSkin } from "../noteskin";
 import { KeyBinds } from "./input";
 
-
 /**
  * The different baseline options for how the notefield is displayed. This affects
  * how objects are aligned relative to the beat lines.

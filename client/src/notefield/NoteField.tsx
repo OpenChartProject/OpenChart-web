@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { deepObserve } from "mobx-utils";
 import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
-import { Tap } from "../charting/objects/tap";
 import { RootStore } from "../store";
 import { inputToAction } from "./input";
 import { createScrollAction, doAction } from "./actions";
@@ -31,7 +30,12 @@ export const NoteField = observer(({ store }: Props) => {
 
     function onScroll(e: WheelEvent) {
         const delta = e.deltaY > 0 ? 1 : -1;
-        doAction(createScrollAction({ by: { time: delta * config.secondsPerScrollTick } }), store);
+        doAction(
+            createScrollAction({
+                by: { time: delta * config.secondsPerScrollTick },
+            }),
+            store,
+        );
     }
 
     function updateDim() {

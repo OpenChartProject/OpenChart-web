@@ -4,39 +4,32 @@ import { KeyIndex } from "../charting/keyIndex";
 import { Tap } from "../charting/objects/tap";
 import { RootStore } from "../store";
 
-
 export type ActionType = "placeTap" | "scroll";
-
 
 export interface Action {
     type: ActionType;
     args: any;
 }
 
-
 export interface PlaceTapActionArgs {
     beat: Beat;
     key: KeyIndex;
 }
-
 
 export interface PlaceTapAction extends Action {
     type: "placeTap";
     args: PlaceTapActionArgs;
 }
 
-
 export interface ScrollActionArgs {
-    by?: { beat?: number, time?: number };
+    by?: { beat?: number; time?: number };
     to?: Partial<BeatTime>;
 }
-
 
 export interface ScrollAction extends Action {
     type: "scroll";
     args: ScrollActionArgs;
 }
-
 
 export function createPlaceTapAction(args: PlaceTapActionArgs): PlaceTapAction {
     return {
@@ -45,7 +38,6 @@ export function createPlaceTapAction(args: PlaceTapActionArgs): PlaceTapAction {
     };
 }
 
-
 export function createScrollAction(args: ScrollActionArgs): ScrollAction {
     return {
         type: "scroll",
@@ -53,15 +45,19 @@ export function createScrollAction(args: ScrollActionArgs): ScrollAction {
     };
 }
 
-
 export function doAction(action: Action, store: RootStore) {
     const chart = store.config.chart;
 
     if (action.type === "placeTap") {
         const args = (action as PlaceTapAction).args;
-        assert(args.key.value < chart.keyCount.value, "key index is out of range");
+        assert(
+            args.key.value < chart.keyCount.value,
+            "key index is out of range",
+        );
 
-        chart.placeObject(new Tap(args.beat, args.key), { removeIfExists: true });
+        chart.placeObject(new Tap(args.beat, args.key), {
+            removeIfExists: true,
+        });
     } else if (action.type === "scroll") {
         const args = (action as ScrollAction).args;
 
