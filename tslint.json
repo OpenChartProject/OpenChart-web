@@ -1,10 +1,20 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "extends": [
+    "tslint:recommended"
+  ],
   "rules": {
-    "no-console": [false],
+    "no-console": false,
     "no-unused-variable": true,
-    "semicolon": [true, "always"],
-    "trailing-comma": [true, { "multiline": "always" }]
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always"
+      }
+    ],
   }
 }
