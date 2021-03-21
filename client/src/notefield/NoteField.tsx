@@ -5,7 +5,7 @@ import { drawNoteField } from "./drawing";
 import { Tap } from "../charting/objects/tap";
 import { RootStore } from "../store";
 import { inputToAction } from "./input";
-import { doAction } from "./actions";
+import { createScrollAction, doAction } from "./actions";
 
 export interface Props {
     store: RootStore;
@@ -31,7 +31,7 @@ export const NoteField = observer(({ store }: Props) => {
 
     function onScroll(e: WheelEvent) {
         const delta = e.deltaY > 0 ? 1 : -1;
-        store.scrollBy({ time: delta * config.secondsPerScrollTick });
+        doAction(createScrollAction({ by: { time: delta * config.secondsPerScrollTick } }), store);
     }
 
     function updateDim() {
