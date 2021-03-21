@@ -4,6 +4,8 @@ import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
 import { Tap } from "../charting/objects/tap";
 import { RootStore } from "../store";
+import { inputToAction } from "./input";
+import { doAction } from "./actions";
 
 export interface Props {
     store: RootStore;
@@ -20,40 +22,11 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function onKeyDown(e: KeyboardEvent) {
-        let key = 0;
+        const action = inputToAction(e, store);
 
-        switch (e.key) {
-            case config.keyBinds.keys[4][0]:
-                if (e.repeat) return;
-                key = 0;
-                break;
-            case config.keyBinds.keys[4][1]:
-                if (e.repeat) return;
-                key = 1;
-                break;
-            case config.keyBinds.keys[4][2]:
-                if (e.repeat) return;
-                key = 2;
-                break;
-            case config.keyBinds.keys[4][3]:
-                if (e.repeat) return;
-                key = 3;
-                break;
-            case config.keyBinds.scroll.up:
-                e.preventDefault();
-                store.scrollBy({ time: -1 * config.secondsPerScrollTick });
-                return;
-            case config.keyBinds.scroll.down:
-                e.preventDefault();
-                store.scrollBy({ time: 1 * config.secondsPerScrollTick });
-                return;
-            default:
-                return;
+        if (action) {
+            doAction(action, store);
         }
-
-        const c = config.chart;
-        const opts = { removeIfExists: true };
-        c.placeObject(new Tap(state.scroll.beat, key), opts);
     }
 
     function onScroll(e: WheelEvent) {
