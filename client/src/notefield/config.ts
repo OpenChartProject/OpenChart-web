@@ -1,6 +1,8 @@
 import { BeatTime } from "../charting/beat";
 import { Chart } from "../charting/chart";
 import { NoteSkin } from "../noteskin";
+import { KeyBinds } from "./input";
+
 
 /**
  * The different baseline options for how the notefield is displayed. This affects
@@ -10,17 +12,6 @@ export enum Baseline {
     Before,
     Centered,
     After,
-}
-
-export interface KeyBinds {
-    keys: {
-        [key: number]: string[];
-    };
-
-    scroll: {
-        up: string;
-        down: string;
-    };
 }
 
 export interface NoteFieldConfig {
