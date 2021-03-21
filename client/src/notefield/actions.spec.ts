@@ -71,7 +71,6 @@ describe("notefield/actions", () => {
 
             it("calls scrollBy when 'by' arg is set", () => {
                 const store = createStore();
-                const { chart } = store.config;
                 const action = createScrollAction({
                     by: { beat: 1 },
                 });
@@ -83,7 +82,6 @@ describe("notefield/actions", () => {
 
             it("calls setScroll when 'to' arg is set", () => {
                 const store = createStore();
-                const { chart } = store.config;
                 const action = createScrollAction({
                     to: { beat: Beat.Zero },
                 });
