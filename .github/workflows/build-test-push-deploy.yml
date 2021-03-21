@@ -50,6 +50,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Update known_hosts
+        run: ssh-keyscan openchart.io >> ~/.ssh/known_hosts
+
       - name: Setup Docker context
         run: |
           docker context create --docker host=${{ secrets.DEPLOY_HOST }} openchart
