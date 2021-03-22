@@ -2,7 +2,7 @@ import assert from "assert";
 import { Beat, BeatTime } from "../charting/beat";
 import { KeyIndex } from "../charting/keyIndex";
 import { Tap } from "../charting/objects/tap";
-import { RootStore } from "../store";
+import { RootStore } from "./store";
 
 export type ActionType = "placeTap" | "scroll";
 

@@ -3,7 +3,7 @@ import { Chart } from "./charting/chart";
 import { Time } from "./charting/time";
 import { NoteFieldConfig, Baseline, NoteFieldState } from "./notefield/config";
 import { NoteSkin } from "./noteskin";
-import { RootStore } from "./store";
+import { RootStore } from "./store/store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual

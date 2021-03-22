@@ -1,6 +1,10 @@
 import { KeyIndex } from "../charting/keyIndex";
-import { RootStore } from "../store";
-import { Action, createPlaceTapAction, createScrollAction } from "./actions";
+import { RootStore } from "../store/store";
+import {
+    Action,
+    createPlaceTapAction,
+    createScrollAction,
+} from "../store/actions";
 
 export interface KeyBinds {
     keys: {

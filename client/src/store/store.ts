@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { Beat, BeatTime } from "./charting/beat";
-import { Time } from "./charting/time";
+import { Beat, BeatTime } from "../charting/beat";
+import { Time } from "../charting/time";
 
-import { NoteFieldConfig, NoteFieldState } from "./notefield/config";
+import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
 
 export class RootStore {
     config: NoteFieldConfig;

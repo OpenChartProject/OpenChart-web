@@ -7,7 +7,7 @@ import { Time } from "./charting/time";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteField } from "./notefield/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
-import { RootStore } from "./store";
+import { RootStore } from "./store/store";
 
 export let store: RootStore;
 
