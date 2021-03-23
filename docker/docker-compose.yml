@@ -3,4 +3,9 @@ services:
   nginx:
     image: openchart/nginx
     ports:
-      - 8000:80
+      - 80:80
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s

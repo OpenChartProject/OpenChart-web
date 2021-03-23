@@ -46,8 +46,4 @@ watch)
     trap "docker kill $container && kill 0" SIGINT
     wait
     ;;
-
-start)
-    docker run --rm -p "8000:80" openchart/nginx
-    ;;
 esac
