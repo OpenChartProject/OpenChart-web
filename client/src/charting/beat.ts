@@ -1,4 +1,5 @@
 import assert from "assert";
+import Fraction from "fraction.js";
 import { Time } from "./time";
 
 /**
@@ -10,21 +11,40 @@ export interface BeatTime {
 }
 
 /**
- * Represents a beat.
+ * Represents a beat. Internally, beats are stored as fractions, which helps avoid the
+ * issues of trying to compare floating point numbers.
  */
 export class Beat {
-    private _value: number = 0;
+    private _value!: Fraction;
 
-    constructor(value: number) {
-        this.value = value;
+    constructor(value: Fraction | number) {
+        if (typeof value === "number") {
+            this.value = value;
+        } else {
+            this.fraction = value;
+        }
     }
 
     set value(val: number) {
-        assert(val >= 0, "beat cannot be negative");
+        this.fraction = new Fraction(val);
+    }
+
+    /**
+     * Gets the beat's value as a number.
+     */
+    get value(): number {
+        return this._value.valueOf();
+    }
+
+    set fraction(val: Fraction) {
+        assert(val.compare(0) !== -1, "beat cannot be negative");
         this._value = val;
     }
 
-    get value(): number {
+    /**
+     * Gets the beat's value as a fraction.
+     */
+    get fraction(): Fraction {
         return this._value;
     }
 
@@ -36,14 +56,14 @@ export class Beat {
      * Returns true if this beat is evenly divisible by 4.
      */
     isStartOfMeasure(): boolean {
-        return this.isWholeBeat() && this.value % 4 === 0;
+        return this.fraction.divisible(new Fraction(4));
     }
 
     /**
      * Returns true if this beat is a whole number.
      */
     isWholeBeat(): boolean {
-        return Math.round(this.value) === this.value;
+        return this.fraction.divisible(new Fraction(1));
     }
 
     /**
@@ -51,9 +71,9 @@ export class Beat {
      */
     next(): Beat {
         if (this.isWholeBeat()) {
-            return new Beat(this.value + 1);
+            return new Beat(this.fraction.add(1));
         }
 
-        return new Beat(Math.ceil(this.value));
+        return new Beat(this.fraction.ceil());
     }
 }

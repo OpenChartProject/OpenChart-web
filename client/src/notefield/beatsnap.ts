@@ -38,8 +38,12 @@ export class BeatSnap {
     }
 
     set current(val: Fraction) {
-        assert(val.valueOf() > 0, "beat snap value must be greater than zero");
+        assert(val.compare(0) === 1, "beat snap value must be greater than zero");
         this._current = val;
+    }
+
+    get beat(): Beat {
+        return new Beat(this.current.mul(4));
     }
 
     /**
@@ -58,13 +62,13 @@ export class BeatSnap {
      * snapping.
      */
     nearestCommonSnapIndex(): number {
-        let minDifference = 999999999;
+        let minDifference: Fraction | null = null;
         let nearestIndex = 0;
 
         for (let i = 0; i < commonBeatSnaps.length; i++) {
-            const diff = commonBeatSnaps[i].sub(this.current).abs().valueOf();
+            const diff = commonBeatSnaps[i].sub(this.current).abs();
 
-            if (diff < minDifference) {
+            if (minDifference === null || diff.compare(minDifference) === -1) {
                 minDifference = diff;
                 nearestIndex = i;
             }
@@ -77,34 +81,34 @@ export class BeatSnap {
      * Given a beat, returns the next beat that is evenly divisible by the current snap.
      */
     nextBeat(beat: Beat): Beat {
-        const f = new Fraction(beat.value).div(4).simplify();
-        let div = f.div(this.current);
-        const divCeil = div.ceil();
+        let f: Fraction;
 
-        if (divCeil.equals(div)) {
-            div = div.add(1);
+        if (beat.fraction.divisible(this.beat.fraction)) {
+            f = beat.fraction.add(this.beat.fraction);
         } else {
-            div = divCeil;
+            f = beat.fraction.div(this.beat.fraction).ceil();
         }
 
-        return new Beat(div.mul(this.current).mul(4).valueOf());
+        return new Beat(f);
     }
 
     /**
      * Given a beat, returns the previous beat that is evenly divisible by the current snap.
      */
     prevBeat(beat: Beat): Beat {
-        const f = new Fraction(beat.value).div(4).simplify();
-        let div = f.div(this.current);
-        const divFloor = div.floor();
+        let f: Fraction;
 
-        if (divFloor.equals(div)) {
-            div = div.sub(1);
+        if (beat.fraction.divisible(this.beat.fraction)) {
+            f = beat.fraction.sub(this.beat.fraction);
+
+            if (f.compare(0) === -1) {
+                f = new Fraction(0);
+            }
         } else {
-            div = divFloor;
+            f = beat.fraction.div(this.beat.fraction).floor();
         }
 
-        return new Beat(Math.max(div.mul(this.current).mul(4).valueOf(), 0));
+        return new Beat(f);
     }
 
     /**
