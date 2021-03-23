@@ -2,6 +2,9 @@ import { Beat } from "../charting/beat";
 import Fraction from "fraction.js";
 import assert from "assert";
 
+/**
+ * A list of common beat snap timings.
+ */
 export const commonBeatSnaps: Readonly<Fraction>[] = [
     new Fraction(1, 4),
     new Fraction(1, 8),
@@ -15,6 +18,11 @@ export const commonBeatSnaps: Readonly<Fraction>[] = [
     new Fraction(1, 192),
 ];
 
+/**
+ * Represents the current beat snapping.
+ *
+ * Beat snapping refers to how far the notefield moves when the user scrolls it.
+ */
 export class BeatSnap {
     private _current!: Fraction;
 

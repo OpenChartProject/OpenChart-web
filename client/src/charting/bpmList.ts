@@ -7,11 +7,17 @@ import { BPM } from "./bpm";
 import { Time } from "./time";
 import { toBeat, toTime } from "./util";
 
+/**
+ * Represents a BPM change at a point in time.
+ */
 export interface BPMTime {
     bpm: BPM;
     time: Time;
 }
 
+/**
+ * Stores a list of BPMs and provides methods for converting between beats/time.
+ */
 export class BPMList {
     private bpms: BPMTime[] = [];
 

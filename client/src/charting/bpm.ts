@@ -2,6 +2,9 @@ import assert from "assert";
 import { Beat } from "./beat";
 import { toBeat } from "./util";
 
+/**
+ * Represents beats per minute.
+ */
 export class BPM {
     beat: Beat;
     private _value: number = 0;

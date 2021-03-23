@@ -6,6 +6,9 @@ import {
     createScrollAction,
 } from "../store/actions";
 
+/**
+ * The keybind configuration.
+ */
 export interface KeyBinds {
     keys: {
         [key: number]: string[];
@@ -17,6 +20,10 @@ export interface KeyBinds {
     };
 }
 
+/**
+ * Converts a KeyboardEvent to an action, using the keybind config provided by
+ * the store. Returns null if the key isn't bound to anything.
+ */
 export function inputToAction(
     e: KeyboardEvent,
     store: RootStore,

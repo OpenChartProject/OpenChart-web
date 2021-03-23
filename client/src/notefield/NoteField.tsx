@@ -10,6 +10,17 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The NoteField component.
+ *
+ * This component doesn't do much on its own. It's mainly responsible for creating
+ * a canvas element and setting up event listeners.
+ *
+ * This observes the store and will redraw anytime there are changes.
+ *
+ * It's important that changes to the store are handled using actions, otherwise the
+ * changes are not broadcasted and the notefield won't redraw.
+ */
 export const NoteField = observer(({ store }: Props) => {
     const { config, state } = store;
     const ref = useRef<HTMLCanvasElement>(null);

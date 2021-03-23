@@ -7,6 +7,9 @@ import { KeyIndex } from "./keyIndex";
 import assert from "assert";
 import { toKeyCount, toKeyIndex, toTime } from "./util";
 
+/**
+ * A list of ChartObjects for a key/column.
+ */
 export type KeyObjects = ChartObject[];
 
 export interface ChartOpts {
@@ -15,6 +18,10 @@ export interface ChartOpts {
     objects?: KeyObjects[];
 }
 
+/**
+ * A chart combines BPMs with ChartObjects. It provides some useful methods for both
+ * adding new objects and finding existing ones.
+ */
 export class Chart {
     bpms: BPMList;
     readonly keyCount: Readonly<KeyCount>;

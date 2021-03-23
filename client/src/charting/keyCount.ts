@@ -1,5 +1,8 @@
 import assert from "assert";
 
+/**
+ * Simple class for representing the number of keys in a chart.
+ */
 export class KeyCount {
     private _value: number = 0;
 

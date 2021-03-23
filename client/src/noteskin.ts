@@ -1,5 +1,8 @@
 export type NoteSkinImage = CanvasImageSource;
 
+/**
+ * The URLs where the images are located.
+ */
 export interface NoteSkinSource {
     name: string;
     keyCount: number;
@@ -9,6 +12,9 @@ export interface NoteSkinSource {
     tap: string[];
 }
 
+/**
+ * A collection of pre-loaded images that can be rendered by the canvas.
+ */
 export interface NoteSkin {
     name: string;
     keyCount: number;
@@ -18,6 +24,9 @@ export interface NoteSkin {
     tap: NoteSkinImage[];
 }
 
+/**
+ * Generates a NoteSkinSource for a skin, given its name and how many keys it supports.
+ */
 export function getNoteSkinSource(
     name: string,
     keyCount: number,
@@ -41,6 +50,11 @@ export function getNoteSkinSource(
     return ns;
 }
 
+/**
+ * Given a NoteSkinSource, pre-loads each image and adds it to a NoteSkin. The images
+ * are loaded async and each one is encapsulated in a Promise. This function returns
+ * a Promise which will resolve once ALL images have finished pre-loading.
+ */
 export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
     const promises: Promise<void>[] = [];
     const ns: NoteSkin = {

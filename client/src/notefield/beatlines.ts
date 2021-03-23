@@ -5,6 +5,10 @@ import { Chart } from "../charting/chart";
 import { Time } from "../charting/time";
 import { toTime } from "../charting/util";
 
+/**
+ * Returns a list of BeatTimes where beat lines would occur in a chart, given
+ * an interval of time.
+ */
 export function getBeatLineTimes(
     chart: Chart,
     start: Time | number,

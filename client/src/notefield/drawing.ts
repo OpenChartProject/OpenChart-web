@@ -4,7 +4,10 @@ import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 import { ChartObject } from "../charting/objects/chartObject";
 import { toTime } from "../charting/util";
 
-export interface Viewport {
+/**
+ * Stores some useful values used for rendering.
+ */
+interface Viewport {
     /**
      * The scroll position, in pixels. This is the y-pos with respect to the canvas origin.
      */
@@ -26,7 +29,7 @@ export interface Viewport {
     tReceptor: Time;
 }
 
-export interface DrawProps extends Viewport {
+interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;

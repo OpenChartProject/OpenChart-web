@@ -1,5 +1,8 @@
 import assert from "assert";
 
+/**
+ * Represents a time in seconds.
+ */
 export class Time {
     private _value: number = 0;
 

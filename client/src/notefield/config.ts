@@ -13,6 +13,9 @@ export enum Baseline {
     After,
 }
 
+/**
+ * The various options that control how the notefield should look and feel.
+ */
 export interface NoteFieldConfig {
     beatLines: {
         measureLines: {
@@ -41,6 +44,12 @@ export interface NoteFieldConfig {
     margin: number;
 }
 
+/**
+ * The state of the notefield, usually manipulated by the user doing something.
+ *
+ * There isn't much difference between this and NoteFieldConfig. The state is separate
+ * just to organize "stuff that probably won't change" and "stuff that will change".
+ */
 export interface NoteFieldState {
     width: number;
     height: number;

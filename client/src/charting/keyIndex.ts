@@ -1,5 +1,8 @@
 import assert from "assert";
 
+/**
+ * Simple class for representing a particular key.
+ */
 export class KeyIndex {
     private _value: number = 0;
 

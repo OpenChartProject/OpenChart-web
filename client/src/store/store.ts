@@ -4,6 +4,9 @@ import { Time } from "../charting/time";
 
 import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
 
+/**
+ * The store for the application.
+ */
 export class RootStore {
     config: NoteFieldConfig;
     state: NoteFieldState;
@@ -14,11 +17,17 @@ export class RootStore {
         makeAutoObservable(this);
     }
 
+    /**
+     * Updates the render dimensions of the notefield.
+     */
     setDimensions({ width, height }: { width?: number; height?: number }) {
         this.state.width = width ?? this.state.width;
         this.state.height = height ?? this.state.height;
     }
 
+    /**
+     * Sets the scroll position to a specific beat/time.
+     */
     setScroll({ beat, time }: Partial<BeatTime>) {
         if (beat !== undefined) {
             time = this.config.chart.bpms.timeAt(beat);
@@ -31,6 +40,10 @@ export class RootStore {
         }
     }
 
+    /**
+     * Scrolls the notefield relative to its current position, based on the
+     * provided beat/time deltas.
+     */
     scrollBy({ beat, time }: { beat?: number; time?: number }) {
         if (beat !== undefined) {
             this.setScroll({
