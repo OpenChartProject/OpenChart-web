@@ -168,8 +168,6 @@ export function doAction(action: Action, store: RootStore) {
             "both adjustment arguments are undefined",
         );
 
-        console.log(store.state.snap);
-
         if (args.adjust === "next") {
             store.state.snap.nextSnap();
         } else if (args.adjust === "prev") {

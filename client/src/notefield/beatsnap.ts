@@ -1,6 +1,8 @@
-import { Beat } from "../charting/beat";
-import Fraction from "fraction.js";
 import assert from "assert";
+import Fraction from "fraction.js";
+import { makeAutoObservable } from "mobx";
+
+import { Beat } from "../charting/beat";
 
 /**
  * A list of common beat snap timings.
@@ -27,6 +29,7 @@ export class BeatSnap {
     private _current!: Fraction;
 
     constructor(current?: Fraction) {
+        makeAutoObservable(this);
         this.current = current ?? new Fraction(1, 4);
     }
 
