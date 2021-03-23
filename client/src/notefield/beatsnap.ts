@@ -38,7 +38,10 @@ export class BeatSnap {
     }
 
     set current(val: Fraction) {
-        assert(val.compare(0) === 1, "beat snap value must be greater than zero");
+        assert(
+            val.compare(0) === 1,
+            "beat snap value must be greater than zero",
+        );
         this._current = val;
     }
 
