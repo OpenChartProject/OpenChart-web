@@ -40,6 +40,10 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function onScroll(e: WheelEvent) {
+        if (e.deltaY === 0) {
+            return;
+        }
+
         doAction(
             createSnapScrollAction({
                 direction: e.deltaY > 0 ? "forward" : "backward",
