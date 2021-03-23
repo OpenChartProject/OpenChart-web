@@ -73,8 +73,6 @@ export const NoteField = observer(({ store }: Props) => {
     }, []);
 
     // Setup event listeners for key presses and scrolling.
-    // NOTE: This effect runs each time the component is rendered, otherwise there is
-    // an issue where the onKeyDown function references state that's stale.
     useEffect(() => {
         document.body.addEventListener("keydown", onKeyDown);
         document.body.addEventListener("wheel", onScroll);
