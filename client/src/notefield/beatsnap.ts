@@ -77,34 +77,34 @@ export class BeatSnap {
      * Given a beat, returns the next beat that is evenly divisible by the current snap.
      */
     nextBeat(beat: Beat): Beat {
-        const snapBeat = this.toBeat();
-        let div = beat.value / snapBeat.value;
-        const divCeil = Math.ceil(div);
+        const f = new Fraction(beat.value).simplify();
+        let div = f.div(this.current);
+        const divCeil = div.ceil();
 
-        if (divCeil > div) {
-            div = divCeil;
+        if (divCeil.equals(div)) {
+            div = div.add(1);
         } else {
-            div++;
+            div = divCeil;
         }
 
-        return new Beat(div * snapBeat.value);
+        return new Beat(div.mul(this.current).mul(4).valueOf());
     }
 
     /**
      * Given a beat, returns the previous beat that is evenly divisible by the current snap.
      */
     prevBeat(beat: Beat): Beat {
-        const snapBeat = this.toBeat();
-        let div = beat.value / snapBeat.value;
-        const divFloor = Math.floor(div);
+        const f = new Fraction(beat.value).simplify();
+        let div = f.div(this.current);
+        const divFloor = div.floor();
 
-        if (divFloor < div) {
-            div = divFloor;
+        if (divFloor.equals(div)) {
+            div = div.sub(1);
         } else {
-            div--;
+            div = divFloor;
         }
 
-        return new Beat(Math.max(div * snapBeat.value, 0));
+        return new Beat(Math.max(div.mul(this.current).mul(4).valueOf(), 0));
     }
 
     /**
