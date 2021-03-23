@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
 import { RootStore } from "../store/store";
 import { inputToAction } from "./input";
-import { createScrollAction, doAction } from "../store/actions";
+import { createSnapScrollAction, doAction } from "../store/actions";
 
 export interface Props {
     store: RootStore;
@@ -40,10 +40,9 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function onScroll(e: WheelEvent) {
-        const delta = e.deltaY > 0 ? 1 : -1;
         doAction(
-            createScrollAction({
-                by: { time: delta * config.secondsPerScrollTick },
+            createSnapScrollAction({
+                direction: e.deltaY > 0 ? "forward" : "backward",
             }),
             store,
         );

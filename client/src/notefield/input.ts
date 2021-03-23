@@ -4,6 +4,7 @@ import {
     Action,
     createPlaceTapAction,
     createScrollAction,
+    createSnapScrollAction,
 } from "../store/actions";
 
 /**
@@ -45,13 +46,13 @@ export function inputToAction(
     switch (e.key) {
         case keyBinds.scroll.up:
             e.preventDefault();
-            return createScrollAction({
-                by: { time: -1 * secondsPerScrollTick },
+            return createSnapScrollAction({
+                direction: "backward",
             });
         case keyBinds.scroll.down:
             e.preventDefault();
-            return createScrollAction({
-                by: { time: 1 * secondsPerScrollTick },
+            return createSnapScrollAction({
+                direction: "forward",
             });
     }
 
