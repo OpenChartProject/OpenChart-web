@@ -57,44 +57,87 @@ describe("BeatSnap", () => {
         });
     });
 
-    describe("#next", () => {
+    describe("#nextBeat", () => {
+        it("jumps to the first snap if the beat is zero", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(
+                beatSnap.nextBeat(Beat.Zero),
+                beatSnap.toBeat(),
+            );
+        });
+
+        it("returns the next beat if beat is aligned with snap", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(beatSnap.nextBeat(new Beat(1)), new Beat(2));
+        });
+
+        it("returns the next beat if beat is not aligned with snap", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(
+                beatSnap.nextBeat(new Beat(1.5)),
+                new Beat(2),
+            );
+        });
+    });
+
+    describe("#nextSnap", () => {
         it("jumps to next common snapping if not common", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 5));
-            beatSnap.next();
+            beatSnap.nextSnap();
             assert.deepStrictEqual(beatSnap.current, new Fraction(1, 8));
         });
 
         it("jumps to next common snapping if common", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 4));
-            beatSnap.next();
+            beatSnap.nextSnap();
             assert.deepStrictEqual(beatSnap.current, new Fraction(1, 8));
         });
 
         it("doesn't go out of range", () => {
             const snap = commonBeatSnaps[commonBeatSnaps.length - 1];
             const beatSnap = new BeatSnap(snap);
-            beatSnap.next();
+            beatSnap.nextSnap();
             assert.deepStrictEqual(beatSnap.current, snap);
         });
     });
 
-    describe("#prev", () => {
+    describe("#prevBeat", () => {
+        it("doesn't go out of range", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(beatSnap.prevBeat(Beat.Zero), Beat.Zero);
+        });
+
+        it("returns the previous beat if beat is aligned with snap", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(beatSnap.prevBeat(new Beat(2)), new Beat(1));
+        });
+
+        it("returns the previous beat if beat is not aligned with snap", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(
+                beatSnap.prevBeat(new Beat(1.5)),
+                new Beat(1),
+            );
+        });
+    });
+
+    describe("#prevSnap", () => {
         it("jumps to prev common snapping if not common", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 5));
-            beatSnap.prev();
+            beatSnap.prevSnap();
             assert.deepStrictEqual(beatSnap.current, new Fraction(1, 4));
         });
 
         it("jumps to prev common snapping if common", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 8));
-            beatSnap.prev();
+            beatSnap.prevSnap();
             assert.deepStrictEqual(beatSnap.current, new Fraction(1, 4));
         });
 
         it("doesn't go out of range", () => {
             const snap = commonBeatSnaps[0];
             const beatSnap = new BeatSnap(snap);
-            beatSnap.prev();
+            beatSnap.prevSnap();
             assert.deepStrictEqual(beatSnap.current, snap);
         });
     });

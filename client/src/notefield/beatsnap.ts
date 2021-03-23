@@ -71,9 +71,43 @@ export class BeatSnap {
     }
 
     /**
+     * Given a beat, returns the next beat that is evenly divisible by the current snap.
+     */
+    nextBeat(beat: Beat): Beat {
+        const snapBeat = this.toBeat();
+        let div = beat.value / snapBeat.value;
+        const divCeil = Math.ceil(div);
+
+        if (divCeil > div) {
+            div = divCeil;
+        } else {
+            div++;
+        }
+
+        return new Beat(div * snapBeat.value);
+    }
+
+    /**
+     * Given a beat, returns the previous beat that is evenly divisible by the current snap.
+     */
+    prevBeat(beat: Beat): Beat {
+        const snapBeat = this.toBeat();
+        let div = beat.value / snapBeat.value;
+        const divFloor = Math.floor(div);
+
+        if (divFloor < div) {
+            div = divFloor;
+        } else {
+            div--;
+        }
+
+        return new Beat(Math.max(div * snapBeat.value, 0));
+    }
+
+    /**
      * Makes the beat snapping finer by moving to the next common beat snapping.
      */
-    next() {
+    nextSnap() {
         let index = this.nearestCommonSnapIndex();
 
         if (commonBeatSnaps[index].compare(this.current) !== -1) {
@@ -87,7 +121,7 @@ export class BeatSnap {
     /**
      * Makes the beat snapping coarser by moving to the previous common beat snapping.
      */
-    prev() {
+    prevSnap() {
         let index = this.nearestCommonSnapIndex();
 
         if (commonBeatSnaps[index].compare(this.current) !== 1) {
