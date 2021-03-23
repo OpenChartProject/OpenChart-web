@@ -51,15 +51,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Update known_hosts
-        run: |
-          set +e
-          for i in {1..10}; do
-            ssh-keyscan openchart.io >> ~/.ssh/known_hosts \
-              && exit 0
-            echo "ssh-keyscan failed, retrying..."
-            sleep 2
-          done
-          exit 1
+        run: ssh-keyscan openchart.io >> ~/.ssh/known_hosts
 
       - name: Setup Docker context
         run: |
@@ -67,12 +59,4 @@ jobs:
           docker context use openchart
 
       - name: Deploy
-        run: |
-          set +e
-          for i in {1..10}; do
-            docker stack deploy -c docker/docker-compose.yml openchart \
-              && exit 0
-            echo "deploy failed, retrying..."
-            sleep 2
-          done
-          exit 1
+        run: docker stack deploy -c docker/docker-compose.yml openchart
