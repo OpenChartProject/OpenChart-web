@@ -77,7 +77,7 @@ export class BeatSnap {
      * Given a beat, returns the next beat that is evenly divisible by the current snap.
      */
     nextBeat(beat: Beat): Beat {
-        const f = new Fraction(beat.value).simplify();
+        const f = new Fraction(beat.value).div(4).simplify();
         let div = f.div(this.current);
         const divCeil = div.ceil();
 
@@ -94,7 +94,7 @@ export class BeatSnap {
      * Given a beat, returns the previous beat that is evenly divisible by the current snap.
      */
     prevBeat(beat: Beat): Beat {
-        const f = new Fraction(beat.value).simplify();
+        const f = new Fraction(beat.value).div(4).simplify();
         let div = f.div(this.current);
         const divFloor = div.floor();
 
