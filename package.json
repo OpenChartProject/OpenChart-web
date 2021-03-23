@@ -34,6 +34,7 @@
         "typescript": "^3.9.7"
     },
     "dependencies": {
+        "fraction.js": "^4.0.13",
         "lodash": "^4.17.21",
         "mobx": "^6.1.8",
         "mobx-react-lite": "^3.2.0",
