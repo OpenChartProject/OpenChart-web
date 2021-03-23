@@ -1,4 +1,5 @@
 import assert from "assert";
+import Fraction from "fraction.js";
 import { Beat, BeatTime } from "../charting/beat";
 import { KeyIndex } from "../charting/keyIndex";
 import { Tap } from "../charting/objects/tap";
@@ -7,7 +8,7 @@ import { RootStore } from "./store";
 /**
  * The different types of actions.
  */
-export type ActionType = "placeTap" | "scroll" | "snapScroll";
+export type ActionType = "placeTap" | "scroll" | "snapScroll" | "snapAdjust";
 
 /**
  * The base interface for an action. Every action includes a type which says what
@@ -56,6 +57,22 @@ export interface ScrollAction extends Action {
 }
 
 /**
+ * Arguments for the SnapAdjustAction.
+ */
+export interface SnapAdjustArgs {
+    adjust?: "next" | "prev";
+    to?: Fraction;
+}
+
+/**
+ * An action for setting the beat snapping.
+ */
+export interface SnapAdjustAction extends Action {
+    type: "snapAdjust";
+    args: SnapAdjustArgs;
+}
+
+/**
  * Arguments for the SnapScrollAction.
  */
 export interface SnapScrollArgs {
@@ -86,6 +103,16 @@ export function createPlaceTapAction(args: PlaceTapArgs): PlaceTapAction {
 export function createScrollAction(args: ScrollArgs): ScrollAction {
     return {
         type: "scroll",
+        args,
+    };
+}
+
+/**
+ * Returns a SnapAdjustAction that uses the provided arguments.
+ */
+export function createSnapAdjustAction(args: SnapAdjustArgs): SnapAdjustAction {
+    return {
+        type: "snapAdjust",
         args,
     };
 }
@@ -134,5 +161,21 @@ export function doAction(action: Action, store: RootStore) {
                 : store.state.snap.prevBeat(store.state.scroll.beat);
 
         store.setScroll({ beat });
+    } else if (action.type === "snapAdjust") {
+        const args = (action as SnapAdjustAction).args;
+        assert(
+            args.adjust || args.to,
+            "both adjustment arguments are undefined",
+        );
+
+        console.log(store.state.snap);
+
+        if (args.adjust === "next") {
+            store.state.snap.nextSnap();
+        } else if (args.adjust === "prev") {
+            store.state.snap.prevSnap();
+        } else if (args.to) {
+            store.state.snap.current = args.to;
+        }
     }
 }

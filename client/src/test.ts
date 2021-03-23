@@ -58,6 +58,8 @@ export function createStore(chart?: Chart): RootStore {
             scroll: {
                 up: "ArrowUp",
                 down: "ArrowDown",
+                snapNext: "ArrowRight",
+                snapPrev: "ArrowLeft",
             },
         },
 

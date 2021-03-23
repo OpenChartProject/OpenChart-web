@@ -3,6 +3,7 @@ import { RootStore } from "../store/store";
 import {
     Action,
     createPlaceTapAction,
+    createSnapAdjustAction,
     createSnapScrollAction,
 } from "../store/actions";
 
@@ -17,6 +18,8 @@ export interface KeyBinds {
     scroll: {
         up: string;
         down: string;
+        snapNext: string;
+        snapPrev: string;
     };
 }
 
@@ -48,11 +51,26 @@ export function inputToAction(
             return createSnapScrollAction({
                 direction: "backward",
             });
+
         case keyBinds.scroll.down:
             e.preventDefault();
             return createSnapScrollAction({
                 direction: "forward",
             });
+
+        case keyBinds.scroll.snapNext:
+            e.preventDefault();
+            return createSnapAdjustAction({
+                adjust: "next",
+            });
+            break;
+
+        case keyBinds.scroll.snapPrev:
+            e.preventDefault();
+            return createSnapAdjustAction({
+                adjust: "prev",
+            });
+            break;
     }
 
     return null;

@@ -132,6 +132,6 @@ export class BeatSnap {
     }
 
     toBeat(): Beat {
-        return new Beat(this._current.mul(4).valueOf());
+        return new Beat(this.current.mul(4).valueOf());
     }
 }

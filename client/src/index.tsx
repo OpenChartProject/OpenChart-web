@@ -42,6 +42,8 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
             scroll: {
                 up: "ArrowUp",
                 down: "ArrowDown",
+                snapNext: "ArrowRight",
+                snapPrev: "ArrowLeft",
             },
         },
 
