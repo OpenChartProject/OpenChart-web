@@ -2,14 +2,22 @@ import assert from "assert";
 import sinon from "sinon";
 import { Beat } from "../charting/beat";
 import { KeyIndex } from "../charting/keyIndex";
-import { createPlaceTapAction, createScrollAction, doAction } from "./actions";
+import {
+    createPlaceTapAction,
+    createScrollAction,
+    createSnapScrollAction,
+    doAction,
+    PlaceTapArgs,
+    ScrollArgs,
+    SnapScrollArgs,
+} from "./actions";
 import { createStore } from "../test";
 import { Tap } from "../charting/objects/tap";
 
 describe("notefield/actions", () => {
     describe("#createPlaceTapAction", () => {
         it("returns expected action", () => {
-            const args = {
+            const args: PlaceTapArgs = {
                 beat: Beat.Zero,
                 key: new KeyIndex(1),
             };
@@ -21,11 +29,22 @@ describe("notefield/actions", () => {
 
     describe("#createScrollAction", () => {
         it("returns expected action", () => {
-            const args = {
+            const args: ScrollArgs = {
                 by: { beat: -1 },
             };
             const action = createScrollAction(args);
             assert.strictEqual(action.type, "scroll");
+            assert.deepStrictEqual(action.args, args);
+        });
+    });
+
+    describe("#createSnapScrollAction", () => {
+        it("returns expected action", () => {
+            const args: SnapScrollArgs = {
+                direction: "forward",
+            };
+            const action = createSnapScrollAction(args);
+            assert.strictEqual(action.type, "snapScroll");
             assert.deepStrictEqual(action.args, args);
         });
     });
@@ -89,6 +108,31 @@ describe("notefield/actions", () => {
 
                 doAction(action, store);
                 assert(setScroll.calledWith(action.args.to));
+            });
+        });
+
+        describe("SnapScrollAction", () => {
+            it("calls setScroll with expected args when direction is forward", () => {
+                const store = createStore();
+                const action = createSnapScrollAction({
+                    direction: "forward",
+                });
+                const setScroll = sinon.spy(store, "setScroll");
+
+                doAction(action, store);
+                assert(setScroll.calledWith({ beat: new Beat(1) }));
+            });
+
+            it("calls setScroll with expected args when direction is backward", () => {
+                const store = createStore();
+                store.setScroll({ beat: new Beat(1) });
+                const action = createSnapScrollAction({
+                    direction: "backward",
+                });
+                const setScroll = sinon.spy(store, "setScroll");
+
+                doAction(action, store);
+                assert(setScroll.calledWith({ beat: Beat.Zero }));
             });
         });
     });
