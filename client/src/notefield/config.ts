@@ -1,6 +1,7 @@
 import { BeatTime } from "../charting/beat";
 import { Chart } from "../charting/chart";
 import { NoteSkin } from "../noteskin";
+import { BeatSnap } from "./beatsnap";
 import { KeyBinds } from "./input";
 
 /**
@@ -51,6 +52,7 @@ export interface NoteFieldConfig {
  * just to organize "stuff that probably won't change" and "stuff that will change".
  */
 export interface NoteFieldState {
+    snap: BeatSnap;
     width: number;
     height: number;
     scroll: BeatTime;

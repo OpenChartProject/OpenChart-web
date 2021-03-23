@@ -7,7 +7,7 @@ import { RootStore } from "./store";
 /**
  * The different types of actions.
  */
-export type ActionType = "placeTap" | "scroll";
+export type ActionType = "placeTap" | "scroll" | "snapScroll";
 
 /**
  * The base interface for an action. Every action includes a type which says what
@@ -26,7 +26,7 @@ export interface Action {
 /**
  * Arguments for the PlaceTapAction.
  */
-export interface PlaceTapActionArgs {
+export interface PlaceTapArgs {
     beat: Beat;
     key: KeyIndex;
 }
@@ -36,29 +36,44 @@ export interface PlaceTapActionArgs {
  */
 export interface PlaceTapAction extends Action {
     type: "placeTap";
-    args: PlaceTapActionArgs;
+    args: PlaceTapArgs;
 }
 
 /**
  * Arguments for the ScrollAction.
  */
-export interface ScrollActionArgs {
+export interface ScrollArgs {
     by?: { beat?: number; time?: number };
     to?: Partial<BeatTime>;
 }
 
 /**
- * An action for placing tap notes onto the notefield.
+ * An action for scrolling the notefield based on beats or time.
  */
 export interface ScrollAction extends Action {
     type: "scroll";
-    args: ScrollActionArgs;
+    args: ScrollArgs;
+}
+
+/**
+ * Arguments for the SnapScrollAction.
+ */
+export interface SnapScrollArgs {
+    direction: "forward" | "backward";
+}
+
+/**
+ * An action for scrolling the notefield based on the current beat snap setting.
+ */
+export interface SnapScrollAction extends Action {
+    type: "snapScroll";
+    args: SnapScrollArgs;
 }
 
 /**
  * Returns a PlaceTapAction that uses the provided arguments.
  */
-export function createPlaceTapAction(args: PlaceTapActionArgs): PlaceTapAction {
+export function createPlaceTapAction(args: PlaceTapArgs): PlaceTapAction {
     return {
         type: "placeTap",
         args,
@@ -68,9 +83,19 @@ export function createPlaceTapAction(args: PlaceTapActionArgs): PlaceTapAction {
 /**
  * Returns a ScrollAction that uses the provided arguments.
  */
-export function createScrollAction(args: ScrollActionArgs): ScrollAction {
+export function createScrollAction(args: ScrollArgs): ScrollAction {
     return {
         type: "scroll",
+        args,
+    };
+}
+
+/**
+ * Returns a SnapScrollAction that uses the provided arguments.
+ */
+export function createSnapScrollAction(args: SnapScrollArgs): SnapScrollAction {
+    return {
+        type: "snapScroll",
         args,
     };
 }
@@ -101,5 +126,13 @@ export function doAction(action: Action, store: RootStore) {
         } else {
             assert(args.to || args.by, "both scroll arguments are undefined");
         }
+    } else if (action.type === "snapScroll") {
+        const args = (action as SnapScrollAction).args;
+        const beat =
+            args.direction === "forward"
+                ? store.state.snap.nextBeat(store.state.scroll.beat)
+                : store.state.snap.prevBeat(store.state.scroll.beat);
+
+        store.setScroll({ beat });
     }
 }

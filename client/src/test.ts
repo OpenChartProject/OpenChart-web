@@ -1,6 +1,7 @@
 import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { Time } from "./charting/time";
+import { BeatSnap } from "./notefield/beatsnap";
 import { NoteFieldConfig, Baseline, NoteFieldState } from "./notefield/config";
 import { NoteSkin } from "./noteskin";
 import { RootStore } from "./store/store";
@@ -71,6 +72,7 @@ export function createStore(chart?: Chart): RootStore {
     };
 
     const state: NoteFieldState = {
+        snap: new BeatSnap(),
         width: config.columnWidth * config.chart.keyCount.value,
         height: 1,
         scroll: { beat: Beat.Zero, time: Time.Zero },

@@ -4,6 +4,7 @@ import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { Tap } from "./charting/objects/tap";
 import { Time } from "./charting/time";
+import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteField } from "./notefield/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
@@ -55,6 +56,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     };
 
     const state: NoteFieldState = {
+        snap: new BeatSnap(),
         width: config.columnWidth * chart.keyCount.value,
         height: 1,
         scroll: { beat: Beat.Zero, time: Time.Zero },
