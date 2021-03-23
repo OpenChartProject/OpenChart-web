@@ -41,7 +41,6 @@ export interface NoteFieldConfig {
     keyCount: number;
     noteSkin: NoteSkin;
     pixelsPerSecond: number;
-    secondsPerScrollTick: number;
     margin: number;
 }
 

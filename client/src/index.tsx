@@ -51,7 +51,6 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         keyCount: 4,
         noteSkin: skin,
         pixelsPerSecond: 512,
-        secondsPerScrollTick: 0.25,
         margin: 384,
     };
 

@@ -67,7 +67,6 @@ export function createStore(chart?: Chart): RootStore {
         keyCount: 4,
         noteSkin: createDummyNoteSkin(),
         pixelsPerSecond: 512,
-        secondsPerScrollTick: 0.25,
         margin: 384,
     };
 

@@ -3,7 +3,6 @@ import { RootStore } from "../store/store";
 import {
     Action,
     createPlaceTapAction,
-    createScrollAction,
     createSnapScrollAction,
 } from "../store/actions";
 
@@ -29,7 +28,7 @@ export function inputToAction(
     e: KeyboardEvent,
     store: RootStore,
 ): Action | null {
-    const { chart, keyBinds, secondsPerScrollTick } = store.config;
+    const { chart, keyBinds } = store.config;
 
     // Check if this key is for placing a note.
     const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex(
