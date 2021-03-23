@@ -83,7 +83,7 @@ export const NoteField = observer(({ store }: Props) => {
             document.body.removeEventListener("keydown", onKeyDown);
             document.body.removeEventListener("wheel", onScroll);
         };
-    });
+    }, []);
 
     // Update the dimensions once we have a reference to the element.
     useEffect(() => {
