@@ -14,7 +14,8 @@
         "test": "mocha"
     },
     "devDependencies": {
-        "@babel/core": "^7.13.10",
+        "@babel/core": "^7.0.0-0",
+        "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/preset-react": "^7.12.13",
         "@types/assert": "^1.5.4",
         "@types/lodash": "^4.14.168",

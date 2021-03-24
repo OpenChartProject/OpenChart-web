@@ -29,7 +29,6 @@ export class BeatSnap {
     private _current!: Fraction;
 
     constructor(current?: Fraction) {
-        makeAutoObservable(this);
         this.current = current ?? new Fraction(1, 4);
     }
 

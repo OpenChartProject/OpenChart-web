@@ -1,16 +1,25 @@
 {
-  "include": ["./client/src/**/*.ts", "./client/src/**/*.tsx"],
+  "include": [
+    "./client/src/**/*.ts",
+    "./client/src/**/*.tsx"
+  ],
   "compilerOptions": {
-    "types": ["mocha"],
+    "types": [
+      "mocha"
+    ],
     "target": "es5",
     "module": "commonjs",
-    "lib": ["dom", "es6"],
+    "lib": [
+      "dom",
+      "es6"
+    ],
     "moduleResolution": "node",
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "useDefineForClassFields": true
   }
 }
