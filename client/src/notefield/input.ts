@@ -2,10 +2,10 @@ import { KeyIndex } from "../charting/keyIndex";
 import { RootStore } from "../store/store";
 import {
     Action,
-    createPlaceTapAction,
-    createSnapAdjustAction,
-    createSnapScrollAction,
-} from "../store/actions";
+    PlaceTapAction,
+    SnapScrollAction,
+    SnapAdjustAction,
+} from "../store/actions/";
 
 /**
  * The keybind configuration.
@@ -39,7 +39,7 @@ export function inputToAction(
     );
 
     if (keyIndex !== -1) {
-        return createPlaceTapAction({
+        return new PlaceTapAction(store, {
             beat: store.state.scroll.beat,
             key: new KeyIndex(keyIndex),
         });
@@ -48,26 +48,26 @@ export function inputToAction(
     switch (e.key) {
         case keyBinds.scroll.up:
             e.preventDefault();
-            return createSnapScrollAction({
+            return new SnapScrollAction(store, {
                 direction: "backward",
             });
 
         case keyBinds.scroll.down:
             e.preventDefault();
-            return createSnapScrollAction({
+            return new SnapScrollAction(store, {
                 direction: "forward",
             });
 
         case keyBinds.scroll.snapNext:
             e.preventDefault();
-            return createSnapAdjustAction({
+            return new SnapAdjustAction(store, {
                 adjust: "next",
             });
             break;
 
         case keyBinds.scroll.snapPrev:
             e.preventDefault();
-            return createSnapAdjustAction({
+            return new SnapAdjustAction(store, {
                 adjust: "prev",
             });
             break;

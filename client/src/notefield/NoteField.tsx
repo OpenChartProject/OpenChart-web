@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
 import { RootStore } from "../store/store";
 import { inputToAction } from "./input";
-import { createSnapScrollAction, doAction } from "../store/actions";
+import { SnapScrollAction, SnapScrollArgs } from "../store/actions/";
 
 export interface Props {
     store: RootStore;
@@ -35,7 +35,7 @@ export const NoteField = observer(({ store }: Props) => {
         const action = inputToAction(e, store);
 
         if (action) {
-            doAction(action, store);
+            action.run();
         }
     }
 
@@ -46,12 +46,11 @@ export const NoteField = observer(({ store }: Props) => {
 
         e.preventDefault();
 
-        doAction(
-            createSnapScrollAction({
-                direction: e.deltaY > 0 ? "forward" : "backward",
-            }),
-            store,
-        );
+        const args: SnapScrollArgs = {
+            direction: e.deltaY > 0 ? "forward" : "backward",
+        };
+
+        new SnapScrollAction(store, args).run();
     }
 
     function updateDim() {

@@ -31,9 +31,8 @@ export class ScrollAction implements Action {
 
         if (args.by) {
             this.store.scrollBy(args.by);
-        } else {
+        } else if (args.to) {
             this.store.setScroll(args.to);
         }
     }
-
 }

@@ -11,6 +11,9 @@ export interface SnapAdjustArgs {
     to?: Fraction;
 }
 
+/**
+ * Action for adjusting the beat snapping.
+ */
 export class SnapAdjustAction implements Action {
     args: SnapAdjustArgs;
     store: RootStore;
