@@ -1,3 +1,4 @@
+import Fraction from "fraction.js";
 import { makeAutoObservable } from "mobx";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
@@ -23,6 +24,10 @@ export class RootStore {
     setDimensions({ width, height }: { width?: number; height?: number }) {
         this.state.width = width ?? this.state.width;
         this.state.height = height ?? this.state.height;
+    }
+
+    setScale(to: Fraction) {
+        this.state.scaleY = to;
     }
 
     /**
