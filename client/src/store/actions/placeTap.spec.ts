@@ -1,7 +1,7 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { createStore } from "../../test";
+import { createStore } from "../../testutil";
 import { Beat } from "../../charting/beat";
 import { KeyIndex } from "../../charting/keyIndex";
 import { PlaceTapAction, PlaceTapArgs } from "./placeTap";

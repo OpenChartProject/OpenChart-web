@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import sinon from "sinon";
 
-import { createStore } from "../../test";
+import { createStore } from "../../testutil";
 import { ScaleAction, ScaleArgs } from "./scale";
 
 describe("ScaleAction", () => {
