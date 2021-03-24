@@ -38,6 +38,13 @@ interface DrawProps extends Viewport {
 }
 
 /**
+ * Returns the pixels per second, taking into account the scaling.
+ */
+export function pps(config: NoteFieldConfig, state: NoteFieldState): number {
+    return config.pixelsPerSecond * state.scaleY.valueOf();
+}
+
+/**
  * Returns the new position of the object after taking the baseline into account.
  */
 export function adjustToBaseline(
@@ -67,11 +74,9 @@ export function calculateViewport(
     config: NoteFieldConfig,
     state: NoteFieldState,
 ): Viewport {
-    const y0 = state.scroll.time.value * config.pixelsPerSecond - config.margin;
-    const t0 = new Time(Math.max(y0 / config.pixelsPerSecond, 0));
-    const t1 = new Time(
-        Math.max((y0 + state.height) / config.pixelsPerSecond, 0),
-    );
+    const y0 = state.scroll.time.value * pps(config, state) - config.margin;
+    const t0 = new Time(Math.max(y0 / pps(config, state), 0));
+    const t1 = new Time(Math.max((y0 + state.height) / pps(config, state), 0));
     const tReceptor = state.scroll.time;
 
     return { y0, t0, t1, tReceptor };
@@ -88,11 +93,11 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
  * Converts time to position.
  */
 export function timeToPosition(
-    { config }: DrawProps,
+    { config, state }: DrawProps,
     time: Time | number,
 ): number {
     time = toTime(time);
-    return time.value * config.pixelsPerSecond;
+    return time.value * pps(config, state);
 }
 
 function clear(dp: DrawProps) {
@@ -132,7 +137,7 @@ function drawBeatLines(dp: DrawProps) {
 }
 
 function drawReceptors(dp: DrawProps) {
-    const { ctx, config, tReceptor } = dp;
+    const { ctx, config, state, tReceptor } = dp;
 
     for (let i = 0; i < config.keyCount; i++) {
         const r = config.noteSkin.receptor[i];
@@ -141,11 +146,7 @@ function drawReceptors(dp: DrawProps) {
             r.height as number,
             config.columnWidth,
         );
-        const y = adjustToBaseline(
-            dp,
-            tReceptor.value * config.pixelsPerSecond,
-            h,
-        );
+        const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
 
         ctx.drawImage(r, i * config.columnWidth, y, config.columnWidth, h);
     }

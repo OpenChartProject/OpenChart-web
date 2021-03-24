@@ -1,10 +1,12 @@
 import assert from "assert";
+import Fraction from "fraction.js";
 import { Time } from "../charting/time";
 import { Baseline } from "./config";
 
 import {
     adjustToBaseline,
     calculateViewport,
+    pps,
     scaleToWidth,
     timeToPosition,
 } from "./drawing";
@@ -42,6 +44,7 @@ describe("notefield", () => {
                 scroll: {
                     time: Time.Zero,
                 },
+                scaleY: new Fraction(1),
             };
             const { y0, t0, t1, tReceptor } = calculateViewport(
                 config as any,
@@ -53,7 +56,51 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scroll is 0 and margin is >0", () => {
+        it("returns expected value when scale is > 1 and margin is 0", () => {
+            const config = {
+                pixelsPerSecond: 100,
+                margin: 0,
+            };
+            const state = {
+                height: 500,
+                scroll: {
+                    time: Time.Zero,
+                },
+                scaleY: new Fraction(2),
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
+            assert.strictEqual(y0, 0);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 2.5);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scale is < 1 and margin is 0", () => {
+            const config = {
+                pixelsPerSecond: 100,
+                margin: 0,
+            };
+            const state = {
+                height: 500,
+                scroll: {
+                    time: Time.Zero,
+                },
+                scaleY: new Fraction(1, 2),
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
+            assert.strictEqual(y0, 0);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 10);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scale is > 1 and margin is > 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 100,
@@ -63,6 +110,51 @@ describe("notefield", () => {
                 scroll: {
                     time: Time.Zero,
                 },
+                scaleY: new Fraction(2),
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
+            assert.strictEqual(y0, -100);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 2);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scale is < 1 and margin is > 0", () => {
+            const config = {
+                pixelsPerSecond: 100,
+                margin: 100,
+            };
+            const state = {
+                height: 500,
+                scroll: {
+                    time: Time.Zero,
+                },
+                scaleY: new Fraction(1, 2),
+            };
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                config as any,
+                state as any,
+            );
+            assert.strictEqual(y0, -100);
+            assert.strictEqual(t0.value, 0);
+            assert.strictEqual(t1.value, 8);
+            assert.strictEqual(tReceptor.value, 0);
+        });
+
+        it("returns expected value when scroll is 0 and margin is > 0", () => {
+            const config = {
+                pixelsPerSecond: 100,
+                margin: 100,
+            };
+            const state = {
+                height: 500,
+                scroll: {
+                    time: Time.Zero,
+                },
+                scaleY: new Fraction(1),
             };
             const { y0, t0, t1, tReceptor } = calculateViewport(
                 config as any,
@@ -74,7 +166,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scroll is >0 and margin is 0", () => {
+        it("returns expected value when scroll is > 0 and margin is 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 0,
@@ -84,6 +176,7 @@ describe("notefield", () => {
                 scroll: {
                     time: new Time(1),
                 },
+                scaleY: new Fraction(1),
             };
             const { y0, t0, t1, tReceptor } = calculateViewport(
                 config as any,
@@ -95,7 +188,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 1);
         });
 
-        it("returns expected value when scroll is >0 and margin is >0", () => {
+        it("returns expected value when scroll is > 0 and margin is > 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 100,
@@ -105,6 +198,7 @@ describe("notefield", () => {
                 scroll: {
                     time: new Time(1),
                 },
+                scaleY: new Fraction(1),
             };
             const { y0, t0, t1, tReceptor } = calculateViewport(
                 config as any,
@@ -114,6 +208,28 @@ describe("notefield", () => {
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);
             assert.strictEqual(tReceptor.value, 1);
+        });
+    });
+
+    describe("#pps", () => {
+        it("returns expected value for 1:1 scaling", () => {
+            const config = {
+                pixelsPerSecond: 100,
+            };
+            const state = {
+                scaleY: new Fraction(1),
+            };
+            assert.deepStrictEqual(pps(config as any, state as any), 100);
+        });
+
+        it("returns expected value for 2:1 scaling", () => {
+            const config = {
+                pixelsPerSecond: 100,
+            };
+            const state = {
+                scaleY: new Fraction(2),
+            };
+            assert.deepStrictEqual(pps(config as any, state as any), 200);
         });
     });
 
@@ -136,6 +252,9 @@ describe("notefield", () => {
             const dp = {
                 config: {
                     pixelsPerSecond: 100,
+                },
+                state: {
+                    scaleY: new Fraction(1),
                 },
             };
             assert.strictEqual(timeToPosition(dp as any, 0), 0);

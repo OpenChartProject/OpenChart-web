@@ -9,7 +9,9 @@ describe("ScaleAction", () => {
     describe("new", () => {
         it("throws if 'to' is not greater than zero", () => {
             const store = createStore();
-            assert.throws(() => new ScaleAction(store, { to: new Fraction(0) }));
+            assert.throws(
+                () => new ScaleAction(store, { to: new Fraction(0) }),
+            );
         });
     });
 
@@ -23,4 +25,4 @@ describe("ScaleAction", () => {
             assert(spy.calledWith(args.to));
         });
     });
-})
+});
