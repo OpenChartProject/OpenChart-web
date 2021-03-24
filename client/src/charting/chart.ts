@@ -28,6 +28,8 @@ export class Chart {
     objects: KeyObjects[];
 
     constructor({ bpms, keyCount, objects }: ChartOpts = {}) {
+        makeAutoObservable(this);
+
         this.bpms = bpms ?? new BPMList();
 
         if (keyCount !== undefined) {
@@ -45,8 +47,6 @@ export class Chart {
         } else {
             this.objects = objects;
         }
-
-        makeAutoObservable(this);
     }
 
     /**

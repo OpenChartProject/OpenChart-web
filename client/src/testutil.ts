@@ -1,4 +1,5 @@
 import Fraction from "fraction.js";
+import _ from "lodash";
 import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { Time } from "./charting/time";
@@ -32,11 +33,17 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
     return ns;
 }
 
+export interface CreateStoreArgs {
+    chart?: Chart;
+    config?: Partial<NoteFieldConfig>;
+    state?: Partial<NoteFieldState>;
+}
+
 /**
  * Returns a new store with reasonable defaults, useful for testing.
  */
-export function createStore(chart?: Chart): RootStore {
-    const config: NoteFieldConfig = {
+export function createStore(args: CreateStoreArgs = {}): RootStore {
+    let config: NoteFieldConfig = {
         beatLines: {
             measureLines: {
                 color: "#999",
@@ -65,7 +72,7 @@ export function createStore(chart?: Chart): RootStore {
         },
 
         baseline: Baseline.Centered,
-        chart: chart ?? new Chart(),
+        chart: args.chart ?? new Chart(),
         columnWidth: 128,
         keyCount: 4,
         noteSkin: createDummyNoteSkin(),
@@ -73,7 +80,7 @@ export function createStore(chart?: Chart): RootStore {
         margin: 384,
     };
 
-    const state: NoteFieldState = {
+    let state: NoteFieldState = {
         width: config.columnWidth * config.chart.keyCount.value,
         height: 1,
 
@@ -81,6 +88,14 @@ export function createStore(chart?: Chart): RootStore {
         scroll: { beat: Beat.Zero, time: Time.Zero },
         snap: new BeatSnap(),
     };
+
+    if (args.config) {
+        config = _.merge(config, args.config);
+    }
+
+    if (args.state) {
+        state = _.merge(state, args.state);
+    }
 
     return new RootStore(config, state);
 }
