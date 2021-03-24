@@ -44,6 +44,8 @@ export const NoteField = observer(({ store }: Props) => {
             return;
         }
 
+        e.preventDefault();
+
         doAction(
             createSnapScrollAction({
                 direction: e.deltaY > 0 ? "forward" : "backward",
@@ -79,7 +81,7 @@ export const NoteField = observer(({ store }: Props) => {
     // Setup event listeners for key presses and scrolling.
     useEffect(() => {
         document.body.addEventListener("keydown", onKeyDown);
-        document.body.addEventListener("wheel", onScroll);
+        document.body.addEventListener("wheel", onScroll, { passive: false });
 
         return () => {
             document.body.removeEventListener("keydown", onKeyDown);

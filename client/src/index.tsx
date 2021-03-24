@@ -1,3 +1,4 @@
+import Fraction from "fraction.js";
 import React from "react";
 import { render } from "react-dom";
 import { Beat } from "./charting/beat";
@@ -57,10 +58,12 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     };
 
     const state: NoteFieldState = {
-        snap: new BeatSnap(),
         width: config.columnWidth * chart.keyCount.value,
         height: 1,
+
+        scaleY: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
+        snap: new BeatSnap(),
     };
 
     store = new RootStore(config, state);

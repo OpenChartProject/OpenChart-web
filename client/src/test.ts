@@ -1,3 +1,4 @@
+import Fraction from "fraction.js";
 import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
 import { Time } from "./charting/time";
@@ -73,10 +74,12 @@ export function createStore(chart?: Chart): RootStore {
     };
 
     const state: NoteFieldState = {
-        snap: new BeatSnap(),
         width: config.columnWidth * config.chart.keyCount.value,
         height: 1,
+
+        scaleY: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
+        snap: new BeatSnap(),
     };
 
     return new RootStore(config, state);
