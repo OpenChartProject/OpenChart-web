@@ -1,7 +1,5 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { create } from "lodash";
-import { toJS } from "mobx";
 import { Chart } from "./charting/chart";
 import { KeyCount } from "./charting/keyCount";
 import { NoteFieldConfig, NoteFieldState } from "./notefield/config";
@@ -53,15 +51,26 @@ describe("testutil", () => {
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(defaultStore.config.margin, store.config.margin);
-            assert.deepStrictEqual(defaultStore.config.beatLines, store.config.beatLines);
+            assert.deepStrictEqual(
+                defaultStore.config.margin,
+                store.config.margin,
+            );
+            assert.deepStrictEqual(
+                defaultStore.config.beatLines,
+                store.config.beatLines,
+            );
 
-            assert.strictEqual(store.config.pixelsPerSecond, config.pixelsPerSecond);
-            assert.strictEqual(store.config.colors.background, config.colors?.background);
+            assert.strictEqual(
+                store.config.pixelsPerSecond,
+                config.pixelsPerSecond,
+            );
+            assert.strictEqual(
+                store.config.colors.background,
+                config.colors?.background,
+            );
         });
 
         it("merges the state if provided", () => {
-            const defaultStore = createStore();
             const state: Partial<NoteFieldState> = {
                 scaleY: new Fraction(1, 2),
             };

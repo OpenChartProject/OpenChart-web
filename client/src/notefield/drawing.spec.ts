@@ -1,6 +1,8 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+import { Beat } from "../charting/beat";
 import { Time } from "../charting/time";
+import { createStore } from "../testutil";
 import { Baseline } from "./config";
 
 import {
@@ -42,14 +44,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(1),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);
@@ -64,14 +70,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(2),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 2.5);
@@ -86,14 +96,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(1, 2),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 10);
@@ -108,14 +122,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(2),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 2);
@@ -130,14 +148,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(1, 2),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 8);
@@ -152,14 +174,18 @@ describe("notefield", () => {
             const state = {
                 height: 500,
                 scroll: {
+                    beat: Beat.Zero,
                     time: Time.Zero,
                 },
                 scaleY: new Fraction(1),
             };
+
+            const store = createStore({ config, state });
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 4);
@@ -173,15 +199,17 @@ describe("notefield", () => {
             };
             const state = {
                 height: 500,
-                scroll: {
-                    time: new Time(1),
-                },
                 scaleY: new Fraction(1),
             };
+
+            const store = createStore({ config, state });
+            store.setScroll({ time: new Time(1) });
+
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, 100);
             assert.strictEqual(t0.value, 1);
             assert.strictEqual(t1.value, 6);
@@ -195,15 +223,17 @@ describe("notefield", () => {
             };
             const state = {
                 height: 500,
-                scroll: {
-                    time: new Time(1),
-                },
                 scaleY: new Fraction(1),
             };
+
+            const store = createStore({ config, state });
+            store.setScroll({ time: new Time(1) });
+
             const { y0, t0, t1, tReceptor } = calculateViewport(
-                config as any,
-                state as any,
+                store.config,
+                store.state,
             );
+
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);
@@ -219,7 +249,9 @@ describe("notefield", () => {
             const state = {
                 scaleY: new Fraction(1),
             };
-            assert.deepStrictEqual(pps(config as any, state as any), 100);
+            const store = createStore({ config, state });
+
+            assert.deepStrictEqual(pps(store.config, store.state), 100);
         });
 
         it("returns expected value for 2:1 scaling", () => {
@@ -229,7 +261,9 @@ describe("notefield", () => {
             const state = {
                 scaleY: new Fraction(2),
             };
-            assert.deepStrictEqual(pps(config as any, state as any), 200);
+            const store = createStore({ config, state });
+
+            assert.deepStrictEqual(pps(store.config, store.state), 200);
         });
     });
 
