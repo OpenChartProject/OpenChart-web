@@ -85,5 +85,9 @@ export const NoteField = observer(({ store }: Props) => {
         updateDim();
     }, [ref]);
 
-    return <canvas ref={ref}></canvas>;
+    return (
+        <div className="notefield">
+            <canvas ref={ref}></canvas>
+        </div>
+    );
 });

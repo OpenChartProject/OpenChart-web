@@ -1,5 +1,5 @@
 @import "normalize.css";
-@import "./canvas";
+@import "./notefield";
 
 html,
 body {
@@ -9,6 +9,7 @@ body {
 
 body {
     background-color: #333;
+    overflow: hidden;
 }
 
 #app {
