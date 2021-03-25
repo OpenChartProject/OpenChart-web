@@ -2,6 +2,10 @@
 @import "./notefield";
 @import "./sidebar";
 
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
     height: 100%;

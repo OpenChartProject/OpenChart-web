@@ -4,15 +4,22 @@ import { discord, github } from "../assets";
 export const Sidebar = () => {
     return (
         <div className="sidebar-container">
-            <div className="sidebar-content">
+            <div className="toolbar">
                 <a href="#" title="New chart">
                     <span className="material-icons">add</span>
                 </a>
                 <a href="#" title="Save chart">
                     <span className="material-icons">save_alt</span>
                 </a>
+                <div className="divider"></div>
+                <a href="#" title="Zoom in">
+                    <span className="material-icons">zoom_in</span>
+                </a>
+                <a href="#" title="Zoom out">
+                    <span className="material-icons">zoom_out</span>
+                </a>
             </div>
-            <div className="sidebar-footer">
+            <div className="footer">
                 <a
                     href="https://github.com/OpenChartProject/OpenChart-web/issues/new"
                     title="Report a bug or issue"

@@ -1,4 +1,5 @@
-$sidebar-item-width: 48px;
+$sidebar-item-size: 40px;
+$sidebar-item-spacing: 16px;
 
 .sidebar-container {
     overflow-y: auto;
@@ -9,19 +10,19 @@ $sidebar-item-width: 48px;
     line-height: 0;
 
     .material-icons {
-        font-size: $sidebar-item-width + 6px;
+        font-size: $sidebar-item-size + 6px;
         margin: -3px;
     }
 
     a,
     span {
-        font-size: $sidebar-item-width;
+        font-size: $sidebar-item-size;
     }
 
     a {
         color: #fff;
         opacity: 0.5;
-        margin-bottom: 16px;
+        margin-bottom: $sidebar-item-spacing;
 
         &:hover {
             opacity: 1;
@@ -29,26 +30,34 @@ $sidebar-item-width: 48px;
     }
 
     img {
-        width: $sidebar-item-width;
+        width: $sidebar-item-size;
     }
-}
 
-.sidebar-content {
-    flex: 1;
+    .divider {
+        width: 100%;
+        height: 4px;
+        background-color: #333;
+        margin-bottom: $sidebar-item-spacing;
+    }
 
-    display: flex;
-    align-content: flex-end;
-    flex-direction: column;
-}
+    .toolbar {
+        flex: 1;
 
-.sidebar-footer {
-    display: flex;
-    align-content: flex-end;
-    flex-direction: column;
+        display: flex;
+        align-content: flex-end;
+        flex-direction: column;
+    }
 
-    a {
-        &:last-child {
-            margin-bottom: 0;
+    .footer {
+        display: flex;
+        align-content: flex-end;
+        flex-direction: column;
+
+        a {
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
+
 }
