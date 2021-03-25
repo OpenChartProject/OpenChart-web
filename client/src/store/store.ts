@@ -1,3 +1,4 @@
+import assert from "assert";
 import Fraction from "fraction.js";
 
 import { makeAutoObservable, observable } from "mobx";
@@ -48,7 +49,11 @@ export class Store {
      * Sets the Y scale of the notefield.
      */
     setScaleY(to: Fraction) {
-        this.state.scaleY = to;
+        assert(to.compare(0) === 1, "scale must be greater than zero");
+
+        if (!this.state.scaleY.equals(to)) {
+            this.state.scaleY = to;
+        }
     }
 
     /**
@@ -72,11 +77,13 @@ export class Store {
      */
     scrollBy({ beat, time }: { beat?: number; time?: number }) {
         if (beat !== undefined) {
-            this.setScroll({
-                beat: new Beat(
-                    Math.max(beat + this.state.scroll.beat.value, 0),
-                ),
-            });
+            let dst = this.state.scroll.beat.fraction.add(beat);
+
+            if (dst.compare(0) === -1) {
+                dst = new Fraction(0);
+            }
+
+            this.setScroll({ beat: new Beat(dst) });
         } else if (time !== undefined) {
             this.setScroll({
                 time: new Time(

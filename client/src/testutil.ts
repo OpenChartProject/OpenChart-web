@@ -82,7 +82,7 @@ export function createStore(args: CreateStoreArgs = {}): Store {
 
     let state: NoteFieldState = {
         width: config.columnWidth * config.chart.keyCount.value,
-        height: 1,
+        height: 800,
 
         scaleY: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
