@@ -5,7 +5,7 @@
   ],
   "compilerOptions": {
     "types": [
-      "mocha"
+      "mocha",
     ],
     "target": "es5",
     "module": "commonjs",
@@ -20,6 +20,7 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "noUnusedLocals": true
   }
 }

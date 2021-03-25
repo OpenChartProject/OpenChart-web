@@ -1,3 +1,5 @@
+import "./assets";
+
 import Fraction from "fraction.js";
 import React from "react";
 import { render } from "react-dom";

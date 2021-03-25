@@ -5,7 +5,6 @@
   ],
   "rules": {
     "no-console": false,
-    "no-unused-variable": true,
     "semicolon": [
       true,
       "always"

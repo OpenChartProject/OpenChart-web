@@ -1,9 +1,9 @@
 FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html/
-COPY client/img/ img/
+COPY client/img/noteskins noteskins/
 
 # Remove the original image files (.psd)
-RUN find img/ -name __original__ | xargs rm -rf
+RUN find noteskins/ -name __original__ | xargs rm -rf
 
 COPY dist/ .

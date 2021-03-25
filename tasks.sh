@@ -39,7 +39,7 @@ watch)
         -p "8000:80" \
         -p "8001:8001" \
         -v "$(pwd)/dist/:/usr/share/nginx/html/" \
-        -v "$(pwd)/client/img/:/usr/share/nginx/html/img/" \
+        -v "$(pwd)/client/img/noteskins/:/usr/share/nginx/html/noteskins/" \
         nginx)
 
     yarn watch &

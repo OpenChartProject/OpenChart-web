@@ -1,5 +1,7 @@
 export type NoteSkinImage = CanvasImageSource;
 
+export const baseURL = "/noteskins";
+
 /**
  * The URLs where the images are located.
  */
@@ -41,10 +43,10 @@ export function getNoteSkinSource(
     };
 
     for (let i = 1; i <= keyCount; i++) {
-        ns.hold.push(`/img/noteskins/${name}/hold_${i}.png`);
-        ns.holdBody.push(`/img/noteskins/${name}/hold_body_${i}.png`);
-        ns.receptor.push(`/img/noteskins/${name}/receptor_${i}.png`);
-        ns.tap.push(`/img/noteskins/${name}/tap_${i}.png`);
+        ns.hold.push(`${baseURL}/${name}/hold_${i}.png`);
+        ns.holdBody.push(`${baseURL}/${name}/hold_body_${i}.png`);
+        ns.receptor.push(`${baseURL}/${name}/receptor_${i}.png`);
+        ns.tap.push(`${baseURL}/${name}/tap_${i}.png`);
     }
 
     return ns;
