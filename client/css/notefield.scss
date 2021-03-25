@@ -1,7 +1,14 @@
 .notefield {
     height: 100%;
+    display: flex;
+
+    .sidebar {
+        width: 80px;
+        background-color: #222;
+    }
 
     canvas {
+        margin: 0 auto;
         height: 100%;
     }
 }

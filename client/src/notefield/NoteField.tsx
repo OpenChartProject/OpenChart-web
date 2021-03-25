@@ -87,6 +87,7 @@ export const NoteField = observer(({ store }: Props) => {
 
     return (
         <div className="notefield">
+            <div className="sidebar"></div>
             <canvas ref={ref}></canvas>
         </div>
     );
