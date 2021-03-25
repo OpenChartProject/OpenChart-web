@@ -56,11 +56,18 @@ export const NoteField = observer(({ store }: Props) => {
     function updateDim() {
         if (!ref.current) return;
 
-        ref.current.height = ref.current.clientHeight;
-        ref.current.width = state.width;
+        const { clientHeight: h, clientWidth: w } = ref.current;
 
-        const { width, height } = ref.current;
-        store.setDimensions({ width, height });
+        // Only update the dimensions if we need to. Setting the width/height on the
+        // canvas causes it to clear, even if the width/height didn't change.
+        if (h === store.state.height && w === store.state.width) {
+            return;
+        }
+
+        ref.current.width = config.columnWidth * config.keyCount;
+        ref.current.height = h;
+
+        store.setDimensions({ height: h, width: w });
     }
 
     // Watch the entire store for changes so we know when to redraw.
