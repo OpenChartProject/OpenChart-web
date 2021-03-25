@@ -4,6 +4,10 @@
     "main": "dist/index.js",
     "author": "Jesse <2302541+Kangaroux@users.noreply.github.com>",
     "private": true,
+    "browsersList": [
+        "defaults",
+        "not IE 111"
+    ],
     "scripts": {
         "build": "parcel build --no-source-maps client/index.html",
         "serve": "parcel serve --hmr-port 8001 client/index.html",
@@ -25,8 +29,10 @@
         "@types/react-dom": "^17.0.2",
         "@types/sinon": "^9.0.11",
         "assert": "^2.0.0",
+        "autoprefixer": "^8.0.0",
         "mocha": "^8.3.0",
         "parcel": "^1.12.4",
+        "postcss": "^8.0.0",
         "prettier": "^2.2.1",
         "sass": "^1.26.10",
         "sinon": "^9.2.4",
