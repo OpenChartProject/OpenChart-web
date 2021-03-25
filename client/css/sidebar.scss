@@ -2,12 +2,13 @@ $sidebar-item-size: 40px;
 $sidebar-item-spacing: 16px;
 
 .sidebar-container {
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 16px;
     background-color: #222;
     line-height: 0;
+    overflow-y: auto;
+    padding: 16px;
+    user-select: none;
 
     .material-icons {
         font-size: $sidebar-item-size + 6px;
@@ -20,6 +21,7 @@ $sidebar-item-spacing: 16px;
     }
 
     a {
+        cursor: pointer;
         color: #fff;
         opacity: 0.5;
         margin-bottom: $sidebar-item-spacing;

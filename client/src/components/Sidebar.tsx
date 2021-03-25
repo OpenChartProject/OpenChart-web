@@ -5,20 +5,20 @@ export const Sidebar = () => {
     return (
         <div className="sidebar-container">
             <div className="toolbar">
-                <a href="#" title="New chart">
+                <a title="New chart">
                     <span className="material-icons">add</span>
                 </a>
-                <a href="#" title="Save chart">
+                <a title="Save chart">
                     <span className="material-icons">save_alt</span>
                 </a>
                 <div className="divider"></div>
-                <a href="#" title="Zoom in">
+                <a title="Zoom in">
                     <span className="material-icons">zoom_in</span>
                 </a>
-                <a href="#" title="Zoom out">
+                <a title="Zoom out">
                     <span className="material-icons">zoom_out</span>
                 </a>
-            </div>
+            </div >
             <div className="footer">
                 <a
                     href="https://github.com/OpenChartProject/OpenChart-web/issues/new"
@@ -44,6 +44,6 @@ export const Sidebar = () => {
                     <img src={github} />
                 </a>
             </div>
-        </div>
+        </div >
     );
 };
