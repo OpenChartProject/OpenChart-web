@@ -26,9 +26,13 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
                 color: "#999",
                 lineWidth: 3,
             },
-            nonMeasureLines: {
+            wholeBeatLines: {
                 color: "#555",
                 lineWidth: 2,
+            },
+            fractionalLines: {
+                color: "#333",
+                lineWidth: 1,
             },
         },
 

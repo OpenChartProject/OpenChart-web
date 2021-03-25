@@ -110,15 +110,18 @@ function clear(dp: DrawProps) {
 }
 
 function drawBeatLines(dp: DrawProps) {
-    const { ctx, w, config, t0, t1 } = dp;
+    const { ctx, w, config, state, t0, t1 } = dp;
 
-    for (const bt of getBeatLineTimes(config.chart, t0, t1)) {
+    for (const bt of getBeatLineTimes(config.chart, state.snap, t0, t1)) {
         if (bt.beat.isStartOfMeasure()) {
             ctx.strokeStyle = config.beatLines.measureLines.color;
             ctx.lineWidth = config.beatLines.measureLines.lineWidth;
+        } else if (bt.beat.isWholeBeat()) {
+            ctx.strokeStyle = config.beatLines.wholeBeatLines.color;
+            ctx.lineWidth = config.beatLines.wholeBeatLines.lineWidth;
         } else {
-            ctx.strokeStyle = config.beatLines.nonMeasureLines.color;
-            ctx.lineWidth = config.beatLines.nonMeasureLines.lineWidth;
+            ctx.strokeStyle = config.beatLines.fractionalLines.color;
+            ctx.lineWidth = config.beatLines.fractionalLines.lineWidth;
         }
 
         let y = timeToPosition(dp, bt.time);

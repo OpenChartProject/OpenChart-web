@@ -67,13 +67,16 @@ export class Beat {
     }
 
     /**
-     * Jumps to the next whole beat and returns it.
+     * Returns the first beat after this that is evenly divisble by `step`.
      */
-    next(): Beat {
-        if (this.isWholeBeat()) {
-            return new Beat(this.fraction.add(1));
+    next(step: Fraction): Beat {
+        const div = this.fraction.div(step);
+        const ceil = div.ceil();
+
+        if (div.equals(ceil)) {
+            return new Beat(this.fraction.add(step));
         }
 
-        return new Beat(this.fraction.ceil());
+        return new Beat(ceil.mul(step));
     }
 }

@@ -49,9 +49,13 @@ export function createStore(args: CreateStoreArgs = {}): Store {
                 color: "#999",
                 lineWidth: 3,
             },
-            nonMeasureLines: {
+            wholeBeatLines: {
                 color: "#555",
                 lineWidth: 2,
+            },
+            fractionalLines: {
+                color: "#333",
+                lineWidth: 1,
             },
         },
 

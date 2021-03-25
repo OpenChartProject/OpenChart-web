@@ -4,6 +4,7 @@ import { BeatTime } from "../charting/beat";
 import { Chart } from "../charting/chart";
 import { Time } from "../charting/time";
 import { toTime } from "../charting/util";
+import { BeatSnap } from "./beatsnap";
 
 /**
  * Returns a list of BeatTimes where beat lines would occur in a chart, given
@@ -11,6 +12,7 @@ import { toTime } from "../charting/util";
  */
 export function getBeatLineTimes(
     chart: Chart,
+    snap: BeatSnap,
     start: Time | number,
     end: Time | number,
 ): BeatTime[] {
@@ -21,9 +23,10 @@ export function getBeatLineTimes(
 
     const result: BeatTime[] = [];
     let beat = chart.bpms.beatAt(start);
+    const step = snap.current.mul(4);
 
     if (!beat.isWholeBeat()) {
-        beat = beat.next();
+        beat = beat.next(step);
     }
 
     while (true) {
@@ -34,7 +37,7 @@ export function getBeatLineTimes(
         }
 
         result.push({ beat, time });
-        beat = beat.next();
+        beat = beat.next(step);
     }
 
     return result;

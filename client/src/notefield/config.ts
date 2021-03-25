@@ -25,7 +25,12 @@ export interface NoteFieldConfig {
             lineWidth: number;
         };
 
-        nonMeasureLines: {
+        wholeBeatLines: {
+            color: string;
+            lineWidth: number;
+        };
+
+        fractionalLines: {
             color: string;
             lineWidth: number;
         };

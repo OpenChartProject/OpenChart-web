@@ -1,4 +1,5 @@
 import assert from "assert";
+import Fraction from "fraction.js";
 import { Beat } from "./beat";
 
 describe("Beat", () => {
@@ -26,13 +27,20 @@ describe("Beat", () => {
     });
 
     describe("#next", () => {
-        it("rounds up if the beat is not whole", () => {
-            assert.strictEqual(new Beat(0.5).next().value, 1);
+        it("rounds up if it's not evenly divisible", () => {
+            assert.strictEqual(new Beat(0.5).next(new Fraction(1)).value, 1);
+            assert.strictEqual(
+                new Beat(0.25).next(new Fraction(1, 2)).value,
+                0.5,
+            );
         });
 
-        it("returns the next whole beat", () => {
-            assert.strictEqual(Beat.Zero.next().value, 1);
-            assert.strictEqual(new Beat(1).next().value, 2);
+        it("increases by step if it's evenly divisible", () => {
+            assert.strictEqual(Beat.Zero.next(new Fraction(1)).value, 1);
+            assert.strictEqual(
+                new Beat(1).next(new Fraction(1, 4)).value,
+                1.25,
+            );
         });
     });
 });
