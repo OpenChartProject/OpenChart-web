@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { deepObserve } from "mobx-utils";
 import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
-import { RootStore } from "../store/store";
+import { Store } from "../store/store";
 import { inputToAction } from "./input";
 import { SnapScrollAction, SnapScrollArgs } from "../store/actions/";
 
 export interface Props {
-    store: RootStore;
+    store: Store;
 }
 
 /**

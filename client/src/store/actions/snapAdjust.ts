@@ -1,6 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { RootStore } from "../store";
+import { Store } from "../store";
 import { Action } from "./action";
 
 /**
@@ -16,9 +16,9 @@ export interface SnapAdjustArgs {
  */
 export class SnapAdjustAction implements Action {
     args: SnapAdjustArgs;
-    store: RootStore;
+    store: Store;
 
-    constructor(store: RootStore, args: SnapAdjustArgs) {
+    constructor(store: Store, args: SnapAdjustArgs) {
         assert(
             args.adjust || args.to,
             "both adjustment arguments are undefined",

@@ -2,7 +2,7 @@ import assert from "assert";
 
 import { KeyIndex } from "../../charting/keyIndex";
 import { Beat } from "../../charting/beat";
-import { RootStore } from "../store";
+import { Store } from "../store";
 import { Action } from "./action";
 import { Tap } from "../../charting/objects/tap";
 
@@ -19,9 +19,9 @@ export interface PlaceTapArgs {
  */
 export class PlaceTapAction implements Action {
     args: PlaceTapArgs;
-    store: RootStore;
+    store: Store;
 
-    constructor(store: RootStore, args: PlaceTapArgs) {
+    constructor(store: Store, args: PlaceTapArgs) {
         assert(
             args.key.value < store.config.chart.keyCount.value,
             "key index is out of range",

@@ -1,4 +1,4 @@
-import { RootStore } from "../store";
+import { Store } from "../store";
 import { Action } from "./action";
 
 /**
@@ -13,9 +13,9 @@ export interface SnapScrollArgs {
  */
 export class SnapScrollAction implements Action {
     args: SnapScrollArgs;
-    store: RootStore;
+    store: Store;
 
-    constructor(store: RootStore, args: SnapScrollArgs) {
+    constructor(store: Store, args: SnapScrollArgs) {
         this.args = args;
         this.store = store;
     }

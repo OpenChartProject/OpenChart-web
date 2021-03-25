@@ -8,7 +8,7 @@ import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
 /**
  * The store for the application.
  */
-export class RootStore {
+export class Store {
     config: NoteFieldConfig;
     state: NoteFieldState;
     el?: HTMLCanvasElement;

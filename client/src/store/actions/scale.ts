@@ -1,6 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { RootStore } from "../store";
+import { Store } from "../store";
 import { Action } from "./action";
 
 /**
@@ -15,9 +15,9 @@ export interface ScaleArgs {
  */
 export class ScaleAction implements Action {
     args: ScaleArgs;
-    store: RootStore;
+    store: Store;
 
-    constructor(store: RootStore, args: ScaleArgs) {
+    constructor(store: Store, args: ScaleArgs) {
         assert(args.to.compare(0) === 1, "scale must be greater than zero");
 
         this.args = args;

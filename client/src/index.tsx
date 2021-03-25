@@ -9,9 +9,9 @@ import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteField } from "./notefield/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
-import { RootStore } from "./store/store";
+import { Store } from "./store/store";
 
-export let store: RootStore;
+export let store: Store;
 
 const chart = new Chart();
 chart.objects[0].push(new Tap(0, 0));
@@ -66,7 +66,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         snap: new BeatSnap(),
     };
 
-    store = new RootStore(config, state);
+    store = new Store(config, state);
 
     render(
         <NoteField store={store} />,

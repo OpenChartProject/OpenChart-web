@@ -6,7 +6,7 @@ import { Time } from "./charting/time";
 import { BeatSnap } from "./notefield/beatsnap";
 import { NoteFieldConfig, Baseline, NoteFieldState } from "./notefield/config";
 import { NoteSkin } from "./noteskin";
-import { RootStore } from "./store/store";
+import { Store } from "./store/store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual
@@ -42,7 +42,7 @@ export interface CreateStoreArgs {
 /**
  * Returns a new store with reasonable defaults, useful for testing.
  */
-export function createStore(args: CreateStoreArgs = {}): RootStore {
+export function createStore(args: CreateStoreArgs = {}): Store {
     let config: NoteFieldConfig = {
         beatLines: {
             measureLines: {
@@ -97,5 +97,5 @@ export function createStore(args: CreateStoreArgs = {}): RootStore {
         state = _.merge(state, args.state);
     }
 
-    return new RootStore(config, state);
+    return new Store(config, state);
 }
