@@ -96,7 +96,7 @@ export function timeToPosition(
     { config, state }: DrawProps,
     time: Time | number,
 ): number {
-    return toTime(time).value * pps(config, state);
+    return Math.round(toTime(time).value * pps(config, state));
 }
 
 function clear(dp: DrawProps) {

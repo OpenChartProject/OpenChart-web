@@ -301,5 +301,18 @@ describe("notefield", () => {
                 2 * dp.config.pixelsPerSecond,
             );
         });
+
+        it("rounds to the nearest whole number", () => {
+            const dp = {
+                config: {
+                    pixelsPerSecond: 100,
+                },
+                state: {
+                    scaleY: new Fraction(1.5),
+                },
+            };
+
+            assert.strictEqual(timeToPosition(dp as any, 0.55), 83);
+        });
     });
 });
