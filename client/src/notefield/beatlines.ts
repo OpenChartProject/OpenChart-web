@@ -23,10 +23,9 @@ export function getBeatLineTimes(
 
     const result: BeatTime[] = [];
     let beat = chart.bpms.beatAt(start);
-    const step = snap.current.mul(4);
 
     if (!beat.isWholeBeat()) {
-        beat = beat.next(step);
+        beat = snap.nextBeat(beat);
     }
 
     while (true) {
@@ -37,7 +36,7 @@ export function getBeatLineTimes(
         }
 
         result.push({ beat, time });
-        beat = beat.next(step);
+        beat = snap.nextBeat(beat);
     }
 
     return result;

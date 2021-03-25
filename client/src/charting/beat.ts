@@ -65,18 +65,4 @@ export class Beat {
     isWholeBeat(): boolean {
         return this.fraction.divisible(new Fraction(1));
     }
-
-    /**
-     * Returns the first beat after this that is evenly divisble by `step`.
-     */
-    next(step: Fraction): Beat {
-        const div = this.fraction.div(step);
-        const ceil = div.ceil();
-
-        if (div.equals(ceil)) {
-            return new Beat(this.fraction.add(step));
-        }
-
-        return new Beat(ceil.mul(step));
-    }
 }
