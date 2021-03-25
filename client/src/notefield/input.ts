@@ -24,21 +24,24 @@ export interface KeyBinds {
     };
 }
 
+/**
+ * The different event types that can be handled by inputToAction.
+ */
 export type InputActionType = "wheel" | "keydown";
 
-export interface InputActionEvent {
+/**
+ * The args for inputToAction.
+ */
+export interface InputActionArgs {
     type: InputActionType;
     event: Event;
 }
 
 /**
- * Converts a KeyboardEvent to an action, using the keybind config provided by
- * the store. Returns null if the key isn't bound to anything.
+ * Takes a raw DOM input event and converts it to an Action. If the input doesn't map
+ * to anything, returns null.
  */
-export function inputToAction(
-    e: InputActionEvent,
-    store: Store,
-): Action | null {
+export function inputToAction(e: InputActionArgs, store: Store): Action | null {
     switch (e.type) {
         case "keydown":
             return keyboardInputToAction(e.event as KeyboardEvent, store);
@@ -47,6 +50,9 @@ export function inputToAction(
     }
 }
 
+/**
+ * Maps a keyboard event to an Action.
+ */
 export function keyboardInputToAction(
     e: KeyboardEvent,
     store: Store,
@@ -108,6 +114,9 @@ export function keyboardInputToAction(
     return null;
 }
 
+/**
+ * Maps a mouse wheel event to an Action.
+ */
 export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
     if (e.deltaY === 0) {
         return null;

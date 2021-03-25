@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { drawNoteField } from "./drawing";
 import { Store } from "../store/store";
 import { inputToAction } from "./input";
-import { SnapScrollAction, SnapScrollArgs } from "../store/actions/";
 
 export interface Props {
     store: Store;
