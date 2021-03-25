@@ -77,7 +77,7 @@ export function keyboardInputToAction(
 
             if (e.ctrlKey) {
                 return new ScaleAction(store, {
-                    to: store.state.scaleY.div(1.5),
+                    to: store.state.scaleY.mul(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -90,7 +90,7 @@ export function keyboardInputToAction(
 
             if (e.ctrlKey) {
                 return new ScaleAction(store, {
-                    to: store.state.scaleY.mul(1.5),
+                    to: store.state.scaleY.div(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -127,7 +127,7 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
     if (e.deltaY > 0) {
         if (e.ctrlKey) {
             return new ScaleAction(store, {
-                to: store.state.scaleY.mul(1.5),
+                to: store.state.scaleY.div(1.5),
             });
         } else {
             return new SnapScrollAction(store, {
@@ -137,7 +137,7 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
     } else {
         if (e.ctrlKey) {
             return new ScaleAction(store, {
-                to: store.state.scaleY.div(1.5),
+                to: store.state.scaleY.mul(1.5),
             });
         } else {
             return new SnapScrollAction(store, {
