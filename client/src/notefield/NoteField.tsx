@@ -56,18 +56,7 @@ export const NoteField = observer(({ store }: Props) => {
     function updateDim() {
         if (!ref.current) return;
 
-        const { clientHeight: h, clientWidth: w } = ref.current;
-
-        // Only update the dimensions if we need to. Setting the width/height on the
-        // canvas causes it to clear, even if the width/height didn't change.
-        if (h === store.state.height && w === store.state.width) {
-            return;
-        }
-
-        ref.current.width = config.columnWidth * config.keyCount;
-        ref.current.height = h;
-
-        store.setDimensions({ height: h, width: w });
+        store.setHeight(ref.current.clientHeight);
     }
 
     // Watch the entire store for changes so we know when to redraw.
@@ -97,6 +86,9 @@ export const NoteField = observer(({ store }: Props) => {
 
     // Update the dimensions once we have a reference to the element.
     useEffect(() => {
+        if (!ref.current) return;
+
+        store.setCanvas(ref.current);
         updateDim();
     }, [ref]);
 

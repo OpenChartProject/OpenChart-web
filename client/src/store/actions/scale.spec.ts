@@ -19,7 +19,7 @@ describe("ScaleAction", () => {
         it("updates the scaling", () => {
             const store = createStore();
             const args: ScaleArgs = { to: new Fraction(1) };
-            const spy = sinon.spy(store, "setScale");
+            const spy = sinon.spy(store, "setScaleY");
 
             new ScaleAction(store, args).run();
             assert(spy.calledWith(args.to));

@@ -25,6 +25,6 @@ export class ScaleAction implements Action {
     }
 
     run(): void {
-        this.store.setScale(this.args.to);
+        this.store.setScaleY(this.args.to);
     }
 }

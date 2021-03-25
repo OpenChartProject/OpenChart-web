@@ -11,9 +11,12 @@ import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
 export class RootStore {
     config: NoteFieldConfig;
     state: NoteFieldState;
+    el?: HTMLCanvasElement;
 
     constructor(config: NoteFieldConfig, state: NoteFieldState) {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            el: false,
+        });
         this.config = config;
         this.state = makeAutoObservable(state, {
             scaleY: observable.ref,
@@ -21,14 +24,30 @@ export class RootStore {
     }
 
     /**
-     * Updates the render dimensions of the notefield.
+     * Sets the canvas element that's being used to draw the notefield.
      */
-    setDimensions({ width, height }: { width?: number; height?: number }) {
-        this.state.width = width ?? this.state.width;
-        this.state.height = height ?? this.state.height;
+    setCanvas(el: HTMLCanvasElement) {
+        this.el = el;
+        this.el.width = this.state.width;
     }
 
-    setScale(to: Fraction) {
+    /**
+     * Updates the render height of the notefield.
+     */
+    setHeight(height: number) {
+        if (height !== this.state.height) {
+            if (this.el) {
+                this.el.height = height;
+            }
+
+            this.state.height = height;
+        }
+    }
+
+    /**
+     * Sets the Y scale of the notefield.
+     */
+    setScaleY(to: Fraction) {
         this.state.scaleY = to;
     }
 
