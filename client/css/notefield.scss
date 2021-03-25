@@ -16,6 +16,14 @@
                 opacity: 1;
             }
         }
+
+        a {
+            margin-bottom: 12px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 
     .sidebar-content {
@@ -23,7 +31,9 @@
     }
 
     .sidebar-footer {
-        align-self: flex-end;
+        display: flex;
+        align-content: flex-end;
+        flex-direction: column;
     }
 
     canvas {

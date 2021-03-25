@@ -1,3 +1,4 @@
+import discord from "../img/discord.png";
 import github from "../img/github.png";
 
-export { github };
+export { discord, github };
