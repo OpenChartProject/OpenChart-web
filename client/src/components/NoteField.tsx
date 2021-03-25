@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { deepObserve } from "mobx-utils";
 import { observer } from "mobx-react-lite";
-import { drawNoteField } from "./drawing";
+import { drawNoteField } from "../notefield/drawing";
 import { Store } from "../store/store";
-import { inputToAction } from "./input";
+import { inputToAction } from "../notefield/input";
 import { Sidebar } from "./Sidebar";
 
 export interface Props {
@@ -86,10 +86,5 @@ export const NoteField = observer(({ store }: Props) => {
         updateDim();
     }, [ref]);
 
-    return (
-        <div className="notefield">
-            <Sidebar />
-            <canvas ref={ref}></canvas>
-        </div>
-    );
+    return <canvas className="notefield" ref={ref}></canvas>;
 });

@@ -1,0 +1,54 @@
+$sidebar-item-width: 48px;
+
+.sidebar-container {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #222;
+    line-height: 0;
+
+    .material-icons {
+        font-size: $sidebar-item-width + 6px;
+        margin: -3px;
+    }
+
+    a,
+    span {
+        font-size: $sidebar-item-width;
+    }
+
+    a {
+        color: #fff;
+        opacity: 0.5;
+        margin-bottom: 16px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    img {
+        width: $sidebar-item-width;
+    }
+}
+
+.sidebar-content {
+    flex: 1;
+
+    display: flex;
+    align-content: flex-end;
+    flex-direction: column;
+}
+
+.sidebar-footer {
+    display: flex;
+    align-content: flex-end;
+    flex-direction: column;
+
+    a {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

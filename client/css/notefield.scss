@@ -1,43 +1,4 @@
 .notefield {
+    margin: 0 auto;
     height: 100%;
-    display: flex;
-
-    .sidebar-container {
-        display: flex;
-        flex-direction: column;
-        padding: 12px 16px;
-        background-color: #222;
-
-        img {
-            width: 48px;
-            opacity: 0.5;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
-
-        a {
-            margin-bottom: 12px;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    .sidebar-content {
-        flex: 1;
-    }
-
-    .sidebar-footer {
-        display: flex;
-        align-content: flex-end;
-        flex-direction: column;
-    }
-
-    canvas {
-        margin: 0 auto;
-        height: 100%;
-    }
 }

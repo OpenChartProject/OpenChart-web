@@ -1,5 +1,6 @@
 @import "normalize.css";
 @import "./notefield";
+@import "./sidebar";
 
 html,
 body {
@@ -18,4 +19,9 @@ body {
 
 #app {
     height: 100%;
+}
+
+.app-container {
+    height: 100%;
+    display: flex;
 }

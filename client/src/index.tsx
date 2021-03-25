@@ -9,9 +9,10 @@ import { Tap } from "./charting/objects/tap";
 import { Time } from "./charting/time";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
-import { NoteField } from "./notefield/NoteField";
+import { NoteField } from "./components/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { Store } from "./store/store";
+import { App } from "./App";
 
 export let store: Store;
 
@@ -75,7 +76,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     store = new Store(config, state);
 
     render(
-        <NoteField store={store} />,
+        <App store={store} />,
         document.getElementById("app") as HTMLElement,
     );
 });
