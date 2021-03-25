@@ -1,6 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 
 import { Beat } from "../charting/beat";
 
@@ -26,22 +26,19 @@ export const commonBeatSnaps: Readonly<Fraction>[] = [
  * Beat snapping refers to how far the notefield moves when the user scrolls it.
  */
 export class BeatSnap {
-    private _current!: Fraction;
+    current!: Fraction;
 
     constructor(current?: Fraction) {
-        this.current = current ?? new Fraction(1, 4);
+        makeAutoObservable(this, { current: observable.ref });
+        this.setSnap(current ?? new Fraction(1, 4));
     }
 
-    get current(): Fraction {
-        return this._current;
-    }
-
-    set current(val: Fraction) {
+    setSnap(val: Fraction) {
         assert(
             val.compare(0) === 1,
             "beat snap value must be greater than zero",
         );
-        this._current = val;
+        this.current = val;
     }
 
     get beat(): Beat {
@@ -123,8 +120,9 @@ export class BeatSnap {
             index++;
         }
 
-        this.current =
-            commonBeatSnaps[Math.min(index, commonBeatSnaps.length - 1)];
+        this.setSnap(
+            commonBeatSnaps[Math.min(index, commonBeatSnaps.length - 1)],
+        );
     }
 
     /**
@@ -137,7 +135,7 @@ export class BeatSnap {
             index--;
         }
 
-        this.current = commonBeatSnaps[Math.max(index, 0)];
+        this.setSnap(commonBeatSnaps[Math.max(index, 0)]);
     }
 
     toBeat(): Beat {

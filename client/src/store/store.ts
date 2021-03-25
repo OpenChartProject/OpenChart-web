@@ -1,8 +1,8 @@
 import Fraction from "fraction.js";
-import { makeAutoObservable } from "mobx";
+
+import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
-
 import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
 
 /**
@@ -15,7 +15,9 @@ export class RootStore {
     constructor(config: NoteFieldConfig, state: NoteFieldState) {
         makeAutoObservable(this);
         this.config = config;
-        this.state = state;
+        this.state = makeAutoObservable(state, {
+            scaleY: observable.ref,
+        });
     }
 
     /**

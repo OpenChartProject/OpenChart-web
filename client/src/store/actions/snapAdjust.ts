@@ -37,7 +37,7 @@ export class SnapAdjustAction implements Action {
         } else if (args.adjust === "prev") {
             snap.prevSnap();
         } else if (args.to) {
-            snap.current = args.to;
+            snap.setSnap(args.to);
         }
     }
 }
