@@ -72,10 +72,30 @@ describe("BeatSnap", () => {
         });
 
         it("returns the next beat if beat is not aligned with snap", () => {
-            const beatSnap = new BeatSnap();
+            const beatSnap = new BeatSnap(new Fraction(1, 12));
             assert.deepStrictEqual(
                 beatSnap.nextBeat(new Beat(1.5)),
-                new Beat(2),
+                new Beat(new Fraction(5, 3)),
+            );
+        });
+    });
+
+    describe("#prevBeat", () => {
+        it("doesn't go out of range", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(beatSnap.prevBeat(Beat.Zero), Beat.Zero);
+        });
+
+        it("returns the previous beat if beat is aligned with snap", () => {
+            const beatSnap = new BeatSnap();
+            assert.deepStrictEqual(beatSnap.prevBeat(new Beat(2)), new Beat(1));
+        });
+
+        it("returns the previous beat if beat is not aligned with snap", () => {
+            const beatSnap = new BeatSnap(new Fraction(1, 8));
+            assert.deepStrictEqual(
+                beatSnap.prevBeat(new Beat(new Fraction(5, 3))),
+                new Beat(1.5),
             );
         });
     });
@@ -98,26 +118,6 @@ describe("BeatSnap", () => {
             const beatSnap = new BeatSnap(snap);
             beatSnap.nextSnap();
             assert.deepStrictEqual(beatSnap.current, snap);
-        });
-    });
-
-    describe("#prevBeat", () => {
-        it("doesn't go out of range", () => {
-            const beatSnap = new BeatSnap();
-            assert.deepStrictEqual(beatSnap.prevBeat(Beat.Zero), Beat.Zero);
-        });
-
-        it("returns the previous beat if beat is aligned with snap", () => {
-            const beatSnap = new BeatSnap();
-            assert.deepStrictEqual(beatSnap.prevBeat(new Beat(2)), new Beat(1));
-        });
-
-        it("returns the previous beat if beat is not aligned with snap", () => {
-            const beatSnap = new BeatSnap();
-            assert.deepStrictEqual(
-                beatSnap.prevBeat(new Beat(1.5)),
-                new Beat(1),
-            );
         });
     });
 

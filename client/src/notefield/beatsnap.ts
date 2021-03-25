@@ -41,10 +41,6 @@ export class BeatSnap {
         this.current = val;
     }
 
-    get beat(): Beat {
-        return new Beat(this.current.mul(4));
-    }
-
     /**
      * Returns true if this snapping matches one of the snaps defined in the
      * commonBeatSnaps list.
@@ -82,10 +78,10 @@ export class BeatSnap {
     nextBeat(beat: Beat): Beat {
         let f: Fraction;
 
-        if (beat.fraction.divisible(this.beat.fraction)) {
-            f = beat.fraction.add(this.beat.fraction);
+        if (beat.fraction.divisible(this.toBeat().fraction)) {
+            f = beat.fraction.add(this.toBeat().fraction);
         } else {
-            f = beat.fraction.div(this.beat.fraction).ceil();
+            f = beat.fraction.div(this.toBeat().fraction).ceil().mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
@@ -97,14 +93,14 @@ export class BeatSnap {
     prevBeat(beat: Beat): Beat {
         let f: Fraction;
 
-        if (beat.fraction.divisible(this.beat.fraction)) {
-            f = beat.fraction.sub(this.beat.fraction);
+        if (beat.fraction.divisible(this.toBeat().fraction)) {
+            f = beat.fraction.sub(this.toBeat().fraction);
 
             if (f.compare(0) === -1) {
                 f = new Fraction(0);
             }
         } else {
-            f = beat.fraction.div(this.beat.fraction).floor();
+            f = beat.fraction.div(this.toBeat().fraction).floor().mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
@@ -139,6 +135,6 @@ export class BeatSnap {
     }
 
     toBeat(): Beat {
-        return new Beat(this.current.mul(4).valueOf());
+        return new Beat(this.current.mul(4));
     }
 }
