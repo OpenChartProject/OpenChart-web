@@ -32,7 +32,7 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function onKeyDown(e: KeyboardEvent) {
-        const action = inputToAction(e, store);
+        const action = inputToAction({ type: "keydown", event: e }, store);
 
         if (action) {
             action.run();
@@ -40,17 +40,11 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function onScroll(e: WheelEvent) {
-        if (e.deltaY === 0) {
-            return;
+        const action = inputToAction({ type: "wheel", event: e }, store);
+
+        if (action) {
+            action.run();
         }
-
-        e.preventDefault();
-
-        const args: SnapScrollArgs = {
-            direction: e.deltaY > 0 ? "forward" : "backward",
-        };
-
-        new SnapScrollAction(store, args).run();
     }
 
     function updateDim() {
