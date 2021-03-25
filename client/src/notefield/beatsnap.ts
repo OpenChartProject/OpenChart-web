@@ -81,7 +81,10 @@ export class BeatSnap {
         if (beat.fraction.divisible(this.toBeat().fraction)) {
             f = beat.fraction.add(this.toBeat().fraction);
         } else {
-            f = beat.fraction.div(this.toBeat().fraction).ceil().mul(this.toBeat().fraction);
+            f = beat.fraction
+                .div(this.toBeat().fraction)
+                .ceil()
+                .mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
@@ -100,7 +103,10 @@ export class BeatSnap {
                 f = new Fraction(0);
             }
         } else {
-            f = beat.fraction.div(this.toBeat().fraction).floor().mul(this.toBeat().fraction);
+            f = beat.fraction
+                .div(this.toBeat().fraction)
+                .floor()
+                .mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
