@@ -217,6 +217,13 @@ export function drawNoteField(
     const viewport = calculateViewport(config, state);
     const drawProps = { ctx, w, h, config, state, ...viewport };
 
+    // This mirrors the notefield vertically, so now the canvas origin is in the bottom
+    // left corner instead of the top left corner.
+    if (config.scrollDirection === "down") {
+        ctx.translate(0, state.height);
+        ctx.scale(1, -1);
+    }
+
     // Move the viewport to the current scroll position.
     ctx.translate(0, -viewport.y0);
 
