@@ -41,7 +41,7 @@ interface DrawProps extends Viewport {
  * Returns the pixels per second, taking into account the scaling.
  */
 export function pps(config: NoteFieldConfig, state: NoteFieldState): number {
-    return config.pixelsPerSecond * state.scaleY.valueOf();
+    return config.pixelsPerSecond * state.zoom.valueOf();
 }
 
 /**

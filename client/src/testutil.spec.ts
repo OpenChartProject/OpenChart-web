@@ -72,11 +72,11 @@ describe("testutil", () => {
 
         it("merges the state if provided", () => {
             const state: Partial<NoteFieldState> = {
-                scaleY: new Fraction(1, 2),
+                zoom: new Fraction(1, 2),
             };
             const store = createStore({ state });
 
-            assert.deepStrictEqual(store.state.scaleY, state.scaleY);
+            assert.deepStrictEqual(store.state.zoom, state.zoom);
         });
     });
 });

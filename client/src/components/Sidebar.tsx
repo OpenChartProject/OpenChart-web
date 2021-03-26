@@ -1,6 +1,6 @@
 import React from "react";
 import { discord, github } from "../assets";
-import { ScaleAction } from "../store/actions";
+import { ZoomAction } from "../store/actions";
 import { Store } from "../store/store";
 
 export interface Props {
@@ -11,14 +11,14 @@ export const Sidebar = (props: Props) => {
     const { store } = props;
 
     const zoomIn = () => {
-        new ScaleAction(store, {
-            to: store.state.scaleY.mul(1.5),
+        new ZoomAction(store, {
+            to: store.state.zoom.mul(1.5),
         }).run();
     };
 
     const zoomOut = () => {
-        new ScaleAction(store, {
-            to: store.state.scaleY.div(1.5),
+        new ZoomAction(store, {
+            to: store.state.zoom.div(1.5),
         }).run();
     };
 

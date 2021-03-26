@@ -5,7 +5,7 @@ import {
     PlaceTapAction,
     SnapScrollAction,
     SnapAdjustAction,
-    ScaleAction,
+    ZoomAction,
 } from "../store/actions/";
 
 /**
@@ -76,8 +76,8 @@ export function keyboardInputToAction(
             e.preventDefault();
 
             if (e.ctrlKey) {
-                return new ScaleAction(store, {
-                    to: store.state.scaleY.mul(1.5),
+                return new ZoomAction(store, {
+                    to: store.state.zoom.mul(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -89,8 +89,8 @@ export function keyboardInputToAction(
             e.preventDefault();
 
             if (e.ctrlKey) {
-                return new ScaleAction(store, {
-                    to: store.state.scaleY.div(1.5),
+                return new ZoomAction(store, {
+                    to: store.state.zoom.div(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -126,8 +126,8 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
 
     if (e.deltaY > 0) {
         if (e.ctrlKey) {
-            return new ScaleAction(store, {
-                to: store.state.scaleY.div(1.5),
+            return new ZoomAction(store, {
+                to: store.state.zoom.div(1.5),
             });
         } else {
             return new SnapScrollAction(store, {
@@ -136,8 +136,8 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
         }
     } else {
         if (e.ctrlKey) {
-            return new ScaleAction(store, {
-                to: store.state.scaleY.mul(1.5),
+            return new ZoomAction(store, {
+                to: store.state.zoom.mul(1.5),
             });
         } else {
             return new SnapScrollAction(store, {

@@ -47,7 +47,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(1),
+                zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
@@ -62,7 +62,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scale is > 1 and margin is 0", () => {
+        it("returns expected value when zoom is > 1 and margin is 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 0,
@@ -73,7 +73,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(2),
+                zoom: new Fraction(2),
             };
 
             const store = createStore({ config, state });
@@ -88,7 +88,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scale is < 1 and margin is 0", () => {
+        it("returns expected value when zoom is < 1 and margin is 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 0,
@@ -99,7 +99,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(1, 2),
+                zoom: new Fraction(1, 2),
             };
 
             const store = createStore({ config, state });
@@ -114,7 +114,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scale is > 1 and margin is > 0", () => {
+        it("returns expected value when zoom is > 1 and margin is > 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 100,
@@ -125,7 +125,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(2),
+                zoom: new Fraction(2),
             };
 
             const store = createStore({ config, state });
@@ -140,7 +140,7 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scale is < 1 and margin is > 0", () => {
+        it("returns expected value when zoom is < 1 and margin is > 0", () => {
             const config = {
                 pixelsPerSecond: 100,
                 margin: 100,
@@ -151,7 +151,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(1, 2),
+                zoom: new Fraction(1, 2),
             };
 
             const store = createStore({ config, state });
@@ -177,7 +177,7 @@ describe("notefield", () => {
                     beat: Beat.Zero,
                     time: Time.Zero,
                 },
-                scaleY: new Fraction(1),
+                zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
@@ -199,7 +199,7 @@ describe("notefield", () => {
             };
             const state = {
                 height: 500,
-                scaleY: new Fraction(1),
+                zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
@@ -223,7 +223,7 @@ describe("notefield", () => {
             };
             const state = {
                 height: 500,
-                scaleY: new Fraction(1),
+                zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
@@ -247,7 +247,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
             };
             const state = {
-                scaleY: new Fraction(1),
+                zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
 
@@ -259,7 +259,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
             };
             const state = {
-                scaleY: new Fraction(2),
+                zoom: new Fraction(2),
             };
             const store = createStore({ config, state });
 
@@ -288,7 +288,7 @@ describe("notefield", () => {
                     pixelsPerSecond: 100,
                 },
                 state: {
-                    scaleY: new Fraction(1),
+                    zoom: new Fraction(1),
                 },
             };
             assert.strictEqual(timeToPosition(dp as any, 0), 0);
@@ -308,7 +308,7 @@ describe("notefield", () => {
                     pixelsPerSecond: 100,
                 },
                 state: {
-                    scaleY: new Fraction(1.5),
+                    zoom: new Fraction(1.5),
                 },
             };
 

@@ -51,19 +51,19 @@ describe("Store", () => {
         });
     });
 
-    describe("#setScaleY", () => {
-        it("throws if scale is <= 0", () => {
+    describe("#setZoom", () => {
+        it("throws if zoom is <= 0", () => {
             const store = createStore();
-            assert.throws(() => store.setScaleY(new Fraction(0)));
-            assert.throws(() => store.setScaleY(new Fraction(-1)));
+            assert.throws(() => store.setZoom(new Fraction(0)));
+            assert.throws(() => store.setZoom(new Fraction(-1)));
         });
 
-        it("sets scale", () => {
+        it("sets zoom", () => {
             const store = createStore();
-            const scale = new Fraction(1, 2);
+            const zoom = new Fraction(1, 2);
 
-            store.setScaleY(scale);
-            assert.strictEqual(store.state.scaleY, scale);
+            store.setZoom(zoom);
+            assert.strictEqual(store.state.zoom, zoom);
         });
     });
 

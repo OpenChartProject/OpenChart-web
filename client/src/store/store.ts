@@ -20,7 +20,7 @@ export class Store {
         });
         this.config = config;
         this.state = makeAutoObservable(state, {
-            scaleY: observable.ref,
+            zoom: observable.ref,
         });
     }
 
@@ -45,14 +45,18 @@ export class Store {
         }
     }
 
-    /**
-     * Sets the Y scale of the notefield.
-     */
-    setScaleY(to: Fraction) {
-        assert(to.compare(0) === 1, "scale must be greater than zero");
+    // Equivalent to clicking the zoom in/out button 8 times.
+    readonly maxZoom = new Fraction(256, 6561);
+    readonly minZoom = new Fraction(6561, 256);
 
-        if (!this.state.scaleY.equals(to)) {
-            this.state.scaleY = to;
+    /**
+     * Sets the notefield zoom.
+     */
+    setZoom(to: Fraction) {
+        assert(to.compare(0) === 1, "zoom must be greater than zero");
+
+        if (!this.state.zoom.equals(to)) {
+            this.state.zoom = to;
         }
     }
 

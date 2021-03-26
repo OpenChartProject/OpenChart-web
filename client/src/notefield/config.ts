@@ -60,7 +60,7 @@ export interface NoteFieldState {
     width: number;
     height: number;
 
-    scaleY: Fraction;
+    zoom: Fraction;
     scroll: BeatTime;
     snap: BeatSnap;
 }

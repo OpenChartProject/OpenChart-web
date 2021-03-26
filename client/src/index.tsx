@@ -68,7 +68,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         width: config.columnWidth * chart.keyCount.value,
         height: 1,
 
-        scaleY: new Fraction(1),
+        zoom: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
         snap: new BeatSnap(),
     };

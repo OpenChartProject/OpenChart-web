@@ -88,7 +88,7 @@ export function createStore(args: CreateStoreArgs = {}): Store {
         width: config.columnWidth * config.chart.keyCount.value,
         height: 800,
 
-        scaleY: new Fraction(1),
+        zoom: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
         snap: new BeatSnap(),
     };
