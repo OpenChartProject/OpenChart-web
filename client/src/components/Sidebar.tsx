@@ -30,20 +30,20 @@ export const Sidebar = (props: Props) => {
         <div className="sidebar-container">
             <div className="toolbar">
                 <a title="New chart">
-                    <span className="material-icons">add</span>
+                    <span className="material-icons-outlined">add</span>
                 </a>
                 <a title="Save chart">
-                    <span className="material-icons">save_alt</span>
+                    <span className="material-icons-outlined">save_alt</span>
                 </a>
                 <div className="divider"></div>
                 <a title="Swap scroll direction" onClick={swapScrollDirection}>
-                    <span className="material-icons">swap_vert</span>
+                    <span className="material-icons-outlined">swap_vert</span>
                 </a>
                 <a title="Zoom in" onClick={zoomIn}>
-                    <span className="material-icons">zoom_in</span>
+                    <span className="material-icons-outlined">zoom_in</span>
                 </a>
                 <a title="Zoom out" onClick={zoomOut}>
-                    <span className="material-icons">zoom_out</span>
+                    <span className="material-icons-outlined">zoom_out</span>
                 </a>
             </div>
             <div className="footer">
@@ -52,7 +52,7 @@ export const Sidebar = (props: Props) => {
                     title="Report a bug or issue"
                     target="_blank"
                 >
-                    <span className="material-icons">report</span>
+                    <span className="material-icons-outlined">report</span>
                 </a>
 
                 <a
