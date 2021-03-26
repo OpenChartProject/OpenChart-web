@@ -1,6 +1,6 @@
 import React from "react";
 import { discord, github } from "../assets";
-import { ZoomAction } from "../store/actions";
+import { ScrollDirectionAction, ZoomAction } from "../store/actions";
 import { Store } from "../store/store";
 
 export interface Props {
@@ -9,6 +9,10 @@ export interface Props {
 
 export const Sidebar = (props: Props) => {
     const { store } = props;
+
+    const swapScrollDirection = () => {
+        new ScrollDirectionAction(store, { to: "swap" }).run();
+    };
 
     const zoomIn = () => {
         new ZoomAction(store, {
@@ -32,6 +36,9 @@ export const Sidebar = (props: Props) => {
                     <span className="material-icons">save_alt</span>
                 </a>
                 <div className="divider"></div>
+                <a title="Swap scroll direction" onClick={swapScrollDirection}>
+                    <span className="material-icons">swap_vert</span>
+                </a>
                 <a title="Zoom in" onClick={zoomIn}>
                     <span className="material-icons">zoom_in</span>
                 </a>

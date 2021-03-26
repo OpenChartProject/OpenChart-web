@@ -15,6 +15,8 @@ export enum Baseline {
     After,
 }
 
+export type ScrollDirection = "up" | "down";
+
 /**
  * The various options that control how the notefield should look and feel.
  */
@@ -48,7 +50,7 @@ export interface NoteFieldConfig {
     margin: number;
     noteSkin: NoteSkin;
     pixelsPerSecond: number;
-    scrollDirection: "up" | "down";
+    scrollDirection: ScrollDirection;
 }
 
 /**

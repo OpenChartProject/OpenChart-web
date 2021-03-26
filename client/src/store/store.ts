@@ -4,7 +4,11 @@ import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
-import { NoteFieldConfig, NoteFieldState } from "../notefield/config";
+import {
+    NoteFieldConfig,
+    NoteFieldState,
+    ScrollDirection,
+} from "../notefield/config";
 
 /**
  * The store for the application.
@@ -47,6 +51,28 @@ export class Store {
         }
     }
 
+    /**
+     * Sets the scroll position to a specific beat/time.
+     */
+    setScroll({ beat, time }: Partial<BeatTime>) {
+        if (beat !== undefined) {
+            time = this.config.chart.bpms.timeAt(beat);
+            this.state.scroll = { beat, time };
+        } else if (time !== undefined) {
+            beat = this.config.chart.bpms.beatAt(time);
+            this.state.scroll = { beat, time };
+        } else {
+            throw Error("beat or time must be set");
+        }
+    }
+
+    /**
+     * Sets the scroll direction of the notefield.
+     */
+    setScrollDirection(direction: ScrollDirection) {
+        this.config.scrollDirection = direction;
+    }
+
     // Equivalent to clicking the zoom in/out button 8 times.
     readonly minZoom = new Fraction(256, 6561);
     readonly maxZoom = new Fraction(6561, 256);
@@ -67,21 +93,6 @@ export class Store {
 
         if (!this.state.zoom.equals(zoom)) {
             this.state.zoom = zoom;
-        }
-    }
-
-    /**
-     * Sets the scroll position to a specific beat/time.
-     */
-    setScroll({ beat, time }: Partial<BeatTime>) {
-        if (beat !== undefined) {
-            time = this.config.chart.bpms.timeAt(beat);
-            this.state.scroll = { beat, time };
-        } else if (time !== undefined) {
-            beat = this.config.chart.bpms.beatAt(time);
-            this.state.scroll = { beat, time };
-        } else {
-            throw Error("beat or time must be set");
         }
     }
 
