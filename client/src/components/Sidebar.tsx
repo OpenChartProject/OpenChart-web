@@ -1,7 +1,27 @@
 import React from "react";
 import { discord, github } from "../assets";
+import { ScaleAction } from "../store/actions";
+import { Store } from "../store/store";
 
-export const Sidebar = () => {
+export interface Props {
+    store: Store;
+}
+
+export const Sidebar = (props: Props) => {
+    const { store } = props;
+
+    const zoomIn = () => {
+        new ScaleAction(store, {
+            to: store.state.scaleY.mul(1.5),
+        }).run();
+    };
+
+    const zoomOut = () => {
+        new ScaleAction(store, {
+            to: store.state.scaleY.div(1.5),
+        }).run();
+    };
+
     return (
         <div className="sidebar-container">
             <div className="toolbar">
@@ -12,13 +32,13 @@ export const Sidebar = () => {
                     <span className="material-icons">save_alt</span>
                 </a>
                 <div className="divider"></div>
-                <a title="Zoom in">
+                <a title="Zoom in" onClick={zoomIn}>
                     <span className="material-icons">zoom_in</span>
                 </a>
-                <a title="Zoom out">
+                <a title="Zoom out" onClick={zoomOut}>
                     <span className="material-icons">zoom_out</span>
                 </a>
-            </div >
+            </div>
             <div className="footer">
                 <a
                     href="https://github.com/OpenChartProject/OpenChart-web/issues/new"
@@ -44,6 +64,6 @@ export const Sidebar = () => {
                     <img src={github} />
                 </a>
             </div>
-        </div >
+        </div>
     );
 };

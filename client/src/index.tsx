@@ -12,7 +12,7 @@ import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteField } from "./components/NoteField";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { Store } from "./store/store";
-import { App } from "./App";
+import { App } from "./components/App";
 
 export let store: Store;
 
