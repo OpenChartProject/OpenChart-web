@@ -52,9 +52,11 @@ export const Sidebar = (props: Props) => {
                     title="Report a bug or issue"
                     target="_blank"
                 >
-                    <span className="material-icons-outlined">report</span>
+                    <span className="material-icons-outlined report-icon">
+                        report
+                    </span>
                 </a>
-
+                <div className="divider"></div>
                 <a
                     href="https://discord.gg/wSGmN52"
                     title="Visit us on Discord"
@@ -62,7 +64,6 @@ export const Sidebar = (props: Props) => {
                 >
                     <img src={discord} />
                 </a>
-
                 <a
                     href="https://github.com/OpenChartProject/OpenChart-web"
                     title="View OpenChart on GitHub"
