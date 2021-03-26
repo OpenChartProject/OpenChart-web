@@ -9,7 +9,7 @@ import { Tap } from "./charting/objects/tap";
 import { Time } from "./charting/time";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
-import { NoteField } from "./components/NoteField";
+import { UserConfigStorage } from "./store/userConfig";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { Store } from "./store/store";
 import { App } from "./components/App";
@@ -23,6 +23,8 @@ chart.objects[2].push(new Tap(2, 2));
 chart.objects[3].push(new Tap(3, 3));
 
 loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
+    const userConfig = new UserConfigStorage();
+
     const config: NoteFieldConfig = {
         beatLines: {
             measureLines: {
@@ -62,7 +64,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         noteSkin: skin,
         pixelsPerSecond: 512,
         margin: 384,
-        scrollDirection: "up",
+        scrollDirection: userConfig.config.scrollDirection,
     };
 
     const state: NoteFieldState = {

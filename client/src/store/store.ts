@@ -9,6 +9,7 @@ import {
     NoteFieldState,
     ScrollDirection,
 } from "../notefield/config";
+import { UserConfigStorage } from "./userConfig";
 
 /**
  * The store for the application.
@@ -70,7 +71,11 @@ export class Store {
      * Sets the scroll direction of the notefield.
      */
     setScrollDirection(direction: ScrollDirection) {
-        this.config.scrollDirection = direction;
+        if (direction !== this.config.scrollDirection) {
+            this.config.scrollDirection = direction;
+            UserConfigStorage.update({ scrollDirection: direction });
+        }
+
     }
 
     // Equivalent to clicking the zoom in/out button 8 times.
