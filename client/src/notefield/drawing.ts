@@ -3,6 +3,7 @@ import { Time } from "../charting/time";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 import { ChartObject } from "../charting/objects/chartObject";
 import { toTime } from "../charting/util";
+import { createSandbox } from "sinon";
 
 /**
  * Stores some useful values used for rendering.
@@ -56,9 +57,17 @@ export function adjustToBaseline(
         case Baseline.After:
             return pos;
         case Baseline.Before:
-            return pos - h;
+            if (config.scrollDirection === "up") {
+                return pos - h;
+            } else {
+                return pos + h;
+            }
         case Baseline.Centered:
-            return pos - h / 2;
+            if (config.scrollDirection === "up") {
+                return pos - h / 2;
+            } else {
+                return pos + h / 2;
+            }
     }
 }
 
@@ -150,7 +159,15 @@ function drawReceptors(dp: DrawProps) {
         );
         const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
 
-        ctx.drawImage(r, i * config.columnWidth, y, config.columnWidth, h);
+        ctx.save();
+        ctx.translate(0, y);
+
+        if (config.scrollDirection === "down") {
+            ctx.scale(1, -1);
+        }
+
+        ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
+        ctx.restore();
     }
 }
 
@@ -171,7 +188,6 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
     ctx.translate(0, y);
 
     if (config.scrollDirection === "down") {
-        ctx.translate(0, h);
         ctx.scale(1, -1);
     }
 
