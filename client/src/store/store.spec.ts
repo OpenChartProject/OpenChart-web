@@ -65,6 +65,24 @@ describe("Store", () => {
             store.setZoom(zoom);
             assert.strictEqual(store.state.zoom, zoom);
         });
+
+        it("sets zoom to minZoom", () => {
+            const store = createStore();
+            const zoom = new Fraction(1, 9999999);
+
+            store.setZoom(zoom);
+            assert.strictEqual(store.state.zoom, store.minZoom);
+        });
+
+        it("sets zoom to maxZoom", () => {
+            const store = createStore();
+            const zoom = new Fraction(9999999);
+
+            store.setZoom(zoom);
+            assert.strictEqual(store.state.zoom, store.maxZoom);
+        });
+
+        it("doesn't set the zoom if it's already the same");
     });
 
     describe("#setScroll", () => {

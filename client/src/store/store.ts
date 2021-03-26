@@ -17,6 +17,8 @@ export class Store {
     constructor(config: NoteFieldConfig, state: NoteFieldState) {
         makeAutoObservable(this, {
             el: false,
+            minZoom: false,
+            maxZoom: false,
         });
         this.config = config;
         this.state = makeAutoObservable(state, {
@@ -46,8 +48,8 @@ export class Store {
     }
 
     // Equivalent to clicking the zoom in/out button 8 times.
-    readonly maxZoom = new Fraction(256, 6561);
-    readonly minZoom = new Fraction(6561, 256);
+    readonly minZoom = new Fraction(256, 6561);
+    readonly maxZoom = new Fraction(6561, 256);
 
     /**
      * Sets the notefield zoom.
@@ -55,8 +57,16 @@ export class Store {
     setZoom(to: Fraction) {
         assert(to.compare(0) === 1, "zoom must be greater than zero");
 
-        if (!this.state.zoom.equals(to)) {
-            this.state.zoom = to;
+        let zoom = to;
+
+        if (zoom.compare(this.maxZoom) === 1) {
+            zoom = this.maxZoom;
+        } else if (zoom.compare(this.minZoom) === -1) {
+            zoom = this.minZoom;
+        }
+
+        if (!this.state.zoom.equals(zoom)) {
+            this.state.zoom = zoom;
         }
     }
 
