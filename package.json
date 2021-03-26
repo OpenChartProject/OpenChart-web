@@ -6,7 +6,7 @@
     "private": true,
     "browsersList": [
         "defaults",
-        "not IE 111"
+        "not IE 11"
     ],
     "scripts": {
         "build": "parcel build --no-source-maps client/index.html",
