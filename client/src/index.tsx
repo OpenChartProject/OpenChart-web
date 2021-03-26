@@ -62,6 +62,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         noteSkin: skin,
         pixelsPerSecond: 512,
         margin: 384,
+        scrollDirection: "up",
     };
 
     const state: NoteFieldState = {

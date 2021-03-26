@@ -40,14 +40,15 @@ export interface NoteFieldConfig {
         background: string;
     };
 
-    keyBinds: KeyBinds;
     baseline: Baseline;
     chart: Chart;
     columnWidth: number;
+    keyBinds: KeyBinds;
     keyCount: number;
+    margin: number;
     noteSkin: NoteSkin;
     pixelsPerSecond: number;
-    margin: number;
+    scrollDirection: "up" | "down";
 }
 
 /**
