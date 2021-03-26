@@ -82,7 +82,6 @@ export function keyboardInputToAction(
             } else {
                 return new SnapScrollAction(store, {
                     direction: "backward",
-                    autoInvert: true,
                 });
             }
 
@@ -96,7 +95,6 @@ export function keyboardInputToAction(
             } else {
                 return new SnapScrollAction(store, {
                     direction: "forward",
-                    autoInvert: true,
                 });
             }
 
@@ -134,7 +132,6 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
         } else {
             return new SnapScrollAction(store, {
                 direction: "forward",
-                autoInvert: true,
             });
         }
     } else {
@@ -145,7 +142,6 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
         } else {
             return new SnapScrollAction(store, {
                 direction: "backward",
-                autoInvert: true,
             });
         }
     }

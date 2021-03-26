@@ -3,7 +3,6 @@ import { Time } from "../charting/time";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 import { ChartObject } from "../charting/objects/chartObject";
 import { toTime } from "../charting/util";
-import { createSandbox } from "sinon";
 
 /**
  * Stores some useful values used for rendering.

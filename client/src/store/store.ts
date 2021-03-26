@@ -75,7 +75,6 @@ export class Store {
             this.config.scrollDirection = direction;
             UserConfigStorage.update({ scrollDirection: direction });
         }
-
     }
 
     // Equivalent to clicking the zoom in/out button 8 times.

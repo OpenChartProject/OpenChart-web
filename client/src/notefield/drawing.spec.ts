@@ -15,23 +15,41 @@ import {
 
 describe("notefield", () => {
     describe("#adjustToBaseline", () => {
-        let dp: any;
-
-        beforeEach(() => (dp = { config: {} }));
-
         it("returns expected value when baseline is After", () => {
-            dp.config.baseline = Baseline.After;
+            const { config } = createStore();
+            config.baseline = Baseline.After;
+            const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), 0);
         });
 
-        it("returns expected value when baseline is Before", () => {
-            dp.config.baseline = Baseline.Before;
+        it("returns expected value when baseline is Before and is upscroll", () => {
+            const { config } = createStore();
+            config.baseline = Baseline.Before;
+            const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), -50);
         });
 
-        it("returns expected value when baseline is Centered", () => {
-            dp.config.baseline = Baseline.Centered;
+        it("returns expected value when baseline is Before and is downscroll", () => {
+            const { config } = createStore();
+            config.baseline = Baseline.Before;
+            config.scrollDirection = "down";
+            const dp: any = { config };
+            assert.strictEqual(adjustToBaseline(dp, 0, 50), 50);
+        });
+
+        it("returns expected value when baseline is Centered and is upscroll", () => {
+            const { config } = createStore();
+            config.baseline = Baseline.Centered;
+            const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), -25);
+        });
+
+        it("returns expected value when baseline is Centered and is downscroll", () => {
+            const { config } = createStore();
+            config.baseline = Baseline.Centered;
+            config.scrollDirection = "down";
+            const dp: any = { config };
+            assert.strictEqual(adjustToBaseline(dp, 0, 50), 25);
         });
     });
 

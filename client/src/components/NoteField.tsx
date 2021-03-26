@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { drawNoteField } from "../notefield/drawing";
 import { Store } from "../store/store";
 import { inputToAction } from "../notefield/input";
-import { Sidebar } from "./Sidebar";
 
 export interface Props {
     store: Store;

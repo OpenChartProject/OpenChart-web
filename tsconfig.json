@@ -20,7 +20,6 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "useDefineForClassFields": true,
-    "noUnusedLocals": true
+    "useDefineForClassFields": true
   }
 }
