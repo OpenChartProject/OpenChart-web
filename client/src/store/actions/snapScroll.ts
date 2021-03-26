@@ -25,7 +25,10 @@ export class SnapScrollAction implements Action {
         const { scroll, snap } = this.store.state;
         let dir = this.args.direction;
 
-        if (this.args.autoInvert && this.store.config.scrollDirection === "down") {
+        if (
+            this.args.autoInvert &&
+            this.store.config.scrollDirection === "down"
+        ) {
             dir = dir === "forward" ? "backward" : "forward";
         }
 

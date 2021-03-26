@@ -147,26 +147,34 @@ function drawBeatLines(dp: DrawProps) {
     }
 }
 
-function drawReceptors(dp: DrawProps) {
+function drawReceptor(dp: DrawProps, key: number) {
     const { ctx, config, state, tReceptor } = dp;
 
+    const r = config.noteSkin.receptor[key];
+    const h = scaleToWidth(
+        r.width as number,
+        r.height as number,
+        config.columnWidth,
+    );
+    const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
+
+    ctx.save();
+    ctx.translate(0, y);
+
+    if (config.scrollDirection === "down") {
+        ctx.scale(1, -1);
+    }
+
+    ctx.drawImage(r, key * config.columnWidth, 0, config.columnWidth, h);
+    ctx.restore();
+}
+
+function drawReceptors(dp: DrawProps) {
+    const { ctx, config } = dp;
+
     for (let i = 0; i < config.keyCount; i++) {
-        const r = config.noteSkin.receptor[i];
-        const h = scaleToWidth(
-            r.width as number,
-            r.height as number,
-            config.columnWidth,
-        );
-        const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
-
         ctx.save();
-        ctx.translate(0, y);
-
-        if (config.scrollDirection === "down") {
-            ctx.scale(1, -1);
-        }
-
-        ctx.drawImage(r, i * config.columnWidth, 0, config.columnWidth, h);
+        drawReceptor(dp, i);
         ctx.restore();
     }
 }
