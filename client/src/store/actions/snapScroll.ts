@@ -6,6 +6,7 @@ import { Action } from "./action";
  */
 export interface SnapScrollArgs {
     direction: "forward" | "backward";
+    autoInvert: boolean;
 }
 
 /**
@@ -22,8 +23,14 @@ export class SnapScrollAction implements Action {
 
     run(): void {
         const { scroll, snap } = this.store.state;
+        let dir = this.args.direction;
+
+        if (this.args.autoInvert && this.store.config.scrollDirection === "down") {
+            dir = dir === "forward" ? "backward" : "forward";
+        }
+
         const beat =
-            this.args.direction === "forward"
+            dir === "forward"
                 ? snap.nextBeat(scroll.beat)
                 : snap.prevBeat(scroll.beat);
 

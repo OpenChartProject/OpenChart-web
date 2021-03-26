@@ -168,7 +168,14 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
     const t = config.chart.bpms.timeAt(obj.beat);
     const y = adjustToBaseline(dp, timeToPosition(dp, t), h);
 
-    ctx.drawImage(img, 0, y, config.columnWidth, h);
+    ctx.translate(0, y);
+
+    if (config.scrollDirection === "down") {
+        ctx.translate(0, h);
+        ctx.scale(1, -1);
+    }
+
+    ctx.drawImage(img, 0, 0, config.columnWidth, h);
 }
 
 function drawObjects(dp: DrawProps) {
