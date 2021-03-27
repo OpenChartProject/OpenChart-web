@@ -1,5 +1,5 @@
-import { observer } from "mobx-react-lite";
 import React from "react";
+import { observer } from "mobx-react-lite";
 import { NoteField } from "./NoteField";
 import { Sidebar } from "./Sidebar";
 import { Store } from "../store/store";

@@ -6,7 +6,7 @@ import {
     SnapScrollAction,
     SnapAdjustAction,
     ZoomAction,
-} from "../store/actions/";
+} from "../actions/storeActions/";
 
 /**
  * The keybind configuration.

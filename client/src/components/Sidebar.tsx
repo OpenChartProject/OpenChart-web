@@ -1,7 +1,8 @@
 import React from "react";
 import { discord, github } from "../assets";
-import { ScrollDirectionAction, ZoomAction } from "../store/actions";
+import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
 import { Store } from "../store/store";
+import { OpenFileAction } from "../actions/uiActions/openFile";
 
 export interface Props {
     store: Store;
@@ -9,6 +10,10 @@ export interface Props {
 
 export const Sidebar = (props: Props) => {
     const { store } = props;
+
+    const openFilePicker = () => {
+        new OpenFileAction({ accept: [".sm", ".oc"] }).run();
+    };
 
     const swapScrollDirection = () => {
         new ScrollDirectionAction(store, { to: "swap" }).run();
@@ -33,7 +38,12 @@ export const Sidebar = (props: Props) => {
                     <span className="material-icons-outlined">add</span>
                 </a>
                 <a title="Open chart">
-                    <span className="material-icons-outlined">upload_file</span>
+                    <span
+                        className="material-icons-outlined"
+                        onClick={openFilePicker}
+                    >
+                        upload_file
+                    </span>
                 </a>
                 <a title="Download chart">
                     <span className="material-icons-outlined">save_alt</span>
