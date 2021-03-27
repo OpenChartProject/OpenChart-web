@@ -1,4 +1,4 @@
-export { Action } from "./action";
+export { Action } from "../action";
 export { PlaceTapAction, PlaceTapArgs } from "./placeTap";
 export { ScrollAction, ScrollArgs } from "./scroll";
 export { ScrollDirectionAction, ScrollDirectionArgs } from "./scrollDirection";

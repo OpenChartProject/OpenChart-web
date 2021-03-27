@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { Store } from "../store";
-import { Action } from "./action";
+import { Store } from "../../store/store";
+import { Action } from "../action";
 
 /**
  * Arguments for the ZoomAction.

@@ -1,8 +1,8 @@
 import assert from "assert";
 
 import { BeatTime } from "../../charting/beat";
-import { Store } from "../store";
-import { Action } from "./action";
+import { Store } from "../../store/store";
+import { Action } from "../action";
 
 /**
  * Arguments for the ScrollAction.
