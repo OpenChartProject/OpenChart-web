@@ -32,7 +32,10 @@ export const Sidebar = (props: Props) => {
                 <a title="New chart">
                     <span className="material-icons-outlined">add</span>
                 </a>
-                <a title="Save chart">
+                <a title="Open chart">
+                    <span className="material-icons-outlined">upload_file</span>
+                </a>
+                <a title="Download chart">
                     <span className="material-icons-outlined">save_alt</span>
                 </a>
                 <div className="divider"></div>
