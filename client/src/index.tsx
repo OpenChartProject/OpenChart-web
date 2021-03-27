@@ -5,7 +5,6 @@ import React from "react";
 import { render } from "react-dom";
 import { Beat } from "./charting/beat";
 import { Chart } from "./charting/chart";
-import { Tap } from "./charting/objects/tap";
 import { Time } from "./charting/time";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
@@ -15,12 +14,6 @@ import { Store } from "./store/store";
 import { App } from "./components/App";
 
 export let store: Store;
-
-const chart = new Chart();
-chart.objects[0].push(new Tap(0, 0));
-chart.objects[1].push(new Tap(1, 1));
-chart.objects[2].push(new Tap(2, 2));
-chart.objects[3].push(new Tap(3, 3));
 
 loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     const userConfig = new UserConfigStorage();
@@ -58,7 +51,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         },
 
         baseline: Baseline.Centered,
-        chart,
+        chart: new Chart(),
         columnWidth: 128,
         keyCount: 4,
         noteSkin: skin,
@@ -68,7 +61,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
     };
 
     const state: NoteFieldState = {
-        width: config.columnWidth * chart.keyCount.value,
+        width: config.columnWidth * config.chart.keyCount.value,
         height: 1,
 
         zoom: new Fraction(1),
