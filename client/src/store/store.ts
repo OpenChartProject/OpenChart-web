@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 
-import { Beat, BeatTime, Time } from "../charting/";
+import { Beat, BeatTime, Chart, Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 
 import { UserConfigStorage } from "./userConfig";
@@ -28,11 +28,27 @@ export class Store {
     }
 
     /**
+     * Resets the scroll and zoom to the default.
+     */
+    resetView() {
+        this.setScroll({ time: Time.Zero });
+        this.setZoom(new Fraction(1));
+    }
+
+    /**
      * Sets the canvas element that's being used to draw the notefield.
      */
     setCanvas(el: HTMLCanvasElement) {
         this.el = el;
         this.el.width = this.state.width;
+    }
+
+    /**
+     * Sets the chart being rendered by the notefield.
+     */
+    setChart(chart: Chart) {
+        this.config.chart = chart;
+        this.resetView();
     }
 
     /**

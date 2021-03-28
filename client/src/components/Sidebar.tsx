@@ -16,7 +16,15 @@ export const Sidebar = (props: Props) => {
     const { store } = props;
 
     const openFilePicker = () => {
-        new OpenFileAction({ accept: [".sm", ".oc"] }).run();
+        new OpenFileAction({ accept: [".sm", ".oc"] }).run().then((files) => {
+            const f = files[0];
+
+            f.text().then((text) => {
+                const fd = new Serializer().read(text);
+                const project = new Converter().toNative(fd);
+                store.setChart(project.charts[0]);
+            });
+        });
     };
 
     const saveFile = () => {
