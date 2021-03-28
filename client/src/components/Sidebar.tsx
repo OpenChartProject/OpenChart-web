@@ -22,13 +22,19 @@ export const Sidebar = (props: Props) => {
 
     const openFilePicker = () => {
         new OpenFileAction({ accept: [".sm", ".oc"] }).run().then((files) => {
-            const f = files[0];
+            const reader = new FileReader();
 
-            f.text().then((text) => {
-                const fd = new Serializer().read(text);
+            reader.onload = () => {
+                const text = reader.result;
+
+                if (!text) return;
+
+                const fd = new Serializer().read(text as string);
                 const project = new Converter().toNative(fd);
                 store.setChart(project.charts[0]);
-            });
+            };
+
+            reader.readAsText(files[0]);
         });
     };
 
