@@ -2,8 +2,8 @@ import assert from "assert";
 import { BPM } from "./bpm";
 import { BPMList } from "./bpmList";
 import { Chart } from "./chart";
-import { Hold } from "./objects/hold";
-import { Tap } from "./objects/tap";
+import { Hold } from "./objects/";
+import { Tap } from "./objects/";
 
 describe("Chart", () => {
     describe("new", () => {

@@ -1,6 +1,6 @@
 import { ChartObject } from "./chartObject";
 import { TypeConverter } from "./typeConverter";
-import { Hold as NativeHold } from "../../../charting/objects/hold";
+import { Hold as NativeHold } from "../../../charting/objects/";
 import { Beat, BeatConverter } from "./beat";
 
 export interface Hold extends ChartObject {

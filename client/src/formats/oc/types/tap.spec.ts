@@ -1,6 +1,6 @@
 import assert from "assert";
 import { Tap, TapConverter } from "./tap";
-import { Tap as NativeTap } from "../../../charting/objects/tap";
+import { Tap as NativeTap } from "../../../charting/objects/";
 
 describe("oc/types", () => {
     describe("TapConverter", () => {

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { BPMList } from "./bpmList";
-import { ChartObject } from "./objects/chartObject";
+import { ChartObject } from "./objects/";
 import { KeyCount } from "./keyCount";
 import { Time } from "./time";
 import { KeyIndex } from "./keyIndex";

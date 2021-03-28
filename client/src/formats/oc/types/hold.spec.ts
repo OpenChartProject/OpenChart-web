@@ -1,6 +1,6 @@
 import assert from "assert";
 import { Hold, HoldConverter } from "./hold";
-import { Hold as NativeHold } from "../../../charting/objects/hold";
+import { Hold as NativeHold } from "../../../charting/objects/";
 
 describe("oc/types", () => {
     describe("HoldConverter", () => {

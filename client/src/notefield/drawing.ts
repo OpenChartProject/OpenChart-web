@@ -1,7 +1,7 @@
 import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/time";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
-import { ChartObject } from "../charting/objects/chartObject";
+import { ChartObject } from "../charting/objects/";
 import { toTime } from "../charting/util";
 
 /**

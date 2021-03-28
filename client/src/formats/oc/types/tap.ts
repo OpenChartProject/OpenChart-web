@@ -1,6 +1,6 @@
 import { ChartObject } from "./chartObject";
 import { TypeConverter } from "./typeConverter";
-import { Tap as NativeTap } from "../../../charting/objects/tap";
+import { Tap as NativeTap } from "../../../charting/objects/";
 import { BeatConverter } from "./beat";
 
 export interface Tap extends ChartObject {

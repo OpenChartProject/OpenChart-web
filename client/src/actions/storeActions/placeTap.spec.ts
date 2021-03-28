@@ -5,7 +5,7 @@ import { createStore } from "../../testutil";
 import { Beat } from "../../charting/beat";
 import { KeyIndex } from "../../charting/keyIndex";
 import { PlaceTapAction, PlaceTapArgs } from "./placeTap";
-import { Tap } from "../../charting/objects/tap";
+import { Tap } from "../../charting/objects/";
 
 describe("PlaceTapAction", () => {
     describe("new", () => {
