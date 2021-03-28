@@ -1,9 +1,11 @@
 import { BPM, BPMConverter } from "./bpm";
 import { Tap as NativeTap } from "../../../charting/objects/tap";
+import { Hold as NativeHold } from "../../../charting/objects/hold";
 import { Chart as NativeChart } from "../../../charting/chart";
 import { TypeConverter } from "./typeConverter";
 import { ChartObject } from "./chartObject";
 import { Tap, TapConverter } from "./tap";
+import { HoldConverter } from "./hold";
 
 export interface Chart {
     bpms: BPM[];
@@ -22,7 +24,7 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
                 if (obj.type === "tap") {
                     c.placeObject(new TapConverter().toNative(obj as Tap));
                 } else if (obj.type === "hold") {
-                    // TODO
+                    c.placeObject(new TapConverter().toNative(obj as Tap));
                 }
             }
         }
@@ -35,13 +37,15 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
             bpms: data.bpms.getBPMS().map((bpm) => new BPMConverter().fromNative(bpm.bpm)),
             keyCount: data.keyCount.value,
             objects: data.objects.map((keyObjects) => {
-                return keyObjects.map((obj) => {
+                const objectList = keyObjects.map((obj) => {
                     if (obj.type === "tap") {
                         return new TapConverter().fromNative(obj as NativeTap);
                     } else if (obj.type === "hold") {
-                        // TODO
+                        return new HoldConverter().fromNative(obj as NativeHold);
                     }
                 });
+
+                return objectList as ChartObject[];
             }),
         };
     }

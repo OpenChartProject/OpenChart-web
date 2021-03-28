@@ -1,5 +1,4 @@
 import assert from "assert";
-import Fraction from "fraction.js";
 import { Tap, TapConverter } from "./tap";
 import { Tap as NativeTap } from "../../../charting/objects/tap";
 
