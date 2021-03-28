@@ -10,7 +10,7 @@ describe("oc/types", () => {
                 const data: Tap = {
                     beat: { f: "1/2", val: 0.5 },
                     key: 0,
-                    type: "tap"
+                    type: "tap",
                 };
                 const expected = new NativeTap(data.beat.val, data.key);
 
@@ -24,7 +24,7 @@ describe("oc/types", () => {
                 const expected: Tap = {
                     beat: { f: "1/2", val: 0.5 },
                     key: 0,
-                    type: "tap"
+                    type: "tap",
                 };
 
                 assert.deepStrictEqual(new TapConverter().fromNative(data), expected);
