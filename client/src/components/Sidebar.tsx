@@ -1,3 +1,5 @@
+import { toByteArray } from "base64-js";
+import { inflate } from "pako";
 import React from "react";
 
 import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
@@ -21,20 +23,25 @@ export const Sidebar = (props: Props) => {
     };
 
     const openFilePicker = () => {
-        new OpenFileAction({ accept: [".sm", ".oc"] }).run().then((files) => {
+        new OpenFileAction({ accept: [".sm", ".oc", ".ocz"] }).run().then((files) => {
             const reader = new FileReader();
+            const f = files[0];
 
             reader.onload = () => {
-                const text = reader.result;
+                let text = reader.result as string | null;
 
                 if (!text) return;
+
+                if (f.name.endsWith(".ocz")) {
+                    text = inflate(toByteArray(text), { to: "string" });
+                }
 
                 const fd = new Serializer().read(text as string);
                 const project = new Converter().toNative(fd);
                 store.setChart(project.charts[0]);
             };
 
-            reader.readAsText(files[0]);
+            reader.readAsText(f);
         });
     };
 
@@ -50,9 +57,10 @@ export const Sidebar = (props: Props) => {
         const data = new Serializer().write(fd);
 
         new SaveFileAction({
+            compress: true,
             data,
-            fileName: "project.oc",
-            mimeType: "application/openchart",
+            fileName: "project.ocz",
+            mimeType: "application/openchart+compressed",
         }).run();
     };
 

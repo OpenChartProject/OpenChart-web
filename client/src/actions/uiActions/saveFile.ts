@@ -1,3 +1,4 @@
+import { fromByteArray } from "base64-js";
 import { deflate } from "pako";
 
 import { Action } from "../action";
@@ -28,7 +29,7 @@ export class SaveFileAction implements Action {
         let data = this.args.data;
 
         if (this.args.compress) {
-            data = deflate(data).toString();
+            data = fromByteArray(deflate(data));
         }
 
         data = encodeURI(data);
