@@ -1,4 +1,4 @@
-import { Project } from "../../project/project";
+import { Project } from "../../project/";
 import { IConverter } from "../converter";
 
 import { FileData } from "./fileData";

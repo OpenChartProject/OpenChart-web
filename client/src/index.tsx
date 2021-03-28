@@ -3,15 +3,12 @@ import React from "react";
 import { render } from "react-dom";
 
 import "./assets";
-import { Beat } from "./charting/";
-import { Chart } from "./charting/";
-import { Time } from "./charting/";
+import { Beat, Chart, Time } from "./charting/";
 import { App } from "./components/";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
-import { Store } from "./store/";
-import { UserConfigStorage } from "./store/";
+import { Store, UserConfigStorage } from "./store/";
 
 export let store: Store;
 

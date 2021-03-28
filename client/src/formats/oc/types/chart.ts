@@ -1,6 +1,5 @@
 import { Chart as NativeChart } from "../../../charting/";
-import { Tap as NativeTap } from "../../../charting/objects/";
-import { Hold as NativeHold } from "../../../charting/objects/";
+import { Hold as NativeHold, Tap as NativeTap } from "../../../charting/objects/";
 
 import { BPM, BPMConverter } from "./bpm";
 import { ChartObject } from "./chartObject";

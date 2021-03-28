@@ -1,5 +1,5 @@
 import { Chart } from "../../charting/";
-import { SongData } from "../../project/project";
+import { SongData } from "../../project/";
 
 export interface FileData {
     charts: Chart[];

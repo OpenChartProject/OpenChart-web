@@ -1,5 +1,4 @@
-import { Time } from "../charting/";
-import { toTime } from "../charting/";
+import { Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 
 import { getBeatLineTimes } from "./beatlines";
