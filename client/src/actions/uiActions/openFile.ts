@@ -1,6 +1,6 @@
 import { Action } from "../action";
 
-const filePicker = document.getElementById("file-picker") as HTMLInputElement;
+const elFilePicker = document.getElementById("file-picker") as HTMLInputElement;
 
 /**
  * Arguments for the OpenFileAction.
@@ -26,13 +26,13 @@ export class OpenFileAction implements Action {
      * the promise will not resolve or reject.
      */
     run(): Promise<FileList> {
-        filePicker.files = null;
-        filePicker.accept = this.args.accept.join(",");
-        filePicker.multiple = this.args.multiple === true;
+        elFilePicker.files = null;
+        elFilePicker.accept = this.args.accept.join(",");
+        elFilePicker.multiple = this.args.multiple === true;
 
         return new Promise<FileList>((resolve) => {
-            filePicker.onchange = () => resolve(filePicker.files as FileList);
-            filePicker.click();
+            elFilePicker.onchange = () => resolve(elFilePicker.files as FileList);
+            elFilePicker.click();
         });
     }
 }
