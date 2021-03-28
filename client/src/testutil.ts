@@ -77,7 +77,6 @@ export function createStore(args: CreateStoreArgs = {}): Store {
         baseline: Baseline.Centered,
         chart: args.chart ?? new Chart(),
         columnWidth: 128,
-        keyCount: 4,
         margin: 384,
         noteSkin: createDummyNoteSkin(),
         pixelsPerSecond: 512,

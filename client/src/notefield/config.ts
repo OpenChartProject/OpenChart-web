@@ -47,7 +47,6 @@ export interface NoteFieldConfig {
     chart: Chart;
     columnWidth: number;
     keyBinds: KeyBinds;
-    keyCount: number;
     margin: number;
     noteSkin: NoteSkin;
     pixelsPerSecond: number;

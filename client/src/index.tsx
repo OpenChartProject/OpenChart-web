@@ -50,7 +50,6 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         baseline: Baseline.Centered,
         chart: new Chart(),
         columnWidth: 128,
-        keyCount: 4,
         noteSkin: skin,
         pixelsPerSecond: 512,
         margin: 384,

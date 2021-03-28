@@ -157,7 +157,7 @@ function drawReceptor(dp: DrawProps, key: number) {
 function drawReceptors(dp: DrawProps) {
     const { ctx, config } = dp;
 
-    for (let i = 0; i < config.keyCount; i++) {
+    for (let i = 0; i < config.chart.keyCount.value; i++) {
         ctx.save();
         drawReceptor(dp, i);
         ctx.restore();
@@ -186,7 +186,7 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
 function drawObjects(dp: DrawProps) {
     const { ctx, config, t0, t1 } = dp;
 
-    for (let i = 0; i < config.keyCount; i++) {
+    for (let i = 0; i < config.chart.keyCount.value; i++) {
         const objects = config.chart.getObjectsInInterval(
             i,
             // Extend the interval a bit to prevent notes at the edge of the screen from
