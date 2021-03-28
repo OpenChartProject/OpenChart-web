@@ -24,6 +24,7 @@
         "@types/assert": "^1.5.4",
         "@types/lodash": "^4.14.168",
         "@types/mocha": "^8.2.0",
+        "@types/pako": "^1.0.1",
         "@types/parcel-env": "^0.0.0",
         "@types/react": "^17.0.3",
         "@types/react-dom": "^17.0.2",
@@ -47,6 +48,7 @@
         "mobx-react-lite": "^3.2.0",
         "mobx-utils": "^6.0.3",
         "normalize.css": "^8.0.1",
+        "pako": "^2.0.3",
         "react": "^17.0.1",
         "react-dom": "^17.0.1"
     }

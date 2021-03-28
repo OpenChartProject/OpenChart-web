@@ -1,3 +1,5 @@
+import { deflate } from "pako";
+
 import { Action } from "../action";
 
 const elDownloadLink = document.getElementById("download-link") as HTMLAnchorElement;
@@ -6,6 +8,7 @@ const elDownloadLink = document.getElementById("download-link") as HTMLAnchorEle
  * Arguments for the SaveFileAction.
  */
 export interface SaveFileArgs {
+    compress?: boolean;
     data: string;
     fileName: string;
     mimeType: string;
@@ -22,7 +25,13 @@ export class SaveFileAction implements Action {
     }
 
     run(): void {
-        const data = encodeURI(this.args.data);
+        let data = this.args.data;
+
+        if (this.args.compress) {
+            data = deflate(data).toString();
+        }
+
+        data = encodeURI(data);
 
         elDownloadLink.href = `data:${this.args.mimeType};charset=utf-8,${data}`;
         elDownloadLink.download = this.args.fileName;
