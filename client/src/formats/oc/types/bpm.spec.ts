@@ -1,6 +1,6 @@
 import assert from "assert";
 import { BPM, BPMConverter } from "./bpm";
-import { BPM as NativeBPM } from "../../../charting/bpm";
+import { BPM as NativeBPM } from "../../../charting/";
 
 describe("oc/types", () => {
     describe("BPMConverter", () => {

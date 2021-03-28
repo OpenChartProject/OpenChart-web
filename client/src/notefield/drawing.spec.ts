@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { Beat } from "../charting/beat";
-import { Time } from "../charting/time";
+import { Beat } from "../charting/";
+import { Time } from "../charting/";
 import { createStore } from "../testutil";
 import { Baseline } from "./config";
 

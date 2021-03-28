@@ -1,6 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { Beat } from "../charting/beat";
+import { Beat } from "../charting/";
 import { BeatSnap, commonBeatSnaps } from "./beatsnap";
 
 describe("BeatSnap", () => {

@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import { BeatTime } from "../../charting/beat";
+import { BeatTime } from "../../charting/";
 import { Store } from "../../store/store";
 import { Action } from "../action";
 

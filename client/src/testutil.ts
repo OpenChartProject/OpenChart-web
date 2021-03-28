@@ -1,8 +1,8 @@
 import Fraction from "fraction.js";
 import _ from "lodash";
-import { Beat } from "./charting/beat";
-import { Chart } from "./charting/chart";
-import { Time } from "./charting/time";
+import { Beat } from "./charting/";
+import { Chart } from "./charting/";
+import { Time } from "./charting/";
 import { BeatSnap } from "./notefield/beatsnap";
 import { NoteFieldConfig, Baseline, NoteFieldState } from "./notefield/config";
 import { NoteSkin } from "./noteskin";

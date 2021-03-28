@@ -1,4 +1,4 @@
-import { Chart } from "../../charting/chart";
+import { Chart } from "../../charting/";
 import { SongData } from "../../project/project";
 
 export interface FileData {

@@ -1,9 +1,9 @@
 import assert from "assert";
-import { BeatTime } from "../charting/beat";
+import { BeatTime } from "../charting/";
 
-import { Chart } from "../charting/chart";
-import { Time } from "../charting/time";
-import { toTime } from "../charting/util";
+import { Chart } from "../charting/";
+import { Time } from "../charting/";
+import { toTime } from "../charting/";
 import { BeatSnap } from "./beatsnap";
 
 /**

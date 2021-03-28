@@ -1,6 +1,6 @@
 import Fraction from "fraction.js";
-import { BeatTime } from "../charting/beat";
-import { Chart } from "../charting/chart";
+import { BeatTime } from "../charting/";
+import { Chart } from "../charting/";
 import { NoteSkin } from "../noteskin";
 import { BeatSnap } from "./beatsnap";
 import { KeyBinds } from "./input";

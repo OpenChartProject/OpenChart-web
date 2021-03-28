@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Chart } from "../../charting/chart";
+import { Chart } from "../../charting/";
 import { Project } from "../../project/project";
 import { Converter } from "./converter";
 import { FileData } from "./fileData";

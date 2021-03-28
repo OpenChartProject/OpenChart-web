@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 import { Beat, BeatConverter } from "./beat";
-import { Beat as NativeBeat } from "../../../charting/beat";
+import { Beat as NativeBeat } from "../../../charting/";
 
 describe("oc/types", () => {
     describe("BeatConverter", () => {

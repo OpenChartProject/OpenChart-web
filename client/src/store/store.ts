@@ -2,8 +2,8 @@ import assert from "assert";
 import Fraction from "fraction.js";
 
 import { makeAutoObservable, observable } from "mobx";
-import { Beat, BeatTime } from "../charting/beat";
-import { Time } from "../charting/time";
+import { Beat, BeatTime } from "../charting/";
+import { Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 import { UserConfigStorage } from "./userConfig";
 

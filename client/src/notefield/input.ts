@@ -1,4 +1,4 @@
-import { KeyIndex } from "../charting/keyIndex";
+import { KeyIndex } from "../charting/";
 import { Store } from "../store/store";
 import {
     Action,

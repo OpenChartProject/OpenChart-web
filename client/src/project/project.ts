@@ -1,4 +1,4 @@
-import { Chart } from "../charting/chart";
+import { Chart } from "../charting/";
 
 export interface SongData {
     artist: string;

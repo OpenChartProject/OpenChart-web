@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 
-import { Beat } from "../charting/beat";
+import { Beat } from "../charting/";
 
 /**
  * A list of common beat snap timings.

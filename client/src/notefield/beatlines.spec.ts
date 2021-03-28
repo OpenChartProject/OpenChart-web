@@ -1,8 +1,8 @@
 import assert from "assert";
-import { BPM } from "../charting/bpm";
-import { BPMList } from "../charting/bpmList";
-import { Chart } from "../charting/chart";
-import { toBeatTime } from "../charting/util";
+import { BPM } from "../charting/";
+import { BPMList } from "../charting/";
+import { Chart } from "../charting/";
+import { toBeatTime } from "../charting/";
 import { getBeatLineTimes } from "./beatlines";
 import { BeatSnap } from "./beatsnap";
 

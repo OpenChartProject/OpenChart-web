@@ -1,7 +1,7 @@
 import { BPM, BPMConverter } from "./bpm";
 import { Tap as NativeTap } from "../../../charting/objects/";
 import { Hold as NativeHold } from "../../../charting/objects/";
-import { Chart as NativeChart } from "../../../charting/chart";
+import { Chart as NativeChart } from "../../../charting/";
 import { TypeConverter } from "./typeConverter";
 import { ChartObject } from "./chartObject";
 import { Tap, TapConverter } from "./tap";
