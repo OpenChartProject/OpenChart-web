@@ -3,6 +3,7 @@ import React from "react";
 import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
 import { OpenFileAction, SaveFileAction } from "../actions/uiActions/";
 import { discord, github } from "../assets";
+import { Chart } from "../charting";
 import { Converter } from "../formats/oc/converter";
 import { Serializer } from "../formats/oc/serializer";
 import { Project } from "../project";
@@ -14,6 +15,10 @@ export interface Props {
 
 export const Sidebar = (props: Props) => {
     const { store } = props;
+
+    const newFile = () => {
+        store.setChart(new Chart());
+    };
 
     const openFilePicker = () => {
         new OpenFileAction({ accept: [".sm", ".oc"] }).run().then((files) => {
@@ -64,7 +69,7 @@ export const Sidebar = (props: Props) => {
     return (
         <div className="sidebar-container">
             <div className="toolbar">
-                <a title="New chart">
+                <a title="New chart" onClick={newFile}>
                     <span className="material-icons-outlined">add</span>
                 </a>
                 <a title="Open chart" onClick={openFilePicker}>
