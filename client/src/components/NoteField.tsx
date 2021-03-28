@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { deepObserve } from "mobx-utils";
 import { observer } from "mobx-react-lite";
+import { deepObserve } from "mobx-utils";
+import React, { useEffect, useRef } from "react";
+
 import { drawNoteField } from "../notefield/drawing";
-import { Store } from "../store/store";
 import { inputToAction } from "../notefield/input";
+import { Store } from "../store/store";
 
 export interface Props {
     store: Store;

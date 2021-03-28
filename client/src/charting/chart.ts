@@ -1,10 +1,11 @@
-import { makeAutoObservable } from "mobx";
-import { BPMList } from "./bpmList";
-import { ChartObject } from "./objects/";
-import { KeyCount } from "./keyCount";
-import { Time } from "./time";
-import { KeyIndex } from "./keyIndex";
 import assert from "assert";
+import { makeAutoObservable } from "mobx";
+
+import { BPMList } from "./bpmList";
+import { KeyCount } from "./keyCount";
+import { KeyIndex } from "./keyIndex";
+import { ChartObject } from "./objects/";
+import { Time } from "./time";
 import { toKeyCount, toKeyIndex, toTime } from "./util";
 
 /**

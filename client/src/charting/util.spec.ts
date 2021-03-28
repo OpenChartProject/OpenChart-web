@@ -1,4 +1,5 @@
 import assert from "assert";
+
 import { Beat } from "./beat";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";

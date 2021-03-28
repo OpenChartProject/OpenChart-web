@@ -1,5 +1,6 @@
-import { ScrollDirection } from "../notefield/config";
 import _ from "lodash";
+
+import { ScrollDirection } from "../notefield/config";
 
 const storageKey = "userConfig";
 

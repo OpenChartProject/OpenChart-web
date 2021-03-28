@@ -1,4 +1,5 @@
 import { BPM as NativeBPM } from "../../../charting/";
+
 import { Beat, BeatConverter } from "./beat";
 import { TypeConverter } from "./typeConverter";
 

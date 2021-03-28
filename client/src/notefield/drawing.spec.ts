@@ -1,10 +1,11 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+
 import { Beat } from "../charting/";
 import { Time } from "../charting/";
 import { createStore } from "../testutil";
-import { Baseline } from "./config";
 
+import { Baseline } from "./config";
 import { adjustToBaseline, calculateViewport, pps, scaleToWidth, timeToPosition } from "./drawing";
 
 describe("notefield", () => {

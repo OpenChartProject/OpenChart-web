@@ -1,4 +1,5 @@
 import assert from "assert";
+
 import { readFields } from "./fieldReader";
 
 describe("sm/fieldReader", () => {

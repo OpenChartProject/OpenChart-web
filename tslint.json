@@ -17,6 +17,12 @@
       {
         "multiline": "always"
       }
+    ],
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true
+      }
     ]
   }
 }

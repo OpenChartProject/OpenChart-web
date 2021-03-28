@@ -1,8 +1,9 @@
-import { getBeatLineTimes } from "./beatlines";
 import { Time } from "../charting/";
-import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
-import { ChartObject } from "../charting/objects/";
 import { toTime } from "../charting/";
+import { ChartObject } from "../charting/objects/";
+
+import { getBeatLineTimes } from "./beatlines";
+import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
 
 /**
  * Stores some useful values used for rendering.

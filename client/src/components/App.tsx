@@ -1,8 +1,10 @@
-import React from "react";
 import { observer } from "mobx-react-lite";
+import React from "react";
+
+import { Store } from "../store/store";
+
 import { NoteField } from "./NoteField";
 import { Sidebar } from "./Sidebar";
-import { Store } from "../store/store";
 import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {

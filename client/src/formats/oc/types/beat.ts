@@ -1,5 +1,7 @@
 import Fraction from "fraction.js";
+
 import { Beat as NativeBeat } from "../../../charting/";
+
 import { TypeConverter } from "./typeConverter";
 
 export interface Beat {

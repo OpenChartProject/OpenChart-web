@@ -1,5 +1,6 @@
-import { FileData } from "./fileData";
 import { ISerializer } from "../serializer";
+
+import { FileData } from "./fileData";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {

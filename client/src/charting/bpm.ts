@@ -1,4 +1,5 @@
 import assert from "assert";
+
 import { Beat } from "./beat";
 import { toBeat } from "./util";
 

@@ -3,6 +3,7 @@ import Fraction from "fraction.js";
 import sinon from "sinon";
 
 import { createStore } from "../../testutil";
+
 import { ZoomAction, ZoomArgs } from "./zoom";
 
 describe("ScaleAction", () => {

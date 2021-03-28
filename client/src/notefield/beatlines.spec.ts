@@ -1,8 +1,10 @@
 import assert from "assert";
+
 import { BPM } from "../charting/";
 import { BPMList } from "../charting/";
 import { Chart } from "../charting/";
 import { toBeatTime } from "../charting/";
+
 import { getBeatLineTimes } from "./beatlines";
 import { BeatSnap } from "./beatsnap";
 

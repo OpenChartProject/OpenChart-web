@@ -1,12 +1,12 @@
-import { KeyIndex } from "../charting/";
-import { Store } from "../store/store";
 import {
     Action,
     PlaceTapAction,
-    SnapScrollAction,
     SnapAdjustAction,
+    SnapScrollAction,
     ZoomAction,
 } from "../actions/storeActions/";
+import { KeyIndex } from "../charting/";
+import { Store } from "../store/store";
 
 /**
  * The keybind configuration.

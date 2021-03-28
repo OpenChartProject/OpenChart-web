@@ -1,8 +1,9 @@
 import React from "react";
-import { discord, github } from "../assets";
+
 import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
-import { Store } from "../store/store";
 import { OpenFileAction } from "../actions/uiActions/openFile";
+import { discord, github } from "../assets";
+import { Store } from "../store/store";
 
 export interface Props {
     store: Store;

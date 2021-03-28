@@ -1,11 +1,12 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { createStore } from "../../testutil";
 import { Beat } from "../../charting/";
 import { KeyIndex } from "../../charting/";
-import { PlaceTapAction, PlaceTapArgs } from "./placeTap";
 import { Tap } from "../../charting/objects/";
+import { createStore } from "../../testutil";
+
+import { PlaceTapAction, PlaceTapArgs } from "./placeTap";
 
 describe("PlaceTapAction", () => {
     describe("new", () => {

@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+
 import { Time } from "./time";
 
 /**

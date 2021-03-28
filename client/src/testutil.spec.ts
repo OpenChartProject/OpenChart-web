@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+
 import { Chart } from "./charting/";
 import { KeyCount } from "./charting/";
 import { NoteFieldConfig, NoteFieldState } from "./notefield/config";

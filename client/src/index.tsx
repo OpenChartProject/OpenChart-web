@@ -1,17 +1,17 @@
-import "./assets";
-
 import Fraction from "fraction.js";
 import React from "react";
 import { render } from "react-dom";
+
+import "./assets";
 import { Beat } from "./charting/";
 import { Chart } from "./charting/";
 import { Time } from "./charting/";
+import { App } from "./components/App";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
-import { UserConfigStorage } from "./store/userConfig";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { Store } from "./store/store";
-import { App } from "./components/App";
+import { UserConfigStorage } from "./store/userConfig";
 
 export let store: Store;
 

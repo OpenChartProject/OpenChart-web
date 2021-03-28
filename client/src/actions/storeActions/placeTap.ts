@@ -2,9 +2,9 @@ import assert from "assert";
 
 import { KeyIndex } from "../../charting/";
 import { Beat } from "../../charting/";
+import { Tap } from "../../charting/objects/";
 import { Store } from "../../store/store";
 import { Action } from "../action";
-import { Tap } from "../../charting/objects/";
 
 /**
  * Arguments for the PlaceTapAction.

@@ -1,6 +1,7 @@
 import { Beat } from "../beat";
 import { KeyIndex } from "../keyIndex";
 import { toBeat, toKeyIndex } from "../util";
+
 import { ChartObject } from "./chartObject";
 
 export class Tap implements ChartObject {

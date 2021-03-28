@@ -1,6 +1,6 @@
-import { Action } from "../action";
 import { ScrollDirection } from "../../notefield/config";
 import { Store } from "../../store/store";
+import { Action } from "../action";
 
 export interface ScrollDirectionArgs {
     to: ScrollDirection | "swap";

@@ -1,5 +1,6 @@
 import { Project } from "../../project/project";
 import { IConverter } from "../converter";
+
 import { FileData } from "./fileData";
 
 export class Converter implements IConverter<FileData> {
