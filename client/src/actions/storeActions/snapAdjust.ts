@@ -19,10 +19,7 @@ export class SnapAdjustAction implements Action {
     store: Store;
 
     constructor(store: Store, args: SnapAdjustArgs) {
-        assert(
-            args.adjust || args.to,
-            "both adjustment arguments are undefined",
-        );
+        assert(args.adjust || args.to, "both adjustment arguments are undefined");
 
         this.args = args;
         this.store = store;

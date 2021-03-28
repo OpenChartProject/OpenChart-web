@@ -47,11 +47,7 @@ export function pps(config: NoteFieldConfig, state: NoteFieldState): number {
 /**
  * Returns the new position of the object after taking the baseline into account.
  */
-export function adjustToBaseline(
-    { config }: DrawProps,
-    pos: number,
-    h: number,
-): number {
+export function adjustToBaseline({ config }: DrawProps, pos: number, h: number): number {
     switch (config.baseline) {
         case Baseline.After:
             return pos;
@@ -78,10 +74,7 @@ export function adjustToBaseline(
  * The objects on the notefield are rendered with respect to the canvas origin, not
  * with respect to the scrolling.
  */
-export function calculateViewport(
-    config: NoteFieldConfig,
-    state: NoteFieldState,
-): Viewport {
+export function calculateViewport(config: NoteFieldConfig, state: NoteFieldState): Viewport {
     const y0 = state.scroll.time.value * pps(config, state) - config.margin;
     const t0 = new Time(Math.max(y0 / pps(config, state), 0));
     const t1 = new Time(Math.max((y0 + state.height) / pps(config, state), 0));
@@ -100,10 +93,7 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition(
-    { config, state }: DrawProps,
-    time: Time | number,
-): number {
+export function timeToPosition({ config, state }: DrawProps, time: Time | number): number {
     return Math.round(toTime(time).value * pps(config, state));
 }
 
@@ -150,11 +140,7 @@ function drawReceptor(dp: DrawProps, key: number) {
     const { ctx, config, state, tReceptor } = dp;
 
     const r = config.noteSkin.receptor[key];
-    const h = scaleToWidth(
-        r.width as number,
-        r.height as number,
-        config.columnWidth,
-    );
+    const h = scaleToWidth(r.width as number, r.height as number, config.columnWidth);
     const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
 
     ctx.save();
@@ -182,11 +168,7 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
     const { ctx, config } = dp;
 
     const img = config.noteSkin.tap[key];
-    const h = scaleToWidth(
-        img.width as number,
-        img.height as number,
-        config.columnWidth,
-    );
+    const h = scaleToWidth(img.width as number, img.height as number, config.columnWidth);
 
     // TODO: Add time property to ChartObject
     const t = config.chart.bpms.timeAt(obj.beat);

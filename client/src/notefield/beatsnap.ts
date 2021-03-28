@@ -34,10 +34,7 @@ export class BeatSnap {
     }
 
     setSnap(val: Fraction) {
-        assert(
-            val.compare(0) === 1,
-            "beat snap value must be greater than zero",
-        );
+        assert(val.compare(0) === 1, "beat snap value must be greater than zero");
         this.current = val;
     }
 
@@ -46,10 +43,7 @@ export class BeatSnap {
      * commonBeatSnaps list.
      */
     isCommonSnap(): boolean {
-        return (
-            commonBeatSnaps.findIndex((snap) => snap.equals(this.current)) !==
-            -1
-        );
+        return commonBeatSnaps.findIndex((snap) => snap.equals(this.current)) !== -1;
     }
 
     /**
@@ -81,10 +75,7 @@ export class BeatSnap {
         if (beat.fraction.divisible(this.toBeat().fraction)) {
             f = beat.fraction.add(this.toBeat().fraction);
         } else {
-            f = beat.fraction
-                .div(this.toBeat().fraction)
-                .ceil()
-                .mul(this.toBeat().fraction);
+            f = beat.fraction.div(this.toBeat().fraction).ceil().mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
@@ -103,10 +94,7 @@ export class BeatSnap {
                 f = new Fraction(0);
             }
         } else {
-            f = beat.fraction
-                .div(this.toBeat().fraction)
-                .floor()
-                .mul(this.toBeat().fraction);
+            f = beat.fraction.div(this.toBeat().fraction).floor().mul(this.toBeat().fraction);
         }
 
         return new Beat(f);
@@ -122,9 +110,7 @@ export class BeatSnap {
             index++;
         }
 
-        this.setSnap(
-            commonBeatSnaps[Math.min(index, commonBeatSnaps.length - 1)],
-        );
+        this.setSnap(commonBeatSnaps[Math.min(index, commonBeatSnaps.length - 1)]);
     }
 
     /**

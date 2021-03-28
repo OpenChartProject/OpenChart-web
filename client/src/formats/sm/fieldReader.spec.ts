@@ -35,9 +35,7 @@ describe("sm/fieldReader", () => {
 
         it("ignores comments in values", () => {
             const fields = readFields("#FIELD:multi// foo\nline;");
-            assert.deepStrictEqual(fields, [
-                { name: "FIELD", value: "multi\nline" },
-            ]);
+            assert.deepStrictEqual(fields, [{ name: "FIELD", value: "multi\nline" }]);
         });
 
         it("throws an error if it hits EOF while reading", () => {

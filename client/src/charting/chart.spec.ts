@@ -109,14 +109,8 @@ describe("Chart", () => {
             const objs = [new Tap(0, 0), new Tap(1, 0), new Tap(2, 0)];
             c.objects[0] = objs;
 
-            assert.deepStrictEqual(
-                c.getObjectsInInterval(0, 0, 1),
-                objs.slice(0, 2),
-            );
-            assert.deepStrictEqual(
-                c.getObjectsInInterval(0, 1, 2),
-                objs.slice(1, 3),
-            );
+            assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), objs.slice(0, 2));
+            assert.deepStrictEqual(c.getObjectsInInterval(0, 1, 2), objs.slice(1, 3));
         });
     });
 });

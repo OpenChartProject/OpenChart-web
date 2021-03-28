@@ -4,11 +4,7 @@ import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime } from "../charting/beat";
 import { Time } from "../charting/time";
-import {
-    NoteFieldConfig,
-    NoteFieldState,
-    ScrollDirection,
-} from "../notefield/config";
+import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 import { UserConfigStorage } from "./userConfig";
 
 /**
@@ -115,9 +111,7 @@ export class Store {
             this.setScroll({ beat: new Beat(dst) });
         } else if (time !== undefined) {
             this.setScroll({
-                time: new Time(
-                    Math.max(time + this.state.scroll.time.value, 0),
-                ),
+                time: new Time(Math.max(time + this.state.scroll.time.value, 0)),
             });
         } else {
             throw Error("beat or time must be set");

@@ -34,36 +34,21 @@ describe("BeatSnap", () => {
         it("returns expected index if snapping is common", () => {
             for (let i = 0; i < commonBeatSnaps.length; i++) {
                 const snap = commonBeatSnaps[i];
-                assert.strictEqual(
-                    new BeatSnap(snap).nearestCommonSnapIndex(),
-                    i,
-                );
+                assert.strictEqual(new BeatSnap(snap).nearestCommonSnapIndex(), i);
             }
         });
 
         it("returns nearest common snapping", () => {
-            assert.strictEqual(
-                new BeatSnap(new Fraction(1, 3)).nearestCommonSnapIndex(),
-                0,
-            );
-            assert.strictEqual(
-                new BeatSnap(new Fraction(1, 6)).nearestCommonSnapIndex(),
-                1,
-            );
-            assert.strictEqual(
-                new BeatSnap(new Fraction(1, 13)).nearestCommonSnapIndex(),
-                2,
-            );
+            assert.strictEqual(new BeatSnap(new Fraction(1, 3)).nearestCommonSnapIndex(), 0);
+            assert.strictEqual(new BeatSnap(new Fraction(1, 6)).nearestCommonSnapIndex(), 1);
+            assert.strictEqual(new BeatSnap(new Fraction(1, 13)).nearestCommonSnapIndex(), 2);
         });
     });
 
     describe("#nextBeat", () => {
         it("jumps to the first snap if the beat is zero", () => {
             const beatSnap = new BeatSnap();
-            assert.deepStrictEqual(
-                beatSnap.nextBeat(Beat.Zero),
-                beatSnap.toBeat(),
-            );
+            assert.deepStrictEqual(beatSnap.nextBeat(Beat.Zero), beatSnap.toBeat());
         });
 
         it("returns the next beat if beat is aligned with snap", () => {
@@ -73,10 +58,7 @@ describe("BeatSnap", () => {
 
         it("returns the next beat if beat is not aligned with snap", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 12));
-            assert.deepStrictEqual(
-                beatSnap.nextBeat(new Beat(1.5)),
-                new Beat(new Fraction(5, 3)),
-            );
+            assert.deepStrictEqual(beatSnap.nextBeat(new Beat(1.5)), new Beat(new Fraction(5, 3)));
         });
     });
 
@@ -93,10 +75,7 @@ describe("BeatSnap", () => {
 
         it("returns the previous beat if beat is not aligned with snap", () => {
             const beatSnap = new BeatSnap(new Fraction(1, 8));
-            assert.deepStrictEqual(
-                beatSnap.prevBeat(new Beat(new Fraction(5, 3))),
-                new Beat(1.5),
-            );
+            assert.deepStrictEqual(beatSnap.prevBeat(new Beat(new Fraction(5, 3))), new Beat(1.5));
         });
     });
 
@@ -145,10 +124,7 @@ describe("BeatSnap", () => {
     describe("#toBeat", () => {
         it("returns the expected value", () => {
             assert.deepStrictEqual(new BeatSnap().toBeat(), new Beat(1));
-            assert.deepStrictEqual(
-                new BeatSnap(new Fraction(1, 16)).toBeat(),
-                new Beat(0.25),
-            );
+            assert.deepStrictEqual(new BeatSnap(new Fraction(1, 16)).toBeat(), new Beat(0.25));
         });
     });
 });

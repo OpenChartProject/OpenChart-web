@@ -17,8 +17,7 @@ export const WelcomeModal = () => {
                 <p>OpenChart is an open source rhythm game chart/map editor.</p>
                 <p>
                     <strong>
-                        This project is currently in active development -- it is
-                        unfinished.
+                        This project is currently in active development -- it is unfinished.
                     </strong>
                 </p>
                 <p>See the links in the sidebar to learn more.</p>

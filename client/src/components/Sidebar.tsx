@@ -38,10 +38,7 @@ export const Sidebar = (props: Props) => {
                     <span className="material-icons-outlined">add</span>
                 </a>
                 <a title="Open chart">
-                    <span
-                        className="material-icons-outlined"
-                        onClick={openFilePicker}
-                    >
+                    <span className="material-icons-outlined" onClick={openFilePicker}>
                         upload_file
                     </span>
                 </a>
@@ -65,16 +62,10 @@ export const Sidebar = (props: Props) => {
                     title="Report a bug or issue"
                     target="_blank"
                 >
-                    <span className="material-icons-outlined report-icon">
-                        report
-                    </span>
+                    <span className="material-icons-outlined report-icon">report</span>
                 </a>
                 <div className="divider"></div>
-                <a
-                    href="https://discord.gg/wSGmN52"
-                    title="Visit us on Discord"
-                    target="_blank"
-                >
+                <a href="https://discord.gg/wSGmN52" title="Visit us on Discord" target="_blank">
                     <img src={discord} />
                 </a>
                 <a

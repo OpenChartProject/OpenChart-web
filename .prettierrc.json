@@ -1,6 +1,7 @@
 {
   "tabWidth": 4,
   "trailingComma": "all",
+  "printWidth": 100,
   "overrides": [
     {
       "files": ["*.yml", "*.yaml", "*.json"],

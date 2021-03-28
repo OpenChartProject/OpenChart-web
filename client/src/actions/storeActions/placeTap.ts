@@ -22,10 +22,7 @@ export class PlaceTapAction implements Action {
     store: Store;
 
     constructor(store: Store, args: PlaceTapArgs) {
-        assert(
-            args.key.value < store.config.chart.keyCount.value,
-            "key index is out of range",
-        );
+        assert(args.key.value < store.config.chart.keyCount.value, "key index is out of range");
 
         this.args = args;
         this.store = store;

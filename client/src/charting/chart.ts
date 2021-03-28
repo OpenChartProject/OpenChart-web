@@ -56,10 +56,7 @@ export class Chart {
      * @returns true if the chart was modified
      */
     placeObject(obj: ChartObject, { removeIfExists = false } = {}): boolean {
-        assert(
-            obj.key.value < this.keyCount.value,
-            "key index is out of range",
-        );
+        assert(obj.key.value < this.keyCount.value, "key index is out of range");
 
         // TODO: optimize this
         const objList = this.objects[obj.key.value];

@@ -71,8 +71,5 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
 
     store = new Store(config, state);
 
-    render(
-        <App store={store} />,
-        document.getElementById("app") as HTMLElement,
-    );
+    render(<App store={store} />, document.getElementById("app") as HTMLElement);
 });

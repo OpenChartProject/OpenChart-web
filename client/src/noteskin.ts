@@ -29,10 +29,7 @@ export interface NoteSkin {
 /**
  * Generates a NoteSkinSource for a skin, given its name and how many keys it supports.
  */
-export function getNoteSkinSource(
-    name: string,
-    keyCount: number,
-): NoteSkinSource {
+export function getNoteSkinSource(name: string, keyCount: number): NoteSkinSource {
     const ns: NoteSkinSource = {
         name,
         keyCount,
@@ -68,10 +65,7 @@ export function loadNoteSkin(src: NoteSkinSource): Promise<NoteSkin> {
         tap: [],
     };
 
-    const loadImage = (
-        url: string,
-        dst: CanvasImageSource[],
-    ): Promise<void> => {
+    const loadImage = (url: string, dst: CanvasImageSource[]): Promise<void> => {
         return new Promise<void>((resolve) => {
             const img = new Image();
             img.onload = () => {

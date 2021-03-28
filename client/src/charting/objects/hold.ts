@@ -9,11 +9,7 @@ export class Hold implements ChartObject {
     key: KeyIndex;
     readonly type = "hold";
 
-    constructor(
-        beat: Beat | number,
-        duration: Beat | number,
-        key: KeyIndex | number,
-    ) {
+    constructor(beat: Beat | number, duration: Beat | number, key: KeyIndex | number) {
         this.beat = toBeat(beat);
         this.duration = toBeat(duration);
         this.key = toKeyIndex(key);

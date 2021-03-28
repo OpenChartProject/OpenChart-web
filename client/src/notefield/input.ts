@@ -53,16 +53,11 @@ export function inputToAction(e: InputActionArgs, store: Store): Action | null {
 /**
  * Maps a keyboard event to an Action.
  */
-export function keyboardInputToAction(
-    e: KeyboardEvent,
-    store: Store,
-): Action | null {
+export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | null {
     const { chart, keyBinds } = store.config;
 
     // Check if this key is for placing a note.
-    const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex(
-        (k) => k === e.key,
-    );
+    const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex((k) => k === e.key);
 
     if (keyIndex !== -1) {
         return new PlaceTapAction(store, {

@@ -51,23 +51,11 @@ describe("testutil", () => {
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(
-                defaultStore.config.margin,
-                store.config.margin,
-            );
-            assert.deepStrictEqual(
-                defaultStore.config.beatLines,
-                store.config.beatLines,
-            );
+            assert.deepStrictEqual(defaultStore.config.margin, store.config.margin);
+            assert.deepStrictEqual(defaultStore.config.beatLines, store.config.beatLines);
 
-            assert.strictEqual(
-                store.config.pixelsPerSecond,
-                config.pixelsPerSecond,
-            );
-            assert.strictEqual(
-                store.config.colors.background,
-                config.colors?.background,
-            );
+            assert.strictEqual(store.config.pixelsPerSecond, config.pixelsPerSecond);
+            assert.strictEqual(store.config.colors.background, config.colors?.background);
         });
 
         it("merges the state if provided", () => {
