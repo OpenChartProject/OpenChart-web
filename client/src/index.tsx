@@ -10,8 +10,8 @@ import { App } from "./components/App";
 import { BeatSnap } from "./notefield/beatsnap";
 import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
-import { Store } from "./store/store";
-import { UserConfigStorage } from "./store/userConfig";
+import { Store } from "./store/";
+import { UserConfigStorage } from "./store/";
 
 export let store: Store;
 

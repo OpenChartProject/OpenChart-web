@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 
 import { drawNoteField } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
-import { Store } from "../store/store";
+import { Store } from "../store/";
 
 export interface Props {
     store: Store;

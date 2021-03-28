@@ -3,7 +3,7 @@ import assert from "assert";
 import { KeyIndex } from "../../charting/";
 import { Beat } from "../../charting/";
 import { Tap } from "../../charting/objects/";
-import { Store } from "../../store/store";
+import { Store } from "../../store/";
 import { Action } from "../action";
 
 /**

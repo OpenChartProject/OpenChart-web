@@ -1,4 +1,4 @@
-import { Store } from "../../store/store";
+import { Store } from "../../store/";
 import { Action } from "../action";
 
 /**

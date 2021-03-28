@@ -3,7 +3,7 @@ import React from "react";
 import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
 import { OpenFileAction } from "../actions/uiActions/openFile";
 import { discord, github } from "../assets";
-import { Store } from "../store/store";
+import { Store } from "../store/";
 
 export interface Props {
     store: Store;

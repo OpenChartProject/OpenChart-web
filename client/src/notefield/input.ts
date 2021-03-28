@@ -6,7 +6,7 @@ import {
     ZoomAction,
 } from "../actions/storeActions/";
 import { KeyIndex } from "../charting/";
-import { Store } from "../store/store";
+import { Store } from "../store/";
 
 /**
  * The keybind configuration.

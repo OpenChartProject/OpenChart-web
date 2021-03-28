@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 
-import { Store } from "../store/store";
+import { Store } from "../store/";
 
 import { NoteField } from "./NoteField";
 import { Sidebar } from "./Sidebar";
