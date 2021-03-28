@@ -12,4 +12,4 @@ For exports:
 1. The native `Project` object is converted into a `FileData` object
 2. The `FileData` object is serialized into a string
 
-Using a two-step process for this makes debugging easier since we can isolate and test each step individually. It also promotes keeping the code organized which is useful in cases where a file format's data needs quite a bit of transforming to work with the native `Project` format.
+Using a two-step process for this makes debugging easier since we can isolate and test each step individually. It also promotes keeping the code organized which is useful in cases where the structure of the `FileData` object is vastly different than the `Project` object.

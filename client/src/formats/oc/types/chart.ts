@@ -2,7 +2,6 @@ import { BPM } from "./bpm";
 import { Chart as NativeChart } from "../../../charting/chart";
 import { TypeConverter } from "./typeConverter";
 
-
 export interface Chart {
     bpms: BPM[];
     keyCount: number;
