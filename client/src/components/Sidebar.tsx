@@ -1,8 +1,11 @@
 import React from "react";
 
 import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
-import { OpenFileAction } from "../actions/uiActions/";
+import { OpenFileAction, SaveFileAction } from "../actions/uiActions/";
 import { discord, github } from "../assets";
+import { Converter } from "../formats/oc/converter";
+import { Serializer } from "../formats/oc/serializer";
+import { Project } from "../project";
 import { Store } from "../store/";
 
 export interface Props {
@@ -14,6 +17,24 @@ export const Sidebar = (props: Props) => {
 
     const openFilePicker = () => {
         new OpenFileAction({ accept: [".sm", ".oc"] }).run();
+    };
+
+    const saveFile = () => {
+        const project: Project = {
+            charts: [store.config.chart],
+            song: {
+                artist: "TODO",
+                title: "TODO",
+            },
+        };
+        const fd = new Converter().fromNative(project);
+        const data = new Serializer().write(fd);
+
+        new SaveFileAction({
+            data,
+            fileName: "project.oc",
+            mimeType: "application/openchart",
+        }).run();
     };
 
     const swapScrollDirection = () => {
@@ -38,12 +59,10 @@ export const Sidebar = (props: Props) => {
                 <a title="New chart">
                     <span className="material-icons-outlined">add</span>
                 </a>
-                <a title="Open chart">
-                    <span className="material-icons-outlined" onClick={openFilePicker}>
-                        upload_file
-                    </span>
+                <a title="Open chart" onClick={openFilePicker}>
+                    <span className="material-icons-outlined">upload_file</span>
                 </a>
-                <a title="Download chart">
+                <a title="Download chart" onClick={saveFile}>
                     <span className="material-icons-outlined">save_alt</span>
                 </a>
                 <div className="divider"></div>
