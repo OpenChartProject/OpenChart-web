@@ -1,10 +1,12 @@
-import { Chart } from "../../charting/";
-import { SongData } from "../../project/";
+import { SongData } from "../../project";
+
+import { Chart } from "./types/";
 
 export interface FileData {
-    charts: Chart[];
     metaData: {
         version: string;
     };
+
+    charts: Chart[];
     song: SongData;
 }

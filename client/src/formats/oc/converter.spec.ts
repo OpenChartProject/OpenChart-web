@@ -5,6 +5,7 @@ import { Project } from "../../project/";
 
 import { Converter } from "./converter";
 import { FileData } from "./fileData";
+import { ChartConverter } from "./types";
 
 describe("oc/Converter", () => {
     describe("#fromNative", () => {
@@ -17,21 +18,7 @@ describe("oc/Converter", () => {
                 },
             };
             const expected: FileData = {
-                charts: p.charts,
-                metaData: {
-                    version: "0.1",
-                },
-                song: p.song,
-            };
-
-            assert.deepStrictEqual(new Converter().fromNative(p), expected);
-        });
-    });
-
-    describe("#toNative", () => {
-        it("returns the expected Project object", () => {
-            const data: FileData = {
-                charts: [new Chart()],
+                charts: [new ChartConverter().fromNative(p.charts[0])],
                 metaData: {
                     version: "0.1",
                 },
@@ -40,12 +27,23 @@ describe("oc/Converter", () => {
                     title: "bar",
                 },
             };
-            const expected: Project = {
-                charts: data.charts,
-                song: data.song,
-            };
 
-            assert.deepStrictEqual(new Converter().toNative(data), expected);
+            assert.deepStrictEqual(new Converter().fromNative(p), expected);
+        });
+    });
+
+    describe("#toNative", () => {
+        it("returns the expected Project object", () => {
+            const p: Project = {
+                charts: [new Chart()],
+                song: {
+                    artist: "foo",
+                    title: "bar",
+                },
+            };
+            const fd = new Converter().fromNative(p);
+
+            assert.deepStrictEqual(new Converter().toNative(fd), p);
         });
     });
 });
