@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useState } from "react";
 
 import { Store } from "../store/";
 
@@ -12,9 +12,11 @@ export interface Props {
 }
 
 export const App = observer((props: Props) => {
+    const [showModal, setShowModal] = useState(true);
+
     return (
         <div className="app-container">
-            <WelcomeModal />
+            {showModal && <WelcomeModal onClose={() => setShowModal(false)} />}
             <Sidebar store={props.store} />
             <NoteField store={props.store} />
         </div>

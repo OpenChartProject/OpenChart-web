@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { banner } from "../assets";
 
-export const WelcomeModal = () => {
-    const [visible, setVisible] = useState(true);
+export interface Props {
+    onClose(): void;
+}
 
-    if (!visible) {
-        return null;
-    }
+export const WelcomeModal = (props: Props) => {
+    const onKeyDown = (e: KeyboardEvent) => {
+        e.preventDefault();
+
+        if (e.key === "Escape" || e.key === "Enter") {
+            props.onClose();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, []);
 
     return (
         <div>
-            <div className="dimmer"></div>
+            <div className="dimmer" onClick={props.onClose}></div>
             <div className="modal welcome-modal">
                 <img className="oc-banner" src={banner} />
 
@@ -22,7 +33,7 @@ export const WelcomeModal = () => {
                     </strong>
                 </p>
                 <p>See the links in the sidebar to learn more.</p>
-                <button className="close-btn" onClick={() => setVisible(false)} autoFocus>
+                <button className="close-btn" onClick={props.onClose} autoFocus>
                     OK
                 </button>
             </div>
