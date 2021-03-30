@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
-import { createStore } from "../testutil";
+import { createStore } from "../testUtil";
 
 import { Baseline } from "./config";
 import { adjustToBaseline, calculateViewport, pps, scaleToWidth, timeToPosition } from "./drawing";
