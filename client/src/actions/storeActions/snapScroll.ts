@@ -26,6 +26,11 @@ export class SnapScrollAction implements Action {
     }
 
     run(): void {
+        // Ignore scroll events if the notefield is auto scrolling
+        if (this.store.state.isPlaying) {
+            return;
+        }
+
         const { scroll, snap } = this.store.state;
         let dir = this.args.direction;
 
