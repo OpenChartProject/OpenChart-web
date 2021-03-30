@@ -63,6 +63,8 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         zoom: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
         snap: new BeatSnap(),
+
+        isPlaying: false,
     };
 
     store = new Store(config, state);

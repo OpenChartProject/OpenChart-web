@@ -68,4 +68,5 @@ export interface NoteFieldState {
     snap: BeatSnap;
 
     audio?: HTMLAudioElement;
+    isPlaying: boolean;
 }

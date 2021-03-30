@@ -5,6 +5,7 @@ import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime, Chart, Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 
+import { AutoScroll } from "./autoScroll";
 import { UserConfigStorage } from "./userConfig";
 
 /**
@@ -55,12 +56,24 @@ export class Store {
      * Updates the render height of the notefield.
      */
     setHeight(height: number) {
+        // Only update the height if we need to. Using the `el.height` setter will cause
+        // the notefield to be cleared, even if the value didn't change.
         if (height !== this.state.height) {
             if (this.el) {
                 this.el.height = height;
             }
 
             this.state.height = height;
+        }
+    }
+
+    setPlaying(isPlaying: boolean) {
+        if (isPlaying !== this.state.isPlaying) {
+            this.state.isPlaying = isPlaying;
+
+            if (isPlaying) {
+                new AutoScroll(this).start();
+            }
         }
     }
 

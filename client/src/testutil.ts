@@ -90,6 +90,8 @@ export function createStore(args: CreateStoreArgs = {}): Store {
         zoom: new Fraction(1),
         scroll: { beat: Beat.Zero, time: Time.Zero },
         snap: new BeatSnap(),
+
+        isPlaying: false,
     };
 
     if (args.config) {
