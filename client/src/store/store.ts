@@ -68,7 +68,7 @@ export class Store {
     }
 
     setMetronome(enabled: boolean) {
-        this.state.playMetronome = enabled;
+        this.state.enableMetronome = enabled;
     }
 
     setPlaying(isPlaying: boolean) {

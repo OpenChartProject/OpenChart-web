@@ -115,18 +115,15 @@ export const Sidebar = observer((props: Props) => {
                     <span className="material-icons-outlined">swap_vert</span>
                 </a>
 
-                {
-                    store.state.playMetronome ? (
-                        <a title="Disable metronome" onClick={metronome(false)}>
-                            <span className="material-icons-outlined">timer</span>
-                        </a>
-                    ) : (
-                        <a title="Enable metronome" onClick={metronome(true)}>
-                            <span className="material-icons-outlined">timer_off</span>
-                        </a>
-                    )
-                }
-
+                {store.state.enableMetronome ? (
+                    <a title="Disable metronome" onClick={metronome(false)}>
+                        <span className="material-icons-outlined">timer</span>
+                    </a>
+                ) : (
+                    <a title="Enable metronome" onClick={metronome(true)}>
+                        <span className="material-icons-outlined">timer_off</span>
+                    </a>
+                )}
             </div>
             <div className="footer">
                 <a

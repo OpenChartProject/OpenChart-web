@@ -8,7 +8,7 @@ export class AutoScroll {
 
     constructor(store: Store) {
         this.store = store;
-        this.metronome = new Metronome();
+        this.metronome = new Metronome(store);
 
         this.onFrame = this.onFrame.bind(this);
     }
@@ -27,10 +27,7 @@ export class AutoScroll {
         const seconds = (time - this.earlier) / 1000;
 
         this.store.scrollBy({ time: seconds });
-
-        if (state.playMetronome) {
-            this.metronome.update(state.scroll.beat);
-        }
+        this.metronome.update(state.scroll.beat);
 
         this.earlier = time;
 
