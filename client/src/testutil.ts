@@ -72,6 +72,7 @@ export function createStore(args: CreateStoreArgs = {}): Store {
                 snapNext: "ArrowRight",
                 snapPrev: "ArrowLeft",
             },
+            playPause: " ",
         },
 
         baseline: Baseline.Centered,

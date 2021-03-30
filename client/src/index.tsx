@@ -45,6 +45,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
                 snapNext: "ArrowRight",
                 snapPrev: "ArrowLeft",
             },
+            playPause: " ",
         },
 
         baseline: Baseline.Centered,

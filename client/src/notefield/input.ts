@@ -1,6 +1,7 @@
 import {
     Action,
     PlaceTapAction,
+    PlayPauseAction,
     SnapAdjustAction,
     SnapScrollAction,
     ZoomAction,
@@ -22,6 +23,8 @@ export interface KeyBinds {
         snapNext: string;
         snapPrev: string;
     };
+
+    playPause: string;
 }
 
 /**
@@ -104,6 +107,10 @@ export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | 
             return new SnapAdjustAction(store, {
                 adjust: "prev",
             });
+
+        case keyBinds.playPause:
+            e.preventDefault();
+            return new PlayPauseAction(store);
     }
 
     return null;
