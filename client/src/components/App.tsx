@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Store } from "../store/";
 
 import { NoteField } from "./NoteField";
-import { Sidebar } from "./Sidebar";
+import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {
@@ -17,7 +17,7 @@ export const App = observer((props: Props) => {
     return (
         <div className="app-container">
             {showModal && <WelcomeModal onClose={() => setShowModal(false)} />}
-            <Sidebar store={props.store} />
+            <Toolbar store={props.store} />
             <NoteField store={props.store} />
         </div>
     );

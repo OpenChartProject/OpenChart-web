@@ -4,19 +4,19 @@ import { inflate } from "pako";
 import React from "react";
 
 import { MetronomeAction, ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
-import { OpenFileAction, SaveFileAction } from "../actions/uiActions/";
+import { OpenFileAction, SaveFileAction } from "../actions/uiActions";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";
 import { Converter } from "../formats/oc/converter";
 import { Serializer } from "../formats/oc/serializer";
 import { Project } from "../project";
-import { Store } from "../store/";
+import { Store } from "../store";
 
 export interface Props {
     store: Store;
 }
 
-export const Sidebar = observer((props: Props) => {
+export const Toolbar = observer((props: Props) => {
     const { store } = props;
 
     const metronome = (enabled: boolean) => {

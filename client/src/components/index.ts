@@ -1,4 +1,4 @@
 export { App } from "./App";
 export { NoteField } from "./NoteField";
-export { Sidebar } from "./Sidebar";
+export { Toolbar } from "./Toolbar";
 export { WelcomeModal } from "./WelcomeModal";
