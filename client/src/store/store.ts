@@ -69,6 +69,7 @@ export class Store {
 
     setMetronome(enabled: boolean) {
         this.state.enableMetronome = enabled;
+        UserConfigStorage.update({ enableMetronome: enabled });
     }
 
     setPlaying(isPlaying: boolean) {

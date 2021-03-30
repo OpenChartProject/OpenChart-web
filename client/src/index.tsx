@@ -66,7 +66,7 @@ loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((skin) => {
         snap: new BeatSnap(),
 
         isPlaying: false,
-        enableMetronome: true,
+        enableMetronome: userConfig.config.enableMetronome,
     };
 
     store = new Store(config, state);
