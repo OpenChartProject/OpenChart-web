@@ -66,4 +66,6 @@ export interface NoteFieldState {
     zoom: Fraction;
     scroll: BeatTime;
     snap: BeatSnap;
+
+    audio?: HTMLAudioElement;
 }
