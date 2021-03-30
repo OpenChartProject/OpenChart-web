@@ -1,8 +1,9 @@
 import { toByteArray } from "base64-js";
+import { observer } from "mobx-react-lite";
 import { inflate } from "pako";
 import React from "react";
 
-import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
+import { MetronomeAction, ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
 import { OpenFileAction, SaveFileAction } from "../actions/uiActions/";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";
@@ -15,8 +16,14 @@ export interface Props {
     store: Store;
 }
 
-export const Sidebar = (props: Props) => {
+export const Sidebar = observer((props: Props) => {
     const { store } = props;
+
+    const metronome = (enabled: boolean) => {
+        return () => {
+            new MetronomeAction(store, { enabled }).run();
+        };
+    };
 
     const newFile = () => {
         store.setChart(new Chart());
@@ -92,16 +99,34 @@ export const Sidebar = (props: Props) => {
                 <a title="Download chart" onClick={saveFile}>
                     <span className="material-icons-outlined">save_alt</span>
                 </a>
+
                 <div className="divider"></div>
-                <a title="Swap scroll direction" onClick={swapScrollDirection}>
-                    <span className="material-icons-outlined">swap_vert</span>
-                </a>
+
                 <a title="Zoom in" onClick={zoomIn}>
                     <span className="material-icons-outlined">zoom_in</span>
                 </a>
                 <a title="Zoom out" onClick={zoomOut}>
                     <span className="material-icons-outlined">zoom_out</span>
                 </a>
+
+                <div className="divider"></div>
+
+                <a title="Swap scroll direction" onClick={swapScrollDirection}>
+                    <span className="material-icons-outlined">swap_vert</span>
+                </a>
+
+                {
+                    store.state.playMetronome ? (
+                        <a title="Disable metronome" onClick={metronome(false)}>
+                            <span className="material-icons-outlined">timer</span>
+                        </a>
+                    ) : (
+                        <a title="Enable metronome" onClick={metronome(true)}>
+                            <span className="material-icons-outlined">timer_off</span>
+                        </a>
+                    )
+                }
+
             </div>
             <div className="footer">
                 <a
@@ -125,4 +150,4 @@ export const Sidebar = (props: Props) => {
             </div>
         </div>
     );
-};
+});

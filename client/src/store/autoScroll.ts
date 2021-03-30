@@ -9,11 +9,14 @@ export class AutoScroll {
     constructor(store: Store) {
         this.store = store;
         this.metronome = new Metronome();
+
         this.onFrame = this.onFrame.bind(this);
     }
 
     onFrame(time: number) {
-        if (!this.store.state.isPlaying) {
+        const state = this.store.state;
+
+        if (!state.isPlaying) {
             return;
         }
 
@@ -24,7 +27,10 @@ export class AutoScroll {
         const seconds = (time - this.earlier) / 1000;
 
         this.store.scrollBy({ time: seconds });
-        this.metronome.update(this.store.state.scroll.beat);
+
+        if (state.playMetronome) {
+            this.metronome.update(state.scroll.beat);
+        }
 
         this.earlier = time;
 

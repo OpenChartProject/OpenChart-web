@@ -93,6 +93,7 @@ export function createStore(args: CreateStoreArgs = {}): Store {
         snap: new BeatSnap(),
 
         isPlaying: false,
+        playMetronome: true,
     };
 
     if (args.config) {
