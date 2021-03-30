@@ -2,12 +2,13 @@ import { Metronome } from "./metronome";
 import { Store } from "./store";
 
 export class AutoScroll {
-    earlier: number = -1;
+    earlier: number;
     metronome: Metronome;
     store: Store;
 
     constructor(store: Store) {
         this.store = store;
+        this.earlier = -1;
         this.metronome = new Metronome(store);
 
         this.onFrame = this.onFrame.bind(this);
@@ -35,6 +36,7 @@ export class AutoScroll {
     }
 
     start() {
+        this.earlier = -1;
         requestAnimationFrame(this.onFrame);
     }
 }
