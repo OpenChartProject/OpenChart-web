@@ -6,6 +6,7 @@ import { Beat, BeatTime, Chart, Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 
 import { AutoScroll } from "./autoScroll";
+import { Music } from "./music";
 import { UserConfigStorage } from "./userConfig";
 
 /**
@@ -16,16 +17,24 @@ export class Store {
     state: NoteFieldState;
     el?: HTMLCanvasElement;
 
+    autoScroll: AutoScroll;
+    music: Music;
+
     constructor(config: NoteFieldConfig, state: NoteFieldState) {
         makeAutoObservable(this, {
             el: false,
             minZoom: false,
             maxZoom: false,
+            music: false,
+            autoScroll: false,
         });
         this.config = config;
         this.state = makeAutoObservable(state, {
             zoom: observable.ref,
         });
+
+        this.autoScroll = new AutoScroll(this);
+        this.music = new Music();
     }
 
     /**
@@ -72,12 +81,19 @@ export class Store {
         UserConfigStorage.update({ enableMetronome: enabled });
     }
 
+    setMusic(src: string) {
+        this.music.setSource(src);
+    }
+
     setPlaying(isPlaying: boolean) {
         if (isPlaying !== this.state.isPlaying) {
             this.state.isPlaying = isPlaying;
 
             if (isPlaying) {
-                new AutoScroll(this).start();
+                this.autoScroll.start();
+                this.music.playAt(this.state.scroll.time.value);
+            } else {
+                this.music.pause();
             }
         }
     }

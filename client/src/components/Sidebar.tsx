@@ -30,25 +30,34 @@ export const Sidebar = observer((props: Props) => {
     };
 
     const openFilePicker = () => {
-        new OpenFileAction({ accept: [".sm", ".oc", ".ocz"] }).run().then((files) => {
+        new OpenFileAction({ accept: [".sm", ".oc", ".ocz", "audio/*"] }).run().then((files) => {
             const reader = new FileReader();
             const f = files[0];
 
-            reader.onload = () => {
-                let text = reader.result as string | null;
+            if (f.name.match(/\.(sm|oc|ocz)$/i)) {
+                reader.onload = () => {
+                    let text = reader.result as string;
 
-                if (!text) return;
+                    if (f.name.endsWith(".ocz")) {
+                        text = inflate(toByteArray(text), { to: "string" });
+                    }
 
-                if (f.name.endsWith(".ocz")) {
-                    text = inflate(toByteArray(text), { to: "string" });
-                }
+                    const fd = new Serializer().read(text as string);
+                    const project = new Converter().toNative(fd);
+                    store.setChart(project.charts[0]);
+                };
 
-                const fd = new Serializer().read(text as string);
-                const project = new Converter().toNative(fd);
-                store.setChart(project.charts[0]);
-            };
+                reader.readAsText(f);
+            } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
+                reader.onload = () => {
+                    const data = reader.result as string;
+                    store.setMusic(data);
+                };
 
-            reader.readAsText(f);
+                reader.readAsDataURL(f);
+            } else {
+                console.warn("Unrecognized file type:", f.name);
+            }
         });
     };
 
