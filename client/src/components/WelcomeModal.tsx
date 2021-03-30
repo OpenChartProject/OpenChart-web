@@ -22,7 +22,7 @@ export const WelcomeModal = () => {
                     </strong>
                 </p>
                 <p>See the links in the sidebar to learn more.</p>
-                <button className="close-btn" onClick={() => setVisible(false)}>
+                <button className="close-btn" onClick={() => setVisible(false)} autoFocus>
                     OK
                 </button>
             </div>
