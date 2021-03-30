@@ -1,5 +1,3 @@
-import { Time } from "../charting";
-
 import { Store } from "./store";
 
 export class AutoScroll {
@@ -22,7 +20,9 @@ export class AutoScroll {
 
         const seconds = (time - this.earlier) / 1000;
 
-        this.store.setScroll({ time: new Time(seconds) });
+        this.store.scrollBy({ time: seconds });
+        this.earlier = time;
+
         requestAnimationFrame(this.onFrame);
     }
 
