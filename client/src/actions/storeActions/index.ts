@@ -1,5 +1,4 @@
 export { Action } from "../action";
-export { MetronomeAction, MetronomeArgs } from "./metronome";
 export { PlaceTapAction, PlaceTapArgs } from "./placeTap";
 export { PlayPauseAction } from "./playPause";
 export { ScrollAction, ScrollArgs } from "./scroll";

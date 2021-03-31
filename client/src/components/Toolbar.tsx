@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 
-import { MetronomeAction, ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
+import { ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
 import { OpenFileAction, OpenFileDialogAction, SaveFileAction } from "../actions/uiActions";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";
@@ -18,7 +18,7 @@ export const Toolbar = observer((props: Props) => {
 
     const metronome = (enabled: boolean) => {
         return () => {
-            new MetronomeAction(store, { enabled }).run();
+            store.setMetronome(enabled);
         };
     };
 

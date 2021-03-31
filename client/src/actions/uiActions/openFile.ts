@@ -2,10 +2,17 @@ import { getFormatFromFileName, loadFromString } from "../../formats/formats";
 import { Store } from "../../store";
 import { Action } from "../action";
 
+/**
+ * Arguments for the OpenFileAction.
+ */
 export interface OpenFileArgs {
     file: File;
 }
 
+/**
+ * Action for reading and parsing a file that the user has selected. This supports opening
+ * charts and audio files.
+ */
 export class OpenFileAction implements Action {
     args: OpenFileArgs;
     store: Store;
@@ -15,6 +22,15 @@ export class OpenFileAction implements Action {
         this.args = args;
     }
 
+    /**
+     * Reads the provided file and uses its name to determine the format.
+     *
+     * If the file is a recognized chart/project format, it's loaded in and the chart
+     * is displayed to the user. If it's an audio file, it sets that as the current music source.
+     *
+     * This returns a promise that resolves if the file was handled, and rejected if the
+     * file type is unknown or not supported.
+     */
     run(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const reader = new FileReader();
