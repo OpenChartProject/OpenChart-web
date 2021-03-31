@@ -15,7 +15,10 @@ export interface FormatInfo {
 
 export type formatList = { [ext: string]: FormatInfo };
 
-export const Formats: formatList = {
+/**
+ * A mapping of the supported chart formats.
+ */
+export const Formats: Readonly<formatList> = {
     ".sm": {
         name: "StepMania/Etterna",
         ext: ".sm",
@@ -38,6 +41,9 @@ export const Formats: formatList = {
     },
 }
 
+/**
+ * Returns the format that matches the extension of the filename.
+ */
 export function getFormatFromFileName(name: string): FormatInfo | null {
     name = name.toLowerCase();
 
@@ -50,6 +56,9 @@ export function getFormatFromFileName(name: string): FormatInfo | null {
     return null;
 }
 
+/**
+ * Loads in the raw file format data and converts it to a Project.
+ */
 export function loadFromString(format: FormatInfo, data: string): Project {
     const fd = format.serializer.read(data);
     const project = format.converter.toNative(fd);
@@ -57,6 +66,9 @@ export function loadFromString(format: FormatInfo, data: string): Project {
     return project;
 }
 
+/**
+ * Converts the project into the given format and returns the contents of the file.
+ */
 export function writeToString(format: FormatInfo, project: Project): string {
     const fd = format.converter.fromNative(project);
     const data = format.serializer.write(fd);
