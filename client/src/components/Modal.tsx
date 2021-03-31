@@ -21,9 +21,7 @@ export const Modal = (props: React.PropsWithChildren<Props>) => {
     return (
         <div>
             <div className="dimmer" onClick={props.onClose}></div>
-            <div className={`modal ${props.className || ""}`}>
-                {props.children}
-            </div>
+            <div className={`modal ${props.className || ""}`}>{props.children}</div>
         </div>
     );
 };

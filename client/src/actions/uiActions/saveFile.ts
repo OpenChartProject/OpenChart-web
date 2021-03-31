@@ -1,5 +1,3 @@
-import { fromByteArray } from "base64-js";
-import { deflate } from "pako";
 
 import { Action } from "../action";
 
@@ -9,10 +7,9 @@ const elDownloadLink = document.getElementById("download-link") as HTMLAnchorEle
  * Arguments for the SaveFileAction.
  */
 export interface SaveFileArgs {
-    compress?: boolean;
     data: string;
     fileName: string;
-    mimeType: string;
+    mimeType?: string;
 }
 
 /**
@@ -26,15 +23,10 @@ export class SaveFileAction implements Action {
     }
 
     run(): void {
-        let data = this.args.data;
+        const data = encodeURI(this.args.data);
+        const mimeType = this.args.mimeType ?? "text/plain";
 
-        if (this.args.compress) {
-            data = fromByteArray(deflate(data));
-        }
-
-        data = encodeURI(data);
-
-        elDownloadLink.href = `data:${this.args.mimeType};charset=utf-8,${data}`;
+        elDownloadLink.href = `data:${mimeType};charset=utf-8,${data}`;
         elDownloadLink.download = this.args.fileName;
         elDownloadLink.click();
     }

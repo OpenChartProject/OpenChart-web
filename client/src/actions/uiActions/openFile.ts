@@ -1,38 +1,48 @@
+import { getFormatFromFileName, loadFromString } from "../../formats/formats";
+import { Store } from "../../store";
 import { Action } from "../action";
 
-const elFilePicker = document.getElementById("file-picker") as HTMLInputElement;
-
-/**
- * Arguments for the OpenFileAction.
- */
 export interface OpenFileArgs {
-    accept: string[];
-    multiple?: boolean;
+    file: File;
 }
 
-/**
- * Action for displaying a file picker dialog.
- */
 export class OpenFileAction implements Action {
     args: OpenFileArgs;
+    store: Store;
 
-    constructor(args: OpenFileArgs) {
+    constructor(store: Store, args: OpenFileArgs) {
+        this.store = store;
         this.args = args;
     }
 
-    /**
-     * Opens the file picker dialog and returns a promise that resolves to the list of
-     * files picked by the user. If the user closes the dialog without picking anything
-     * the promise will not resolve or reject.
-     */
-    run(): Promise<FileList> {
-        elFilePicker.files = null;
-        elFilePicker.accept = this.args.accept.join(",");
-        elFilePicker.multiple = this.args.multiple === true;
+    run(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const reader = new FileReader();
+            const f = this.args.file;
+            const format = getFormatFromFileName(f.name);
 
-        return new Promise<FileList>((resolve) => {
-            elFilePicker.onchange = () => resolve(elFilePicker.files as FileList);
-            elFilePicker.click();
+            if (format) {
+                reader.onload = () => {
+                    const text = reader.result as string;
+                    const project = loadFromString(format, text);
+                    this.store.setChart(project.charts[0]);
+                    resolve();
+                };
+
+                reader.readAsText(f);
+            } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
+                reader.onload = () => {
+                    const data = reader.result as string;
+                    this.store.setMusic(data);
+
+                    resolve();
+                };
+
+                reader.readAsDataURL(f);
+            } else {
+                console.warn("Unrecognized file type:", f.name);
+                reject();
+            }
         });
     }
 }

@@ -1,10 +1,9 @@
 import { fromByteArray, toByteArray } from "base64-js";
 import { deflate, inflate } from "pako";
 
-import { ISerializer } from "../serializer";
-
-import { FileData } from "../oc/fileData";
 import { OCSerializer } from "../oc";
+import { FileData } from "../oc/fileData";
+import { ISerializer } from "../serializer";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {

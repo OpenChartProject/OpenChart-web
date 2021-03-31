@@ -1,10 +1,10 @@
-import { IConverter } from "./converter";
-import { ISerializer } from "./serializer";
-
-import { OCZSerializer } from "./ocz";
-import { OCConverter, OCSerializer } from "./oc";
-import { SMConverter, SMSerializer } from "./sm";
 import { Project } from "../project";
+
+import { IConverter } from "./converter";
+import { OCConverter, OCSerializer } from "./oc";
+import { OCZSerializer } from "./ocz";
+import { ISerializer } from "./serializer";
+import { SMConverter, SMSerializer } from "./sm";
 
 export interface FormatInfo {
     name: string;
@@ -18,7 +18,7 @@ export type formatList = { [ext: string]: FormatInfo };
 /**
  * A mapping of the supported chart formats.
  */
-export const Formats: Readonly<formatList> = {
+export const Formats = {
     ".sm": {
         name: "StepMania/Etterna",
         ext: ".sm",
@@ -39,7 +39,7 @@ export const Formats: Readonly<formatList> = {
         converter: new OCConverter(),
         serializer: new OCZSerializer(),
     },
-}
+};
 
 /**
  * Returns the format that matches the extension of the filename.
@@ -49,7 +49,7 @@ export function getFormatFromFileName(name: string): FormatInfo | null {
 
     for (const ext in Formats) {
         if (name.endsWith(ext)) {
-            return Formats[ext];
+            return (Formats as any)[ext];
         }
     }
 

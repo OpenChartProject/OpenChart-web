@@ -1,14 +1,11 @@
-import { toByteArray } from "base64-js";
 import { observer } from "mobx-react-lite";
-import { inflate } from "pako";
 import React from "react";
 
 import { MetronomeAction, ScrollDirectionAction, ZoomAction } from "../actions/storeActions";
-import { OpenFileAction, SaveFileAction } from "../actions/uiActions";
+import { OpenFileAction, OpenFileDialogAction, SaveFileAction } from "../actions/uiActions";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";
-import { Converter } from "../formats/oc/converter";
-import { Serializer } from "../formats/oc/serializer";
+import { Formats, writeToString } from "../formats/formats";
 import { Project } from "../project";
 import { Store } from "../store";
 
@@ -30,34 +27,10 @@ export const Toolbar = observer((props: Props) => {
     };
 
     const openFilePicker = () => {
-        new OpenFileAction({ accept: [".sm", ".oc", ".ocz", "audio/*"] }).run().then((files) => {
-            const reader = new FileReader();
-            const f = files[0];
+        const action = new OpenFileDialogAction({ accept: [".sm", ".oc", ".ocz", "audio/*"] });
 
-            if (f.name.match(/\.(sm|oc|ocz)$/i)) {
-                reader.onload = () => {
-                    let text = reader.result as string;
-
-                    if (f.name.endsWith(".ocz")) {
-                        text = inflate(toByteArray(text), { to: "string" });
-                    }
-
-                    const fd = new Serializer().read(text as string);
-                    const project = new Converter().toNative(fd);
-                    store.setChart(project.charts[0]);
-                };
-
-                reader.readAsText(f);
-            } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
-                reader.onload = () => {
-                    const data = reader.result as string;
-                    store.setMusic(data);
-                };
-
-                reader.readAsDataURL(f);
-            } else {
-                console.warn("Unrecognized file type:", f.name);
-            }
+        action.run().then((files) => {
+            new OpenFileAction(store, { file: files[0] }).run();
         });
     };
 
@@ -69,15 +42,10 @@ export const Toolbar = observer((props: Props) => {
                 title: "TODO",
             },
         };
-        const fd = new Converter().fromNative(project);
-        const data = new Serializer().write(fd);
 
-        new SaveFileAction({
-            compress: true,
-            data,
-            fileName: "project.ocz",
-            mimeType: "application/openchart+compressed",
-        }).run();
+        const data = writeToString(Formats[".ocz"], project);
+
+        new SaveFileAction({ data, fileName: "project.ocz" }).run();
     };
 
     const swapScrollDirection = () => {
