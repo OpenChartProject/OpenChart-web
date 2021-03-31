@@ -1,4 +1,3 @@
-
 import { Action } from "../action";
 
 const elDownloadLink = document.getElementById("download-link") as HTMLAnchorElement;

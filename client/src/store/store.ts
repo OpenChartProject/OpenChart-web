@@ -5,7 +5,7 @@ import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime, Chart, Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 
-import { AutoScroll } from "./autoScroll";
+import { AutoScroller } from "./autoScroller";
 import { Music } from "./music";
 import { UserConfigStorage } from "./userConfig";
 
@@ -17,7 +17,7 @@ export class Store {
     state: NoteFieldState;
     el?: HTMLCanvasElement;
 
-    autoScroll: AutoScroll;
+    autoScroller: AutoScroller;
     music: Music;
 
     constructor(config: NoteFieldConfig, state: NoteFieldState) {
@@ -26,14 +26,14 @@ export class Store {
             minZoom: false,
             maxZoom: false,
             music: false,
-            autoScroll: false,
+            autoScroller: false,
         });
         this.config = config;
         this.state = makeAutoObservable(state, {
             zoom: observable.ref,
         });
 
-        this.autoScroll = new AutoScroll(this);
+        this.autoScroller = new AutoScroller(this);
         this.music = new Music();
     }
 
@@ -90,7 +90,7 @@ export class Store {
             this.state.isPlaying = isPlaying;
 
             if (isPlaying) {
-                this.autoScroll.start();
+                this.autoScroller.start();
                 this.music.playAt(this.state.scroll.time.value);
             } else {
                 this.music.pause();
