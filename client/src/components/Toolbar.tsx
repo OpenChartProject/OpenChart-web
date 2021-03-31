@@ -43,9 +43,10 @@ export const Toolbar = observer((props: Props) => {
             },
         };
 
-        const data = writeToString(Formats[".ocz"], project);
+        const format = Formats[".ocz"];
+        const data = writeToString(format, project);
 
-        new SaveFileAction({ data, fileName: "project.ocz" }).run();
+        new SaveFileAction({ data, fileName: `project.${format.ext}` }).run();
     };
 
     const swapScrollDirection = () => {
