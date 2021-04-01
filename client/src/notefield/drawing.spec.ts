@@ -4,27 +4,27 @@ import Fraction from "fraction.js";
 import { Beat, Time } from "../charting/";
 import { createStore } from "../testUtil";
 
-import { Baseline } from "./config";
+import { Baseline } from "../store";
 import { adjustToBaseline, calculateViewport, pps, scaleToWidth, timeToPosition } from "./drawing";
 
 describe("notefield", () => {
     describe("#adjustToBaseline", () => {
         it("returns expected value when baseline is After", () => {
-            const { config } = createStore();
+            const { config } = createStore().editor;
             config.baseline = Baseline.After;
             const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), 0);
         });
 
         it("returns expected value when baseline is Before and is upscroll", () => {
-            const { config } = createStore();
+            const { config } = createStore().editor;
             config.baseline = Baseline.Before;
             const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), -50);
         });
 
         it("returns expected value when baseline is Before and is downscroll", () => {
-            const { config } = createStore();
+            const { config } = createStore().editor;
             config.baseline = Baseline.Before;
             config.scrollDirection = "down";
             const dp: any = { config };
@@ -32,14 +32,14 @@ describe("notefield", () => {
         });
 
         it("returns expected value when baseline is Centered and is upscroll", () => {
-            const { config } = createStore();
+            const { config } = createStore().editor;
             config.baseline = Baseline.Centered;
             const dp: any = { config };
             assert.strictEqual(adjustToBaseline(dp, 0, 50), -25);
         });
 
         it("returns expected value when baseline is Centered and is downscroll", () => {
-            const { config } = createStore();
+            const { config } = createStore().editor;
             config.baseline = Baseline.Centered;
             config.scrollDirection = "down";
             const dp: any = { config };
@@ -63,7 +63,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -86,7 +86,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -109,7 +109,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -132,7 +132,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -155,7 +155,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -178,7 +178,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -197,9 +197,9 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.setScroll({ time: new Time(1) });
+            store.noteField.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 100);
             assert.strictEqual(t0.value, 1);
@@ -218,9 +218,9 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.setScroll({ time: new Time(1) });
+            store.noteField.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.config, store.state);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -239,7 +239,7 @@ describe("notefield", () => {
             };
             const store = createStore({ config, state });
 
-            assert.deepStrictEqual(pps(store.config, store.state), 100);
+            assert.deepStrictEqual(pps(store.editor, store.noteField), 100);
         });
 
         it("returns expected value for 2:1 scaling", () => {
@@ -251,7 +251,7 @@ describe("notefield", () => {
             };
             const store = createStore({ config, state });
 
-            assert.deepStrictEqual(pps(store.config, store.state), 200);
+            assert.deepStrictEqual(pps(store.editor, store.noteField), 200);
         });
     });
 
