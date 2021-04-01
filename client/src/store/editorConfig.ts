@@ -69,6 +69,7 @@ export class EditorConfigStore {
     constructor(root: RootStore) {
         makeAutoObservable(this, {
             defaults: false,
+            root: false,
             save: false,
         });
 

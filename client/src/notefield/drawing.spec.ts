@@ -1,60 +1,60 @@
 import assert from "assert";
+import sinon from "sinon";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
 import { createStore } from "../testUtil";
 
-import { Baseline } from "../store";
-import { adjustToBaseline, calculateViewport, pps, scaleToWidth, timeToPosition } from "./drawing";
+import { Baseline, EditorConfig, NoteFieldState } from "../store";
+import { adjustToBaseline, calculateViewport, DrawProps, pps, scaleToWidth, timeToPosition } from "./drawing";
 
 describe("notefield", () => {
     describe("#adjustToBaseline", () => {
         it("returns expected value when baseline is After", () => {
-            const { config } = createStore().editor;
-            config.baseline = Baseline.After;
-            const dp: any = { config };
-            assert.strictEqual(adjustToBaseline(dp, 0, 50), 0);
+            const store = createStore();
+            store.editor.config.baseline = Baseline.After;
+            const dp: Partial<DrawProps> = { editor: store.editor };
+            assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 0);
         });
 
         it("returns expected value when baseline is Before and is upscroll", () => {
-            const { config } = createStore().editor;
-            config.baseline = Baseline.Before;
-            const dp: any = { config };
-            assert.strictEqual(adjustToBaseline(dp, 0, 50), -50);
+            const store = createStore();
+            store.editor.config.baseline = Baseline.Before;
+            const dp: Partial<DrawProps> = { editor: store.editor };
+            assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -50);
         });
 
         it("returns expected value when baseline is Before and is downscroll", () => {
-            const { config } = createStore().editor;
-            config.baseline = Baseline.Before;
-            config.scrollDirection = "down";
-            const dp: any = { config };
-            assert.strictEqual(adjustToBaseline(dp, 0, 50), 50);
+            const store = createStore();
+            store.editor.config.baseline = Baseline.Before;
+            store.editor.config.scrollDirection = "down";
+            const dp: Partial<DrawProps> = { editor: store.editor };
+            assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 50);
         });
 
         it("returns expected value when baseline is Centered and is upscroll", () => {
-            const { config } = createStore().editor;
-            config.baseline = Baseline.Centered;
-            const dp: any = { config };
-            assert.strictEqual(adjustToBaseline(dp, 0, 50), -25);
+            const store = createStore();
+            store.editor.config.baseline = Baseline.Centered;
+            const dp: Partial<DrawProps> = { editor: store.editor };
+            assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -25);
         });
 
         it("returns expected value when baseline is Centered and is downscroll", () => {
-            const { config } = createStore().editor;
-            config.baseline = Baseline.Centered;
-            config.scrollDirection = "down";
-            const dp: any = { config };
-            assert.strictEqual(adjustToBaseline(dp, 0, 50), 25);
+            const store = createStore();
+            store.editor.config.baseline = Baseline.Centered;
+            store.editor.config.scrollDirection = "down";
+            const dp: Partial<DrawProps> = { editor: store.editor };
+            assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 25);
         });
     });
 
     describe("#calculateViewport", () => {
         it("returns expected value when scroll and margin are 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -63,6 +63,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
@@ -72,12 +74,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and margin is 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -86,6 +87,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
@@ -95,12 +98,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and margin is 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -109,6 +111,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, 0);
@@ -118,12 +122,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and margin is > 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -132,6 +135,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
@@ -141,12 +146,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and margin is > 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -155,6 +159,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
@@ -164,12 +170,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is 0 and margin is > 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -178,6 +183,8 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
+            store.noteField.canvas!.height = 500;
+
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
             assert.strictEqual(y0, -100);
@@ -187,17 +194,17 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and margin is 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
+            store.noteField.canvas!.height = 500;
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -208,17 +215,17 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and margin is > 0", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state = {
-                height: 500,
+            const state: Partial<NoteFieldState> = {
                 zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
+            store.noteField.canvas!.height = 500;
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -231,10 +238,10 @@ describe("notefield", () => {
 
     describe("#pps", () => {
         it("returns expected value for 1:1 scaling", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
             };
-            const state = {
+            const state: Partial<NoteFieldState> = {
                 zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
@@ -243,10 +250,10 @@ describe("notefield", () => {
         });
 
         it("returns expected value for 2:1 scaling", () => {
-            const config = {
+            const config: Partial<EditorConfig> = {
                 pixelsPerSecond: 100,
             };
-            const state = {
+            const state: Partial<NoteFieldState> = {
                 zoom: new Fraction(2),
             };
             const store = createStore({ config, state });
@@ -271,30 +278,31 @@ describe("notefield", () => {
 
     describe("#timeToPosition", () => {
         it("returns expected value", () => {
-            const dp = {
-                config: {
-                    pixelsPerSecond: 100,
-                },
-                state: {
-                    zoom: new Fraction(1),
-                },
+            const config: Partial<EditorConfig> = {
+                pixelsPerSecond: 100,
             };
-            assert.strictEqual(timeToPosition(dp as any, 0), 0);
-            assert.strictEqual(timeToPosition(dp as any, 1), dp.config.pixelsPerSecond);
-            assert.strictEqual(timeToPosition(dp as any, 2), 2 * dp.config.pixelsPerSecond);
+            const state: Partial<NoteFieldState> = {
+                zoom: new Fraction(1),
+            };
+            const store = createStore({ config, state });
+            const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
+
+            assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
+            assert.strictEqual(timeToPosition(dp as DrawProps, 1), store.editor.config.pixelsPerSecond);
+            assert.strictEqual(timeToPosition(dp as DrawProps, 2), 2 * store.editor.config.pixelsPerSecond);
         });
 
         it("rounds to the nearest whole number", () => {
-            const dp = {
-                config: {
-                    pixelsPerSecond: 100,
-                },
-                state: {
-                    zoom: new Fraction(1.5),
-                },
+            const config: Partial<EditorConfig> = {
+                pixelsPerSecond: 100,
             };
+            const state: Partial<NoteFieldState> = {
+                zoom: new Fraction(1.5),
+            };
+            const store = createStore({ config, state });
+            const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
 
-            assert.strictEqual(timeToPosition(dp as any, 0.55), 83);
+            assert.strictEqual(timeToPosition(dp as DrawProps, 0.55), 83);
         });
     });
 });

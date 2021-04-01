@@ -1,6 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
@@ -39,10 +39,11 @@ export class NoteFieldStore {
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
-            defaults: false,
-            canvas: false,
             autoScroller: false,
+            canvas: false,
+            defaults: false,
             music: false,
+            root: false,
         });
 
         this.root = root;
@@ -50,7 +51,10 @@ export class NoteFieldStore {
         // Always start with a blank chart so we don't need to worry about passing a chart
         // in during init.
         this.chart = new Chart();
-        this.state = this.defaults;
+
+        this.state = makeAutoObservable(this.defaults, {
+            zoom: observable.ref,
+        });
 
         this.autoScroller = new AutoScroller(this.root);
         this.music = new Music();

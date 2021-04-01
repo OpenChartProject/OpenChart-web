@@ -8,7 +8,7 @@ import { getBeatLineTimes } from "./beatlines";
 /**
  * Stores some useful values used for rendering.
  */
-interface Viewport {
+export interface Viewport {
     /**
      * The scroll position, in pixels. This is the y-pos with respect to the canvas origin.
      */
@@ -30,7 +30,7 @@ interface Viewport {
     tReceptor: Time;
 }
 
-interface DrawProps extends Viewport {
+export interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;
