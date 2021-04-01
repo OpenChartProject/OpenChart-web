@@ -40,7 +40,7 @@ export class NoteFieldStore {
     constructor(root: RootStore) {
         makeAutoObservable(this, {
             autoScroller: false,
-            canvas: false,
+            canvas: observable.ref,
             defaults: false,
             music: false,
             root: false,

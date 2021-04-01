@@ -1,5 +1,8 @@
+import sinon from "sinon";
+
 globalThis.localStorage = window.localStorage;
 
-beforeEach(() => {
+afterEach(() => {
     localStorage.clear();
+    sinon.restore();
 });
