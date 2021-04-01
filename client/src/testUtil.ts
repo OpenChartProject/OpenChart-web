@@ -1,10 +1,8 @@
-import Fraction from "fraction.js";
 import _ from "lodash";
 
-import { Beat, Chart, Time } from "./charting";
-import { BeatSnap } from "./notefield/beatsnap";
+import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
-import { EditorConfig, RootStore, NoteFieldState } from "./store";
+import { EditorConfig, NoteFieldState, RootStore } from "./store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual

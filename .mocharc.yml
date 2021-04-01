@@ -4,3 +4,5 @@ exclude:
 require:
   - ts-node/register
   - jsdom-global/register
+scripts:
+  - src/testSetup.ts
