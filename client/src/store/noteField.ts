@@ -15,9 +15,6 @@ export const zoom = {
 };
 
 export interface NoteFieldState {
-    width: number;
-    height: number;
-
     zoom: Fraction;
     scroll: BeatTime;
     snap: BeatSnap;
@@ -56,15 +53,28 @@ export class NoteFieldStore {
 
     get defaults(): NoteFieldState {
         return {
-            width: 1,
-            height: 1,
-
             zoom: new Fraction(1),
             scroll: { beat: Beat.Zero, time: Time.Zero },
             snap: new BeatSnap(),
 
             isPlaying: false,
         };
+    }
+
+    get height(): number {
+        if(!this.canvas) {
+            return 1;
+        }
+
+        return this.canvas.clientHeight;
+    }
+
+    get width(): number {
+        if(!this.chart) {
+            return 1;
+        }
+
+        return this.root.editor.config.columnWidth * this.chart.keyCount.value;
     }
 
     /**
@@ -107,20 +117,6 @@ export class NoteFieldStore {
     setChart(chart: Chart) {
         this.chart = chart;
         this.resetView();
-    }
-
-    /**
-     * Updates the render height of the notefield.
-     */
-    setHeight(height: number) {
-        // Only update the height if we need to, since the canvas is cleared each time.
-        if (height !== this.state.height) {
-            if (this.canvas) {
-                this.canvas.height = height;
-            }
-
-            this.state.height = height;
-        }
     }
 
     /**
