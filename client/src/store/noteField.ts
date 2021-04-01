@@ -62,7 +62,7 @@ export class NoteFieldStore {
     }
 
     get height(): number {
-        if(!this.canvas) {
+        if (!this.canvas) {
             return 1;
         }
 
@@ -70,7 +70,7 @@ export class NoteFieldStore {
     }
 
     get width(): number {
-        if(!this.chart) {
+        if (!this.chart) {
             return 1;
         }
 

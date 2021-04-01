@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 
 import { KeyBinds } from "../notefield/input";
 import { NoteSkin } from "../noteskin";
+
 import { RootStore } from "./store";
 
 const storageKey = "config";
@@ -11,7 +12,7 @@ const storageKey = "config";
  * The different baseline options for how the notefield is displayed. This affects
  * how objects are aligned relative to the beat lines.
  */
- export enum Baseline {
+export enum Baseline {
     Before,
     Centered,
     After,
@@ -62,7 +63,7 @@ export interface EditorConfig {
  * The store for the editor config.
  */
 export class EditorConfigStore {
-    readonly config: EditorConfig;
+    config!: EditorConfig;
     readonly root: RootStore;
 
     constructor(root: RootStore) {
@@ -73,12 +74,13 @@ export class EditorConfigStore {
 
         this.root = root;
 
+        // This loads the default editor config and overwrites it with the user's saved
+        // config, if it exists.
         const defaults = this.defaults;
         const existing = localStorage.getItem(storageKey);
 
         if (!existing) {
-            this.config = defaults;
-            this.save();
+            this.update(defaults);
         } else {
             this.config = JSON.parse(existing);
             this.config = _.merge(defaults, this.config);
@@ -128,23 +130,18 @@ export class EditorConfigStore {
         };
     }
 
+    /**
+     * Updates the config with the provided changes and saves it.
+     */
+    update(config: Partial<EditorConfig>) {
+        this.config = _.merge(this.config || {}, config);
+        this.save();
+    }
+
+    /**
+     * Saves the editor config to the user's local storage.
+     */
     save() {
         localStorage.setItem(storageKey, JSON.stringify(this.config));
-    }
-
-    /**
-     * Enables or disables the metronome.
-     */
-    setMetronome(enabled: boolean) {
-        this.config.enableMetronome = enabled;
-        this.save();
-    }
-
-    /**
-     * Sets the scroll direction of the notefield.
-     */
-    setScrollDirection(direction: ScrollDirection) {
-        this.config.scrollDirection = direction;
-        this.save();
     }
 }
