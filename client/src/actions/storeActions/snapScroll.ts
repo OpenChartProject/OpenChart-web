@@ -1,4 +1,4 @@
-import { Store } from "../../store/";
+import { RootStore } from "../../store/";
 import { Action } from "../action";
 
 /**
@@ -14,9 +14,9 @@ export interface SnapScrollArgs {
  */
 export class SnapScrollAction implements Action {
     args: SnapScrollArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: SnapScrollArgs) {
+    constructor(store: RootStore, args: SnapScrollArgs) {
         this.args = args;
         this.store = store;
 
@@ -26,20 +26,23 @@ export class SnapScrollAction implements Action {
     }
 
     run(): void {
+        const { config } = this.store.editor;
+        const { setScroll, state } = this.store.noteField;
+
         // Ignore scroll events if the notefield is auto scrolling
-        if (this.store.state.isPlaying) {
+        if (state.isPlaying) {
             return;
         }
 
-        const { scroll, snap } = this.store.state;
+        const { scroll, snap } = state;
         let dir = this.args.direction;
 
-        if (this.args.autoInvert === true && this.store.config.scrollDirection === "down") {
+        if (this.args.autoInvert === true && config.scrollDirection === "down") {
             dir = dir === "forward" ? "backward" : "forward";
         }
 
         const beat = dir === "forward" ? snap.nextBeat(scroll.beat) : snap.prevBeat(scroll.beat);
 
-        this.store.setScroll({ beat });
+        setScroll({ beat });
     }
 }

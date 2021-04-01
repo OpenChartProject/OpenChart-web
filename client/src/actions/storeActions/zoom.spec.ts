@@ -18,7 +18,7 @@ describe("ScaleAction", () => {
         it("updates the scaling", () => {
             const store = createStore();
             const args: ZoomArgs = { to: new Fraction(1) };
-            const spy = sinon.spy(store, "setZoom");
+            const spy = sinon.spy(store.noteField, "setZoom");
 
             new ZoomAction(store, args).run();
             assert(spy.calledWith(args.to));

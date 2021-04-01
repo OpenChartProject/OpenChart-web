@@ -20,7 +20,7 @@ describe("ScrollAction", () => {
             const args: ScrollArgs = {
                 by: { beat: 1 },
             };
-            const scrollBy = sinon.spy(store, "scrollBy");
+            const scrollBy = sinon.spy(store.noteField, "scrollBy");
 
             new ScrollAction(store, args).run();
             assert(scrollBy.calledWith(args.by));
@@ -31,7 +31,7 @@ describe("ScrollAction", () => {
             const args: ScrollArgs = {
                 to: { beat: Beat.Zero },
             };
-            const setScroll = sinon.spy(store, "setScroll");
+            const setScroll = sinon.spy(store.noteField, "setScroll");
 
             new ScrollAction(store, args).run();
             assert(setScroll.calledWith(args.to));

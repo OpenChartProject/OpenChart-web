@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 
-import { Store } from "../../store/";
+import { RootStore } from "../../store/";
 import { Action } from "../action";
 
 /**
@@ -16,9 +16,9 @@ export interface ZoomArgs {
  */
 export class ZoomAction implements Action {
     args: ZoomArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: ZoomArgs) {
+    constructor(store: RootStore, args: ZoomArgs) {
         assert(args.to.compare(0) === 1, "zoom must be greater than zero");
 
         this.args = args;
@@ -26,6 +26,6 @@ export class ZoomAction implements Action {
     }
 
     run(): void {
-        this.store.setZoom(this.args.to);
+        this.store.noteField.setZoom(this.args.to);
     }
 }

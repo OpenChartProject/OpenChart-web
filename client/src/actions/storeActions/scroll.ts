@@ -1,7 +1,7 @@
 import assert from "assert";
 
 import { BeatTime } from "../../charting/";
-import { Store } from "../../store/";
+import { RootStore } from "../../store/";
 import { Action } from "../action";
 
 /**
@@ -17,9 +17,9 @@ export interface ScrollArgs {
  */
 export class ScrollAction implements Action {
     args: ScrollArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: ScrollArgs) {
+    constructor(store: RootStore, args: ScrollArgs) {
         assert(args.to || args.by, "both scroll arguments are undefined");
 
         this.args = args;
@@ -28,11 +28,12 @@ export class ScrollAction implements Action {
 
     run(): void {
         const args = this.args;
+        const { scrollBy, setScroll } = this.store.noteField;
 
         if (args.by) {
-            this.store.scrollBy(args.by);
+            scrollBy(args.by);
         } else if (args.to) {
-            this.store.setScroll(args.to);
+            setScroll(args.to);
         }
     }
 }

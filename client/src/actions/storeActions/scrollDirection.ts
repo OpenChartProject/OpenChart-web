@@ -1,5 +1,4 @@
-import { ScrollDirection } from "../../notefield/config";
-import { Store } from "../../store/";
+import { RootStore, ScrollDirection } from "../../store/";
 import { Action } from "../action";
 
 export interface ScrollDirectionArgs {
@@ -8,24 +7,25 @@ export interface ScrollDirectionArgs {
 
 export class ScrollDirectionAction implements Action {
     args: ScrollDirectionArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: ScrollDirectionArgs) {
+    constructor(store: RootStore, args: ScrollDirectionArgs) {
         this.args = args;
         this.store = store;
     }
 
     run(): void {
         const { to } = this.args;
+        const { config, update } = this.store.editor;
 
         if (to === "swap") {
-            if (this.store.config.scrollDirection === "up") {
-                this.store.setScrollDirection("down");
+            if (config.scrollDirection === "up") {
+                update({ scrollDirection: "down" });
             } else {
-                this.store.setScrollDirection("up");
+                update({ scrollDirection: "up" });
             }
         } else {
-            this.store.setScrollDirection(to);
+            update({ scrollDirection: to });
         }
     }
 }

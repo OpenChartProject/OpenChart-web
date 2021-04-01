@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 
-import { Store } from "../../store/";
+import { RootStore } from "../../store/";
 import { Action } from "../action";
 
 /**
@@ -17,9 +17,9 @@ export interface SnapAdjustArgs {
  */
 export class SnapAdjustAction implements Action {
     args: SnapAdjustArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: SnapAdjustArgs) {
+    constructor(store: RootStore, args: SnapAdjustArgs) {
         assert(args.adjust || args.to, "both adjustment arguments are undefined");
 
         this.args = args;
@@ -28,7 +28,7 @@ export class SnapAdjustAction implements Action {
 
     run(): void {
         const args = this.args;
-        const { snap } = this.store.state;
+        const { snap } = this.store.noteField.state;
 
         if (args.adjust === "next") {
             snap.nextSnap();

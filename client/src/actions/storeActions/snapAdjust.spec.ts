@@ -17,10 +17,11 @@ describe("SnapAdjustAction", () => {
     describe("#run", () => {
         it("calls nextSnap when adjust is set to next", () => {
             const store = createStore();
+            const { snap } = store.noteField.state;
             const args: SnapAdjustArgs = {
                 adjust: "next",
             };
-            const nextSnap = sinon.spy(store.state.snap, "nextSnap");
+            const nextSnap = sinon.spy(snap, "nextSnap");
 
             new SnapAdjustAction(store, args).run();
             assert(nextSnap.calledOnce);
@@ -28,10 +29,11 @@ describe("SnapAdjustAction", () => {
 
         it("calls prevSnap when adjust is set to prev", () => {
             const store = createStore();
+            const { snap } = store.noteField.state;
             const args: SnapAdjustArgs = {
                 adjust: "prev",
             };
-            const prevSnap = sinon.spy(store.state.snap, "prevSnap");
+            const prevSnap = sinon.spy(snap, "prevSnap");
 
             new SnapAdjustAction(store, args).run();
             assert(prevSnap.calledOnce);
@@ -39,12 +41,13 @@ describe("SnapAdjustAction", () => {
 
         it("sets the current snap if 'to' is set", () => {
             const store = createStore();
+            const { snap } = store.noteField.state;
             const args: SnapAdjustArgs = {
                 to: new Fraction(1),
             };
 
             new SnapAdjustAction(store, args).run();
-            assert.deepStrictEqual(store.state.snap.current, args.to);
+            assert.deepStrictEqual(snap.current, args.to);
         });
     });
 });
