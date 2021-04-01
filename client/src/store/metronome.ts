@@ -1,6 +1,6 @@
 import { Beat } from "../charting";
 
-import { Store } from "./store";
+import { EditorConfigStore } from "./editorConfig";
 
 const elMetronome = document.getElementById("audio-tick") as HTMLAudioElement;
 
@@ -9,17 +9,17 @@ const elMetronome = document.getElementById("audio-tick") as HTMLAudioElement;
  */
 export class Metronome {
     lastBeat?: Beat;
-    store: Store;
+    editorConfig: EditorConfigStore;
 
-    constructor(store: Store) {
-        this.store = store;
+    constructor(editorConfig: EditorConfigStore) {
+        this.editorConfig = editorConfig;
     }
 
     /**
      * Plays a metronome tick (if it's enabled).
      */
     tick() {
-        if (!this.store.state.enableMetronome) {
+        if (!this.editorConfig.config.enableMetronome) {
             return;
         }
 
