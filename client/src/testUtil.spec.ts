@@ -3,7 +3,7 @@ import Fraction from "fraction.js";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
-import { NoteFieldConfig, NoteFieldState } from "./notefield/config";
+import { EditorConfig, NoteFieldState } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
 
 describe("testutil", () => {
@@ -30,20 +30,20 @@ describe("testutil", () => {
     describe("#createStore", () => {
         it("creates a store with defaults", () => {
             const store = createStore();
-            assert(store.config);
-            assert(store.state);
-            assert.deepStrictEqual(store.config.chart, new Chart());
+            assert(store.editor);
+            assert(store.noteField);
+            assert.deepStrictEqual(store.noteField.chart, new Chart());
         });
 
         it("creates a store with the provided chart", () => {
             const chart = new Chart({ keyCount: new KeyCount(7) });
             const store = createStore({ chart });
-            assert.strictEqual(store.config.chart, chart);
+            assert.strictEqual(store.noteField.chart, chart);
         });
 
         it("merges the config if provided", () => {
             const defaultStore = createStore();
-            const config: Partial<NoteFieldConfig> = {
+            const config: Partial<EditorConfig> = {
                 colors: {
                     background: "red",
                 },
@@ -52,11 +52,11 @@ describe("testutil", () => {
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(defaultStore.config.margin, store.config.margin);
-            assert.deepStrictEqual(defaultStore.config.beatLines, store.config.beatLines);
+            assert.deepStrictEqual(defaultStore.editor.config.margin, store.editor.config.margin);
+            assert.deepStrictEqual(defaultStore.editor.config.beatLines, store.editor.config.beatLines);
 
-            assert.strictEqual(store.config.pixelsPerSecond, config.pixelsPerSecond);
-            assert.strictEqual(store.config.colors.background, config.colors?.background);
+            assert.strictEqual(store.editor.config.pixelsPerSecond, config.pixelsPerSecond);
+            assert.strictEqual(store.editor.config.colors.background, config.colors?.background);
         });
 
         it("merges the state if provided", () => {
@@ -65,7 +65,7 @@ describe("testutil", () => {
             };
             const store = createStore({ state });
 
-            assert.deepStrictEqual(store.state.zoom, state.zoom);
+            assert.deepStrictEqual(store.noteField.state.zoom, state.zoom);
         });
     });
 });

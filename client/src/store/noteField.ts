@@ -31,7 +31,7 @@ export class NoteFieldStore {
     readonly root: RootStore;
 
     chart?: Chart;
-    readonly state: NoteFieldState;
+    state: NoteFieldState;
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScroller;

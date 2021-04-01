@@ -3,9 +3,8 @@ import _ from "lodash";
 
 import { Beat, Chart, Time } from "./charting";
 import { BeatSnap } from "./notefield/beatsnap";
-import { Baseline, NoteFieldConfig, NoteFieldState } from "./notefield/config";
 import { NoteSkin } from "./noteskin";
-import { Store } from "./store";
+import { EditorConfig, RootStore, NoteFieldState } from "./store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual
@@ -34,75 +33,27 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
 
 export interface CreateStoreArgs {
     chart?: Chart;
-    config?: Partial<NoteFieldConfig>;
+    config?: Partial<EditorConfig>;
     state?: Partial<NoteFieldState>;
 }
 
 /**
  * Returns a new store with reasonable defaults, useful for testing.
  */
-export function createStore(args: CreateStoreArgs = {}): Store {
-    let config: NoteFieldConfig = {
-        beatLines: {
-            measureLines: {
-                color: "#999",
-                lineWidth: 3,
-            },
-            wholeBeatLines: {
-                color: "#555",
-                lineWidth: 2,
-            },
-            fractionalLines: {
-                color: "#333",
-                lineWidth: 1,
-            },
-        },
+export function createStore(args: CreateStoreArgs = {}): RootStore {
+    const store = new RootStore();
 
-        colors: {
-            background: "#000",
-        },
-
-        keyBinds: {
-            keys: {
-                4: ["1", "2", "3", "4"],
-            },
-            scroll: {
-                up: "ArrowUp",
-                down: "ArrowDown",
-                snapNext: "ArrowRight",
-                snapPrev: "ArrowLeft",
-            },
-            playPause: " ",
-        },
-
-        baseline: Baseline.Centered,
-        chart: args.chart ?? new Chart(),
-        columnWidth: 128,
-        margin: 384,
-        noteSkin: createDummyNoteSkin(),
-        pixelsPerSecond: 512,
-        scrollDirection: "up",
-    };
-
-    let state: NoteFieldState = {
-        width: config.columnWidth * config.chart.keyCount.value,
-        height: 800,
-
-        zoom: new Fraction(1),
-        scroll: { beat: Beat.Zero, time: Time.Zero },
-        snap: new BeatSnap(),
-
-        isPlaying: false,
-        enableMetronome: true,
-    };
+    if(args.chart) {
+        store.noteField.setChart(args.chart);
+    }
 
     if (args.config) {
-        config = _.merge(config, args.config);
+        store.editor.update(args.config);
     }
 
     if (args.state) {
-        state = _.merge(state, args.state);
+        store.noteField.state = _.merge(store.noteField.state, args.state);
     }
 
-    return new Store(config, state);
+    return store;
 }
