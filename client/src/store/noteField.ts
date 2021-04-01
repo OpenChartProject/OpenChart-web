@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable } from "mobx";
 
-import { BeatTime, Chart, Time } from "../charting";
+import { Beat, BeatTime, Chart, Time } from "../charting";
 import { NoteFieldState } from "../notefield/config";
 
 import { AutoScroller } from "./autoScroller";
@@ -45,6 +45,28 @@ export class NoteFieldStore {
     resetView() {
         this.setScroll({ time: Time.Zero });
         this.setZoom(new Fraction(1));
+    }
+
+    /**
+     * Scrolls the notefield relative to its current position, based on the
+     * provided beat/time deltas.
+     */
+    scrollBy({ beat, time }: { beat?: number; time?: number }) {
+        if (beat !== undefined) {
+            let dst = this.state.scroll.beat.fraction.add(beat);
+
+            if (dst.compare(0) === -1) {
+                dst = new Fraction(0);
+            }
+
+            this.setScroll({ beat: new Beat(dst) });
+        } else if (time !== undefined) {
+            this.setScroll({
+                time: new Time(Math.max(time + this.state.scroll.time.value, 0)),
+            });
+        } else {
+            throw Error("beat or time must be set");
+        }
     }
 
     /**
