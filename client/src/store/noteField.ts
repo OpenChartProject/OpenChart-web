@@ -11,6 +11,10 @@ export const zoom = {
     max: new Fraction(6561, 256),
 };
 
+/**
+ * This store contains all the state for a notefield. Each notefield has its own instance
+ * of the NoteFieldStore.
+ */
 export class NoteFieldStore {
     chart: Chart;
     state: NoteFieldState;
@@ -42,6 +46,14 @@ export class NoteFieldStore {
     }
 
     /**
+     * Sets the chart being rendered by the notefield.
+     */
+     setChart(chart: Chart) {
+        this.chart = chart;
+        this.resetView();
+    }
+
+    /**
      * Updates the render height of the notefield.
      */
      setHeight(height: number) {
@@ -55,6 +67,18 @@ export class NoteFieldStore {
         }
     }
 
+    /**
+     * Sets the music source.
+     */
+    setMusic(src: string) {
+        this.music.setSource(src);
+        this.setPlaying(false);
+    }
+
+    /**
+     * Sets the notefield as playing or paused. While playing, the notefield scrolls
+     * automatically, and plays music.
+     */
     setPlaying(isPlaying: boolean) {
         if (isPlaying !== this.state.isPlaying) {
             this.state.isPlaying = isPlaying;
