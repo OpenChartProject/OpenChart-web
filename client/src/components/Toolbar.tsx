@@ -7,23 +7,23 @@ import { discord, github } from "../assets";
 import { Chart } from "../charting";
 import { Formats, writeToString } from "../formats/formats";
 import { Project } from "../project";
-import { Store } from "../store";
+import { RootStore } from "../store";
 
 export interface Props {
-    store: Store;
+    store: RootStore;
 }
 
 export const Toolbar = observer((props: Props) => {
     const { store } = props;
 
-    const metronome = (enabled: boolean) => {
+    const metronome = (enableMetronome: boolean) => {
         return () => {
-            store.setMetronome(enabled);
+            store.editor.update({ enableMetronome });
         };
     };
 
     const newFile = () => {
-        store.setChart(new Chart());
+        store.noteField.setChart(new Chart());
     };
 
     const openFilePicker = () => {
@@ -36,7 +36,7 @@ export const Toolbar = observer((props: Props) => {
 
     const saveFile = () => {
         const project: Project = {
-            charts: [store.config.chart],
+            charts: [store.noteField.chart],
             song: {
                 artist: "TODO",
                 title: "TODO",
@@ -55,13 +55,13 @@ export const Toolbar = observer((props: Props) => {
 
     const zoomIn = () => {
         new ZoomAction(store, {
-            to: store.state.zoom.mul(1.5),
+            to: store.noteField.state.zoom.mul(1.5),
         }).run();
     };
 
     const zoomOut = () => {
         new ZoomAction(store, {
-            to: store.state.zoom.div(1.5),
+            to: store.noteField.state.zoom.div(1.5),
         }).run();
     };
 
@@ -93,7 +93,7 @@ export const Toolbar = observer((props: Props) => {
                     <span className="material-icons-outlined">swap_vert</span>
                 </a>
 
-                {store.state.enableMetronome ? (
+                {store.editor.config.enableMetronome ? (
                     <a title="Disable metronome" onClick={metronome(false)}>
                         <span className="material-icons-outlined">timer</span>
                     </a>

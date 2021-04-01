@@ -7,7 +7,7 @@ import {
     ZoomAction,
 } from "../actions/storeActions/";
 import { KeyIndex } from "../charting/";
-import { Store } from "../store/";
+import { RootStore } from "../store/";
 
 /**
  * The keybind configuration.
@@ -44,7 +44,7 @@ export interface InputActionArgs {
  * Takes a raw DOM input event and converts it to an Action. If the input doesn't map
  * to anything, returns null.
  */
-export function inputToAction(e: InputActionArgs, store: Store): Action | null {
+export function inputToAction(e: InputActionArgs, store: RootStore): Action | null {
     switch (e.type) {
         case "keydown":
             return keyboardInputToAction(e.event as KeyboardEvent, store);
@@ -56,15 +56,17 @@ export function inputToAction(e: InputActionArgs, store: Store): Action | null {
 /**
  * Maps a keyboard event to an Action.
  */
-export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | null {
-    const { chart, keyBinds } = store.config;
+export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Action | null {
+    const { chart } = store.noteField;
+    const { keyBinds } = store.editor.config;
+    const { scroll, zoom } = store.noteField.state;
 
     // Check if this key is for placing a note.
     const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex((k) => k === e.key);
 
     if (keyIndex !== -1) {
         return new PlaceTapAction(store, {
-            beat: store.state.scroll.beat,
+            beat: scroll.beat,
             key: new KeyIndex(keyIndex),
         });
     }
@@ -75,7 +77,7 @@ export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | 
 
             if (e.ctrlKey) {
                 return new ZoomAction(store, {
-                    to: store.state.zoom.mul(1.5),
+                    to: zoom.mul(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -88,7 +90,7 @@ export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | 
 
             if (e.ctrlKey) {
                 return new ZoomAction(store, {
-                    to: store.state.zoom.div(1.5),
+                    to: zoom.div(1.5),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -119,17 +121,18 @@ export function keyboardInputToAction(e: KeyboardEvent, store: Store): Action | 
 /**
  * Maps a mouse wheel event to an Action.
  */
-export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
+export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | null {
     if (e.deltaY === 0) {
         return null;
     }
 
+    const { zoom } = store.noteField.state;
     e.preventDefault();
 
     if (e.deltaY > 0) {
         if (e.ctrlKey) {
             return new ZoomAction(store, {
-                to: store.state.zoom.div(1.5),
+                to: zoom.div(1.5),
             });
         } else {
             return new SnapScrollAction(store, {
@@ -139,7 +142,7 @@ export function wheelInputToAction(e: WheelEvent, store: Store): Action | null {
     } else {
         if (e.ctrlKey) {
             return new ZoomAction(store, {
-                to: store.state.zoom.mul(1.5),
+                to: zoom.mul(1.5),
             });
         } else {
             return new SnapScrollAction(store, {

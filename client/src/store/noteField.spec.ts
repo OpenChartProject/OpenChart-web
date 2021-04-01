@@ -28,10 +28,10 @@ describe("NoteFieldStore", () => {
 
         it("sets zoom", () => {
             const store = createStore().noteField;
-            const zoom = new Fraction(1, 2);
+            const val = new Fraction(1, 2);
 
-            store.setZoom(zoom);
-            assert.strictEqual(store.state.zoom, zoom);
+            store.setZoom(val);
+            assert.strictEqual(store.state.zoom, val);
         });
 
         it("sets zoom to min zoom", () => {

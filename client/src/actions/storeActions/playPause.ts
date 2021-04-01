@@ -1,14 +1,15 @@
-import { Store } from "../../store";
+import { RootStore } from "../../store";
 import { Action } from "../action";
 
 export class PlayPauseAction implements Action {
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store) {
+    constructor(store: RootStore) {
         this.store = store;
     }
 
     run(): void {
-        this.store.setPlaying(!this.store.state.isPlaying);
+        const { noteField } = this.store;
+        noteField.setPlaying(!noteField.state.isPlaying);
     }
 }
