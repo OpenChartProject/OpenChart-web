@@ -1,4 +1,3 @@
-
 import { EditorConfigStore } from "./editorConfig";
 import { NoteFieldStore } from "./noteField";
 

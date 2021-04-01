@@ -53,7 +53,10 @@ describe("testutil", () => {
 
             // Sanity check to make sure that the merge didn't remove anything
             assert.deepStrictEqual(defaultStore.editor.config.margin, store.editor.config.margin);
-            assert.deepStrictEqual(defaultStore.editor.config.beatLines, store.editor.config.beatLines);
+            assert.deepStrictEqual(
+                defaultStore.editor.config.beatLines,
+                store.editor.config.beatLines,
+            );
 
             assert.strictEqual(store.editor.config.pixelsPerSecond, config.pixelsPerSecond);
             assert.strictEqual(store.editor.config.colors.background, config.colors?.background);

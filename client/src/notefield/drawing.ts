@@ -1,9 +1,9 @@
 import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
+import { NoteSkin } from "../noteskin";
+import { Baseline, EditorConfigStore, NoteFieldStore } from "../store";
 
 import { getBeatLineTimes } from "./beatlines";
-import { Baseline, EditorConfigStore, NoteFieldStore } from "../store";
-import { NoteSkin } from "../noteskin";
 
 /**
  * Stores some useful values used for rendering.
@@ -104,7 +104,7 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition({editor, noteField}: DrawProps, time: Time | number): number {
+export function timeToPosition({ editor, noteField }: DrawProps, time: Time | number): number {
     return Math.round(toTime(time).value * pps(editor, noteField));
 }
 
@@ -236,7 +236,7 @@ export function drawNoteField(
     editor: EditorConfigStore,
     noteField: NoteFieldStore,
 ) {
-    if(!noteField.chart || !editor.config.noteSkin) {
+    if (!noteField.chart || !editor.config.noteSkin) {
         return;
     }
 
@@ -244,7 +244,16 @@ export function drawNoteField(
     ctx.save();
 
     const viewport = calculateViewport(editor, noteField);
-    const drawProps = { ctx, w: noteField.width, h: noteField.height, chart: noteField.chart, noteSkin: editor.config.noteSkin, editor, noteField, ...viewport };
+    const drawProps = {
+        ctx,
+        w: noteField.width,
+        h: noteField.height,
+        chart: noteField.chart,
+        noteSkin: editor.config.noteSkin,
+        editor,
+        noteField,
+        ...viewport,
+    };
 
     // This mirrors the notefield vertically, so now the canvas origin is in the bottom
     // left corner instead of the top left corner.

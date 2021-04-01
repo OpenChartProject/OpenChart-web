@@ -41,7 +41,7 @@ export interface CreateStoreArgs {
 export function createStore(args: CreateStoreArgs = {}): RootStore {
     const store = new RootStore();
 
-    if(args.chart) {
+    if (args.chart) {
         store.noteField.setChart(args.chart);
     }
 
