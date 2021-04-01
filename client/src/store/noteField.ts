@@ -114,6 +114,7 @@ export class NoteFieldStore {
 
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
+        this.canvas.width = this.width;
     }
 
     /**

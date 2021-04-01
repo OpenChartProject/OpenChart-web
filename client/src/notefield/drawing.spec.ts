@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+import sinon from "sinon";
 
 import { Beat, Time } from "../charting/";
 import { Baseline, EditorConfig, NoteFieldState } from "../store";
@@ -69,7 +70,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -93,7 +94,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -117,7 +118,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -141,7 +142,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -165,7 +166,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -189,7 +190,7 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -210,7 +211,7 @@ describe("notefield", () => {
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -231,7 +232,7 @@ describe("notefield", () => {
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
-            store.noteField.canvas!.height = 500;
+            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
