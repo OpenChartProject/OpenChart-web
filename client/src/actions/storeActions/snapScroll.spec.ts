@@ -13,10 +13,11 @@ describe("SnapScrollAction", () => {
             const args: SnapScrollArgs = {
                 direction: "forward",
             };
-            const setScroll = sinon.spy(store.noteField, "setScroll");
+            const spy = sinon.spy();
+            sinon.replace(store.noteField, "setScroll", spy);
 
             new SnapScrollAction(store, args).run();
-            assert(setScroll.calledWith({ beat: new Beat(1) }));
+            assert(spy.calledWith({ beat: new Beat(1) }));
         });
 
         it("calls setScroll with expected args when direction is backward", () => {
@@ -25,10 +26,11 @@ describe("SnapScrollAction", () => {
             const args: SnapScrollArgs = {
                 direction: "backward",
             };
-            const setScroll = sinon.spy(store.noteField, "setScroll");
+            const spy = sinon.spy();
+            sinon.replace(store.noteField, "setScroll", spy);
 
             new SnapScrollAction(store, args).run();
-            assert(setScroll.calledWith({ beat: Beat.Zero }));
+            assert(spy.calledWith({ beat: Beat.Zero }));
         });
     });
 });

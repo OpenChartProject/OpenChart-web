@@ -20,10 +20,11 @@ describe("ScrollAction", () => {
             const args: ScrollArgs = {
                 by: { beat: 1 },
             };
-            const scrollBy = sinon.spy(store.noteField, "scrollBy");
+            const spy = sinon.spy();
+            sinon.replace(store.noteField, "scrollBy", spy);
 
             new ScrollAction(store, args).run();
-            assert(scrollBy.calledWith(args.by));
+            assert(spy.calledWith(args.by));
         });
 
         it("calls setScroll when 'to' arg is set", () => {
@@ -31,10 +32,11 @@ describe("ScrollAction", () => {
             const args: ScrollArgs = {
                 to: { beat: Beat.Zero },
             };
-            const setScroll = sinon.spy(store.noteField, "setScroll");
+            const spy = sinon.spy();
+            sinon.replace(store.noteField, "setScroll", spy);
 
             new ScrollAction(store, args).run();
-            assert(setScroll.calledWith(args.to));
+            assert(spy.calledWith(args.to));
         });
     });
 });
