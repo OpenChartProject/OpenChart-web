@@ -236,7 +236,7 @@ export function drawNoteField(
     editor: EditorConfigStore,
     noteField: NoteFieldStore,
 ) {
-    if (!noteField.chart || !editor.config.noteSkin) {
+    if (!editor.config.noteSkin) {
         return;
     }
 

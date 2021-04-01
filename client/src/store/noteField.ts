@@ -30,7 +30,7 @@ export interface NoteFieldState {
 export class NoteFieldStore {
     readonly root: RootStore;
 
-    chart?: Chart;
+    chart: Chart;
     state: NoteFieldState;
     canvas?: HTMLCanvasElement;
 
@@ -46,7 +46,12 @@ export class NoteFieldStore {
         });
 
         this.root = root;
+
+        // Always start with a blank chart so we don't need to worry about passing a chart
+        // in during init.
+        this.chart = new Chart();
         this.state = this.defaults;
+
         this.autoScroller = new AutoScroller(this.root);
         this.music = new Music();
     }
@@ -70,10 +75,6 @@ export class NoteFieldStore {
     }
 
     get width(): number {
-        if (!this.chart) {
-            return 1;
-        }
-
         return this.root.editor.config.columnWidth * this.chart.keyCount.value;
     }
 
@@ -148,8 +149,6 @@ export class NoteFieldStore {
      * Sets the scroll position to a specific beat/time.
      */
     setScroll({ beat, time }: Partial<BeatTime>) {
-        assert(this.chart, "chart cannot be undefined");
-
         if (beat !== undefined) {
             time = this.chart.bpms.timeAt(beat);
             this.state.scroll = { beat, time };
