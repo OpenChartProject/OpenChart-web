@@ -1,5 +1,5 @@
 import { getFormatFromFileName, loadFromString } from "../../formats/formats";
-import { Store } from "../../store";
+import { RootStore } from "../../store";
 import { Action } from "../action";
 
 /**
@@ -15,9 +15,9 @@ export interface OpenFileArgs {
  */
 export class OpenFileAction implements Action {
     args: OpenFileArgs;
-    store: Store;
+    store: RootStore;
 
-    constructor(store: Store, args: OpenFileArgs) {
+    constructor(store: RootStore, args: OpenFileArgs) {
         this.store = store;
         this.args = args;
     }
@@ -36,12 +36,13 @@ export class OpenFileAction implements Action {
             const reader = new FileReader();
             const f = this.args.file;
             const format = getFormatFromFileName(f.name);
+            const { setChart, setMusic } = this.store.noteField;
 
             if (format) {
                 reader.onload = () => {
                     const text = reader.result as string;
                     const project = loadFromString(format, text);
-                    this.store.setChart(project.charts[0]);
+                    setChart(project.charts[0]);
                     resolve();
                 };
 
@@ -49,7 +50,7 @@ export class OpenFileAction implements Action {
             } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
                 reader.onload = () => {
                     const data = reader.result as string;
-                    this.store.setMusic(data);
+                    setMusic(data);
 
                     resolve();
                 };

@@ -1,9 +1,8 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import sinon from "sinon";
 
-import { createStore } from "../testUtil";
 import { zoom } from "../store/noteField";
+import { createStore } from "../testUtil";
 
 describe("NoteFieldStore", () => {
     describe("#setCanvas", () => {

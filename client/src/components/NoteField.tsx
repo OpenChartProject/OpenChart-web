@@ -4,10 +4,10 @@ import React, { useEffect, useRef } from "react";
 
 import { drawNoteField } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
-import { Store } from "../store/";
+import { RootStore } from "../store/";
 
 export interface Props {
-    store: Store;
+    store: RootStore;
 }
 
 /**
@@ -22,13 +22,12 @@ export interface Props {
  * changes are not broadcasted and the notefield won't redraw.
  */
 export const NoteField = observer(({ store }: Props) => {
-    const { config, state } = store;
     const ref = useRef<HTMLCanvasElement>(null);
 
     function redraw() {
         if (!ref.current) return;
 
-        drawNoteField(ref.current, config, state);
+        drawNoteField(store);
     }
 
     function onKeyDown(e: KeyboardEvent) {
@@ -48,9 +47,11 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     function updateDim() {
-        if (!ref.current) return;
+        const el = ref.current;
 
-        store.setHeight(ref.current.clientHeight);
+        if (!el) return;
+
+        el.height = el.clientHeight;
     }
 
     // Watch the entire store for changes so we know when to redraw.
@@ -82,7 +83,7 @@ export const NoteField = observer(({ store }: Props) => {
     useEffect(() => {
         if (!ref.current) return;
 
-        store.setCanvas(ref.current);
+        store.noteField.setCanvas(ref.current);
         updateDim();
     }, [ref]);
 

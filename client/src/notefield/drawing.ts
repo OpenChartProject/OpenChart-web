@@ -1,7 +1,7 @@
 import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 import { NoteSkin } from "../noteskin";
-import { Baseline, EditorConfigStore, NoteFieldStore } from "../store";
+import { Baseline, EditorConfigStore, NoteFieldStore, RootStore } from "../store";
 
 import { getBeatLineTimes } from "./beatlines";
 
@@ -231,16 +231,14 @@ function drawObjects(dp: DrawProps) {
     }
 }
 
-export function drawNoteField(
-    el: HTMLCanvasElement,
-    editor: EditorConfigStore,
-    noteField: NoteFieldStore,
-) {
-    if (!editor.config.noteSkin) {
+export function drawNoteField(store: RootStore) {
+    const { editor, noteField } = store;
+
+    if (!noteField.canvas || !editor.config.noteSkin) {
         return;
     }
 
-    const ctx = el.getContext("2d") as CanvasRenderingContext2D;
+    const ctx = noteField.canvas.getContext("2d") as CanvasRenderingContext2D;
     ctx.save();
 
     const viewport = calculateViewport(editor, noteField);

@@ -1,12 +1,18 @@
 import assert from "assert";
-import sinon from "sinon";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
+import { Baseline, EditorConfig, NoteFieldState } from "../store";
 import { createStore } from "../testUtil";
 
-import { Baseline, EditorConfig, NoteFieldState } from "../store";
-import { adjustToBaseline, calculateViewport, DrawProps, pps, scaleToWidth, timeToPosition } from "./drawing";
+import {
+    adjustToBaseline,
+    calculateViewport,
+    DrawProps,
+    pps,
+    scaleToWidth,
+    timeToPosition,
+} from "./drawing";
 
 describe("notefield", () => {
     describe("#adjustToBaseline", () => {
@@ -288,8 +294,14 @@ describe("notefield", () => {
             const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
-            assert.strictEqual(timeToPosition(dp as DrawProps, 1), store.editor.config.pixelsPerSecond);
-            assert.strictEqual(timeToPosition(dp as DrawProps, 2), 2 * store.editor.config.pixelsPerSecond);
+            assert.strictEqual(
+                timeToPosition(dp as DrawProps, 1),
+                store.editor.config.pixelsPerSecond,
+            );
+            assert.strictEqual(
+                timeToPosition(dp as DrawProps, 2),
+                2 * store.editor.config.pixelsPerSecond,
+            );
         });
 
         it("rounds to the nearest whole number", () => {

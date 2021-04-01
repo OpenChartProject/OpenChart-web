@@ -1,14 +1,14 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 
-import { Store } from "../store/";
+import { RootStore } from "../store/";
 
 import { NoteField } from "./NoteField";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {
-    store: Store;
+    store: RootStore;
 }
 
 export const App = observer((props: Props) => {
