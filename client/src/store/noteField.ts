@@ -4,7 +4,6 @@ import { makeAutoObservable } from "mobx";
 
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
-import { NoteFieldState } from "../notefield/config";
 
 import { AutoScroller } from "./autoScroller";
 import { Music } from "./music";
@@ -14,6 +13,18 @@ export const zoom = {
     min: new Fraction(256, 6561),
     max: new Fraction(6561, 256),
 };
+
+export interface NoteFieldState {
+    width: number;
+    height: number;
+
+    zoom: Fraction;
+    scroll: BeatTime;
+    snap: BeatSnap;
+
+    audio?: HTMLAudioElement;
+    isPlaying: boolean;
+}
 
 /**
  * This store contains all the state for a notefield. Each notefield has its own instance
@@ -31,6 +42,7 @@ export class NoteFieldStore {
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
+            defaults: false,
             canvas: false,
             autoScroller: false,
             music: false,
@@ -44,7 +56,7 @@ export class NoteFieldStore {
 
     get defaults(): NoteFieldState {
         return {
-            width: config.columnWidth * config.chart.keyCount.value,
+            width: 1,
             height: 1,
 
             zoom: new Fraction(1),
