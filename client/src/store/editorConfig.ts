@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { action, makeAutoObservable, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
+
 import { ScrollDirection } from "../notefield/config";
 
 const storageKey = "config";

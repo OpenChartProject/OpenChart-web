@@ -1,8 +1,10 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable } from "mobx";
+
 import { BeatTime, Chart, Time } from "../charting";
 import { NoteFieldState } from "../notefield/config";
+
 import { AutoScroller } from "./autoScroller";
 import { Music } from "./music";
 
