@@ -1,8 +1,9 @@
-import { Time, toTime } from "../charting/";
+import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 
 import { getBeatLineTimes } from "./beatlines";
-import { Baseline, NoteFieldConfig, NoteFieldState } from "./config";
+import { Baseline, EditorConfigStore, NoteFieldStore } from "../store";
+import { NoteSkin } from "../noteskin";
 
 /**
  * Stores some useful values used for rendering.
@@ -33,21 +34,28 @@ interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
     w: number;
     h: number;
-    config: NoteFieldConfig;
-    state: NoteFieldState;
+    chart: Chart;
+    noteSkin: NoteSkin;
+    editor: EditorConfigStore;
+    noteField: NoteFieldStore;
 }
 
 /**
  * Returns the pixels per second, taking into account the scaling.
  */
-export function pps(config: NoteFieldConfig, state: NoteFieldState): number {
+export function pps(editor: EditorConfigStore, noteField: NoteFieldStore): number {
+    const { config } = editor;
+    const { state } = noteField;
+
     return config.pixelsPerSecond * state.zoom.valueOf();
 }
 
 /**
  * Returns the new position of the object after taking the baseline into account.
  */
-export function adjustToBaseline({ config }: DrawProps, pos: number, h: number): number {
+export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number {
+    const { config } = dp.editor;
+
     switch (config.baseline) {
         case Baseline.After:
             return pos;
@@ -74,10 +82,13 @@ export function adjustToBaseline({ config }: DrawProps, pos: number, h: number):
  * The objects on the notefield are rendered with respect to the canvas origin, not
  * with respect to the scrolling.
  */
-export function calculateViewport(config: NoteFieldConfig, state: NoteFieldState): Viewport {
-    const y0 = state.scroll.time.value * pps(config, state) - config.margin;
-    const t0 = new Time(Math.max(y0 / pps(config, state), 0));
-    const t1 = new Time(Math.max((y0 + state.height) / pps(config, state), 0));
+export function calculateViewport(editor: EditorConfigStore, noteField: NoteFieldStore): Viewport {
+    const { config } = editor;
+    const { state } = noteField;
+
+    const y0 = state.scroll.time.value * pps(editor, noteField) - config.margin;
+    const t0 = new Time(Math.max(y0 / pps(editor, noteField), 0));
+    const t1 = new Time(Math.max((y0 + noteField.height) / pps(editor, noteField), 0));
     const tReceptor = state.scroll.time;
 
     return { y0, t0, t1, tReceptor };
@@ -93,12 +104,13 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition({ config, state }: DrawProps, time: Time | number): number {
-    return Math.round(toTime(time).value * pps(config, state));
+export function timeToPosition({editor, noteField}: DrawProps, time: Time | number): number {
+    return Math.round(toTime(time).value * pps(editor, noteField));
 }
 
 function clear(dp: DrawProps) {
-    const { ctx, w, h, config } = dp;
+    const { ctx, w, h } = dp;
+    const { config } = dp.editor;
 
     ctx.save();
     ctx.resetTransform();
@@ -108,9 +120,11 @@ function clear(dp: DrawProps) {
 }
 
 function drawBeatLines(dp: DrawProps) {
-    const { ctx, w, config, state, t0, t1 } = dp;
+    const { ctx, w, t0, t1, chart } = dp;
+    const { config } = dp.editor;
+    const { state } = dp.noteField;
 
-    for (const bt of getBeatLineTimes(config.chart, state.snap, t0, t1)) {
+    for (const bt of getBeatLineTimes(chart, state.snap, t0, t1)) {
         if (bt.beat.isStartOfMeasure()) {
             ctx.strokeStyle = config.beatLines.measureLines.color;
             ctx.lineWidth = config.beatLines.measureLines.lineWidth;
@@ -137,11 +151,12 @@ function drawBeatLines(dp: DrawProps) {
 }
 
 function drawReceptor(dp: DrawProps, key: number) {
-    const { ctx, config, state, tReceptor } = dp;
+    const { ctx, editor, noteField, noteSkin, tReceptor } = dp;
+    const { config } = editor;
 
-    const r = config.noteSkin.receptor[key];
+    const r = noteSkin.receptor[key];
     const h = scaleToWidth(r.width as number, r.height as number, config.columnWidth);
-    const y = adjustToBaseline(dp, tReceptor.value * pps(config, state), h);
+    const y = adjustToBaseline(dp, tReceptor.value * pps(editor, noteField), h);
 
     ctx.save();
     ctx.translate(0, y);
@@ -155,9 +170,9 @@ function drawReceptor(dp: DrawProps, key: number) {
 }
 
 function drawReceptors(dp: DrawProps) {
-    const { ctx, config } = dp;
+    const { ctx, chart } = dp;
 
-    for (let i = 0; i < config.chart.keyCount.value; i++) {
+    for (let i = 0; i < chart.keyCount.value; i++) {
         ctx.save();
         drawReceptor(dp, i);
         ctx.restore();
@@ -165,13 +180,14 @@ function drawReceptors(dp: DrawProps) {
 }
 
 function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
-    const { ctx, config } = dp;
+    const { ctx, chart, noteSkin } = dp;
+    const { config } = dp.editor;
 
-    const img = config.noteSkin.tap[key];
+    const img = noteSkin.tap[key];
     const h = scaleToWidth(img.width as number, img.height as number, config.columnWidth);
 
     // TODO: Add time property to ChartObject
-    const t = config.chart.bpms.timeAt(obj.beat);
+    const t = chart.bpms.timeAt(obj.beat);
     const y = adjustToBaseline(dp, timeToPosition(dp, t), h);
 
     ctx.translate(0, y);
@@ -184,10 +200,11 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
 }
 
 function drawObjects(dp: DrawProps) {
-    const { ctx, config, t0, t1 } = dp;
+    const { ctx, t0, t1, chart } = dp;
+    const { config } = dp.editor;
 
-    for (let i = 0; i < config.chart.keyCount.value; i++) {
-        const objects = config.chart.getObjectsInInterval(
+    for (let i = 0; i < chart.keyCount.value; i++) {
+        const objects = chart.getObjectsInInterval(
             i,
             // Extend the interval a bit to prevent notes at the edge of the screen from
             // getting cut off
@@ -216,23 +233,23 @@ function drawObjects(dp: DrawProps) {
 
 export function drawNoteField(
     el: HTMLCanvasElement,
-    config: NoteFieldConfig,
-    state: NoteFieldState,
+    editor: EditorConfigStore,
+    noteField: NoteFieldStore,
 ) {
+    if(!noteField.chart || !editor.config.noteSkin) {
+        return;
+    }
+
     const ctx = el.getContext("2d") as CanvasRenderingContext2D;
-    const { width: w, height: h } = state;
-
-    if (h === 0) return;
-
     ctx.save();
 
-    const viewport = calculateViewport(config, state);
-    const drawProps = { ctx, w, h, config, state, ...viewport };
+    const viewport = calculateViewport(editor, noteField);
+    const drawProps = { ctx, w: noteField.width, h: noteField.height, chart: noteField.chart, noteSkin: editor.config.noteSkin, editor, noteField, ...viewport };
 
     // This mirrors the notefield vertically, so now the canvas origin is in the bottom
     // left corner instead of the top left corner.
-    if (config.scrollDirection === "down") {
-        ctx.translate(0, state.height);
+    if (editor.config.scrollDirection === "down") {
+        ctx.translate(0, drawProps.h);
         ctx.scale(1, -1);
     }
 
