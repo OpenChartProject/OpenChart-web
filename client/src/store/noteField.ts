@@ -3,10 +3,12 @@ import Fraction from "fraction.js";
 import { makeAutoObservable } from "mobx";
 
 import { Beat, BeatTime, Chart, Time } from "../charting";
+import { BeatSnap } from "../notefield/beatsnap";
 import { NoteFieldState } from "../notefield/config";
 
 import { AutoScroller } from "./autoScroller";
 import { Music } from "./music";
+import { RootStore } from "./store";
 
 export const zoom = {
     min: new Fraction(256, 6561),
@@ -18,25 +20,39 @@ export const zoom = {
  * of the NoteFieldStore.
  */
 export class NoteFieldStore {
-    chart: Chart;
-    state: NoteFieldState;
+    readonly root: RootStore;
+
+    chart?: Chart;
+    readonly state: NoteFieldState;
     canvas?: HTMLCanvasElement;
 
-    autoScroller: AutoScroller;
-    music: Music;
+    readonly autoScroller: AutoScroller;
+    readonly music: Music;
 
-    constructor(state: NoteFieldState, chart: Chart, canvas?: HTMLCanvasElement) {
+    constructor(root: RootStore) {
         makeAutoObservable(this, {
             canvas: false,
             autoScroller: false,
             music: false,
         });
-        this.chart = chart;
-        this.state = state;
-        this.canvas = canvas;
 
-        this.autoScroller = new AutoScroller(this);
+        this.root = root;
+        this.state = this.defaults;
+        this.autoScroller = new AutoScroller(this.root);
         this.music = new Music();
+    }
+
+    get defaults(): NoteFieldState {
+        return {
+            width: config.columnWidth * config.chart.keyCount.value,
+            height: 1,
+
+            zoom: new Fraction(1),
+            scroll: { beat: Beat.Zero, time: Time.Zero },
+            snap: new BeatSnap(),
+
+            isPlaying: false,
+        };
     }
 
     /**
@@ -67,6 +83,10 @@ export class NoteFieldStore {
         } else {
             throw Error("beat or time must be set");
         }
+    }
+
+    setCanvas(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
     }
 
     /**
@@ -120,6 +140,8 @@ export class NoteFieldStore {
      * Sets the scroll position to a specific beat/time.
      */
     setScroll({ beat, time }: Partial<BeatTime>) {
+        assert(this.chart, "chart cannot be undefined");
+
         if (beat !== undefined) {
             time = this.chart.bpms.timeAt(beat);
             this.state.scroll = { beat, time };

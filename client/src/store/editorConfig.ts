@@ -2,6 +2,7 @@ import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
 import { ScrollDirection } from "../notefield/config";
+import { RootStore } from "./store";
 
 const storageKey = "config";
 
@@ -18,13 +19,16 @@ export interface EditorConfig {
  * The store for the editor config.
  */
 export class EditorConfigStore {
-    config: EditorConfig;
+    readonly config: EditorConfig;
+    readonly root: RootStore;
 
-    constructor() {
+    constructor(root: RootStore) {
         makeAutoObservable(this, {
             getDefaults: false,
             save: false,
         });
+
+        this.root = root;
 
         const defaults = this.getDefaults();
         const existing = localStorage.getItem(storageKey);

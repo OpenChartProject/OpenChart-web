@@ -10,10 +10,8 @@ export class RootStore {
     readonly editor: EditorConfigStore;
     readonly noteField: NoteFieldStore;
 
-    constructor(editor: EditorConfigStore, noteField: NoteFieldStore) {
-        makeAutoObservable(this);
-
-        this.editor = editor;
-        this.noteField = noteField;
+    constructor() {
+        this.editor = new EditorConfigStore(this);
+        this.noteField = new NoteFieldStore(this);
     }
 }

@@ -69,5 +69,4 @@ export interface NoteFieldState {
 
     audio?: HTMLAudioElement;
     isPlaying: boolean;
-    enableMetronome: boolean;
 }
