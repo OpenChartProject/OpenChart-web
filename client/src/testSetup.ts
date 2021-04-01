@@ -1,4 +1,5 @@
+globalThis.localStorage = window.localStorage;
+
 beforeEach(() => {
-    console.log("cleared");
     localStorage.clear();
 });
