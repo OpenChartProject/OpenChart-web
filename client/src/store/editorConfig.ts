@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 import { ScrollDirection } from "../notefield/config";
 
 const storageKey = "config";
@@ -13,9 +13,9 @@ export class EditorConfigStore {
     config: EditorConfig;
 
     constructor() {
-        makeObservable(this, {
-            config: observable,
-            update: action,
+        makeAutoObservable(this, {
+            getDefaults: false,
+            save: false,
         });
 
         const defaults = this.getDefaults();
@@ -41,8 +41,19 @@ export class EditorConfigStore {
         localStorage.setItem(storageKey, JSON.stringify(this.config));
     }
 
-    update(config: Partial<EditorConfig>) {
-        this.config = _.merge(this.config, config);
+    /**
+     * Enables or disables the metronome.
+     */
+    setMetronome(enabled: boolean) {
+        this.config.enableMetronome = enabled;
+        this.save();
+    }
+
+    /**
+     * Sets the scroll direction of the notefield.
+     */
+    setScrollDirection(direction: ScrollDirection) {
+        this.config.scrollDirection = direction;
         this.save();
     }
 }

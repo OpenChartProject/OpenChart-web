@@ -6,47 +6,22 @@ import { Beat, BeatTime, Chart, Time } from "../charting/";
 import { NoteFieldConfig, NoteFieldState, ScrollDirection } from "../notefield/config";
 
 import { AutoScroller } from "./autoScroller";
+import { EditorConfigStore } from "./editorConfig";
 import { Music } from "./music";
+import { NoteFieldStore } from "./noteField";
 import { UserConfigStorage } from "./userConfig";
 
 /**
  * The store for the application.
  */
-export class Store {
-    config: NoteFieldConfig;
-    state: NoteFieldState;
-    el?: HTMLCanvasElement;
+export class RootStore {
+    readonly editor: EditorConfigStore;
+    readonly noteField: NoteFieldStore;
 
-    autoScroller: AutoScroller;
-    music: Music;
+    constructor(editor: EditorConfigStore, noteField: NoteFieldStore) {
+        makeAutoObservable(this);
 
-    constructor(config: NoteFieldConfig, state: NoteFieldState) {
-        makeAutoObservable(this, {
-        });
-        this.config = config;
-        this.state = makeAutoObservable(state, {
-            zoom: observable.ref,
-        });
-
-        this.autoScroller = new AutoScroller(this);
-        this.music = new Music();
-    }
-
-    /**
-     * Enables or disables the metronome.
-     */
-    setMetronome(enabled: boolean) {
-        this.state.enableMetronome = enabled;
-        UserConfigStorage.update({ enableMetronome: enabled });
-    }
-
-    /**
-     * Sets the scroll direction of the notefield.
-     */
-    setScrollDirection(direction: ScrollDirection) {
-        if (direction !== this.config.scrollDirection) {
-            this.config.scrollDirection = direction;
-            UserConfigStorage.update({ scrollDirection: direction });
-        }
+        this.editor = editor;
+        this.noteField = noteField;
     }
 }

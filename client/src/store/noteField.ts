@@ -40,7 +40,7 @@ export class NoteFieldStore {
     /**
      * Resets the scroll and zoom to the default.
      */
-     resetView() {
+    resetView() {
         this.setScroll({ time: Time.Zero });
         this.setZoom(new Fraction(1));
     }
@@ -48,7 +48,7 @@ export class NoteFieldStore {
     /**
      * Sets the chart being rendered by the notefield.
      */
-     setChart(chart: Chart) {
+    setChart(chart: Chart) {
         this.chart = chart;
         this.resetView();
     }
@@ -56,7 +56,7 @@ export class NoteFieldStore {
     /**
      * Updates the render height of the notefield.
      */
-     setHeight(height: number) {
+    setHeight(height: number) {
         // Only update the height if we need to, since the canvas is cleared each time.
         if (height !== this.state.height) {
             if (this.canvas) {
