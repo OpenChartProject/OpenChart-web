@@ -5,11 +5,18 @@ import { ScrollDirection } from "../notefield/config";
 
 const storageKey = "config";
 
+/**
+ * The editor config. This config applies to all notefields and is saved to the user's
+ * local storage.
+ */
 export interface EditorConfig {
     enableMetronome: boolean;
     scrollDirection: ScrollDirection;
 }
 
+/**
+ * The store for the editor config.
+ */
 export class EditorConfigStore {
     config: EditorConfig;
 

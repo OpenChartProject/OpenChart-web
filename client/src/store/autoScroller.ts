@@ -1,5 +1,5 @@
 import { Metronome } from "./metronome";
-import { Store } from "./store";
+import { NoteFieldStore } from "./noteField";
 
 /**
  * This handles the auto scrolling of the notefield.
@@ -7,10 +7,10 @@ import { Store } from "./store";
 export class AutoScroller {
     earlier: number;
     metronome: Metronome;
-    store: Store;
+    noteField: NoteFieldStore;
 
-    constructor(store: Store) {
-        this.store = store;
+    constructor(store: NoteFieldStore) {
+        this.noteField = store;
         this.earlier = -1;
         this.metronome = new Metronome(store);
 
@@ -27,7 +27,7 @@ export class AutoScroller {
      * false.
      */
     onFrame(time: number) {
-        const state = this.store.state;
+        const state = this.noteField.state;
 
         if (!state.isPlaying) {
             return;
@@ -39,7 +39,7 @@ export class AutoScroller {
 
         const seconds = (time - this.earlier) / 1000;
 
-        this.store.scrollBy({ time: seconds });
+        this.noteField.scrollBy({ time: seconds });
         this.metronome.update(state.scroll.beat);
 
         this.earlier = time;

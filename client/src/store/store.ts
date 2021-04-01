@@ -5,7 +5,7 @@ import { EditorConfigStore } from "./editorConfig";
 import { NoteFieldStore } from "./noteField";
 
 /**
- * The store for the application.
+ * The root store for the application that contains all of the application data.
  */
 export class RootStore {
     readonly editor: EditorConfigStore;
