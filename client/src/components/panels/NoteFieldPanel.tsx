@@ -22,6 +22,7 @@ export const NoteFieldPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
+                    title={props.store.editor.data.receptorY + "px"}
                     min={0}
                     max={1000}
                     value={props.store.editor.data.receptorY}

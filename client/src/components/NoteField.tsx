@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
-import React, { useEffect, useRef } from "react";
+import React, { CSSProperties, useEffect, useRef } from "react";
 
 import { drawNoteField } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
@@ -100,11 +100,25 @@ export const NoteField = observer(({ store }: Props) => {
         updateDim();
     }, [refCanvas]);
 
+    let beatsnapStyle: CSSProperties;
+
+    if (store.editor.data.scrollDirection === "up") {
+        beatsnapStyle = {
+            top: store.editor.data.receptorY + "px",
+            transform: "translateY(-50%)",
+        };
+    } else {
+        beatsnapStyle = {
+            bottom: store.editor.data.receptorY + "px",
+            transform: "translateY(50%)",
+        };
+    }
+
     return (
         <div className="notefield-container" ref={refContainer}>
             <div className="canvas-container">
                 <canvas className="notefield" ref={refCanvas}></canvas>
-                <div className="beatsnap" style={{ top: `${store.editor.data.receptorY}px` }}>
+                <div className="beatsnap" style={beatsnapStyle}>
                     {store.noteField.data.snap.current.toFraction()}
                 </div>
             </div>
