@@ -13,9 +13,12 @@ export class RootStore {
     readonly ui: UIStore;
 
     constructor() {
-        this.editor = new EditorStore(this);
-        this.noteField = new NoteFieldStore(this);
-        this.project = new ProjectStore(this);
         this.ui = new UIStore(this);
+        this.editor = new EditorStore(this);
+        this.project = new ProjectStore(this);
+
+        // The NoteFieldStore needs to be created last since it depends on the other
+        // stores as part of its initialization.
+        this.noteField = new NoteFieldStore(this);
     }
 }
