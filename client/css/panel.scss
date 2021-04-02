@@ -23,7 +23,7 @@ $panel-container-width: 350px;
 
     .panel-drawer-btn {
         cursor: pointer;
-        background-color: darken($col-dark-gray, 2%);
+        background-color: $col-dark-gray;
         padding: $drawer-btn-height 0;
         text-align: center;
         font-weight: bold;
@@ -37,7 +37,7 @@ $panel-container-width: 350px;
 .panel-container {
     position: relative;
     height: 100%;
-    background-color: $col-dark-gray;
+    background-color: darken($col-dark-gray, 3%);
     padding: 8px;
     width: $panel-container-width;
 
@@ -55,6 +55,8 @@ $panel-container-width: 350px;
     padding: 12px;
     text-transform: uppercase;
     font-weight: bold;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .panel-content {
