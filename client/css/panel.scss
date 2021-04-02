@@ -1,3 +1,19 @@
 .panel-container {
+    background-color: $col-dark-gray;
+}
+
+.panel {
     min-width: 350px;
+}
+
+.panel-title {
+    background-color: $col-light-gray;
+    padding: 8px 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.panel-content {
+    border: 2px solid $col-light-gray;
+    padding: 10px;
 }

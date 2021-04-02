@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 
 export interface Props {
@@ -5,7 +6,7 @@ export interface Props {
     onClose(): void;
 }
 
-export const Modal = (props: React.PropsWithChildren<Props>) => {
+export const Modal = observer((props: React.PropsWithChildren<Props>) => {
     const onKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
             e.preventDefault();
@@ -24,4 +25,4 @@ export const Modal = (props: React.PropsWithChildren<Props>) => {
             <div className={`modal ${props.className || ""}`}>{props.children}</div>
         </div>
     );
-};
+});

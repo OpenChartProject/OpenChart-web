@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { RootStore } from "../store/";
 
 import { NoteField } from "./NoteField";
+import { SongPanel } from "./SongPanel";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 
@@ -19,6 +20,9 @@ export const App = observer((props: Props) => {
             {showModal && <WelcomeModal onClose={() => setShowModal(false)} />}
             <Toolbar store={props.store} />
             <NoteField store={props.store} />
+            <div className="panel-container">
+                <SongPanel store={props.store} />
+            </div>
         </div>
     );
 });
