@@ -70,12 +70,12 @@ export class NoteFieldStore {
         };
     }
 
-    get height(): number {
-        if (!this.canvas) {
-            return 1;
-        }
+    set height(val: number) {
+        this.canvas!.height = val;
+    }
 
-        return this.canvas.clientHeight;
+    get height(): number {
+        return this.canvas!.clientHeight;
     }
 
     get width(): number {

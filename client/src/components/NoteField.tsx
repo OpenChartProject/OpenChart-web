@@ -47,19 +47,21 @@ export const NoteField = observer(({ store }: Props) => {
     }
 
     const updateDim = () => {
-        const el = ref.current;
+        if (!ref.current) return;
 
-        if (!el) return;
-
-        el.height = el.clientHeight;
+        store.noteField.height = ref.current.clientHeight;
     }
 
     // Watch the entire store for changes so we know when to redraw.
     // NOTE: mobx only picks up on changes that happen inside actions, i.e. methods
     // on an object that has makeAutoObservable called in its constructor.
     useEffect(() => {
-        const disposer = deepObserve(store, () => redraw());
-        return disposer;
+        const observers = [
+            deepObserve(store.editor, () => redraw()),
+            deepObserve(store.noteField, () => redraw()),
+        ];
+
+        return () => observers.forEach(disposer => disposer());
     }, []);
 
     // Setup event listener for handling page resizes.

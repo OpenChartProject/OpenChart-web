@@ -11,6 +11,10 @@ export class Music {
     }
 
     playAt(time: number) {
+        if (!this.el.src) {
+            return;
+        }
+
         this.el.currentTime = time;
         this.el.play();
     }

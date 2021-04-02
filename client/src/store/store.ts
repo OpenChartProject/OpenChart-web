@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { EditorConfigStore } from "./editorConfig";
 import { NoteFieldStore } from "./noteField";
 
