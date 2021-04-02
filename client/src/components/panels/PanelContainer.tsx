@@ -1,31 +1,29 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react-lite";
+import React from "react";
 import { RootStore } from "../../store";
 
 export interface Props {
     store: RootStore;
 }
 
-export const PanelContainer = (props: React.PropsWithChildren<Props>) => {
-    const [visible, setVisible] = useState(props.store.editor.config.sidePanelVisible);
+export const PanelContainer = observer((props: React.PropsWithChildren<Props>) => {
+    const visible = props.store.editor.config.sidePanelVisible;
 
     const toggle = () => {
-        const newState = !visible;
-
-        setVisible(newState);
-        props.store.editor.update({ sidePanelVisible: newState });
+        props.store.editor.update({ sidePanelVisible: !visible });
     };
 
     return (
         <div className={`panel-container-drawer ${!visible ? "closed" : ""}`}>
             <div className="panel-drawer-btns" title="Toggle side panel">
                 {visible && (
-                    /* Open button */
+                    /* Close button */
                     <div className="panel-drawer-btn" onClick={toggle}>
                         &gt;
                     </div>
                 )}
                 {!visible && (
-                    /* Close button */
+                    /* Open button */
                     <div className="panel-drawer-btn" onClick={toggle}>
                         &lt;
                     </div>
@@ -35,4 +33,4 @@ export const PanelContainer = (props: React.PropsWithChildren<Props>) => {
             <div className="panel-container">{props.children}</div>
         </div>
     );
-};
+});
