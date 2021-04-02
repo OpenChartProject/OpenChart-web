@@ -238,8 +238,6 @@ export function drawNoteField(store: RootStore) {
         return;
     }
 
-    console.log("redraw");
-
     const ctx = noteField.canvas.getContext("2d") as CanvasRenderingContext2D;
     ctx.save();
 
