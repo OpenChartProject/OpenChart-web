@@ -35,7 +35,7 @@ export const NoteField = observer(({ store }: Props) => {
         const active = document.activeElement;
 
         // Ignore keydown events if the user is focused on something, like an input.
-        if(active && active !== document.body) {
+        if (active && active !== document.body) {
             return;
         }
 
@@ -82,7 +82,7 @@ export const NoteField = observer(({ store }: Props) => {
     useEffect(() => {
         const el = refContainer.current;
 
-        if(!el) {
+        if (!el) {
             return;
         }
 
