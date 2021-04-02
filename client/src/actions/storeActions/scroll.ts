@@ -28,12 +28,11 @@ export class ScrollAction implements Action {
 
     run(): void {
         const args = this.args;
-        const { scrollBy, setScroll } = this.store.noteField;
 
         if (args.by) {
-            scrollBy(args.by);
+            this.store.noteField.scrollBy(args.by);
         } else if (args.to) {
-            setScroll(args.to);
+            this.store.noteField.setScroll(args.to);
         }
     }
 }

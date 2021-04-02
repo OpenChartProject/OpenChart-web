@@ -36,13 +36,12 @@ export class OpenFileAction implements Action {
             const reader = new FileReader();
             const f = this.args.file;
             const format = getFormatFromFileName(f.name);
-            const { setChart, setMusic } = this.store.noteField;
 
             if (format) {
                 reader.onload = () => {
                     const text = reader.result as string;
                     const project = loadFromString(format, text);
-                    setChart(project.charts[0]);
+                    this.store.noteField.setChart(project.charts[0]);
                     resolve();
                 };
 
@@ -50,7 +49,7 @@ export class OpenFileAction implements Action {
             } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
                 reader.onload = () => {
                     const data = reader.result as string;
-                    setMusic(data);
+                    this.store.noteField.setMusic(data);
 
                     resolve();
                 };

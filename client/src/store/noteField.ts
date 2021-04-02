@@ -112,6 +112,9 @@ export class NoteFieldStore {
         }
     }
 
+    /**
+     * Sets the canvas element and sets its render width.
+     */
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.canvas.width = this.width;

@@ -24,13 +24,13 @@ export interface Props {
 export const NoteField = observer(({ store }: Props) => {
     const ref = useRef<HTMLCanvasElement>(null);
 
-    function redraw() {
+    const redraw = () => {
         if (!ref.current) return;
 
         drawNoteField(store);
     }
 
-    function onKeyDown(e: KeyboardEvent) {
+    const onKeyDown = (e: KeyboardEvent) => {
         const action = inputToAction({ type: "keydown", event: e }, store);
 
         if (action) {
@@ -38,7 +38,7 @@ export const NoteField = observer(({ store }: Props) => {
         }
     }
 
-    function onScroll(e: WheelEvent) {
+    const onScroll = (e: WheelEvent) => {
         const action = inputToAction({ type: "wheel", event: e }, store);
 
         if (action) {
@@ -46,7 +46,7 @@ export const NoteField = observer(({ store }: Props) => {
         }
     }
 
-    function updateDim() {
+    const updateDim = () => {
         const el = ref.current;
 
         if (!el) return;

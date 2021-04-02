@@ -27,7 +27,7 @@ export class SnapScrollAction implements Action {
 
     run(): void {
         const { config } = this.store.editor;
-        const { setScroll, state } = this.store.noteField;
+        const { state } = this.store.noteField;
 
         // Ignore scroll events if the notefield is auto scrolling
         if (state.isPlaying) {
@@ -43,6 +43,6 @@ export class SnapScrollAction implements Action {
 
         const beat = dir === "forward" ? snap.nextBeat(scroll.beat) : snap.prevBeat(scroll.beat);
 
-        setScroll({ beat });
+        this.store.noteField.setScroll({ beat });
     }
 }
