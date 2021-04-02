@@ -12,7 +12,7 @@ export class AutoScroller {
     constructor(store: RootStore) {
         this.store = store;
         this.earlier = -1;
-        this.metronome = new Metronome(store.editor);
+        this.metronome = new Metronome(store.ui);
 
         this.onFrame = this.onFrame.bind(this);
     }

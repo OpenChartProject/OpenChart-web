@@ -3,7 +3,7 @@ import Fraction from "fraction.js";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
-import { EditorConfig, NoteFieldState } from "./store";
+import { EditorData, NoteFieldData } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
 
 describe("testutil", () => {
@@ -43,7 +43,7 @@ describe("testutil", () => {
 
         it("merges the config if provided", () => {
             const defaultStore = createStore();
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 colors: {
                     background: "red",
                 },
@@ -60,7 +60,7 @@ describe("testutil", () => {
         });
 
         it("merges the state if provided", () => {
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 zoom: new Fraction(1, 2),
             };
             const store = createStore({ state });

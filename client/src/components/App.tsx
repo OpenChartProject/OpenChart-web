@@ -13,7 +13,7 @@ export interface Props {
 }
 
 export const App = observer((props: Props) => {
-    const [showModal, setShowModal] = useState(props.store.editor.data.showWelcomeModal);
+    const [showModal, setShowModal] = useState(props.store.ui.data.showWelcomeModal);
     const { store } = props;
 
     return (

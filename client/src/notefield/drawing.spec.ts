@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
-import { Baseline, EditorConfig, NoteFieldState } from "../store";
+import { Baseline, EditorData, NoteFieldData } from "../store";
 import { createStore } from "../testUtil";
 
 import {
@@ -56,11 +56,11 @@ describe("notefield", () => {
 
     describe("#calculateViewport", () => {
         it("returns expected value when scroll and margin are 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -80,11 +80,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and margin is 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -104,11 +104,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and margin is 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -128,11 +128,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and margin is > 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -152,11 +152,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and margin is > 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -176,11 +176,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is 0 and margin is > 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -200,11 +200,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and margin is 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 0,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 zoom: new Fraction(1),
             };
@@ -221,11 +221,11 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and margin is > 0", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
                 margin: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 height: 500,
                 zoom: new Fraction(1),
             };
@@ -244,10 +244,10 @@ describe("notefield", () => {
 
     describe("#pps", () => {
         it("returns expected value for 1:1 scaling", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
@@ -256,10 +256,10 @@ describe("notefield", () => {
         });
 
         it("returns expected value for 2:1 scaling", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 zoom: new Fraction(2),
             };
             const store = createStore({ config, state });
@@ -284,10 +284,10 @@ describe("notefield", () => {
 
     describe("#timeToPosition", () => {
         it("returns expected value", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
@@ -305,10 +305,10 @@ describe("notefield", () => {
         });
 
         it("rounds to the nearest whole number", () => {
-            const config: Partial<EditorConfig> = {
+            const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldState> = {
+            const state: Partial<NoteFieldData> = {
                 zoom: new Fraction(1.5),
             };
             const store = createStore({ config, state });

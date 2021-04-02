@@ -14,7 +14,7 @@ export const zoom = {
     max: new Fraction(6561, 256),
 };
 
-export interface NoteFieldState {
+export interface NoteFieldData {
     // This is a bit redundant since the width and height always match the dimensions of
     // the canvas element, but without them mobx doesn't respond to them changing.
     width: number;
@@ -36,7 +36,7 @@ export class NoteFieldStore {
     readonly root: RootStore;
 
     chart: Chart;
-    data: NoteFieldState;
+    data: NoteFieldData;
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScroller;
@@ -65,7 +65,7 @@ export class NoteFieldStore {
         this.music = new Music();
     }
 
-    get defaults(): NoteFieldState {
+    get defaults(): NoteFieldData {
         return {
             width: 1,
             height: 1,

@@ -58,7 +58,7 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
  */
 export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Action | null {
     const { chart } = store.noteField;
-    const { keyBinds } = store.editor.data;
+    const { keyBinds } = store.ui.data;
     const { scroll, zoom } = store.noteField.data;
 
     // Check if this key is for placing a note.

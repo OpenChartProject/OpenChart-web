@@ -18,7 +18,7 @@ export const Toolbar = observer((props: Props) => {
 
     const metronome = (enableMetronome: boolean) => {
         return () => {
-            store.editor.update({ enableMetronome });
+            store.ui.update({ enableMetronome });
         };
     };
 
@@ -90,7 +90,7 @@ export const Toolbar = observer((props: Props) => {
                     <span className="material-icons-outlined">swap_vert</span>
                 </a>
 
-                {store.editor.data.enableMetronome ? (
+                {store.ui.data.enableMetronome ? (
                     <a title="Disable metronome" onClick={metronome(false)}>
                         <span className="material-icons-outlined">timer</span>
                     </a>

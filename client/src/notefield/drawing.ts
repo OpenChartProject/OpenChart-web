@@ -1,7 +1,7 @@
 import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 import { NoteSkin } from "../noteskin";
-import { Baseline, EditorConfigStore, NoteFieldStore, RootStore } from "../store";
+import { Baseline, EditorStore, NoteFieldStore, RootStore } from "../store";
 
 import { getBeatLineTimes } from "./beatlines";
 
@@ -36,14 +36,14 @@ export interface DrawProps extends Viewport {
     h: number;
     chart: Chart;
     noteSkin: NoteSkin;
-    editor: EditorConfigStore;
+    editor: EditorStore;
     noteField: NoteFieldStore;
 }
 
 /**
  * Returns the pixels per second, taking into account the scaling.
  */
-export function pps(editor: EditorConfigStore, noteField: NoteFieldStore): number {
+export function pps(editor: EditorStore, noteField: NoteFieldStore): number {
     return editor.data.pixelsPerSecond * noteField.data.zoom.valueOf();
 }
 
@@ -79,7 +79,7 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  * The objects on the notefield are rendered with respect to the canvas origin, not
  * with respect to the scrolling.
  */
-export function calculateViewport(editor: EditorConfigStore, noteField: NoteFieldStore): Viewport {
+export function calculateViewport(editor: EditorStore, noteField: NoteFieldStore): Viewport {
     const y0 = noteField.data.scroll.time.value * pps(editor, noteField) - editor.data.margin;
     const t0 = new Time(Math.max(y0 / pps(editor, noteField), 0));
     const t1 = new Time(Math.max((y0 + noteField.data.height) / pps(editor, noteField), 0));

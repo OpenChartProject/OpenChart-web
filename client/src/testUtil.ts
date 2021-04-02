@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
-import { EditorConfig, NoteFieldState, RootStore } from "./store";
+import { EditorData, NoteFieldData, RootStore } from "./store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual
@@ -31,8 +31,8 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
 
 export interface CreateStoreArgs {
     chart?: Chart;
-    config?: Partial<EditorConfig>;
-    state?: Partial<NoteFieldState>;
+    config?: Partial<EditorData>;
+    state?: Partial<NoteFieldData>;
 }
 
 /**

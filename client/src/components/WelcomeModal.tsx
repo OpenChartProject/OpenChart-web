@@ -12,7 +12,7 @@ export interface Props {
 
 export const WelcomeModal = (props: Props) => {
     const dontShowAgain = () => {
-        props.store.editor.update({ showWelcomeModal: false });
+        props.store.ui.update({ showWelcomeModal: false });
         props.onClose();
     };
 
