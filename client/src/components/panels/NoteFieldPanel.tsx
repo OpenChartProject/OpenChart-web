@@ -11,17 +11,24 @@ export interface Props {
 }
 
 export const NoteFieldPanel = observer((props: Props) => {
+    const { editor } = props.store;
+    const defaults = editor.defaults;
+
+    const modified =
+        editor.data.columnWidth !== defaults.columnWidth ||
+        editor.data.receptorY !== defaults.receptorY;
+
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.store.editor.update({ columnWidth: _.toInteger(e.target.value) });
+        editor.update({ columnWidth: _.toInteger(e.target.value) });
     };
 
     const onReceptorPosChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.store.editor.update({ receptorY: _.toInteger(e.target.value) });
+        editor.update({ receptorY: _.toInteger(e.target.value) });
     };
 
     const onRestore = () => {
-        const { columnWidth, receptorY } = props.store.editor.defaults;
-        props.store.editor.update({ columnWidth, receptorY });
+        const { columnWidth, receptorY } = defaults;
+        editor.update({ columnWidth, receptorY });
     };
 
     return (
@@ -31,10 +38,10 @@ export const NoteFieldPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
-                    title={props.store.editor.data.receptorY + "px"}
+                    title={editor.data.receptorY + "px"}
                     min={0}
                     max={1000}
-                    value={props.store.editor.data.receptorY}
+                    value={editor.data.receptorY}
                     onChange={onReceptorPosChange}
                 />
             </div>
@@ -44,16 +51,20 @@ export const NoteFieldPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
-                    title={props.store.editor.data.columnWidth + "px"}
+                    title={editor.data.columnWidth + "px"}
                     min={32}
                     max={256}
-                    value={props.store.editor.data.columnWidth}
+                    value={editor.data.columnWidth}
                     onChange={onColumnWidthChange}
                 />
             </div>
 
             <div className="form-control clearfix">
-                <button className="btn btn-secondary btn-thin float-right" onClick={onRestore}>
+                <button
+                    className="btn btn-secondary btn-thin float-right"
+                    onClick={onRestore}
+                    disabled={!modified}
+                >
                     Restore Defaults
                 </button>
             </div>
