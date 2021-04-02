@@ -6,13 +6,16 @@
     left: 50%;
     z-index: 101;
     transform: translate(-50%, -50%);
+    border-radius: 4px;
 
-    padding: 32px;
+    padding: 20px 32px;
     background-color: $col-dark-gray;
     max-width: 600px;
 }
 
 .welcome-modal {
+    padding-top: 32px;
+
     .oc-banner {
         display: block;
         margin: 0 auto;
@@ -22,5 +25,12 @@
     .close-btn {
         @extend .btn, .btn-primary, .btn-thick, .btn-wide;
         margin-top: 12px;
+    }
+
+    .dont-show-again {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        color: $col-light-gray;
     }
 }

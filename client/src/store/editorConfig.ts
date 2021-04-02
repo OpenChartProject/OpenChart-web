@@ -59,6 +59,7 @@ export interface EditorConfig {
 
     enableMetronome: boolean;
     sidePanelVisible: boolean;
+    showWelcomeModal: boolean;
 }
 
 /**
@@ -132,6 +133,7 @@ export class EditorConfigStore {
 
             enableMetronome: true,
             sidePanelVisible: true,
+            showWelcomeModal: true,
         };
     }
 

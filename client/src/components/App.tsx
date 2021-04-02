@@ -13,12 +13,12 @@ export interface Props {
 }
 
 export const App = observer((props: Props) => {
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(props.store.editor.config.showWelcomeModal);
     const { store } = props;
 
     return (
         <div className="app-container">
-            {showModal && <WelcomeModal onClose={() => setShowModal(false)} />}
+            {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
             <Toolbar store={store} />
             <NoteField store={store} />
             <PanelContainer store={store}>

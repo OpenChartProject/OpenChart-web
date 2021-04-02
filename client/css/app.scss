@@ -35,3 +35,12 @@ body {
     height: 100%;
     display: flex;
 }
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
