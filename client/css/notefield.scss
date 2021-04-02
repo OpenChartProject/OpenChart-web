@@ -1,9 +1,21 @@
 .notefield-container {
     flex: 1;
+    text-align: center;
 }
 
-.notefield {
-    display: block;
-    margin: 0 auto;
+.canvas-container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
     height: 100%;
+
+    .notefield {
+        height: 100%;
+    }
+
+    .beatsnap {
+        position: absolute;
+        right: -50px;
+        transform: translateY(-50%);
+    }
 }

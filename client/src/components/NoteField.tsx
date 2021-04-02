@@ -102,7 +102,12 @@ export const NoteField = observer(({ store }: Props) => {
 
     return (
         <div className="notefield-container" ref={refContainer}>
-            <canvas className="notefield" ref={refCanvas}></canvas>
+            <div className="canvas-container">
+                <canvas className="notefield" ref={refCanvas}></canvas>
+                <div className="beatsnap" style={{ top: `${store.editor.data.margin}px` }}>
+                    {store.noteField.data.snap.current.toFraction()}
+                </div>
+            </div>
         </div>
     );
 });
