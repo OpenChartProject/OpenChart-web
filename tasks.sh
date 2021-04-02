@@ -18,6 +18,11 @@ build)
     make_dist_dir
     yarn build
 
+    # Add a comment at the top of index.html with the commit and date
+    commit=$(git show -s --oneline | cut -f 1 -d ' ')
+    cur_date=$(date -Iseconds -u | cut -f 1 -d '+' | sed 's/T/ /')
+    sed -i "1i <!-- $commit | $cur_date -->" dist/index.html
+
     # Build the nginx image
     docker build \
         -f docker/Dockerfile.nginx \
