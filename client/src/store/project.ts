@@ -1,6 +1,8 @@
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
+
 import { Project, SongData } from "../project";
+
 import { RootStore } from "./store";
 
 export class ProjectStore {

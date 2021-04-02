@@ -1,7 +1,5 @@
 import React from "react";
 
-export interface Props {}
-
-export const PanelContainer = (props: React.PropsWithChildren<Props>) => {
+export const PanelContainer = (props: React.PropsWithChildren<{}>) => {
     return <div className="panel-container">{props.children}</div>;
 };

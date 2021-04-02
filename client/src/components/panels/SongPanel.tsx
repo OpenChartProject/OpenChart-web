@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 import { RootStore } from "../../store";
 
@@ -16,6 +16,17 @@ export const SongPanel = observer((props: Props) => {
     const [title, setTitle] = useState(song.title);
 
     const modified = artist !== song.artist || title !== song.title;
+
+    // Update the form if the value stored on the project changed. For example,
+    // when opening a project
+    useEffect(() => {
+        if (!modified) {
+            return;
+        }
+
+        setArtist(song.artist);
+        setTitle(song.title);
+    }, [song.artist, song.title]);
 
     const onApply = () => {
         props.store.project.updateSong({ artist, title });
