@@ -51,12 +51,14 @@ export interface EditorConfig {
 
     baseline: Baseline;
     columnWidth: number;
-    enableMetronome: boolean;
     keyBinds: KeyBinds;
     margin: number;
     noteSkin?: NoteSkin;
     pixelsPerSecond: number;
     scrollDirection: ScrollDirection;
+
+    enableMetronome: boolean;
+    sidePanelVisible: boolean;
 }
 
 /**
@@ -126,8 +128,10 @@ export class EditorConfigStore {
             columnWidth: 128,
             pixelsPerSecond: 512,
             margin: 384,
-            enableMetronome: true,
             scrollDirection: "up",
+
+            enableMetronome: true,
+            sidePanelVisible: true,
         };
     }
 

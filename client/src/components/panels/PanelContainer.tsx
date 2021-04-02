@@ -1,25 +1,31 @@
 import React, { useState } from "react";
+import { RootStore } from "../../store";
 
 export interface Props {
-    initClosed?: boolean;
+    store: RootStore;
 }
 
 export const PanelContainer = (props: React.PropsWithChildren<Props>) => {
-    const [closed, setClosed] = useState(props.initClosed === true);
+    const [visible, setVisible] = useState(props.store.editor.config.sidePanelVisible);
 
     const toggle = () => {
-        setClosed(!closed);
+        const newState = !visible;
+
+        setVisible(newState);
+        props.store.editor.update({ sidePanelVisible: newState });
     };
 
     return (
-        <div className={`panel-container-drawer ${closed ? "closed" : ""}`}>
+        <div className={`panel-container-drawer ${!visible ? "closed" : ""}`}>
             <div className="panel-drawer-btns" title="Toggle side panel">
-                {!closed && (
+                {visible && (
+                    /* Open button */
                     <div className="panel-drawer-btn" onClick={toggle}>
                         &gt;
                     </div>
                 )}
-                {closed && (
+                {!visible && (
+                    /* Close button */
                     <div className="panel-drawer-btn" onClick={toggle}>
                         &lt;
                     </div>

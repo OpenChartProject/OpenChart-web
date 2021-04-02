@@ -14,14 +14,15 @@ export interface Props {
 
 export const App = observer((props: Props) => {
     const [showModal, setShowModal] = useState(true);
+    const { store } = props;
 
     return (
         <div className="app-container">
             {showModal && <WelcomeModal onClose={() => setShowModal(false)} />}
-            <Toolbar store={props.store} />
-            <NoteField store={props.store} />
-            <PanelContainer>
-                <SongPanel store={props.store} />
+            <Toolbar store={store} />
+            <NoteField store={store} />
+            <PanelContainer store={store}>
+                <SongPanel store={store} />
             </PanelContainer>
         </div>
     );
