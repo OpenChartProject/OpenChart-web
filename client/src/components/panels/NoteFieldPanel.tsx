@@ -11,6 +11,10 @@ export interface Props {
 }
 
 export const NoteFieldPanel = observer((props: Props) => {
+    const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
+        props.store.editor.update({ columnWidth: _.toInteger(e.target.value) });
+    };
+
     const onReceptorPosChange = (e: ChangeEvent<HTMLInputElement>) => {
         props.store.editor.update({ receptorY: _.toInteger(e.target.value) });
     };
@@ -27,6 +31,19 @@ export const NoteFieldPanel = observer((props: Props) => {
                     max={1000}
                     value={props.store.editor.data.receptorY}
                     onChange={onReceptorPosChange}
+                />
+            </div>
+
+            <div className="form-control">
+                <label className="form-label-dark">Note Size</label>
+                <input
+                    className="form-input"
+                    type="range"
+                    title={props.store.editor.data.columnWidth + "px"}
+                    min={32}
+                    max={256}
+                    value={props.store.editor.data.columnWidth}
+                    onChange={onColumnWidthChange}
                 />
             </div>
         </Panel>

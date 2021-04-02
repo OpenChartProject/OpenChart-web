@@ -78,6 +78,10 @@ export class NoteFieldStore {
         };
     }
 
+    /**
+     * Sets the height of the canvas. The height is controlled by the CSS, and a listener
+     * calls this method when the height in the DOM changes.
+     */
     setHeight(val: number) {
         if (!this.canvas || this.canvas.height === val) {
             return;
@@ -85,6 +89,20 @@ export class NoteFieldStore {
 
         this.canvas.height = val;
         this.data.height = this.canvas.height;
+    }
+
+    /**
+     * Updates the canvas width.
+     */
+    updateWidth() {
+        const width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
+
+        if (!this.canvas || this.canvas.width === width) {
+            return;
+        }
+
+        this.canvas.width = width;
+        this.data.width = this.canvas.width;
     }
 
     /**
@@ -122,8 +140,7 @@ export class NoteFieldStore {
      */
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.canvas.width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
-        this.data.width = this.canvas.width;
+        this.updateWidth();
     }
 
     /**

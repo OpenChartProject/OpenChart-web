@@ -120,6 +120,11 @@ export class EditorStore {
     update(config: Partial<EditorData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
+
+        // Update the canvas width when the column width changes.
+        if (config.columnWidth !== undefined) {
+            this.root.noteField.updateWidth();
+        }
     }
 
     /**
