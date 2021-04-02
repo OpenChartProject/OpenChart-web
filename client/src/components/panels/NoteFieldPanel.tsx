@@ -12,7 +12,7 @@ export interface Props {
 
 export const NoteFieldPanel = observer((props: Props) => {
     const onReceptorPosChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.store.editor.update({ margin: _.toInteger(e.target.value) });
+        props.store.editor.update({ receptorY: _.toInteger(e.target.value) });
     };
 
     return (
@@ -24,7 +24,7 @@ export const NoteFieldPanel = observer((props: Props) => {
                     type="range"
                     min={0}
                     max={1000}
-                    value={props.store.editor.data.margin}
+                    value={props.store.editor.data.receptorY}
                     onChange={onReceptorPosChange}
                 />
             </div>

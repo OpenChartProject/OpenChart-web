@@ -48,7 +48,7 @@ export interface EditorData {
 
     baseline: Baseline;
     columnWidth: number;
-    margin: number;
+    receptorY: number;
     noteSkin?: NoteSkin;
     pixelsPerSecond: number;
     scrollDirection: ScrollDirection;
@@ -109,7 +109,7 @@ export class EditorStore {
             baseline: Baseline.Centered,
             columnWidth: 128,
             pixelsPerSecond: 512,
-            margin: 384,
+            receptorY: 384,
             scrollDirection: "up",
         };
     }

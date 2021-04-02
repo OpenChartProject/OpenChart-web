@@ -52,7 +52,7 @@ describe("testutil", () => {
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(defaultStore.editor.data.margin, store.editor.data.margin);
+            assert.deepStrictEqual(defaultStore.editor.data.receptorY, store.editor.data.receptorY);
             assert.deepStrictEqual(defaultStore.editor.data.beatLines, store.editor.data.beatLines);
 
             assert.strictEqual(store.editor.data.pixelsPerSecond, config.pixelsPerSecond);

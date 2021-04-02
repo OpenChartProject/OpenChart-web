@@ -55,10 +55,10 @@ describe("notefield", () => {
     });
 
     describe("#calculateViewport", () => {
-        it("returns expected value when scroll and margin are 0", () => {
+        it("returns expected value when scroll and receptorY are 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 0,
+                receptorY: 0,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -79,10 +79,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when zoom is > 1 and margin is 0", () => {
+        it("returns expected value when zoom is > 1 and receptorY is 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 0,
+                receptorY: 0,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -103,10 +103,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when zoom is < 1 and margin is 0", () => {
+        it("returns expected value when zoom is < 1 and receptorY is 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 0,
+                receptorY: 0,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -127,10 +127,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when zoom is > 1 and margin is > 0", () => {
+        it("returns expected value when zoom is > 1 and receptorY is > 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 100,
+                receptorY: 100,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -151,10 +151,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when zoom is < 1 and margin is > 0", () => {
+        it("returns expected value when zoom is < 1 and receptorY is > 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 100,
+                receptorY: 100,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -175,10 +175,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scroll is 0 and margin is > 0", () => {
+        it("returns expected value when scroll is 0 and receptorY is > 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 100,
+                receptorY: 100,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -199,10 +199,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 0);
         });
 
-        it("returns expected value when scroll is > 0 and margin is 0", () => {
+        it("returns expected value when scroll is > 0 and receptorY is 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 0,
+                receptorY: 0,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,
@@ -220,10 +220,10 @@ describe("notefield", () => {
             assert.strictEqual(tReceptor.value, 1);
         });
 
-        it("returns expected value when scroll is > 0 and margin is > 0", () => {
+        it("returns expected value when scroll is > 0 and receptorY is > 0", () => {
             const config: Partial<EditorData> = {
                 pixelsPerSecond: 100,
-                margin: 100,
+                receptorY: 100,
             };
             const state: Partial<NoteFieldData> = {
                 height: 500,

@@ -80,7 +80,7 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  * with respect to the scrolling.
  */
 export function calculateViewport(editor: EditorStore, noteField: NoteFieldStore): Viewport {
-    const y0 = noteField.data.scroll.time.value * pps(editor, noteField) - editor.data.margin;
+    const y0 = noteField.data.scroll.time.value * pps(editor, noteField) - editor.data.receptorY;
     const t0 = new Time(Math.max(y0 / pps(editor, noteField), 0));
     const t1 = new Time(Math.max((y0 + noteField.data.height) / pps(editor, noteField), 0));
     const tReceptor = noteField.data.scroll.time;
