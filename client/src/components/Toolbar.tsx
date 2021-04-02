@@ -37,10 +37,7 @@ export const Toolbar = observer((props: Props) => {
     const saveFile = () => {
         const project: Project = {
             charts: [store.noteField.chart],
-            song: {
-                artist: "TODO",
-                title: "TODO",
-            },
+            song: store.project.project.song,
         };
 
         const format = Formats[".ocz"];
