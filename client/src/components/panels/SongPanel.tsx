@@ -11,6 +11,8 @@ export interface Props {
 
 export const SongPanel = observer((props: Props) => {
     const song = props.store.project.data.song;
+    const { ui } = props.store;
+    const visible = ui.data.panelVisibility.songInfo;
 
     const [artist, setArtist] = useState(song.artist);
     const [title, setTitle] = useState(song.title);
@@ -42,8 +44,12 @@ export const SongPanel = observer((props: Props) => {
         onApply();
     };
 
+    const onToggle = () => {
+        ui.updatePanelVisibility({ songInfo: !visible });
+    };
+
     return (
-        <Panel title="Song Info">
+        <Panel title="Song Info" visible={visible} onToggle={onToggle}>
             <form onSubmit={onFormSubmit}>
                 <div className="form-control">
                     <label className="form-label-dark" htmlFor="input-title">

@@ -1,25 +1,23 @@
 import { observer } from "mobx-react-lite";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties } from "react";
 
 export interface Props {
-    collapsed?: boolean;
+    visible: boolean;
+    onToggle(): void;
     title: string;
 }
 
 export const Panel = observer((props: React.PropsWithChildren<Props>) => {
-    const [collapsed, setCollapsed] = useState(props.collapsed ?? false);
+    const { visible } = props;
     const style: CSSProperties = {};
 
-    if (collapsed) {
+    if (!visible) {
         style.display = "none";
     }
 
     return (
         <div className="panel">
-            <div
-                className={`panel-title ${collapsed ? "collapsed" : ""}`}
-                onClick={() => setCollapsed(!collapsed)}
-            >
+            <div className={`panel-title ${!visible ? "collapsed" : ""}`} onClick={props.onToggle}>
                 {props.title}
             </div>
             <div className="panel-content" style={style}>

@@ -5,11 +5,19 @@ import { KeyBinds } from "../notefield/input";
 
 import { RootStore } from "./store";
 
+export interface PanelVisibility {
+    beatTime: boolean;
+    songInfo: boolean;
+    noteFieldSettings: boolean;
+}
+
 export interface UIData {
-    keyBinds: KeyBinds;
     enableMetronome: boolean;
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
+
+    keyBinds: KeyBinds;
+    panelVisibility: PanelVisibility;
 }
 
 export class UIStore {
@@ -40,6 +48,10 @@ export class UIStore {
 
     get defaults(): UIData {
         return {
+            enableMetronome: true,
+            sidePanelVisible: true,
+            showWelcomeModal: true,
+
             keyBinds: {
                 keys: {
                     4: ["1", "2", "3", "4"],
@@ -53,9 +65,11 @@ export class UIStore {
                 playPause: " ",
             },
 
-            enableMetronome: true,
-            sidePanelVisible: true,
-            showWelcomeModal: true,
+            panelVisibility: {
+                beatTime: true,
+                songInfo: true,
+                noteFieldSettings: true,
+            },
         };
     }
 
@@ -64,6 +78,11 @@ export class UIStore {
      */
     update(config: Partial<UIData>) {
         this.data = _.merge(this.data || {}, config);
+        this.save();
+    }
+
+    updatePanelVisibility(config: Partial<PanelVisibility>) {
+        this.data.panelVisibility = _.merge(this.data.panelVisibility || {}, config);
         this.save();
     }
 

@@ -10,10 +10,15 @@ export interface Props {
 }
 
 export const BeatTimePanel = observer((props: Props) => {
-    const { noteField } = props.store;
+    const { noteField, ui } = props.store;
+    const visible = ui.data.panelVisibility.beatTime;
+
+    const onToggle = () => {
+        ui.updatePanelVisibility({ beatTime: !visible });
+    };
 
     return (
-        <Panel title="Beat &amp; Time">
+        <Panel title="Beat &amp; Time" visible={visible} onToggle={onToggle}>
             <table>
                 <tr>
                     <td>Beat:</td>
