@@ -88,7 +88,7 @@ export function calculateViewport(editor: EditorConfigStore, noteField: NoteFiel
 
     const y0 = state.scroll.time.value * pps(editor, noteField) - config.margin;
     const t0 = new Time(Math.max(y0 / pps(editor, noteField), 0));
-    const t1 = new Time(Math.max((y0 + noteField.height) / pps(editor, noteField), 0));
+    const t1 = new Time(Math.max((y0 + noteField.state.height) / pps(editor, noteField), 0));
     const tReceptor = state.scroll.time;
 
     return { y0, t0, t1, tReceptor };
@@ -238,14 +238,16 @@ export function drawNoteField(store: RootStore) {
         return;
     }
 
+    console.log("redraw");
+
     const ctx = noteField.canvas.getContext("2d") as CanvasRenderingContext2D;
     ctx.save();
 
     const viewport = calculateViewport(editor, noteField);
     const drawProps = {
         ctx,
-        w: noteField.width,
-        h: noteField.height,
+        w: noteField.state.width,
+        h: noteField.state.height,
         chart: noteField.chart,
         noteSkin: editor.config.noteSkin,
         editor,

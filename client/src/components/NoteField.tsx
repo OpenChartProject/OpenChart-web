@@ -28,7 +28,7 @@ export const NoteField = observer(({ store }: Props) => {
         if (!ref.current) return;
 
         drawNoteField(store);
-    }
+    };
 
     const onKeyDown = (e: KeyboardEvent) => {
         const action = inputToAction({ type: "keydown", event: e }, store);
@@ -36,7 +36,7 @@ export const NoteField = observer(({ store }: Props) => {
         if (action) {
             action.run();
         }
-    }
+    };
 
     const onScroll = (e: WheelEvent) => {
         const action = inputToAction({ type: "wheel", event: e }, store);
@@ -44,13 +44,13 @@ export const NoteField = observer(({ store }: Props) => {
         if (action) {
             action.run();
         }
-    }
+    };
 
     const updateDim = () => {
         if (!ref.current) return;
 
-        store.noteField.height = ref.current.clientHeight;
-    }
+        store.noteField.setHeight(ref.current.clientHeight);
+    };
 
     // Watch the entire store for changes so we know when to redraw.
     // NOTE: mobx only picks up on changes that happen inside actions, i.e. methods
@@ -61,7 +61,7 @@ export const NoteField = observer(({ store }: Props) => {
             deepObserve(store.noteField, () => redraw()),
         ];
 
-        return () => observers.forEach(disposer => disposer());
+        return () => observers.forEach((disposer) => disposer());
     }, []);
 
     // Setup event listener for handling page resizes.

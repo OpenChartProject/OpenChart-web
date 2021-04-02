@@ -1,6 +1,5 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import sinon from "sinon";
 
 import { Beat, Time } from "../charting/";
 import { Baseline, EditorConfig, NoteFieldState } from "../store";
@@ -62,6 +61,7 @@ describe("notefield", () => {
                 margin: 0,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -70,7 +70,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -86,6 +85,7 @@ describe("notefield", () => {
                 margin: 0,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -94,7 +94,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -110,6 +109,7 @@ describe("notefield", () => {
                 margin: 0,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -118,7 +118,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -134,6 +133,7 @@ describe("notefield", () => {
                 margin: 100,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -142,7 +142,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -158,6 +157,7 @@ describe("notefield", () => {
                 margin: 100,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -166,7 +166,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -182,6 +181,7 @@ describe("notefield", () => {
                 margin: 100,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 scroll: {
                     beat: Beat.Zero,
                     time: Time.Zero,
@@ -190,7 +190,6 @@ describe("notefield", () => {
             };
 
             const store = createStore({ config, state });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -206,12 +205,12 @@ describe("notefield", () => {
                 margin: 0,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -227,12 +226,12 @@ describe("notefield", () => {
                 margin: 100,
             };
             const state: Partial<NoteFieldState> = {
+                height: 500,
                 zoom: new Fraction(1),
             };
 
             const store = createStore({ config, state });
             store.noteField.setScroll({ time: new Time(1) });
-            sinon.stub(store.noteField.canvas!, "clientHeight").value(500);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 

@@ -15,6 +15,11 @@ export const zoom = {
 };
 
 export interface NoteFieldState {
+    // This is a bit redundant since the width and height always match the dimensions of
+    // the canvas element, but without them mobx doesn't respond to them changing.
+    width: number;
+    height: number;
+
     zoom: Fraction;
     scroll: BeatTime;
     snap: BeatSnap;
@@ -62,6 +67,9 @@ export class NoteFieldStore {
 
     get defaults(): NoteFieldState {
         return {
+            width: 1,
+            height: 1,
+
             zoom: new Fraction(1),
             scroll: { beat: Beat.Zero, time: Time.Zero },
             snap: new BeatSnap(),
@@ -70,16 +78,13 @@ export class NoteFieldStore {
         };
     }
 
-    set height(val: number) {
-        this.canvas!.height = val;
-    }
+    setHeight(val: number) {
+        if (!this.canvas || this.canvas.height === val) {
+            return;
+        }
 
-    get height(): number {
-        return this.canvas!.clientHeight;
-    }
-
-    get width(): number {
-        return this.root.editor.config.columnWidth * this.chart.keyCount.value;
+        this.canvas.height = val;
+        this.state.height = this.canvas.height;
     }
 
     /**
@@ -117,7 +122,8 @@ export class NoteFieldStore {
      */
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.canvas.width = this.width;
+        this.canvas.width = this.root.editor.config.columnWidth * this.chart.keyCount.value;
+        this.state.width = this.canvas.width;
     }
 
     /**

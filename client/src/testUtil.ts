@@ -43,7 +43,6 @@ export function createStore(args: CreateStoreArgs = {}): RootStore {
     store.noteField.setCanvas(document.createElement("canvas"));
     store.noteField.music.el = document.createElement("audio");
 
-
     if (args.chart) {
         store.noteField.setChart(args.chart);
     }

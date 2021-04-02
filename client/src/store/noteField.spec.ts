@@ -1,8 +1,8 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 import sinon from "sinon";
-import { Chart } from "../charting";
 
+import { Chart } from "../charting";
 import { zoom } from "../store/noteField";
 import { createStore } from "../testUtil";
 
@@ -16,7 +16,7 @@ describe("NoteFieldStore", () => {
 
             store.setCanvas(el as HTMLCanvasElement);
             assert.strictEqual(store.canvas, el);
-            assert.strictEqual(store.canvas.width, store.width);
+            assert.strictEqual(store.canvas.width, store.state.width);
         });
     });
 
