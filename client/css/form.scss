@@ -10,6 +10,10 @@
     display: block;
     width: 100%;
 
+    &[type="range"] {
+        margin-top: 10px;
+    }
+
     &[type="text"] {
         background-color: transparent;
         border: 0;

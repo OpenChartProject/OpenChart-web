@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { RootStore } from "../store/";
 
 import { NoteField } from "./NoteField";
-import { PanelContainer, SongPanel } from "./panels";
+import { NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 
@@ -23,6 +23,7 @@ export const App = observer((props: Props) => {
             <NoteField store={store} />
             <PanelContainer store={store}>
                 <SongPanel store={store} />
+                <NoteFieldPanel store={store} />
             </PanelContainer>
         </div>
     );
