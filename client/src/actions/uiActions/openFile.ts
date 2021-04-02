@@ -42,6 +42,7 @@ export class OpenFileAction implements Action {
                     const text = reader.result as string;
                     const project = loadFromString(format, text);
                     this.store.noteField.setChart(project.charts[0]);
+                    this.store.project.updateSong(project.song);
                     resolve();
                 };
 
