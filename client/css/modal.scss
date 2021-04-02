@@ -6,7 +6,7 @@
     transform: translate(-50%, -50%);
 
     padding: 32px;
-    background-color: #222;
+    background-color: $col-dark-gray;
     max-width: 600px;
 }
 
@@ -21,14 +21,14 @@
         margin-top: 12px;
         width: 100%;
         padding: 16px;
-        background-color: #6c44ed;
+        background-color: $col-purple;
         border: none;
         font-weight: bold;
-        color: #fff;
+        color: $col-white;
         cursor: pointer;
 
         &:hover {
-            background-color: darken(#6c44ed, 2%);
+            background-color: darken($col-purple, 2%);
         }
     }
 }

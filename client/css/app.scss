@@ -1,7 +1,9 @@
 @import "normalize.css";
+@import "./colors";
 @import "./dimmer";
 @import "./modal";
 @import "./notefield";
+@import "./panel";
 @import "./sidebar";
 
 * {
@@ -15,12 +17,12 @@ body {
 }
 
 body {
-    background-color: #333;
+    background-color: $col-gray;
     overflow: hidden;
 
     font-size: 16px;
     font-family: sans-serif;
-    color: #eaeaea;
+    color: $col-white;
 }
 
 #app {

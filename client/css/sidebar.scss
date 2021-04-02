@@ -1,10 +1,10 @@
-$sidebar-item-size: 32px;
-$sidebar-item-spacing: 16px;
-
 .sidebar-container {
+    $sidebar-item-size: 32px;
+    $sidebar-item-spacing: 16px;
+
     display: flex;
     flex-direction: column;
-    background-color: #222;
+    background-color: $col-dark-gray;
     line-height: 0;
     overflow-y: auto;
     padding: 16px;
@@ -26,7 +26,7 @@ $sidebar-item-spacing: 16px;
 
     a {
         cursor: pointer;
-        color: #fff;
+        color: $col-white;
         opacity: 0.5;
         margin-bottom: $sidebar-item-spacing;
 
@@ -42,7 +42,7 @@ $sidebar-item-spacing: 16px;
     .divider {
         width: 100%;
         height: 4px;
-        background-color: #333;
+        background-color: $col-gray;
         margin-bottom: $sidebar-item-spacing;
     }
 
