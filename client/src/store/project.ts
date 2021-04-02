@@ -13,7 +13,7 @@ export class ProjectStore {
         });
 
         this.root = root;
-        this.project = {charts: [], song: {artist: "", title: ""}};
+        this.project = { charts: [], song: { artist: "", title: "" } };
     }
 
     updateSong(data: Partial<SongData>) {
