@@ -1,5 +1,5 @@
 .form-control {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 
     &:last-child {
         margin-bottom: 0;
@@ -16,10 +16,15 @@
         border-bottom: 3px solid $col-gray;
         padding: 5px 0;
         color: $col-white;
+        outline: 0;
 
         &:hover,
         &:focus {
             background-color: $col-gray;
+        }
+
+        &:focus {
+            border-bottom-color: $col-purple;
         }
     }
 }
@@ -28,6 +33,10 @@
     display: block;
     text-transform: uppercase;
     font-weight: bold;
-    color: $col-light-gray;
     padding-bottom: 10px;
+}
+
+.form-label-dark {
+    @extend .form-label;
+    color: $col-light-gray;
 }
