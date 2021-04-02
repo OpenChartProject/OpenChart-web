@@ -123,7 +123,7 @@ export class EditorStore {
 
         // Update the canvas width when the column width changes.
         if (config.columnWidth !== undefined) {
-            this.root.noteField.updateWidth();
+            this.root.noteField?.updateWidth();
         }
     }
 

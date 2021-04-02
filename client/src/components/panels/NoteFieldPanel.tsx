@@ -19,6 +19,11 @@ export const NoteFieldPanel = observer((props: Props) => {
         props.store.editor.update({ receptorY: _.toInteger(e.target.value) });
     };
 
+    const onRestore = () => {
+        const { columnWidth, receptorY } = props.store.editor.defaults;
+        props.store.editor.update({ columnWidth, receptorY });
+    };
+
     return (
         <Panel title="Notefield Settings">
             <div className="form-control">
@@ -45,6 +50,12 @@ export const NoteFieldPanel = observer((props: Props) => {
                     value={props.store.editor.data.columnWidth}
                     onChange={onColumnWidthChange}
                 />
+            </div>
+
+            <div className="form-control clearfix">
+                <button className="btn btn-secondary btn-thin float-right" onClick={onRestore}>
+                    Restore Defaults
+                </button>
             </div>
         </Panel>
     );
