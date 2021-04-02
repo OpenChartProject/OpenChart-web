@@ -1,3 +1,5 @@
+@import "./form";
+
 .modal {
     position: fixed;
     top: 50%;
@@ -18,17 +20,7 @@
     }
 
     .close-btn {
+        @extend .btn, .btn-lg, .btn-wide;
         margin-top: 12px;
-        width: 100%;
-        padding: 16px;
-        background-color: $col-purple;
-        border: none;
-        font-weight: bold;
-        color: $col-white;
-        cursor: pointer;
-
-        &:hover {
-            background-color: darken($col-purple, 2%);
-        }
     }
 }
