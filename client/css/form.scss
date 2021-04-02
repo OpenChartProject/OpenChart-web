@@ -42,18 +42,34 @@
 }
 
 .btn {
-    background-color: $col-purple;
     border: none;
     font-weight: bold;
     color: $col-white;
     cursor: pointer;
-
-    &:hover {
-        background-color: darken($col-purple, 2%);
-    }
+    border-radius: 3px;
 
     &:disabled {
+        cursor: default;
+        user-select: none;
+        pointer-events: none;
         background-color: $col-gray;
+        color: $col-light-gray;
+    }
+}
+
+.btn-primary {
+    background-color: $col-purple;
+
+    &:hover {
+        background-color: darken($col-purple, 3%);
+    }
+}
+
+.btn-secondary {
+    background-color: $col-light-gray;
+
+    &:hover {
+        background-color: darken($col-light-gray, 3%);
     }
 }
 

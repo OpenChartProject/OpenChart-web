@@ -1,13 +1,18 @@
 import _ from "lodash";
+import { makeAutoObservable } from "mobx";
 import { Project, SongData } from "../project";
 import { RootStore } from "./store";
 
 export class ProjectStore {
     project: Project;
-    store: RootStore;
+    root: RootStore;
 
-    constructor(store: RootStore) {
-        this.store = store;
+    constructor(root: RootStore) {
+        makeAutoObservable(this, {
+            root: false,
+        });
+
+        this.root = root;
         this.project = {charts: [], song: {artist: "", title: ""}};
     }
 
