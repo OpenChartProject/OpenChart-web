@@ -22,15 +22,23 @@ export interface Props {
  * changes are not broadcasted and the notefield won't redraw.
  */
 export const NoteField = observer(({ store }: Props) => {
-    const ref = useRef<HTMLCanvasElement>(null);
+    const refCanvas = useRef<HTMLCanvasElement>(null);
+    const refContainer = useRef<HTMLDivElement>(null);
 
     const redraw = () => {
-        if (!ref.current) return;
+        if (!refCanvas.current) return;
 
         drawNoteField(store);
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
+        const active = document.activeElement;
+
+        // Ignore keydown events if the user is focused on something, like an input.
+        if(active && active !== document.body) {
+            return;
+        }
+
         const action = inputToAction({ type: "keydown", event: e }, store);
 
         if (action) {
@@ -47,9 +55,9 @@ export const NoteField = observer(({ store }: Props) => {
     };
 
     const updateDim = () => {
-        if (!ref.current) return;
+        if (!refCanvas.current) return;
 
-        store.noteField.setHeight(ref.current.clientHeight);
+        store.noteField.setHeight(refCanvas.current.clientHeight);
     };
 
     // Watch the entire store for changes so we know when to redraw.
@@ -72,22 +80,29 @@ export const NoteField = observer(({ store }: Props) => {
 
     // Setup event listeners for key presses and scrolling.
     useEffect(() => {
-        document.body.addEventListener("keydown", onKeyDown);
-        document.body.addEventListener("wheel", onScroll, { passive: false });
+        const el = refContainer.current;
 
-        return () => {
-            document.body.removeEventListener("keydown", onKeyDown);
-            document.body.removeEventListener("wheel", onScroll);
-        };
-    }, []);
+        if(!el) {
+            return;
+        }
+
+        window.addEventListener("keydown", onKeyDown);
+        el.addEventListener("wheel", onScroll, { passive: false });
+
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [refContainer]);
 
     // Update the dimensions once we have a reference to the element.
     useEffect(() => {
-        if (!ref.current) return;
+        if (!refCanvas.current) return;
 
-        store.noteField.setCanvas(ref.current);
+        store.noteField.setCanvas(refCanvas.current);
         updateDim();
-    }, [ref]);
+    }, [refCanvas]);
 
-    return <canvas className="notefield" ref={ref}></canvas>;
+    return (
+        <div className="notefield-container" ref={refContainer}>
+            <canvas className="notefield" ref={refCanvas}></canvas>
+        </div>
+    );
 });
