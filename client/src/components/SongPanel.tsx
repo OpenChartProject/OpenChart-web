@@ -40,6 +40,10 @@ export const SongPanel = observer((props: Props) => {
                     onChange={(e) => setArtist(e.currentTarget.value)}
                 />
             </div>
+
+            <div className="form-control">
+                <button className="btn btn-thin">Apply</button>
+            </div>
         </Panel>
     );
 });

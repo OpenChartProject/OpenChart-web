@@ -51,12 +51,20 @@
     &:hover {
         background-color: darken($col-purple, 2%);
     }
+
+    &:disabled {
+        background-color: $col-gray;
+    }
 }
 
 .btn-wide {
     width: 100%;
 }
 
-.btn-lg {
-    padding: 16px;
+.btn-thick {
+    padding: 16px 20px;
+}
+
+.btn-thin {
+    padding: 8px 12px;
 }

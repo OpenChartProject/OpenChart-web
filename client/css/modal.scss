@@ -20,7 +20,7 @@
     }
 
     .close-btn {
-        @extend .btn, .btn-lg, .btn-wide;
+        @extend .btn, .btn-thick, .btn-wide;
         margin-top: 12px;
     }
 }
