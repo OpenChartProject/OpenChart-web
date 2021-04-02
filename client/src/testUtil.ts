@@ -52,7 +52,7 @@ export function createStore(args: CreateStoreArgs = {}): RootStore {
     }
 
     if (args.state) {
-        store.noteField.state = _.merge(store.noteField.state, args.state);
+        store.noteField.data = _.merge(store.noteField.data, args.state);
     }
 
     return store;

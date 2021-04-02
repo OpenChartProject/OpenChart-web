@@ -52,14 +52,11 @@ describe("testutil", () => {
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(defaultStore.editor.config.margin, store.editor.config.margin);
-            assert.deepStrictEqual(
-                defaultStore.editor.config.beatLines,
-                store.editor.config.beatLines,
-            );
+            assert.deepStrictEqual(defaultStore.editor.data.margin, store.editor.data.margin);
+            assert.deepStrictEqual(defaultStore.editor.data.beatLines, store.editor.data.beatLines);
 
-            assert.strictEqual(store.editor.config.pixelsPerSecond, config.pixelsPerSecond);
-            assert.strictEqual(store.editor.config.colors.background, config.colors?.background);
+            assert.strictEqual(store.editor.data.pixelsPerSecond, config.pixelsPerSecond);
+            assert.strictEqual(store.editor.data.colors.background, config.colors?.background);
         });
 
         it("merges the state if provided", () => {
@@ -68,7 +65,7 @@ describe("testutil", () => {
             };
             const store = createStore({ state });
 
-            assert.deepStrictEqual(store.noteField.state.zoom, state.zoom);
+            assert.deepStrictEqual(store.noteField.data.zoom, state.zoom);
         });
     });
 });

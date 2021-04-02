@@ -16,10 +16,10 @@ export class ScrollDirectionAction implements Action {
 
     run(): void {
         const { to } = this.args;
-        const { config } = this.store.editor;
+        const { data } = this.store.editor;
 
         if (to === "swap") {
-            if (config.scrollDirection === "up") {
+            if (data.scrollDirection === "up") {
                 this.store.editor.update({ scrollDirection: "down" });
             } else {
                 this.store.editor.update({ scrollDirection: "up" });

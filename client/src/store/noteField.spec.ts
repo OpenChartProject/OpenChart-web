@@ -16,7 +16,7 @@ describe("NoteFieldStore", () => {
 
             store.setCanvas(el as HTMLCanvasElement);
             assert.strictEqual(store.canvas, el);
-            assert.strictEqual(store.canvas.width, store.state.width);
+            assert.strictEqual(store.canvas.width, store.data.width);
         });
     });
 
@@ -52,7 +52,7 @@ describe("NoteFieldStore", () => {
             const store = createStore().noteField;
 
             store.setMusic("foo");
-            assert.strictEqual(store.state.isPlaying, false);
+            assert.strictEqual(store.data.isPlaying, false);
         });
     });
 
@@ -68,7 +68,7 @@ describe("NoteFieldStore", () => {
             const val = new Fraction(1, 2);
 
             store.setZoom(val);
-            assert.strictEqual(store.state.zoom, val);
+            assert.strictEqual(store.data.zoom, val);
         });
 
         it("sets zoom to min zoom", () => {
@@ -76,7 +76,7 @@ describe("NoteFieldStore", () => {
             const val = new Fraction(1, 9999999);
 
             store.setZoom(val);
-            assert.strictEqual(store.state.zoom, zoom.min);
+            assert.strictEqual(store.data.zoom, zoom.min);
         });
 
         it("sets zoom to max zoom", () => {
@@ -84,7 +84,7 @@ describe("NoteFieldStore", () => {
             const val = new Fraction(9999999);
 
             store.setZoom(val);
-            assert.strictEqual(store.state.zoom, zoom.max);
+            assert.strictEqual(store.data.zoom, zoom.max);
         });
 
         it("doesn't set the zoom if it's already the same");

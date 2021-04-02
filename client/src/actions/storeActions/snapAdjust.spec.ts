@@ -17,7 +17,7 @@ describe("SnapAdjustAction", () => {
     describe("#run", () => {
         it("calls nextSnap when adjust is set to next", () => {
             const store = createStore();
-            const { snap } = store.noteField.state;
+            const { snap } = store.noteField.data;
             const args: SnapAdjustArgs = {
                 adjust: "next",
             };
@@ -29,7 +29,7 @@ describe("SnapAdjustAction", () => {
 
         it("calls prevSnap when adjust is set to prev", () => {
             const store = createStore();
-            const { snap } = store.noteField.state;
+            const { snap } = store.noteField.data;
             const args: SnapAdjustArgs = {
                 adjust: "prev",
             };
@@ -41,7 +41,7 @@ describe("SnapAdjustAction", () => {
 
         it("sets the current snap if 'to' is set", () => {
             const store = createStore();
-            const { snap } = store.noteField.state;
+            const { snap } = store.noteField.data;
             const args: SnapAdjustArgs = {
                 to: new Fraction(1),
             };

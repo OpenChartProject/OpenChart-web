@@ -18,37 +18,37 @@ describe("notefield", () => {
     describe("#adjustToBaseline", () => {
         it("returns expected value when baseline is After", () => {
             const store = createStore();
-            store.editor.config.baseline = Baseline.After;
+            store.editor.data.baseline = Baseline.After;
             const dp: Partial<DrawProps> = { editor: store.editor };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 0);
         });
 
         it("returns expected value when baseline is Before and is upscroll", () => {
             const store = createStore();
-            store.editor.config.baseline = Baseline.Before;
+            store.editor.data.baseline = Baseline.Before;
             const dp: Partial<DrawProps> = { editor: store.editor };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -50);
         });
 
         it("returns expected value when baseline is Before and is downscroll", () => {
             const store = createStore();
-            store.editor.config.baseline = Baseline.Before;
-            store.editor.config.scrollDirection = "down";
+            store.editor.data.baseline = Baseline.Before;
+            store.editor.data.scrollDirection = "down";
             const dp: Partial<DrawProps> = { editor: store.editor };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 50);
         });
 
         it("returns expected value when baseline is Centered and is upscroll", () => {
             const store = createStore();
-            store.editor.config.baseline = Baseline.Centered;
+            store.editor.data.baseline = Baseline.Centered;
             const dp: Partial<DrawProps> = { editor: store.editor };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -25);
         });
 
         it("returns expected value when baseline is Centered and is downscroll", () => {
             const store = createStore();
-            store.editor.config.baseline = Baseline.Centered;
-            store.editor.config.scrollDirection = "down";
+            store.editor.data.baseline = Baseline.Centered;
+            store.editor.data.scrollDirection = "down";
             const dp: Partial<DrawProps> = { editor: store.editor };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 25);
         });
@@ -296,11 +296,11 @@ describe("notefield", () => {
             assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
             assert.strictEqual(
                 timeToPosition(dp as DrawProps, 1),
-                store.editor.config.pixelsPerSecond,
+                store.editor.data.pixelsPerSecond,
             );
             assert.strictEqual(
                 timeToPosition(dp as DrawProps, 2),
-                2 * store.editor.config.pixelsPerSecond,
+                2 * store.editor.data.pixelsPerSecond,
             );
         });
 

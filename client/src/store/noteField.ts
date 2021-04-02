@@ -36,7 +36,7 @@ export class NoteFieldStore {
     readonly root: RootStore;
 
     chart: Chart;
-    state: NoteFieldState;
+    data: NoteFieldState;
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScroller;
@@ -57,7 +57,7 @@ export class NoteFieldStore {
         // in during init.
         this.chart = new Chart();
 
-        this.state = makeAutoObservable(this.defaults, {
+        this.data = makeAutoObservable(this.defaults, {
             zoom: observable.ref,
         });
 
@@ -84,7 +84,7 @@ export class NoteFieldStore {
         }
 
         this.canvas.height = val;
-        this.state.height = this.canvas.height;
+        this.data.height = this.canvas.height;
     }
 
     /**
@@ -101,7 +101,7 @@ export class NoteFieldStore {
      */
     scrollBy({ beat, time }: { beat?: number; time?: number }) {
         if (beat !== undefined) {
-            let dst = this.state.scroll.beat.fraction.add(beat);
+            let dst = this.data.scroll.beat.fraction.add(beat);
 
             if (dst.compare(0) === -1) {
                 dst = new Fraction(0);
@@ -110,7 +110,7 @@ export class NoteFieldStore {
             this.setScroll({ beat: new Beat(dst) });
         } else if (time !== undefined) {
             this.setScroll({
-                time: new Time(Math.max(time + this.state.scroll.time.value, 0)),
+                time: new Time(Math.max(time + this.data.scroll.time.value, 0)),
             });
         } else {
             throw Error("beat or time must be set");
@@ -122,8 +122,8 @@ export class NoteFieldStore {
      */
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.canvas.width = this.root.editor.config.columnWidth * this.chart.keyCount.value;
-        this.state.width = this.canvas.width;
+        this.canvas.width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
+        this.data.width = this.canvas.width;
     }
 
     /**
@@ -147,12 +147,12 @@ export class NoteFieldStore {
      * automatically, and plays music.
      */
     setPlaying(isPlaying: boolean) {
-        if (isPlaying !== this.state.isPlaying) {
-            this.state.isPlaying = isPlaying;
+        if (isPlaying !== this.data.isPlaying) {
+            this.data.isPlaying = isPlaying;
 
             if (isPlaying) {
                 this.autoScroller.start();
-                this.music.playAt(this.state.scroll.time.value);
+                this.music.playAt(this.data.scroll.time.value);
             } else {
                 this.music.pause();
             }
@@ -165,10 +165,10 @@ export class NoteFieldStore {
     setScroll({ beat, time }: Partial<BeatTime>) {
         if (beat !== undefined) {
             time = this.chart.bpms.timeAt(beat);
-            this.state.scroll = { beat, time };
+            this.data.scroll = { beat, time };
         } else if (time !== undefined) {
             beat = this.chart.bpms.beatAt(time);
-            this.state.scroll = { beat, time };
+            this.data.scroll = { beat, time };
         } else {
             throw Error("beat or time must be set");
         }
@@ -188,8 +188,8 @@ export class NoteFieldStore {
             val = zoom.min;
         }
 
-        if (!this.state.zoom.equals(val)) {
-            this.state.zoom = val;
+        if (!this.data.zoom.equals(val)) {
+            this.data.zoom = val;
         }
     }
 }

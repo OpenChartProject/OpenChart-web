@@ -6,7 +6,7 @@ import { Project, SongData } from "../project";
 import { RootStore } from "./store";
 
 export class ProjectStore {
-    project: Project;
+    data: Project;
     root: RootStore;
 
     constructor(root: RootStore) {
@@ -15,10 +15,10 @@ export class ProjectStore {
         });
 
         this.root = root;
-        this.project = { charts: [], song: { artist: "", title: "" } };
+        this.data = { charts: [], song: { artist: "", title: "" } };
     }
 
     updateSong(data: Partial<SongData>) {
-        this.project.song = _.merge(this.project.song, data);
+        this.data.song = _.merge(this.data.song, data);
     }
 }

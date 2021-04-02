@@ -28,7 +28,7 @@ export class SnapAdjustAction implements Action {
 
     run(): void {
         const args = this.args;
-        const { snap } = this.store.noteField.state;
+        const { snap } = this.store.noteField.data;
 
         if (args.adjust === "next") {
             snap.nextSnap();

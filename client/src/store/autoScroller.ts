@@ -27,7 +27,7 @@ export class AutoScroller {
      * false.
      */
     onFrame(time: number) {
-        const state = this.store.noteField.state;
+        const state = this.store.noteField.data;
 
         if (!state.isPlaying) {
             return;

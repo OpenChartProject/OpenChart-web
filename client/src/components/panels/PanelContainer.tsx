@@ -8,7 +8,7 @@ export interface Props {
 }
 
 export const PanelContainer = observer((props: React.PropsWithChildren<Props>) => {
-    const visible = props.store.editor.config.sidePanelVisible;
+    const visible = props.store.editor.data.sidePanelVisible;
 
     const toggle = () => {
         props.store.editor.update({ sidePanelVisible: !visible });

@@ -37,7 +37,7 @@ export const Toolbar = observer((props: Props) => {
     const saveFile = () => {
         const project: Project = {
             charts: [store.noteField.chart],
-            song: store.project.project.song,
+            song: store.project.data.song,
         };
 
         const format = Formats[".ocz"];
@@ -52,13 +52,13 @@ export const Toolbar = observer((props: Props) => {
 
     const zoomIn = () => {
         new ZoomAction(store, {
-            to: store.noteField.state.zoom.mul(1.5),
+            to: store.noteField.data.zoom.mul(1.5),
         }).run();
     };
 
     const zoomOut = () => {
         new ZoomAction(store, {
-            to: store.noteField.state.zoom.div(1.5),
+            to: store.noteField.data.zoom.div(1.5),
         }).run();
     };
 
@@ -90,7 +90,7 @@ export const Toolbar = observer((props: Props) => {
                     <span className="material-icons-outlined">swap_vert</span>
                 </a>
 
-                {store.editor.config.enableMetronome ? (
+                {store.editor.data.enableMetronome ? (
                     <a title="Disable metronome" onClick={metronome(false)}>
                         <span className="material-icons-outlined">timer</span>
                     </a>

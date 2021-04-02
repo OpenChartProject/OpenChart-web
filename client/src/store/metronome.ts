@@ -19,7 +19,7 @@ export class Metronome {
      * Plays a metronome tick (if it's enabled).
      */
     tick() {
-        if (!this.editorConfig.config.enableMetronome) {
+        if (!this.editorConfig.data.enableMetronome) {
             return;
         }
 

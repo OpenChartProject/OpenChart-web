@@ -26,18 +26,18 @@ export class SnapScrollAction implements Action {
     }
 
     run(): void {
-        const { config } = this.store.editor;
-        const { state } = this.store.noteField;
+        const { data: editor } = this.store.editor;
+        const { data: noteField } = this.store.noteField;
 
         // Ignore scroll events if the notefield is auto scrolling
-        if (state.isPlaying) {
+        if (noteField.isPlaying) {
             return;
         }
 
-        const { scroll, snap } = state;
+        const { scroll, snap } = noteField;
         let dir = this.args.direction;
 
-        if (this.args.autoInvert === true && config.scrollDirection === "down") {
+        if (this.args.autoInvert === true && editor.scrollDirection === "down") {
             dir = dir === "forward" ? "backward" : "forward";
         }
 

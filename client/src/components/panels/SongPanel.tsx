@@ -10,7 +10,7 @@ export interface Props {
 }
 
 export const SongPanel = observer((props: Props) => {
-    const song = props.store.project.project.song;
+    const song = props.store.project.data.song;
 
     const [artist, setArtist] = useState(song.artist);
     const [title, setTitle] = useState(song.title);

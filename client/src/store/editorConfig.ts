@@ -66,7 +66,7 @@ export interface EditorConfig {
  * The store for the editor config.
  */
 export class EditorConfigStore {
-    config!: EditorConfig;
+    data!: EditorConfig;
     readonly root: RootStore;
 
     constructor(root: RootStore) {
@@ -86,8 +86,8 @@ export class EditorConfigStore {
         if (!existing) {
             this.update(defaults);
         } else {
-            this.config = JSON.parse(existing);
-            this.config = _.merge(defaults, this.config);
+            this.data = JSON.parse(existing);
+            this.data = _.merge(defaults, this.data);
         }
     }
 
@@ -141,7 +141,7 @@ export class EditorConfigStore {
      * Updates the config with the provided changes and saves it.
      */
     update(config: Partial<EditorConfig>) {
-        this.config = _.merge(this.config || {}, config);
+        this.data = _.merge(this.data || {}, config);
         this.save();
     }
 
@@ -149,6 +149,6 @@ export class EditorConfigStore {
      * Saves the editor config to the user's local storage.
      */
     save() {
-        localStorage.setItem(storageKey, JSON.stringify(this.config));
+        localStorage.setItem(storageKey, JSON.stringify(this.data));
     }
 }

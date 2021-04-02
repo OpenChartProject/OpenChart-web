@@ -58,8 +58,8 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
  */
 export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Action | null {
     const { chart } = store.noteField;
-    const { keyBinds } = store.editor.config;
-    const { scroll, zoom } = store.noteField.state;
+    const { keyBinds } = store.editor.data;
+    const { scroll, zoom } = store.noteField.data;
 
     // Check if this key is for placing a note.
     const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex((k) => k === e.key);
@@ -126,7 +126,7 @@ export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | nu
         return null;
     }
 
-    const { zoom } = store.noteField.state;
+    const { zoom } = store.noteField.data;
     e.preventDefault();
 
     if (e.deltaY > 0) {
