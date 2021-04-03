@@ -1,4 +1,5 @@
 import WaveformData from "waveform-data";
+
 import { RootStore } from "../../store";
 import { Action } from "../action";
 

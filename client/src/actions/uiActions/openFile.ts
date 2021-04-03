@@ -3,6 +3,7 @@ import { encode } from "base64-arraybuffer";
 import { getFormatFromFileName, loadFromString } from "../../formats/formats";
 import { RootStore } from "../../store";
 import { Action } from "../action";
+
 import { GenerateWaveformAction } from "./generateWaveform";
 
 /**

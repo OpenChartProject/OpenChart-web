@@ -5,7 +5,7 @@ import {
     SnapAdjustAction,
     SnapScrollAction,
     ZoomAction,
-} from "../actions/storeActions/";
+} from "../actions/noteFieldActions/";
 import { KeyIndex } from "../charting/";
 import { RootStore } from "../store/";
 
