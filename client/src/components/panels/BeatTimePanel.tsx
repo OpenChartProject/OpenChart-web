@@ -20,14 +20,16 @@ export const BeatTimePanel = observer((props: Props) => {
     return (
         <Panel title="Beat &amp; Time" visible={visible} onToggle={onToggle}>
             <table>
-                <tr>
-                    <td>Beat:</td>
-                    <td>{noteField.data.scroll.beat.value.toFixed(3)}</td>
-                </tr>
-                <tr>
-                    <td>Time:</td>
-                    <td>{noteField.data.scroll.time.value.toFixed(3)}</td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Beat:</td>
+                        <td>{noteField.data.scroll.beat.value.toFixed(3)}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td>{noteField.data.scroll.time.value.toFixed(3)}</td>
+                    </tr>
+                </tbody>
             </table>
         </Panel>
     );
