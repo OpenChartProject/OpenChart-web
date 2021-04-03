@@ -46,6 +46,7 @@
     },
     "dependencies": {
         "base64-js": "^1.5.1",
+        "d3": "^6.6.2",
         "fraction.js": "^4.0.13",
         "lodash": "^4.17.21",
         "mobx": "^6.1.8",
@@ -54,6 +55,7 @@
         "normalize.css": "^8.0.1",
         "pako": "^2.0.3",
         "react": "^17.0.1",
-        "react-dom": "^17.0.1"
+        "react-dom": "^17.0.1",
+        "waveform-data": "^3.3.4"
     }
 }
