@@ -155,6 +155,10 @@ export class NoteFieldStore {
      * Sets the music source.
      */
     setMusic(src: string) {
+        if (src === this.music.el.src) {
+            return;
+        }
+
         this.music.setSource(src);
         this.setPlaying(false);
     }

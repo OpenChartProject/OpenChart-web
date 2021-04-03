@@ -45,6 +45,7 @@
         "typescript": "^3.9.7"
     },
     "dependencies": {
+        "base64-arraybuffer": "^0.2.0",
         "base64-js": "^1.5.1",
         "d3": "^6.6.2",
         "fraction.js": "^4.0.13",

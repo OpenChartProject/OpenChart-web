@@ -1,6 +1,9 @@
+import { encode } from "base64-arraybuffer";
+
 import { getFormatFromFileName, loadFromString } from "../../formats/formats";
 import { RootStore } from "../../store";
 import { Action } from "../action";
+import { GenerateWaveformAction } from "./generateWaveform";
 
 /**
  * Arguments for the OpenFileAction.
@@ -49,13 +52,17 @@ export class OpenFileAction implements Action {
                 reader.readAsText(f);
             } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
                 reader.onload = () => {
-                    const data = reader.result as string;
-                    this.store.noteField.setMusic(data);
+                    const data = reader.result as ArrayBuffer;
+                    const dataURL = `data:${f.type};base64,${encode(data)}`;
+
+                    this.store.noteField.setMusic(dataURL);
+
+                    new GenerateWaveformAction(this.store, { data }).run();
 
                     resolve();
                 };
 
-                reader.readAsDataURL(f);
+                reader.readAsArrayBuffer(f);
             } else {
                 console.warn("Unrecognized file type:", f.name);
                 reject();

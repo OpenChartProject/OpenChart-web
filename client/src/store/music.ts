@@ -1,7 +1,7 @@
 const elMusic = document.getElementById("audio-music") as HTMLAudioElement;
 
 /**
- * This is a simple wrapper around an <audio> tag.
+ * This is a simple wrapper around an `<audio>` tag.
  */
 export class Music {
     el: HTMLAudioElement;
