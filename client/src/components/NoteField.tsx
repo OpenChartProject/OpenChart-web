@@ -6,6 +6,8 @@ import { drawNoteField } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
 import { RootStore } from "../store/";
 
+import { Waveform } from "./Waveform";
+
 export interface Props {
     store: RootStore;
 }
@@ -117,6 +119,7 @@ export const NoteField = observer(({ store }: Props) => {
     return (
         <div className="notefield-container" ref={refContainer}>
             <div className="canvas-container">
+                <Waveform />
                 <canvas className="notefield" ref={refCanvas}></canvas>
                 <div className="beatsnap" style={beatsnapStyle}>
                     {store.noteField.data.snap.current.toFraction()}
