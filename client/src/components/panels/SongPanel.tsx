@@ -52,7 +52,7 @@ export const SongPanel = observer((props: Props) => {
         <Panel title="Song Info" visible={visible} onToggle={onToggle}>
             <form onSubmit={onFormSubmit}>
                 <div className="form-control">
-                    <label className="form-label-dark" htmlFor="input-title">
+                    <label className="form-label form-label-dark" htmlFor="input-title">
                         Title
                     </label>
                     <input
@@ -65,7 +65,7 @@ export const SongPanel = observer((props: Props) => {
                 </div>
 
                 <div className="form-control">
-                    <label className="form-label-dark" htmlFor="input-artist">
+                    <label className="form-label form-label-dark" htmlFor="input-artist">
                         Artist
                     </label>
                     <input

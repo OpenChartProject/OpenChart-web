@@ -1,5 +1,5 @@
 .form-control {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 
     &:last-child {
         margin-bottom: 0;
@@ -7,14 +7,14 @@
 }
 
 .form-input {
-    display: block;
-    width: 100%;
-
     &[type="range"] {
-        margin-top: 10px;
+        display: block;
+        width: 100%;
     }
 
     &[type="text"] {
+        display: block;
+        width: 100%;
         background-color: transparent;
         border: 0;
         border-bottom: 3px solid $col-gray;
@@ -37,12 +37,21 @@
     display: block;
     text-transform: uppercase;
     font-weight: bold;
-    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.form-label-inline {
+    @extend .form-label;
+    display: initial;
+    margin: 0 10px;
 }
 
 .form-label-dark {
-    @extend .form-label;
     color: $col-light-gray;
+}
+
+.form-label-light {
+    color: $col-very-light-gray;
 }
 
 .btn {

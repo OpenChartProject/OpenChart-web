@@ -29,7 +29,7 @@ export const AudioPanel = observer((props: Props) => {
     return (
         <Panel title="Audio" visible={visible} onToggle={onToggle}>
             <div className="form-control">
-                <label className="form-label-dark">Metronome Volume</label>
+                <label className="form-label form-label-dark">Metronome Volume</label>
                 <input
                     className="form-input"
                     type="range"
@@ -43,7 +43,7 @@ export const AudioPanel = observer((props: Props) => {
             </div>
 
             <div className="form-control">
-                <label className="form-label-dark">Music Volume</label>
+                <label className="form-label form-label-dark">Music Volume</label>
                 <input
                     className="form-input"
                     type="range"

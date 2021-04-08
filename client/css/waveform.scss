@@ -1,3 +1,5 @@
+@import "./colors";
+
 .waveform-container {
     position: absolute;
     z-index: 1;
@@ -10,7 +12,7 @@
         width: 100%;
 
         path {
-            fill: #8f6fe7;
+            fill: $col-waveform;
         }
 
         .upscroll & path {
