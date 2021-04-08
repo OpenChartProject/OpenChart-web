@@ -25,6 +25,11 @@ export interface MusicData {
     volume: number;
 }
 
+export interface ActivateTimePickerArgs {
+    onResolve?(): void;
+    onReject?(): void;
+}
+
 export interface UIData {
     metronome: MetronomeData;
     music: MusicData;
@@ -34,6 +39,14 @@ export interface UIData {
 
     keyBinds: KeyBinds;
     panelVisibility: PanelVisibility;
+
+    tools: {
+        timePicker: {
+            active: boolean;
+            onResolve?(): void;
+            onReject?(): void;
+        };
+    };
 }
 
 export class UIStore {
@@ -118,7 +131,29 @@ export class UIStore {
                 songInfo: true,
                 noteField: true,
             },
+
+            tools: {
+                timePicker: {
+                    active: false,
+                },
+            },
         };
+    }
+
+    activateTimePicker({ onResolve, onReject }: ActivateTimePickerArgs) {
+        const { timePicker } = this.data.tools;
+
+        timePicker.active = true;
+        timePicker.onReject = onReject;
+        timePicker.onResolve = onResolve;
+    }
+
+    deactivateTimePicker() {
+        const { timePicker } = this.data.tools;
+
+        timePicker.active = false;
+        timePicker.onReject = undefined;
+        timePicker.onResolve = undefined;
     }
 
     /**
@@ -142,7 +177,11 @@ export class UIStore {
      */
     save() {
         const clone = _.cloneDeep(this.data);
+
+        // Remove any properties we don't want saved
         delete clone.music.src;
+        delete (clone as any).tools;
+
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
     }
 }
