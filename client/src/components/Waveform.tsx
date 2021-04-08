@@ -70,7 +70,7 @@ export const Waveform = observer(({ store }: Props) => {
 });
 
 export const WaveformWrapper = observer(({ store }: Props) => {
-    if (store.waveform.data.el.length === 0) {
+    if (store.waveform.data.el.length === 0 || !store.editor.data.showWaveform) {
         return null;
     }
 

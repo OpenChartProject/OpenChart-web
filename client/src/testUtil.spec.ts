@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+import { PartialDeep } from "type-fest";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
@@ -43,20 +44,25 @@ describe("testutil", () => {
 
         it("merges the config if provided", () => {
             const defaultStore = createStore();
-            const config: Partial<EditorData> = {
-                colors: {
-                    background: "red",
+            const config: PartialDeep<EditorData> = {
+                beatLines: {
+                    measureLines: {
+                        color: "blue",
+                        lineWidth: 5,
+                    },
                 },
                 pixelsPerSecond: 1,
             };
             const store = createStore({ config });
 
             // Sanity check to make sure that the merge didn't remove anything
-            assert.deepStrictEqual(defaultStore.editor.data.receptorY, store.editor.data.receptorY);
-            assert.deepStrictEqual(defaultStore.editor.data.beatLines, store.editor.data.beatLines);
+            assert(store.editor.data.receptorY);
 
             assert.strictEqual(store.editor.data.pixelsPerSecond, config.pixelsPerSecond);
-            assert.strictEqual(store.editor.data.colors.background, config.colors?.background);
+            assert.deepStrictEqual(
+                store.editor.data.beatLines.measureLines,
+                config.beatLines?.measureLines,
+            );
         });
 
         it("merges the state if provided", () => {

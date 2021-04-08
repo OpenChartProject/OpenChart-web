@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
+import { PartialDeep } from "type-fest";
 
 import { NoteSkin } from "../noteskin";
 
@@ -20,38 +21,36 @@ export enum Baseline {
  */
 export type ScrollDirection = "up" | "down";
 
+export interface BeatLineSettings {
+    measureLines: {
+        color: string;
+        lineWidth: number;
+    };
+
+    wholeBeatLines: {
+        color: string;
+        lineWidth: number;
+    };
+
+    fractionalLines: {
+        color: string;
+        lineWidth: number;
+    };
+}
+
 /**
  * The editor config. This config applies to all notefields and is saved to the user's
  * local storage.
  */
 export interface EditorData {
-    beatLines: {
-        measureLines: {
-            color: string;
-            lineWidth: number;
-        };
-
-        wholeBeatLines: {
-            color: string;
-            lineWidth: number;
-        };
-
-        fractionalLines: {
-            color: string;
-            lineWidth: number;
-        };
-    };
-
-    colors: {
-        background: string;
-    };
-
+    beatLines: BeatLineSettings;
     baseline: Baseline;
     columnWidth: number;
     receptorY: number;
     noteSkin?: NoteSkin;
     pixelsPerSecond: number;
     scrollDirection: ScrollDirection;
+    showWaveform: boolean;
 }
 
 /**
@@ -102,22 +101,19 @@ export class EditorStore {
                 },
             },
 
-            colors: {
-                background: "#000",
-            },
-
             baseline: Baseline.Centered,
             columnWidth: 128,
             pixelsPerSecond: 512,
             receptorY: 384,
             scrollDirection: "up",
+            showWaveform: true,
         };
     }
 
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: Partial<EditorData>) {
+    update(config: PartialDeep<EditorData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
 

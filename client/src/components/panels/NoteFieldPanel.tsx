@@ -38,12 +38,30 @@ export const NoteFieldPanel = observer((props: Props) => {
         new ScrollDirectionAction(props.store, { to: val }).run();
     };
 
+    const onToggleWaveform = (e: ChangeEvent<HTMLInputElement>) => {
+        editor.update({ showWaveform: e.target.checked });
+        e.target.blur();
+    };
+
     const onToggle = () => {
         ui.updatePanelVisibility({ noteField: !visible });
     };
 
     return (
         <Panel title="Notefield" visible={visible} onToggle={onToggle}>
+            <div className="form-control">
+                <label className="form-label form-label-dark">Waveform</label>
+                <label className="form-label-inline form-label-light">
+                    <input
+                        type="checkbox"
+                        className="form-input"
+                        checked={editor.data.showWaveform}
+                        onChange={onToggleWaveform}
+                    />
+                    Enabled
+                </label>
+            </div>
+
             <div className="form-control">
                 <label className="form-label form-label-dark">Scroll Direction</label>
 

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { PartialDeep } from "type-fest";
 
 import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
@@ -31,8 +32,8 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
 
 export interface CreateStoreArgs {
     chart?: Chart;
-    config?: Partial<EditorData>;
-    state?: Partial<NoteFieldData>;
+    config?: PartialDeep<EditorData>;
+    state?: PartialDeep<NoteFieldData>;
 }
 
 /**
