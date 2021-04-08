@@ -10,7 +10,7 @@ export interface Props {
 export const PanelContainer = observer((props: React.PropsWithChildren<Props>) => {
     const visible = props.store.ui.data.sidePanelVisible;
 
-    const toggle = () => {
+    const onToggle = () => {
         props.store.ui.update({ sidePanelVisible: !visible });
     };
 
@@ -19,13 +19,13 @@ export const PanelContainer = observer((props: React.PropsWithChildren<Props>) =
             <div className="panel-drawer-btns" title="Toggle side panel">
                 {visible && (
                     /* Close button */
-                    <div className="panel-drawer-btn" onClick={toggle}>
+                    <div className="panel-drawer-btn" onClick={onToggle}>
                         &gt;
                     </div>
                 )}
                 {!visible && (
                     /* Open button */
-                    <div className="panel-drawer-btn" onClick={toggle}>
+                    <div className="panel-drawer-btn" onClick={onToggle}>
                         &lt;
                     </div>
                 )}

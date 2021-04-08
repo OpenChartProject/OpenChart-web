@@ -1,3 +1,4 @@
+export { AudioPanel } from "./AudioPanel";
 export { BeatTimePanel } from "./BeatTimePanel";
 export { NoteFieldPanel } from "./NoteFieldPanel";
 export { Panel } from "./Panel";

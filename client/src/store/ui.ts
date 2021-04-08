@@ -6,13 +6,19 @@ import { KeyBinds } from "../notefield/input";
 import { RootStore } from "./store";
 
 export interface PanelVisibility {
+    audio: boolean;
     beatTime: boolean;
     songInfo: boolean;
     noteFieldSettings: boolean;
 }
 
+export interface MetronomeData {
+    enabled: boolean;
+    volume: number;
+}
+
 export interface UIData {
-    enableMetronome: boolean;
+    metronome: MetronomeData;
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
 
@@ -48,7 +54,11 @@ export class UIStore {
 
     get defaults(): UIData {
         return {
-            enableMetronome: true,
+            metronome: {
+                enabled: true,
+                volume: 0.8,
+            },
+
             sidePanelVisible: true,
             showWelcomeModal: true,
 
@@ -66,6 +76,7 @@ export class UIStore {
             },
 
             panelVisibility: {
+                audio: true,
                 beatTime: true,
                 songInfo: true,
                 noteFieldSettings: true,
@@ -78,6 +89,11 @@ export class UIStore {
      */
     update(config: Partial<UIData>) {
         this.data = _.merge(this.data || {}, config);
+        this.save();
+    }
+
+    updateMetronome(config: Partial<MetronomeData>) {
+        this.data.metronome = _.merge(this.data.metronome || {}, config);
         this.save();
     }
 

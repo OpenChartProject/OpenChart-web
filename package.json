@@ -49,6 +49,7 @@
         "base64-arraybuffer": "^0.2.0",
         "base64-js": "^1.5.1",
         "d3": "^6.6.2",
+        "events": "^3.3.0",
         "fraction.js": "^4.0.13",
         "lodash": "^4.17.21",
         "mobx": "^6.1.8",

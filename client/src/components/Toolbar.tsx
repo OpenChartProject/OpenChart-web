@@ -16,9 +16,9 @@ export interface Props {
 export const Toolbar = observer((props: Props) => {
     const { store } = props;
 
-    const metronome = (enableMetronome: boolean) => {
+    const metronome = (enabled: boolean) => {
         return () => {
-            store.ui.update({ enableMetronome });
+            store.ui.updateMetronome({ enabled });
         };
     };
 
