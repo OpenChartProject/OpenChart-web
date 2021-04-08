@@ -56,7 +56,7 @@ export class OpenFileAction implements Action {
                     const audioData = reader.result as ArrayBuffer;
                     const dataURL = `data:${f.type};base64,${encode(audioData)}`;
 
-                    this.store.noteField.setMusic(dataURL);
+                    this.store.ui.setMusic(dataURL);
 
                     new GenerateWaveformAction(this.store, { audioData }).run();
 
