@@ -8,6 +8,10 @@
     svg {
         width: 100%;
 
+        path {
+            fill: lightgreen;
+        }
+
         .upscroll & path {
             rotate: 90deg;
         }

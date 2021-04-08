@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import _ from "lodash";
+import { min as arrayMin } from "lodash";
 import { makeAutoObservable, makeObservable, observable } from "mobx";
 import WaveformData from "waveform-data";
 
@@ -66,18 +66,16 @@ export class WaveformStore {
 
         const area = d3
             .area()
-            .x((d, i) => x(i))
-            .y0((d, i) => y(min[i]))
-            .y1((d, i) => y(d as any));
+            .x((_, i) => x(i))
+            .y0((_, i) => y(min[i]))
+            .y1((d, _) => y(d as any));
 
         const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
         d3.select(el)
             .datum(max)
             .append("path")
-            .attr("d", area as any)
-            .attr("fill", "white")
-            .datum(max);
+            .attr("d", area as any);
 
         return {
             svg: el,
@@ -101,7 +99,7 @@ export class WaveformStore {
 
                         // This is the number of samples per pixel parsed by the waveform library.
                         // Smaller scale = higher resolution = slower to generate
-                        scale: _.min(this.scales),
+                        scale: arrayMin(this.scales),
                     };
 
                     return new Promise<WaveformData>((innerResolve, innerReject) => {
