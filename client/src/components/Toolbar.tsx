@@ -16,12 +16,6 @@ export interface Props {
 export const Toolbar = observer((props: Props) => {
     const { store } = props;
 
-    const metronome = (enabled: boolean) => {
-        return () => {
-            store.ui.updateMetronome({ enabled });
-        };
-    };
-
     const newFile = () => {
         store.noteField.setChart(new Chart());
     };
@@ -79,18 +73,6 @@ export const Toolbar = observer((props: Props) => {
                 <a title="Zoom out" onClick={zoomOut}>
                     <span className="material-icons-outlined">zoom_out</span>
                 </a>
-
-                <div className="divider"></div>
-
-                {store.ui.data.metronome.enabled ? (
-                    <a title="Disable metronome" onClick={metronome(false)}>
-                        <span className="material-icons-outlined">timer</span>
-                    </a>
-                ) : (
-                    <a title="Enable metronome" onClick={metronome(true)}>
-                        <span className="material-icons-outlined">timer_off</span>
-                    </a>
-                )}
             </div>
             <div className="footer">
                 <a
