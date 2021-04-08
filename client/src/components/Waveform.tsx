@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-export const Waveform = () => {
-    return <div id="waveform-container"></div>;
-    // return (
-    //     <svg id="waveform" viewBox="0 -100 1000 200" xmlns="http://www.w3.org/2000/svg">
-    //         <path stroke="red"
-    //             d="M 25,1
-    //        l -4,8 8,0
-    //        z" />
-    //     </svg>
-    // );
+import { RootStore } from "../store";
+
+export interface Props {
+    store: RootStore;
+}
+
+export const Waveform = (props: Props) => {
+    const ref = useRef<SVGSVGElement>(null);
+
+    useEffect(() => {
+        if (!ref.current) {
+            return;
+        }
+
+        props.store.waveform.setElement(ref.current);
+    }, [ref]);
+
+    return <svg className="waveform" xmlns="http://www.w3.org/2000/svg" ref={ref}></svg>;
 };

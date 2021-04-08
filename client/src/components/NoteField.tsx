@@ -119,7 +119,7 @@ export const NoteField = observer(({ store }: Props) => {
     return (
         <div className="notefield-container" ref={refContainer}>
             <div className="canvas-container">
-                <Waveform />
+                <Waveform store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>
                 <div className="beatsnap" style={beatsnapStyle}>
                     {store.noteField.data.snap.current.toFraction()}

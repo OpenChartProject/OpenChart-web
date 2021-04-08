@@ -8,10 +8,10 @@ export class WaveformStore {
     audioData?: ArrayBuffer;
     el?: SVGElement;
     waveform?: WaveformData;
-    store: RootStore;
+    root: RootStore;
 
     constructor(store: RootStore) {
-        this.store = store;
+        this.root = store;
     }
 
     /**

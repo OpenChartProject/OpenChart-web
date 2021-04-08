@@ -3,10 +3,9 @@ import React, { useState } from "react";
 
 import { RootStore } from "../store/";
 
-import { NoteField } from "./NoteField";
+import { NoteField } from ".";
 import { BeatTimePanel, NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
 import { Toolbar } from "./Toolbar";
-import { Waveform } from "./Waveform";
 import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {
@@ -21,14 +20,12 @@ export const App = observer((props: Props) => {
         <div className="app-container">
             {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
             <Toolbar store={store} />
-            {/*
             <NoteField store={store} />
             <PanelContainer store={store}>
                 <BeatTimePanel store={store} />
                 <SongPanel store={store} />
                 <NoteFieldPanel store={store} />
-            </PanelContainer> */}
-            <Waveform />
+            </PanelContainer>
         </div>
     );
 });
