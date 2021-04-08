@@ -9,18 +9,12 @@ export interface Props {
 }
 
 export const Waveform = observer(({ store }: Props) => {
-    const ref = useRef<SVGSVGElement>(null);
+    if (store.waveform.data.el.length === 0) {
+        return null;
+    }
+
     const { editor, noteField } = store;
     const zoom = noteField.data.zoom.valueOf();
-
-    useEffect(() => {
-        if (!ref.current) {
-            return;
-        }
-
-        store.waveform.setElement(ref.current);
-    }, [ref]);
-
     const width = noteField.data.width;
     const height = noteField.data.height;
 
@@ -37,15 +31,33 @@ export const Waveform = observer(({ store }: Props) => {
     // Dividing by zoom converts from screen coordinates to notefield coordinates
     const viewBox = `-250 ${y0 / zoom} 500 ${height / zoom}`;
 
-    return (
-        <svg
-            className="waveform"
-            xmlns="http://www.w3.org/2000/svg"
-            ref={ref}
-            viewBox={viewBox}
-            preserveAspectRatio="none"
-            width={width}
-            height={height}
-        ></svg>
-    );
+    let lastDiff = Number.MAX_VALUE;
+    let index = 0;
+
+    for (let i = 0; i < store.waveform.data.el.length; i++) {
+        const el = store.waveform.data.el[i];
+        const diff = Math.abs(el.data.pixels_per_second - noteField.pixelsPerSecond);
+
+        if (diff < lastDiff) {
+            lastDiff = diff;
+            index = i;
+        }
+    }
+
+    const Svg = store.waveform.data.el[index].svg;
+    const attributes: Record<string, string> = {
+        viewBox,
+        preserveAspectRatio: "none",
+        width: width + "px",
+        height: height + "px",
+    };
+
+    for (const key in attributes) {
+        Svg.setAttribute(key, attributes[key]);
+    }
+
+    React.cloneElement<{}, SVGElement>(Svg);
+
+    // FIXME
+    return (<div className="waveform-container"><Svg /></div>);
 });

@@ -1,14 +1,16 @@
-.waveform {
+.waveform-container {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     padding: 0 32px;
 
-    .upscroll & path {
-        rotate: 90deg;
-    }
+    svg {
+        .upscroll & path {
+            rotate: 90deg;
+        }
 
-    .downscroll & path {
-        rotate: 270deg;
+        .downscroll & path {
+            rotate: 270deg;
+        }
     }
 }

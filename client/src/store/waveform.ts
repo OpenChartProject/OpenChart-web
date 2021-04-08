@@ -1,13 +1,19 @@
-import assert from "assert";
 import * as d3 from "d3";
+import _ from "lodash";
+import { makeAutoObservable, makeObservable, observable } from "mobx";
 import WaveformData from "waveform-data";
 
 import { RootStore } from "./store";
 
 export interface WaveformStoreData {
     audioData?: ArrayBuffer;
-    el?: SVGElement;
+    el: WaveformElement[];
     waveform?: WaveformData;
+}
+
+export interface WaveformElement {
+    data: WaveformData;
+    svg: SVGElement;
 }
 
 export class WaveformStore {
@@ -15,8 +21,9 @@ export class WaveformStore {
     root: RootStore;
 
     constructor(store: RootStore) {
+        makeAutoObservable(this);
         this.root = store;
-        this.data = {};
+        this.data = makeObservable({ el: [] }, { el: observable.ref });
     }
 
     get duration(): number {
@@ -27,19 +34,24 @@ export class WaveformStore {
         return this.data.waveform.duration;
     }
 
+    get scales(): number[] {
+        return [64, 128, 512, 1024];
+    }
+
     get width(): number {
         return this.duration * this.root.noteField.pixelsPerSecond;
+    }
+
+    generateAll() {
+        this.data.el = this.scales.map(val => this.generate(val));
     }
 
     /**
      * Generates a SVG of the waveform with the given height and returns it.
      */
-    generateSVG() {
-        const { el } = this.data;
+    generate(scale: number): WaveformElement {
+        const waveform = (this.data.waveform as WaveformData).resample({ scale });
 
-        assert(el, "an SVG element must be set before generating the waveform");
-
-        const waveform = this.data.waveform as WaveformData;
         const width = this.width;
         const height = 500;
         const channel = waveform.channel(0);
@@ -58,13 +70,19 @@ export class WaveformStore {
             .y0((d, i) => y(min[i]))
             .y1((d, i) => y(d as any));
 
-        const svg = d3.select(el);
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-        svg.selectChildren().remove();
-        svg.datum(max);
-        svg.append("path")
+        d3.select(el)
+            .datum(max)
+            .append("path")
             .attr("d", area as any)
-            .attr("fill", "white");
+            .attr("fill", "white")
+            .datum(max);
+
+        return {
+            svg: el,
+            data: waveform,
+        };
     }
 
     /**
@@ -80,7 +98,10 @@ export class WaveformStore {
                     const options = {
                         audio_context: ctx,
                         audio_buffer: audioBuffer,
-                        scale: 512,
+
+                        // This is the number of samples per pixel parsed by the waveform library.
+                        // Smaller scale = higher resolution = slower to generate
+                        scale: _.min(this.scales),
                     };
 
                     return new Promise<WaveformData>((innerResolve, innerReject) => {
@@ -113,12 +134,5 @@ export class WaveformStore {
                 resolve();
             });
         });
-    }
-
-    /**
-     * Sets the SVG element to use for displaying the waveform.
-     */
-    setElement(el: SVGElement) {
-        this.data.el = el;
     }
 }

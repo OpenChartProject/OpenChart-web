@@ -4,6 +4,7 @@
     "tslint:recommended"
   ],
   "rules": {
+    "forin": false,
     "no-console": false,
     "no-unused-variable": [
       true
