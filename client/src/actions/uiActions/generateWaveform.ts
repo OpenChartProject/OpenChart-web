@@ -2,7 +2,7 @@ import { RootStore } from "../../store";
 import { Action } from "../action";
 
 export interface GenerateWaveformArgs {
-    audioData: ArrayBuffer;
+    audioData?: ArrayBuffer;
 }
 
 export class GenerateWaveformAction implements Action {
@@ -15,10 +15,15 @@ export class GenerateWaveformAction implements Action {
     }
 
     run(): void {
+        const { audioData } = this.args;
         const { waveform } = this.store;
 
-        waveform.setAudioData(this.args.audioData).then(() => {
+        if (audioData) {
+            waveform.setAudioData(audioData).then(() => {
+                waveform.generateSVG(500, 200);
+            });
+        } else {
             waveform.generateSVG(500, 200);
-        });
+        }
     }
 }

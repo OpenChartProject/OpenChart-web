@@ -79,6 +79,13 @@ export class NoteFieldStore {
     }
 
     /**
+     * Returns the pixels per second, taking into account the scaling.
+     */
+    get pixelsPerSecond(): number {
+        return this.root.editor.data.pixelsPerSecond * this.data.zoom.valueOf();
+    }
+
+    /**
      * Sets the height of the canvas. The height is controlled by the CSS, and a listener
      * calls this method when the height in the DOM changes.
      */

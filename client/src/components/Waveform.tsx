@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import { observer } from "mobx-react-lite";
+import React, { CSSProperties, useEffect, useRef } from "react";
 
 import { RootStore } from "../store";
 
@@ -6,7 +7,7 @@ export interface Props {
     store: RootStore;
 }
 
-export const Waveform = (props: Props) => {
+export const Waveform = observer(({ store }: Props) => {
     const ref = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -14,8 +15,30 @@ export const Waveform = (props: Props) => {
             return;
         }
 
-        props.store.waveform.setElement(ref.current);
+        store.waveform.setElement(ref.current);
     }, [ref]);
 
-    return <svg className="waveform" xmlns="http://www.w3.org/2000/svg" ref={ref}></svg>;
-};
+    const offset =
+        store.editor.data.receptorY -
+        store.noteField.data.scroll.time.value * store.noteField.pixelsPerSecond;
+
+    let style: CSSProperties;
+
+    if (store.editor.data.scrollDirection === "up") {
+        style = {
+            rotate: "90deg",
+            top: offset + "px",
+        };
+    } else {
+        style = {
+            bottom: offset + "px",
+            rotate: "270deg",
+        };
+    }
+
+    style.height = store.noteField.data.width;
+
+    return (
+        <svg className="waveform" xmlns="http://www.w3.org/2000/svg" ref={ref} style={style}></svg>
+    );
+});
