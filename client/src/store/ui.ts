@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
+import { PartialDeep } from "type-fest";
 
 import { KeyBinds } from "../notefield/input";
 
@@ -131,23 +132,8 @@ export class UIStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: Partial<UIData>) {
+    update(config: PartialDeep<UIData>) {
         this.data = _.merge(this.data || {}, config);
-        this.save();
-    }
-
-    updateMetronome(config: Partial<MetronomeData>) {
-        this.data.metronome = _.merge(this.data.metronome || {}, config);
-        this.save();
-    }
-
-    updateMusic(config: Partial<MusicData>) {
-        this.data.music = _.merge(this.data.music || {}, config);
-        this.save();
-    }
-
-    updatePanelVisibility(config: Partial<PanelVisibility>) {
-        this.data.panelVisibility = _.merge(this.data.panelVisibility || {}, config);
         this.save();
     }
 

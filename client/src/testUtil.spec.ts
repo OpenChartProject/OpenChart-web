@@ -43,7 +43,6 @@ describe("testutil", () => {
         });
 
         it("merges the config if provided", () => {
-            const defaultStore = createStore();
             const config: PartialDeep<EditorData> = {
                 beatLines: {
                     measureLines: {

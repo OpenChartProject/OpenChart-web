@@ -44,7 +44,7 @@ export const NoteFieldPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updatePanelVisibility({ noteField: !visible });
+        ui.update({ panelVisibility: { noteField: !visible } });
     };
 
     return (

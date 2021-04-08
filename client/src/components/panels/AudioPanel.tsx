@@ -15,20 +15,20 @@ export const AudioPanel = observer((props: Props) => {
     const visible = ui.data.panelVisibility.audio;
 
     const onMetronomeVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
-        ui.updateMetronome({ volume: _.toNumber(e.target.value) });
+        ui.update({ metronome: { volume: _.toNumber(e.target.value) } });
     };
 
     const onMusicVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
-        ui.updateMusic({ volume: _.toNumber(e.target.value) });
+        ui.update({ music: { volume: _.toNumber(e.target.value) } });
     };
 
     const onToggleMetronome = (e: ChangeEvent<HTMLInputElement>) => {
-        ui.updateMetronome({ enabled: e.target.checked });
+        ui.update({ metronome: { enabled: e.target.checked } });
         e.target.blur();
     };
 
     const onToggle = () => {
-        ui.updatePanelVisibility({ audio: !visible });
+        ui.update({ panelVisibility: { audio: !visible } });
     };
 
     return (

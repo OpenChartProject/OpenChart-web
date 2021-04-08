@@ -45,7 +45,7 @@ export const SongPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updatePanelVisibility({ songInfo: !visible });
+        ui.update({ panelVisibility: { songInfo: !visible } });
     };
 
     return (

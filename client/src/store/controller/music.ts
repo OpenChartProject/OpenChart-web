@@ -27,10 +27,10 @@ export class MusicController {
             return;
         }
 
-        this.store.updateMusic({ src });
+        this.store.update({ music: { src } });
     }
 
     setVolume(volume: number) {
-        this.store.updateMusic({ volume });
+        this.store.update({ music: { volume } });
     }
 }
