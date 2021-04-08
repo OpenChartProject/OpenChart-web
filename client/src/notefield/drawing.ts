@@ -97,12 +97,10 @@ export function timeToPosition({ editor, noteField }: DrawProps, time: Time | nu
 
 function clear(dp: DrawProps) {
     const { ctx, w, h } = dp;
-    const { data } = dp.editor;
 
     ctx.save();
     ctx.resetTransform();
-    ctx.fillStyle = data.colors.background;
-    ctx.fillRect(0, 0, w, h);
+    ctx.clearRect(0, 0, w, h);
     ctx.restore();
 }
 

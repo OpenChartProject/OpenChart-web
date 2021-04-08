@@ -1,5 +1,6 @@
 .waveform-container {
     position: absolute;
+    z-index: 1;
     left: 50%;
     transform: translateX(-50%);
     padding: 0 32px;
@@ -9,7 +10,7 @@
         width: 100%;
 
         path {
-            fill: lightgreen;
+            fill: #8f6fe7;
         }
 
         .upscroll & path {
