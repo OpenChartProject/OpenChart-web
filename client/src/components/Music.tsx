@@ -42,7 +42,8 @@ export const Music = observer(({ store }: Props) => {
             return;
         }
 
-        ref.current.volume = volume;
+        // Convert the volume from linear to logarithmic
+        ref.current.volume = Math.pow(volume, 2);
     }, [ref, volume]);
 
     console.log("update");
