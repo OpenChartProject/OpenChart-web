@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { RootStore } from "../store/";
 
-import { NoteField } from ".";
+import { Metronome, NoteField } from ".";
 import { AudioPanel, BeatTimePanel, NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
@@ -18,6 +18,7 @@ export const App = observer((props: Props) => {
 
     return (
         <div className="app-container">
+            <Metronome store={store} />
             {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
             <Toolbar store={store} />
             <NoteField store={store} />

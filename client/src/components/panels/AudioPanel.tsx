@@ -29,7 +29,7 @@ export const AudioPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
-                    title={(ui.data.metronome.volume * 100) + "%"}
+                    title={ui.data.metronome.volume * 100 + "%"}
                     min={0}
                     max={1}
                     step={0.01}

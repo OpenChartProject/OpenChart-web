@@ -1,3 +1,4 @@
+import { EventEmitter } from "events";
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
@@ -30,6 +31,7 @@ export class UIStore {
     readonly STORAGE_KEY = "ui";
 
     data!: UIData;
+    metronomeTicker: EventEmitter;
     readonly root: RootStore;
 
     constructor(root: RootStore) {
@@ -38,6 +40,7 @@ export class UIStore {
         });
 
         this.root = root;
+        this.metronomeTicker = new EventEmitter();
 
         // This loads the default editor config and overwrites it with the user's saved
         // config, if it exists.
@@ -82,6 +85,10 @@ export class UIStore {
                 noteFieldSettings: true,
             },
         };
+    }
+
+    onTick() {
+        this.metronomeTicker.emit("tick");
     }
 
     /**
