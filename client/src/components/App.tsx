@@ -28,9 +28,9 @@ export const App = observer((props: Props) => {
             <NoteField store={store} />
 
             <PanelContainer store={store}>
-                <AudioPanel store={store} />
                 <BeatTimePanel store={store} />
                 <SongPanel store={store} />
+                <AudioPanel store={store} />
                 <NoteFieldPanel store={store} />
             </PanelContainer>
         </div>

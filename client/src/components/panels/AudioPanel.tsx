@@ -18,6 +18,10 @@ export const AudioPanel = observer((props: Props) => {
         ui.updateMetronome({ volume: _.toNumber(e.target.value) });
     };
 
+    const onMusicVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+        ui.updateMusic({ volume: _.toNumber(e.target.value) });
+    };
+
     const onToggle = () => {
         ui.updatePanelVisibility({ audio: !visible });
     };
@@ -35,6 +39,20 @@ export const AudioPanel = observer((props: Props) => {
                     step={0.01}
                     value={ui.data.metronome.volume}
                     onChange={onMetronomeVolumeChange}
+                />
+            </div>
+
+            <div className="form-control">
+                <label className="form-label-dark">Music Volume</label>
+                <input
+                    className="form-input"
+                    type="range"
+                    title={ui.data.music.volume * 100 + "%"}
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={ui.data.music.volume}
+                    onChange={onMusicVolumeChange}
                 />
             </div>
         </Panel>
