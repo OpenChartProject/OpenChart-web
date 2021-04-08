@@ -24,9 +24,9 @@ export const Metronome = observer(({ store }: Props) => {
     };
 
     useEffect(() => {
-        store.ui.metronomeTicker.on("tick", onTick);
+        store.ui.emitters.metronome.on("tick", onTick);
         return () => {
-            store.ui.metronomeTicker.off("tick", onTick);
+            store.ui.emitters.metronome.off("tick", onTick);
             return;
         };
     }, []);

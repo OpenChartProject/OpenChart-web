@@ -18,8 +18,15 @@ export interface MetronomeData {
     volume: number;
 }
 
+export interface MusicData {
+    src?: string;
+    volume: number;
+}
+
 export interface UIData {
     metronome: MetronomeData;
+    music: MusicData;
+
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
 
@@ -31,8 +38,12 @@ export class UIStore {
     readonly STORAGE_KEY = "ui";
 
     data!: UIData;
-    metronomeTicker: EventEmitter;
     readonly root: RootStore;
+
+    emitters: {
+        metronome: EventEmitter;
+        music: EventEmitter;
+    };
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
@@ -40,7 +51,10 @@ export class UIStore {
         });
 
         this.root = root;
-        this.metronomeTicker = new EventEmitter();
+        this.emitters = {
+            metronome: new EventEmitter(),
+            music: new EventEmitter(),
+        };
 
         // This loads the default editor config and overwrites it with the user's saved
         // config, if it exists.
@@ -60,6 +74,10 @@ export class UIStore {
             metronome: {
                 enabled: true,
                 volume: 0.5,
+            },
+
+            music: {
+                volume: 0.8,
             },
 
             sidePanelVisible: true,
@@ -88,7 +106,7 @@ export class UIStore {
     }
 
     onTick() {
-        this.metronomeTicker.emit("tick");
+        this.emitters.metronome.emit("tick");
     }
 
     /**

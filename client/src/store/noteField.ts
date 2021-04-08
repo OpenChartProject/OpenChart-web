@@ -6,7 +6,7 @@ import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
 import { AutoScroller } from "./autoScroller";
-import { Music } from "./music";
+import { MusicController } from "./controller/music";
 import { RootStore } from "./store";
 
 export const zoom = {
@@ -40,7 +40,7 @@ export class NoteFieldStore {
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScroller;
-    readonly music: Music;
+    readonly music: MusicController;
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
@@ -62,7 +62,7 @@ export class NoteFieldStore {
         });
 
         this.autoScroller = new AutoScroller(this.root);
-        this.music = new Music();
+        this.music = new MusicController();
     }
 
     get defaults(): NoteFieldData {

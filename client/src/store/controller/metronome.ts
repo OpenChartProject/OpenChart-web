@@ -1,11 +1,11 @@
-import { Beat } from "../charting";
+import { UIStore } from "../";
+import { Beat } from "../../charting";
 
-import { UIStore } from "./ui";
 
 /**
  * This handles playing the metronome ticks while the chart is playing.
  */
-export class Metronome {
+export class MetronomeController {
     lastBeat?: Beat;
     store: UIStore;
 

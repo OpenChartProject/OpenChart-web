@@ -1,4 +1,4 @@
-import { Metronome } from "./metronome";
+import { MetronomeController } from "./controller";
 import { RootStore } from "./store";
 
 /**
@@ -6,13 +6,13 @@ import { RootStore } from "./store";
  */
 export class AutoScroller {
     earlier: number;
-    metronome: Metronome;
+    metronome: MetronomeController;
     store: RootStore;
 
     constructor(store: RootStore) {
         this.store = store;
         this.earlier = -1;
-        this.metronome = new Metronome(store.ui);
+        this.metronome = new MetronomeController(store.ui);
 
         this.onFrame = this.onFrame.bind(this);
     }
