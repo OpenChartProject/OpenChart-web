@@ -53,12 +53,12 @@ export class OpenFileAction implements Action {
                 reader.readAsText(f);
             } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
                 reader.onload = () => {
-                    const data = reader.result as ArrayBuffer;
-                    const dataURL = `data:${f.type};base64,${encode(data)}`;
+                    const audioData = reader.result as ArrayBuffer;
+                    const dataURL = `data:${f.type};base64,${encode(audioData)}`;
 
                     this.store.noteField.setMusic(dataURL);
 
-                    new GenerateWaveformAction(this.store, { data }).run();
+                    new GenerateWaveformAction(this.store, { audioData }).run();
 
                     resolve();
                 };
