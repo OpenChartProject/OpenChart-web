@@ -46,10 +46,6 @@ export const Toolbar = observer((props: Props) => {
         new SaveFileAction({ data, fileName: `project${format.ext}` }).run();
     };
 
-    const swapScrollDirection = () => {
-        new ScrollDirectionAction(store, { to: "swap" }).run();
-    };
-
     const zoomIn = () => {
         new ZoomAction(store, {
             to: store.noteField.data.zoom.mul(1.5),
@@ -85,10 +81,6 @@ export const Toolbar = observer((props: Props) => {
                 </a>
 
                 <div className="divider"></div>
-
-                <a title="Swap scroll direction" onClick={swapScrollDirection}>
-                    <span className="material-icons-outlined">swap_vert</span>
-                </a>
 
                 {store.ui.data.metronome.enabled ? (
                     <a title="Disable metronome" onClick={metronome(false)}>

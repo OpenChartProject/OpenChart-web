@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent } from "react";
+import { ScrollDirectionAction } from "../../actions/noteFieldActions";
 
 import { RootStore, ScrollDirection } from "../../store";
 
@@ -34,7 +35,7 @@ export const NoteFieldPanel = observer((props: Props) => {
     };
 
     const setScrollDirection = (val: ScrollDirection) => {
-        editor.update({ scrollDirection: val });
+        new ScrollDirectionAction(props.store, { to: val }).run();
     };
 
     const onToggle = () => {
