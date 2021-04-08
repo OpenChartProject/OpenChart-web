@@ -3,10 +3,38 @@ import Fraction from "fraction.js";
 import sinon from "sinon";
 
 import { Chart } from "../charting";
-import { zoom } from "../store/noteField";
+import { NoteFieldData, zoom } from "../store/noteField";
 import { createStore } from "../testUtil";
 
+import { EditorData } from "./editor";
+
 describe("NoteFieldStore", () => {
+    describe("#pixelsPerSecond", () => {
+        it("returns expected value for 1:1 scaling", () => {
+            const config: Partial<EditorData> = {
+                pixelsPerSecond: 100,
+            };
+            const state: Partial<NoteFieldData> = {
+                zoom: new Fraction(1),
+            };
+            const store = createStore({ config, state });
+
+            assert.deepStrictEqual(store.noteField.pixelsPerSecond, 100);
+        });
+
+        it("returns expected value for 2:1 scaling", () => {
+            const config: Partial<EditorData> = {
+                pixelsPerSecond: 100,
+            };
+            const state: Partial<NoteFieldData> = {
+                zoom: new Fraction(2),
+            };
+            const store = createStore({ config, state });
+
+            assert.deepStrictEqual(store.noteField.pixelsPerSecond, 200);
+        });
+    });
+
     describe("#setCanvas", () => {
         it("sets the canvas element and updates the width", () => {
             const el = document.createElement("canvas");

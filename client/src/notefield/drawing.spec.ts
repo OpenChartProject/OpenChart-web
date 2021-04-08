@@ -9,7 +9,6 @@ import {
     adjustToBaseline,
     calculateViewport,
     DrawProps,
-    pps,
     scaleToWidth,
     timeToPosition,
 } from "./drawing";
@@ -239,32 +238,6 @@ describe("notefield", () => {
             assert.strictEqual(t0.value, 0);
             assert.strictEqual(t1.value, 5);
             assert.strictEqual(tReceptor.value, 1);
-        });
-    });
-
-    describe("#pps", () => {
-        it("returns expected value for 1:1 scaling", () => {
-            const config: Partial<EditorData> = {
-                pixelsPerSecond: 100,
-            };
-            const state: Partial<NoteFieldData> = {
-                zoom: new Fraction(1),
-            };
-            const store = createStore({ config, state });
-
-            assert.deepStrictEqual(pps(store.editor, store.noteField), 100);
-        });
-
-        it("returns expected value for 2:1 scaling", () => {
-            const config: Partial<EditorData> = {
-                pixelsPerSecond: 100,
-            };
-            const state: Partial<NoteFieldData> = {
-                zoom: new Fraction(2),
-            };
-            const store = createStore({ config, state });
-
-            assert.deepStrictEqual(pps(store.editor, store.noteField), 200);
         });
     });
 

@@ -105,8 +105,8 @@ export const NoteField = observer(({ store }: Props) => {
 
     return (
         <div className="notefield-container" ref={refContainer}>
-            <Waveform store={store} />
             <div className="canvas-container">
+                <Waveform store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>
                 <BeatSnapDisplay store={store} />
             </div>

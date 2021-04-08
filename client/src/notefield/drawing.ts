@@ -41,13 +41,6 @@ export interface DrawProps extends Viewport {
 }
 
 /**
- * Returns the pixels per second, taking into account the scaling.
- */
-export function pps(editor: EditorStore, noteField: NoteFieldStore): number {
-    return editor.data.pixelsPerSecond * noteField.data.zoom.valueOf();
-}
-
-/**
  * Returns the new position of the object after taking the baseline into account.
  */
 export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number {
@@ -80,9 +73,9 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  * with respect to the scrolling.
  */
 export function calculateViewport(editor: EditorStore, noteField: NoteFieldStore): Viewport {
-    const y0 = noteField.data.scroll.time.value * pps(editor, noteField) - editor.data.receptorY;
-    const t0 = new Time(Math.max(y0 / pps(editor, noteField), 0));
-    const t1 = new Time(Math.max((y0 + noteField.data.height) / pps(editor, noteField), 0));
+    const y0 = noteField.data.scroll.time.value * noteField.pixelsPerSecond - editor.data.receptorY;
+    const t0 = new Time(Math.max(y0 / noteField.pixelsPerSecond, 0));
+    const t1 = new Time(Math.max((y0 + noteField.data.height) / noteField.pixelsPerSecond, 0));
     const tReceptor = noteField.data.scroll.time;
 
     return { y0, t0, t1, tReceptor };
@@ -99,7 +92,7 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
  * Converts time to position.
  */
 export function timeToPosition({ editor, noteField }: DrawProps, time: Time | number): number {
-    return Math.round(toTime(time).value * pps(editor, noteField));
+    return Math.round(toTime(time).value * noteField.pixelsPerSecond);
 }
 
 function clear(dp: DrawProps) {
@@ -150,7 +143,7 @@ function drawReceptor(dp: DrawProps, key: number) {
 
     const r = noteSkin.receptor[key];
     const h = scaleToWidth(r.width as number, r.height as number, data.columnWidth);
-    const y = adjustToBaseline(dp, tReceptor.value * pps(editor, noteField), h);
+    const y = adjustToBaseline(dp, tReceptor.value * noteField.pixelsPerSecond, h);
 
     ctx.save();
     ctx.translate(0, y);
