@@ -59,7 +59,7 @@ export class UIStore {
         return {
             metronome: {
                 enabled: true,
-                volume: 0.8,
+                volume: 0.5,
             },
 
             sidePanelVisible: true,
