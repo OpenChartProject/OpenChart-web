@@ -7,7 +7,7 @@ import { inputToAction } from "../notefield/input";
 import { RootStore } from "../store/";
 
 import { BeatSnapDisplay } from "./BeatSnapDisplay";
-import { Waveform } from "./Waveform";
+import { WaveformWrapper } from "./Waveform";
 
 export interface Props {
     store: RootStore;
@@ -114,7 +114,7 @@ export const NoteField = observer(({ store }: Props) => {
     return (
         <div className={className} ref={refContainer}>
             <div className="canvas-container">
-                <Waveform store={store} />
+                <WaveformWrapper store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>
                 <BeatSnapDisplay store={store} />
             </div>

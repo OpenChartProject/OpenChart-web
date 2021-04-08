@@ -1,22 +1,23 @@
 import { observer } from "mobx-react-lite";
-import React, { CSSProperties, useEffect, useRef } from "react";
+import React from "react";
 import convert from "react-from-dom";
-import { calculateViewport } from "../notefield/drawing";
 
 import { RootStore } from "../store";
+import { WaveformElement } from "../store/waveform";
 
 export interface Props {
     store: RootStore;
 }
 
-export const Waveform = observer(({ store }: Props) => {
-    if (store.waveform.data.el.length === 0) {
-        return null;
-    }
+export interface WaveformSVGProps {
+    el: WaveformElement;
+    store: RootStore;
+}
 
+export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
     const { editor, noteField } = store;
+
     const zoom = noteField.data.zoom.valueOf();
-    const width = noteField.data.width;
     const height = noteField.data.height;
 
     // This took me like 3 hours to figure out lol
@@ -32,6 +33,22 @@ export const Waveform = observer(({ store }: Props) => {
     // Dividing by zoom converts from screen coordinates to notefield coordinates
     const viewBox = `-250 ${y0 / zoom} 500 ${height / zoom}`;
 
+    const attributes: Record<string, string> = {
+        viewBox,
+        preserveAspectRatio: "none",
+        height: height + "px",
+    };
+
+    for (const key in attributes) {
+        el.svg.setAttribute(key, attributes[key]);
+    }
+
+    return <React.Fragment>{convert(el.svg)}</React.Fragment>;
+});
+
+export const Waveform = observer(({ store }: Props) => {
+    const { noteField } = store;
+
     let lastDiff = Number.MAX_VALUE;
     let index = 0;
 
@@ -45,19 +62,17 @@ export const Waveform = observer(({ store }: Props) => {
         }
     }
 
-    const Svg = store.waveform.data.el[index].svg;
-    const attributes: Record<string, string> = {
-        viewBox,
-        preserveAspectRatio: "none",
-        width: width + "px",
-        height: height + "px",
-    };
+    return (
+        <div className="waveform-container">
+            <WaveformSVG store={store} el={store.waveform.data.el[index]} />
+        </div>
+    );
+});
 
-    for (const key in attributes) {
-        Svg.setAttribute(key, attributes[key]);
+export const WaveformWrapper = observer(({ store }: Props) => {
+    if (store.waveform.data.el.length === 0) {
+        return null;
     }
 
-    console.log(index);
-
-    return (<div className="waveform-container">{convert(Svg)}</div>);
+    return <Waveform store={store} />;
 });

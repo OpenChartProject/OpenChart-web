@@ -35,7 +35,7 @@ export class WaveformStore {
     }
 
     get scales(): number[] {
-        return [64, 128, 512, 1024];
+        return [64, 128, 256, 512, 1024, 2048];
     }
 
     get width(): number {
@@ -43,7 +43,7 @@ export class WaveformStore {
     }
 
     generateAll() {
-        this.data.el = this.scales.map(val => this.generate(val));
+        this.data.el = this.scales.map((val) => this.generate(val));
     }
 
     /**
