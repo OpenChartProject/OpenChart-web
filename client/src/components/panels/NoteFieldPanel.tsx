@@ -17,7 +17,7 @@ export const NoteFieldPanel = observer((props: Props) => {
         editor.data.columnWidth !== defaults.columnWidth ||
         editor.data.receptorY !== defaults.receptorY;
 
-    const visible = ui.data.panelVisibility.noteFieldSettings;
+    const visible = ui.data.panelVisibility.noteField;
 
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
         editor.update({ columnWidth: _.toInteger(e.target.value) });
@@ -33,11 +33,11 @@ export const NoteFieldPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updatePanelVisibility({ noteFieldSettings: !visible });
+        ui.updatePanelVisibility({ noteField: !visible });
     };
 
     return (
-        <Panel title="Notefield Settings" visible={visible} onToggle={onToggle}>
+        <Panel title="Notefield" visible={visible} onToggle={onToggle}>
             <div className="form-control">
                 <label className="form-label-dark">Receptor Position</label>
                 <input

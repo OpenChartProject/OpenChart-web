@@ -11,7 +11,7 @@ export interface PanelVisibility {
     audio: boolean;
     beatTime: boolean;
     songInfo: boolean;
-    noteFieldSettings: boolean;
+    noteField: boolean;
 }
 
 export interface MetronomeData {
@@ -115,7 +115,7 @@ export class UIStore {
                 audio: true,
                 beatTime: true,
                 songInfo: true,
-                noteFieldSettings: true,
+                noteField: true,
             },
         };
     }
@@ -155,6 +155,8 @@ export class UIStore {
      * Saves the editor config to the user's local storage.
      */
     save() {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.data));
+        const clone = _.cloneDeep(this.data);
+        delete clone.music.src;
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
     }
 }
