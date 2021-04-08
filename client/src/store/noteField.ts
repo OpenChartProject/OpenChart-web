@@ -62,7 +62,7 @@ export class NoteFieldStore {
         });
 
         this.autoScroller = new AutoScroller(this.root);
-        this.music = new MusicController();
+        this.music = new MusicController(this.root.ui);
     }
 
     get defaults(): NoteFieldData {
@@ -159,30 +159,20 @@ export class NoteFieldStore {
     }
 
     /**
-     * Sets the music source.
-     */
-    setMusic(src: string) {
-        if (src === this.music.el.src) {
-            return;
-        }
-
-        this.music.setSource(src);
-        this.setPlaying(false);
-    }
-
-    /**
      * Sets the notefield as playing or paused. While playing, the notefield scrolls
      * automatically, and plays music.
      */
     setPlaying(isPlaying: boolean) {
         if (isPlaying !== this.data.isPlaying) {
             this.data.isPlaying = isPlaying;
+            const music = this.root.ui.controllers.music;
 
             if (isPlaying) {
                 this.autoScroller.start();
-                this.music.playAt(this.data.scroll.time.value);
+                music.seek(this.data.scroll.time.value);
+                music.play();
             } else {
-                this.music.pause();
+                music.pause();
             }
         }
     }

@@ -1,7 +1,6 @@
 import { UIStore } from "../";
 import { Beat } from "../../charting";
 
-
 /**
  * This handles playing the metronome ticks while the chart is playing.
  */
@@ -23,7 +22,7 @@ export class MetronomeController {
         }
 
         if (beat.isWholeBeat() || Math.floor(beat.value) > this.lastBeat.value) {
-            this.store.onTick();
+            this.store.emitters.metronome.emit("tick");
         }
 
         this.lastBeat = beat;

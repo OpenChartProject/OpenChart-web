@@ -1,29 +1,36 @@
-const elMusic = document.getElementById("audio-music") as HTMLAudioElement;
+import { UIStore } from "../ui";
 
 /**
  * This is a simple wrapper around an `<audio>` tag.
  */
 export class MusicController {
-    el: HTMLAudioElement;
+    store: UIStore;
 
-    constructor(el?: HTMLAudioElement) {
-        this.el = el ?? elMusic;
+    constructor(store: UIStore) {
+        this.store = store;
     }
 
-    playAt(time: number) {
-        if (!this.el.src) {
-            return;
-        }
-
-        this.el.currentTime = time;
-        this.el.play();
+    play() {
+        this.store.emitters.music.emit("play");
     }
 
     pause() {
-        this.el.pause();
+        this.store.emitters.music.emit("pause");
+    }
+
+    seek(time: number) {
+        this.store.emitters.music.emit("seek", time);
     }
 
     setSource(src: string) {
-        this.el.src = src;
+        if (src === this.store.data.music.src) {
+            return;
+        }
+
+        this.store.updateMusic({ src });
+    }
+
+    setVolume(volume: number) {
+        this.store.updateMusic({ volume });
     }
 }

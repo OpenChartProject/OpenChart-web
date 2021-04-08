@@ -68,22 +68,6 @@ describe("NoteFieldStore", () => {
         });
     });
 
-    describe("setMusic", () => {
-        it("sets the music source", () => {
-            const store = createStore().noteField;
-
-            store.setMusic("foo");
-            assert.strictEqual(store.music.el.src, "foo");
-        });
-
-        it("sets isPlaying to false", () => {
-            const store = createStore().noteField;
-
-            store.setMusic("foo");
-            assert.strictEqual(store.data.isPlaying, false);
-        });
-    });
-
     describe("#setZoom", () => {
         it("throws if zoom is <= 0", () => {
             const store = createStore().noteField;

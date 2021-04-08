@@ -41,7 +41,6 @@ export interface CreateStoreArgs {
 export function createStore(args: CreateStoreArgs = {}): RootStore {
     const store = new RootStore();
     store.noteField.setCanvas(document.createElement("canvas"));
-    store.noteField.music.el = document.createElement("audio");
 
     if (args.chart) {
         store.noteField.setChart(args.chart);

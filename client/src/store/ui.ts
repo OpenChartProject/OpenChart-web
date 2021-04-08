@@ -4,6 +4,7 @@ import { makeAutoObservable } from "mobx";
 
 import { KeyBinds } from "../notefield/input";
 
+import { MusicController } from "./controller";
 import { RootStore } from "./store";
 
 export interface PanelVisibility {
@@ -40,8 +41,15 @@ export class UIStore {
     data!: UIData;
     readonly root: RootStore;
 
+    controllers: {
+        music: MusicController;
+    };
+
     emitters: {
+        // Emits a "tick" event.
         metronome: EventEmitter;
+
+        // Emits a "play", "pause", and "seek" event.
         music: EventEmitter;
     };
 
@@ -51,6 +59,11 @@ export class UIStore {
         });
 
         this.root = root;
+
+        this.controllers = {
+            music: new MusicController(this),
+        };
+
         this.emitters = {
             metronome: new EventEmitter(),
             music: new EventEmitter(),
@@ -105,8 +118,12 @@ export class UIStore {
         };
     }
 
-    onTick() {
-        this.emitters.metronome.emit("tick");
+    /**
+     * Sets the music source.
+     */
+    setMusic(src: string) {
+        this.controllers.music.setSource(src);
+        this.controllers.music.pause();
     }
 
     /**
@@ -119,6 +136,11 @@ export class UIStore {
 
     updateMetronome(config: Partial<MetronomeData>) {
         this.data.metronome = _.merge(this.data.metronome || {}, config);
+        this.save();
+    }
+
+    updateMusic(config: Partial<MusicData>) {
+        this.data.music = _.merge(this.data.music || {}, config);
         this.save();
     }
 
