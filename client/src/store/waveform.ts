@@ -19,17 +19,29 @@ export class WaveformStore {
         this.data = {};
     }
 
+    get duration(): number {
+        if (!this.data.waveform) {
+            return 0;
+        }
+
+        return this.data.waveform.duration;
+    }
+
+    get width(): number {
+        return this.duration * this.root.noteField.pixelsPerSecond;
+    }
+
     /**
-     * Generates a SVG of the waveform with the given width and height and returns it.
+     * Generates a SVG of the waveform with the given height and returns it.
      */
-    generateSVG(width: number, height: number) {
+    generateSVG() {
         const { el } = this.data;
 
         assert(el, "an SVG element must be set before generating the waveform");
 
         const waveform = this.data.waveform as WaveformData;
-        waveform.resample({ width });
-
+        const width = this.width;
+        const height = 500;
         const channel = waveform.channel(0);
         const x = d3.scaleLinear();
         const y = d3.scaleLinear();
@@ -47,14 +59,10 @@ export class WaveformStore {
             .y1((d, i) => y(d as any));
 
         const svg = d3.select(el);
+
         svg.selectChildren().remove();
-
-        svg.style("width", width + "px")
-            .style("height", height + "px")
-            .datum(max);
-
+        svg.datum(max);
         svg.append("path")
-            .attr("transform", () => `translate(0, ${height / 2})`)
             .attr("d", area as any)
             .attr("fill", "white");
     }
@@ -63,7 +71,7 @@ export class WaveformStore {
      * Generates a WaveformData object for the given data and returns a promise that is
      * resolved once the WaveformData object is ready.
      */
-    generateWaveformData(data: ArrayBuffer): Promise<WaveformData> {
+    private generateWaveformData(data: ArrayBuffer): Promise<WaveformData> {
         return new Promise<WaveformData>((resolve) => {
             const ctx = new AudioContext();
 
@@ -107,6 +115,9 @@ export class WaveformStore {
         });
     }
 
+    /**
+     * Sets the SVG element to use for displaying the waveform.
+     */
     setElement(el: SVGElement) {
         this.data.el = el;
     }

@@ -1,16 +1,14 @@
 .waveform {
     position: absolute;
     left: 50%;
+    transform: translateX(-50%);
+    padding: 0 32px;
 
-    .upscroll & {
-        transform-origin: top left;
+    .upscroll & path {
         rotate: 90deg;
-        transform: translateY(-50%);
     }
 
-    .downscroll & {
-        transform-origin: bottom left;
+    .downscroll & path {
         rotate: 270deg;
-        transform: translateY(50%);
     }
 }

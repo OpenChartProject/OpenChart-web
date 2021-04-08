@@ -20,10 +20,10 @@ export class GenerateWaveformAction implements Action {
 
         if (audioData) {
             waveform.setAudioData(audioData).then(() => {
-                waveform.generateSVG(500, 200);
+                waveform.generateSVG();
             });
         } else {
-            waveform.generateSVG(500, 200);
+            waveform.generateSVG();
         }
     }
 }
