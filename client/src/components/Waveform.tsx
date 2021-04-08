@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { CSSProperties, useEffect, useRef } from "react";
+import convert from "react-from-dom";
 import { calculateViewport } from "../notefield/drawing";
 
 import { RootStore } from "../store";
@@ -56,8 +57,7 @@ export const Waveform = observer(({ store }: Props) => {
         Svg.setAttribute(key, attributes[key]);
     }
 
-    React.cloneElement<{}, SVGElement>(Svg);
+    console.log(index);
 
-    // FIXME
-    return (<div className="waveform-container"><Svg /></div>);
+    return (<div className="waveform-container">{convert(Svg)}</div>);
 });
