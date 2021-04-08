@@ -103,8 +103,16 @@ export const NoteField = observer(({ store }: Props) => {
         updateDim();
     }, [refCanvas]);
 
+    let className = "notefield-container";
+
+    if (store.editor.data.scrollDirection === "up") {
+        className += " upscroll";
+    } else {
+        className += " downscroll";
+    }
+
     return (
-        <div className="notefield-container" ref={refContainer}>
+        <div className={className} ref={refContainer}>
             <div className="canvas-container">
                 <Waveform store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>

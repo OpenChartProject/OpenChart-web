@@ -22,21 +22,15 @@ export const Waveform = observer(({ store }: Props) => {
         store.editor.data.receptorY -
         store.noteField.data.scroll.time.value * store.noteField.pixelsPerSecond;
 
-    let style: CSSProperties;
+    const style: CSSProperties = {
+        height: store.noteField.data.width + "px",
+    };
 
     if (store.editor.data.scrollDirection === "up") {
-        style = {
-            rotate: "90deg",
-            top: offset + "px",
-        };
+        style.top = offset + "px";
     } else {
-        style = {
-            bottom: offset + "px",
-            rotate: "270deg",
-        };
+        style.bottom = offset + "px";
     }
-
-    style.height = store.noteField.data.width;
 
     return (
         <svg className="waveform" xmlns="http://www.w3.org/2000/svg" ref={ref} style={style}></svg>

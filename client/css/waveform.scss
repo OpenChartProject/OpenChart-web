@@ -2,6 +2,15 @@
     position: absolute;
     left: 50%;
 
-    transform-origin: 0 0;
-    transform: translateY(-50%);
+    .upscroll & {
+        transform-origin: top left;
+        rotate: 90deg;
+        transform: translateY(-50%);
+    }
+
+    .downscroll & {
+        transform-origin: bottom left;
+        rotate: 270deg;
+        transform: translateY(50%);
+    }
 }
