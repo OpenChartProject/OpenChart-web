@@ -22,12 +22,30 @@ export const AudioPanel = observer((props: Props) => {
         ui.updateMusic({ volume: _.toNumber(e.target.value) });
     };
 
+    const onToggleMetronome = (e: ChangeEvent<HTMLInputElement>) => {
+        ui.updateMetronome({ enabled: e.target.checked });
+        e.target.blur();
+    };
+
     const onToggle = () => {
         ui.updatePanelVisibility({ audio: !visible });
     };
 
     return (
         <Panel title="Audio" visible={visible} onToggle={onToggle}>
+            <div className="form-control">
+                <label className="form-label form-label-dark">Metronome</label>
+                <label className="form-label-inline form-label-light">
+                    <input
+                        type="checkbox"
+                        className="form-input"
+                        checked={ui.data.metronome.enabled}
+                        onChange={onToggleMetronome}
+                    />
+                    Enabled
+                </label>
+            </div>
+
             <div className="form-control">
                 <label className="form-label form-label-dark">Metronome Volume</label>
                 <input

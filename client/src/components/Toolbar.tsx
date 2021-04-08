@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 
-import { ScrollDirectionAction, ZoomAction } from "../actions/noteFieldActions";
+import { ZoomAction } from "../actions/noteFieldActions";
 import { OpenFileAction, OpenFileDialogAction, SaveFileAction } from "../actions/uiActions";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";

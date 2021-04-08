@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent } from "react";
-import { ScrollDirectionAction } from "../../actions/noteFieldActions";
 
+import { ScrollDirectionAction } from "../../actions/noteFieldActions";
 import { RootStore, ScrollDirection } from "../../store";
 
 import { Panel } from "./Panel";
@@ -46,29 +46,26 @@ export const NoteFieldPanel = observer((props: Props) => {
         <Panel title="Notefield" visible={visible} onToggle={onToggle}>
             <div className="form-control">
                 <label className="form-label form-label-dark">Scroll Direction</label>
-                <input
-                    className="form-input"
-                    type="radio"
-                    name="scroll-direction"
-                    id="scroll-direction-up"
-                    checked={scrollDirection === "up"}
-                    onChange={() => setScrollDirection("up")}
-                />
-                <label className="form-label-inline form-label-light" htmlFor="scroll-direction-up">
+
+                <label className="form-label-inline form-label-light">
+                    <input
+                        className="form-input"
+                        type="radio"
+                        name="scroll-direction"
+                        checked={scrollDirection === "up"}
+                        onChange={() => setScrollDirection("up")}
+                    />
                     Up
                 </label>
-                <input
-                    className="form-input"
-                    type="radio"
-                    name="scroll-direction"
-                    id="scroll-direction-down"
-                    checked={scrollDirection === "down"}
-                    onChange={() => setScrollDirection("down")}
-                />
-                <label
-                    className="form-label-inline form-label-light"
-                    htmlFor="scroll-direction-down"
-                >
+
+                <label className="form-label-inline form-label-light">
+                    <input
+                        className="form-input"
+                        type="radio"
+                        name="scroll-direction"
+                        checked={scrollDirection === "down"}
+                        onChange={() => setScrollDirection("down")}
+                    />
                     Down
                 </label>
             </div>
