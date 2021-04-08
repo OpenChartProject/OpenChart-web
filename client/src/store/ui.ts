@@ -56,6 +56,8 @@ export class UIStore {
     constructor(root: RootStore) {
         makeAutoObservable(this, {
             defaults: false,
+            controllers: false,
+            emitters: false,
         });
 
         this.root = root;

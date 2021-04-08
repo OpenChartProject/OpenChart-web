@@ -29,18 +29,12 @@ export const Music = observer(({ store }: Props) => {
     useEffect(() => {
         const music = store.ui.emitters.music;
 
-        music
-            .on("play", onPlay)
-            .on("pause", onPause)
-            .on("seek", onSeek);
+        music.on("play", onPlay).on("pause", onPause).on("seek", onSeek);
 
         return () => {
-            music
-                .off("play", onPlay)
-                .off("pause", onPause)
-                .off("seek", onSeek);
+            music.off("play", onPlay).off("pause", onPause).off("seek", onSeek);
             return;
-        }
+        };
     });
 
     useEffect(() => {
@@ -50,6 +44,8 @@ export const Music = observer(({ store }: Props) => {
 
         ref.current.volume = volume;
     }, [ref, volume]);
+
+    console.log("update");
 
     return <audio ref={ref} src={store.ui.data.music.src}></audio>;
 });
