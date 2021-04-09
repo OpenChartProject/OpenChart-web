@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 import { RootStore } from "../../store";
 
@@ -15,6 +15,11 @@ export const AudioOffsetPanel = observer((props: Props) => {
     const visible = ui.data.panelVisibility.audioOffset;
     const [inputVal, setInputVal] = useState(noteField.data.audioOffset.toFixed(3));
 
+    // Update the offset input if the stored offset changed.
+    useEffect(() => {
+        reset();
+    }, [noteField.data.audioOffset]);
+
     const reset = () => {
         setInputVal(noteField.data.audioOffset.toFixed(3));
     };
@@ -26,7 +31,15 @@ export const AudioOffsetPanel = observer((props: Props) => {
         }
 
         noteField.setAudioOffset(_.toNumber(inputVal));
-        reset();
+    };
+
+    const onPickTime = () => {
+        ui.activateTimePicker({
+            onPick: () => {
+                noteField.setAudioOffset(0);
+                ui.deactivateTimePicker();
+            },
+        });
     };
 
     const onSubmit = (e: FormEvent) => {
@@ -57,9 +70,11 @@ export const AudioOffsetPanel = observer((props: Props) => {
                             onBlur={update}
                         />
                         <button
+                            type="button"
                             className="btn btn-secondary btn-thin"
                             style={{ float: "right" }}
                             disabled={disabled}
+                            onClick={onPickTime}
                         >
                             Pick Time
                         </button>

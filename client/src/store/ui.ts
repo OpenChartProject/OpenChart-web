@@ -27,8 +27,8 @@ export interface MusicData {
 }
 
 export interface ActivateTimePickerArgs {
-    onResolve?(): void;
-    onReject?(): void;
+    onPick?(): void;
+    onCancel?(): void;
 }
 
 export interface UIData {
@@ -146,8 +146,8 @@ export class UIStore {
         const { timePicker } = this.tools;
 
         timePicker.active = true;
-        timePicker.onCancel = args.onReject;
-        timePicker.onPick = args.onResolve;
+        timePicker.onCancel = args.onCancel;
+        timePicker.onPick = args.onPick;
     }
 
     deactivateTimePicker() {
