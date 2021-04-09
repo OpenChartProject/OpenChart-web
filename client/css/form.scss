@@ -1,3 +1,21 @@
+@mixin text-input {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 3px solid $col-gray;
+    padding: 5px 3px;
+    color: $col-white;
+    outline: 0;
+
+    &:hover,
+    &:focus {
+        background-color: $col-gray;
+    }
+
+    &:focus {
+        border-bottom-color: $col-purple;
+    }
+}
+
 .form-control {
     margin-bottom: 12px;
 
@@ -15,22 +33,15 @@
     &[type="text"] {
         display: block;
         width: 100%;
-        background-color: transparent;
-        border: 0;
-        border-bottom: 3px solid $col-gray;
-        padding: 5px 3px;
-        color: $col-white;
-        outline: 0;
         margin-top: 10px;
+        @include text-input();
+    }
+}
 
-        &:hover,
-        &:focus {
-            background-color: $col-gray;
-        }
-
-        &:focus {
-            border-bottom-color: $col-purple;
-        }
+.form-input-inline {
+    &[type="text"] {
+        @include text-input();
+        width: 100px;
     }
 }
 

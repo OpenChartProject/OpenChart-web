@@ -43,16 +43,25 @@ export const AudioOffsetPanel = observer((props: Props) => {
         <Panel title="Audio Offset" visible={visible} onToggle={onToggle}>
             <form onSubmit={onSubmit}>
                 <div className="form-control">
-                    <label className="form-label form-label-dark">
-                        Offset (seconds)
+                    <label className="form-label form-label-dark">Offset (seconds)</label>
+
+                    <div className="clearfix">
                         <input
                             type="text"
-                            className="form-input"
+                            className="form-input-inline"
+                            disabled={noteField.data.isPlaying}
                             value={inputVal}
                             onChange={(e) => setInputVal(e.currentTarget.value)}
                             onBlur={update}
                         />
-                    </label>
+                        <button
+                            className="btn btn-secondary btn-thin"
+                            style={{ float: "right" }}
+                            disabled={noteField.data.isPlaying}
+                        >
+                            Use Picker
+                        </button>
+                    </div>
                 </div>
             </form>
         </Panel>
