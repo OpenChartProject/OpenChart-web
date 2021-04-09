@@ -31,6 +31,10 @@ export class MusicController {
     }
 
     setVolume(volume: number) {
+        if (volume === this.store.data.music.volume) {
+            return;
+        }
+
         this.store.update({ music: { volume } });
     }
 }
