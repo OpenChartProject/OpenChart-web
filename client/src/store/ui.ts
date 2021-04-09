@@ -5,7 +5,7 @@ import { PartialDeep } from "type-fest";
 
 import { KeyBinds } from "../notefield/input";
 
-import { MusicController } from "./controller";
+import { MusicController } from "./controllers";
 import { RootStore } from "./store";
 
 export interface PanelVisibility {

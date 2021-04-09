@@ -1,8 +1,10 @@
-import { MetronomeController } from "./metronome";
-import { createStore } from "../../testUtil";
-import { Beat } from "../../charting";
 import assert from "assert";
 import sinon from "sinon";
+
+import { Beat } from "../../charting";
+import { createStore } from "../../testUtil";
+
+import { MetronomeController } from "./metronome";
 
 describe("MetronomeController", () => {
     describe("#update", () => {
@@ -32,7 +34,6 @@ describe("MetronomeController", () => {
         it("emits a tick event if the beat crossed a whole beat", () => {
             const store = createStore().ui;
             const mc = new MetronomeController(store);
-            const beat = new Beat(1);
             const spy = sinon.spy(store.emitters.metronome, "emit");
 
             mc.update(new Beat(0.5));

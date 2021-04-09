@@ -1,10 +1,11 @@
-import { MetronomeController } from "./controller";
-import { RootStore } from "./store";
+import { RootStore } from "../store";
+
+import { MetronomeController } from "./metronome";
 
 /**
  * This handles the auto scrolling of the notefield.
  */
-export class AutoScroller {
+export class AutoScrollController {
     earlier: number;
     metronome: MetronomeController;
     store: RootStore;

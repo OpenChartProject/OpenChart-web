@@ -1,4 +1,4 @@
-import { UIStore } from "../";
+import { UIStore } from "..";
 import { Beat } from "../../charting";
 
 /**

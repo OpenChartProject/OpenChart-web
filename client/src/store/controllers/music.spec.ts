@@ -1,7 +1,9 @@
-import { MusicController } from "./music";
-import { createStore } from "../../testUtil";
-import sinon from "sinon";
 import assert from "assert";
+import sinon from "sinon";
+
+import { createStore } from "../../testUtil";
+
+import { MusicController } from "./music";
 
 describe("MusicController", () => {
     describe("#play", () => {
