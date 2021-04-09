@@ -18,6 +18,11 @@ export class ZoomAction implements Action {
     args: ZoomArgs;
     store: RootStore;
 
+    /**
+     * The default scalar for zooming.
+     */
+    static readonly SCALAR = 1.5;
+
     constructor(store: RootStore, args: ZoomArgs) {
         assert(args.to.compare(0) === 1, "zoom must be greater than zero");
 

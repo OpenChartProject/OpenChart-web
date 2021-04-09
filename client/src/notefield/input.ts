@@ -77,7 +77,7 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
 
             if (e.ctrlKey) {
                 return new ZoomAction(store, {
-                    to: zoom.mul(1.5),
+                    to: zoom.mul(ZoomAction.SCALAR),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -90,7 +90,7 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
 
             if (e.ctrlKey) {
                 return new ZoomAction(store, {
-                    to: zoom.div(1.5),
+                    to: zoom.div(ZoomAction.SCALAR),
                 });
             } else {
                 return new SnapScrollAction(store, {
@@ -132,7 +132,7 @@ export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | nu
     if (e.deltaY > 0) {
         if (e.ctrlKey) {
             return new ZoomAction(store, {
-                to: zoom.div(1.5),
+                to: zoom.div(ZoomAction.SCALAR),
             });
         } else {
             return new SnapScrollAction(store, {
@@ -142,7 +142,7 @@ export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | nu
     } else {
         if (e.ctrlKey) {
             return new ZoomAction(store, {
-                to: zoom.mul(1.5),
+                to: zoom.mul(ZoomAction.SCALAR),
             });
         } else {
             return new SnapScrollAction(store, {
