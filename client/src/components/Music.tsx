@@ -46,7 +46,5 @@ export const Music = observer(({ store }: Props) => {
         ref.current.volume = Math.pow(volume, 2);
     }, [ref, volume]);
 
-    console.log("update");
-
     return <audio ref={ref} src={store.ui.data.music.src}></audio>;
 });
