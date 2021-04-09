@@ -15,7 +15,8 @@
         "format-check": "prettier -c client/",
         "lint": "tslint --project tsconfig.json",
         "watch": "parcel watch client/index.html",
-        "test": "mocha"
+        "test": "mocha",
+        "test-watch": "mocha -w --watch-files 'client/src/**/*.ts' --reporter min"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0-0",
