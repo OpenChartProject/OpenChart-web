@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 
 import { RootStore } from "../store";
 
@@ -17,6 +17,24 @@ export const TimePicker = observer(({ store }: Props) => {
             timePicker.onPick();
         }
     };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+        // Cancel the picker if the user presses escape
+        if (e.key === "Escape") {
+            const fn = store.ui.tools.timePicker.onCancel;
+
+            if (fn) {
+                fn();
+            }
+
+            store.ui.deactivateTimePicker();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, []);
 
     const style: CSSProperties = {
         top: y - 1,
