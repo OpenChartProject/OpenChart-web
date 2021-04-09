@@ -1,9 +1,9 @@
 import _ from "lodash";
-import { PartialDeep } from "type-fest";
 
 import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
 import { EditorData, NoteFieldData, RootStore } from "./store";
+import { DeepPartial } from "./util";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual
@@ -32,8 +32,8 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
 
 export interface CreateStoreArgs {
     chart?: Chart;
-    config?: PartialDeep<EditorData>;
-    state?: PartialDeep<NoteFieldData>;
+    config?: DeepPartial<EditorData>;
+    state?: DeepPartial<NoteFieldData>;
 }
 
 /**

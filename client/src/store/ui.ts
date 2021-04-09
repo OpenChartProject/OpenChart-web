@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
-import { PartialDeep } from "type-fest";
 
 import { KeyBinds } from "../notefield/input";
+import { DeepPartial } from "../util";
 
 import { MusicController } from "./controllers";
 import { RootStore } from "./store";
@@ -167,7 +167,7 @@ export class UIStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: PartialDeep<UIData>) {
+    update(config: DeepPartial<UIData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
     }

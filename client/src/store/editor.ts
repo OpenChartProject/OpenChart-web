@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
-import { PartialDeep } from "type-fest";
 
 import { NoteSkin } from "../noteskin";
+import { DeepPartial } from "../util";
 
 import { RootStore } from "./store";
 
@@ -113,7 +113,7 @@ export class EditorStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: PartialDeep<EditorData>) {
+    update(config: DeepPartial<EditorData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
 

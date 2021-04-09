@@ -1,11 +1,11 @@
 import assert from "assert";
 import Fraction from "fraction.js";
-import { PartialDeep } from "type-fest";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
 import { EditorData, NoteFieldData } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
+import { DeepPartial } from "./util";
 
 describe("testutil", () => {
     describe("#createDummyNoteSkin", () => {
@@ -43,7 +43,7 @@ describe("testutil", () => {
         });
 
         it("merges the config if provided", () => {
-            const config: PartialDeep<EditorData> = {
+            const config: DeepPartial<EditorData> = {
                 beatLines: {
                     measureLines: {
                         color: "blue",
