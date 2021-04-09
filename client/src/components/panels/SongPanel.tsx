@@ -52,29 +52,27 @@ export const SongPanel = observer((props: Props) => {
         <Panel title="Song Info" visible={visible} onToggle={onToggle}>
             <form onSubmit={onFormSubmit}>
                 <div className="form-control">
-                    <label className="form-label form-label-dark" htmlFor="input-title">
+                    <label className="form-label form-label-dark">
                         Title
-                    </label>
                     <input
-                        id="input-title"
-                        type="text"
-                        className="form-input"
-                        value={title}
-                        onChange={(e) => setTitle(e.currentTarget.value)}
-                    />
+                            type="text"
+                            className="form-input"
+                            value={title}
+                            onChange={(e) => setTitle(e.currentTarget.value)}
+                        />
+                    </label>
                 </div>
 
                 <div className="form-control">
-                    <label className="form-label form-label-dark" htmlFor="input-artist">
+                    <label className="form-label form-label-dark">
                         Artist
-                    </label>
                     <input
-                        id="input-artist"
-                        type="text"
-                        className="form-input"
-                        value={artist}
-                        onChange={(e) => setArtist(e.currentTarget.value)}
-                    />
+                            type="text"
+                            className="form-input"
+                            value={artist}
+                            onChange={(e) => setArtist(e.currentTarget.value)}
+                        />
+                    </label>
                 </div>
 
                 <div className="form-control">

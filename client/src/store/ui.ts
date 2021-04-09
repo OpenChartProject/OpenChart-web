@@ -10,6 +10,7 @@ import { RootStore } from "./store";
 
 export interface PanelVisibility {
     audio: boolean;
+    audioOffset: boolean;
     beatTime: boolean;
     songInfo: boolean;
     noteField: boolean;
@@ -133,6 +134,7 @@ export class UIStore {
 
             panelVisibility: {
                 audio: true,
+                audioOffset: true,
                 beatTime: true,
                 songInfo: true,
                 noteField: true,

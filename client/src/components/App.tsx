@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { RootStore } from "../store/";
 
 import { Metronome, Music, NoteField } from ".";
-import { AudioPanel, BeatTimePanel, NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
+import { AudioPanel, AudioOffsetPanel, BeatTimePanel, NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 
@@ -30,6 +30,7 @@ export const App = observer((props: Props) => {
             <PanelContainer store={store}>
                 <BeatTimePanel store={store} />
                 <SongPanel store={store} />
+                <AudioOffsetPanel store={store} />
                 <AudioPanel store={store} />
                 <NoteFieldPanel store={store} />
             </PanelContainer>
