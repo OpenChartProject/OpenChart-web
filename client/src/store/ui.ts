@@ -39,14 +39,6 @@ export interface UIData {
 
     keyBinds: KeyBinds;
     panelVisibility: PanelVisibility;
-
-    tools: {
-        timePicker: {
-            active: boolean;
-            onResolve?(): void;
-            onReject?(): void;
-        };
-    };
 }
 
 export class UIStore {
@@ -67,6 +59,14 @@ export class UIStore {
         music: EventEmitter;
     };
 
+    tools: {
+        timePicker: {
+            active: boolean;
+            onPick?(): void;
+            onCancel?(): void;
+        };
+    };
+
     constructor(root: RootStore) {
         makeAutoObservable(this, {
             defaults: false,
@@ -83,6 +83,12 @@ export class UIStore {
         this.emitters = {
             metronome: new EventEmitter(),
             music: new EventEmitter(),
+        };
+
+        this.tools = {
+            timePicker: {
+                active: false,
+            },
         };
 
         // This loads the default editor config and overwrites it with the user's saved
@@ -131,29 +137,23 @@ export class UIStore {
                 songInfo: true,
                 noteField: true,
             },
-
-            tools: {
-                timePicker: {
-                    active: false,
-                },
-            },
         };
     }
 
-    activateTimePicker({ onResolve, onReject }: ActivateTimePickerArgs) {
-        const { timePicker } = this.data.tools;
+    activateTimePicker(args: ActivateTimePickerArgs) {
+        const { timePicker } = this.tools;
 
         timePicker.active = true;
-        timePicker.onReject = onReject;
-        timePicker.onResolve = onResolve;
+        timePicker.onCancel = args.onReject;
+        timePicker.onPick = args.onResolve;
     }
 
     deactivateTimePicker() {
-        const { timePicker } = this.data.tools;
+        const { timePicker } = this.tools;
 
         timePicker.active = false;
-        timePicker.onReject = undefined;
-        timePicker.onResolve = undefined;
+        timePicker.onCancel = undefined;
+        timePicker.onPick = undefined;
     }
 
     /**
@@ -180,7 +180,6 @@ export class UIStore {
 
         // Remove any properties we don't want saved
         delete clone.music.src;
-        delete (clone as any).tools;
 
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
     }

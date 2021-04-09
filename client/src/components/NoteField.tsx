@@ -115,7 +115,7 @@ export const NoteField = observer(({ store }: Props) => {
     return (
         <div className={className} ref={refContainer}>
             <div className="canvas-container">
-                {store.ui.data.tools.timePicker.active && <TimePicker store={store} />}
+                {store.ui.tools.timePicker.active && <TimePicker store={store} />}
 
                 <WaveformWrapper store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useRef, useState } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 
 import { RootStore } from "../store";
 
@@ -19,11 +19,23 @@ export const TimePicker = observer(({ store }: Props) => {
         ref.current.addEventListener("mousemove", (e) => {
             setY(e.clientY);
         });
+
+        ref.current.addEventListener("click", (e) => {
+            const { timePicker } = store.ui.tools;
+
+            if (timePicker.onPick) {
+                timePicker.onPick();
+            }
+        });
     }, [ref]);
+
+    const style: CSSProperties = {
+        top: (y - 1) + "px",
+    };
 
     return (
         <div className="time-selector-container" ref={ref}>
-            <div className="time-selector-bar" style={{ top: y + "px" }}></div>
+            <div className="time-selector-bar" style={style}></div>
         </div>
     );
 });
