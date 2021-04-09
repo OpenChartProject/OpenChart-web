@@ -21,7 +21,8 @@ export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
     const height = noteField.data.height;
 
     // This took me like 3 hours to figure out lol
-    let y0 = noteField.data.scroll.time.value * noteField.pixelsPerSecond;
+    let y0 =
+        (noteField.data.scroll.time.value - noteField.data.audioOffset) * noteField.pixelsPerSecond;
 
     if (editor.data.scrollDirection === "down") {
         y0 = -(y0 + noteField.data.height);

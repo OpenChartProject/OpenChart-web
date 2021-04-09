@@ -25,6 +25,7 @@ export interface NoteFieldData {
     snap: BeatSnap;
 
     audio?: HTMLAudioElement;
+    audioOffset: number;
     isPlaying: boolean;
 }
 
@@ -74,6 +75,7 @@ export class NoteFieldStore {
             scroll: { beat: Beat.Zero, time: Time.Zero },
             snap: new BeatSnap(),
 
+            audioOffset: 0,
             isPlaying: false,
         };
     }

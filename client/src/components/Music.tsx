@@ -23,7 +23,7 @@ export const Music = observer(({ store }: Props) => {
 
     const onSeek = (time: number) => {
         const el = ref.current!;
-        el.currentTime = time;
+        el.currentTime = time - store.noteField.data.audioOffset;
     };
 
     useEffect(() => {
