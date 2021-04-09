@@ -3,18 +3,18 @@ import Fraction from "fraction.js";
 import sinon from "sinon";
 
 import { Chart } from "../charting";
-import { NoteFieldData, zoom } from "../store/noteField";
 import { createStore } from "../testUtil";
 
+import { NotefieldData, zoom } from "./notefield";
 import { NotefieldDisplayData } from "./notefieldDisplay";
 
-describe("NoteFieldStore", () => {
+describe("NotefieldStore", () => {
     describe("#pixelsPerSecond", () => {
         it("returns expected value for 1:1 scaling", () => {
             const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
@@ -26,7 +26,7 @@ describe("NoteFieldStore", () => {
             const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 zoom: new Fraction(2),
             };
             const store = createStore({ config, state });

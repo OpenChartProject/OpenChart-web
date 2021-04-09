@@ -1,4 +1,4 @@
-import { NoteFieldStore } from "./noteField";
+import { NotefieldStore } from "./notefield";
 import { NotefieldDisplayStore } from "./notefieldDisplay";
 import { ProjectStore } from "./project";
 import { UIStore } from "./ui";
@@ -9,7 +9,7 @@ import { WaveformStore } from "./waveform";
  */
 export class RootStore {
     readonly editor: NotefieldDisplayStore;
-    readonly noteField: NoteFieldStore;
+    readonly noteField: NotefieldStore;
     readonly project: ProjectStore;
     readonly waveform: WaveformStore;
     readonly ui: UIStore;
@@ -20,8 +20,8 @@ export class RootStore {
         this.project = new ProjectStore(this);
         this.waveform = new WaveformStore(this);
 
-        // The NoteFieldStore needs to be created last since it depends on the other
+        // The NotefieldStore needs to be created last since it depends on the other
         // stores as part of its initialization.
-        this.noteField = new NoteFieldStore(this);
+        this.noteField = new NotefieldStore(this);
     }
 }

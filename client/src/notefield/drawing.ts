@@ -1,7 +1,7 @@
 import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 import { NoteSkin } from "../noteskin";
-import { Baseline, NotefieldDisplayStore, NoteFieldStore, RootStore } from "../store";
+import { Baseline, NotefieldDisplayStore, NotefieldStore, RootStore } from "../store";
 
 import { getBeatLineTimes } from "./beatlines";
 
@@ -37,7 +37,7 @@ export interface DrawProps extends Viewport {
     chart: Chart;
     noteSkin: NoteSkin;
     editor: NotefieldDisplayStore;
-    noteField: NoteFieldStore;
+    noteField: NotefieldStore;
 }
 
 /**
@@ -74,7 +74,7 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  */
 export function calculateViewport(
     editor: NotefieldDisplayStore,
-    noteField: NoteFieldStore,
+    noteField: NotefieldStore,
 ): Viewport {
     const y0 = noteField.data.scroll.time.value * noteField.pixelsPerSecond - editor.data.receptorY;
     const t0 = new Time(Math.max(y0 / noteField.pixelsPerSecond, 0));

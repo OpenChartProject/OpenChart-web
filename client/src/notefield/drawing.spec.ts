@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
-import { Baseline, NoteFieldData, NotefieldDisplayData } from "../store";
+import { Baseline, NotefieldData, NotefieldDisplayData } from "../store";
 import { createStore } from "../testUtil";
 
 import {
@@ -59,7 +59,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -83,7 +83,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -107,7 +107,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -131,7 +131,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -155,7 +155,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -179,7 +179,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 scroll: {
                     beat: Beat.Zero,
@@ -203,7 +203,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 zoom: new Fraction(1),
             };
@@ -224,7 +224,7 @@ describe("notefield", () => {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 height: 500,
                 zoom: new Fraction(1),
             };
@@ -260,7 +260,7 @@ describe("notefield", () => {
             const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1),
             };
             const store = createStore({ config, state });
@@ -281,7 +281,7 @@ describe("notefield", () => {
             const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1.5),
             };
             const store = createStore({ config, state });

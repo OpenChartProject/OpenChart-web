@@ -3,7 +3,7 @@ import Fraction from "fraction.js";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
-import { NoteFieldData, NotefieldDisplayData } from "./store";
+import { NotefieldData, NotefieldDisplayData } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
 import { DeepPartial } from "./util";
 
@@ -65,7 +65,7 @@ describe("testutil", () => {
         });
 
         it("merges the state if provided", () => {
-            const state: Partial<NoteFieldData> = {
+            const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1, 2),
             };
             const store = createStore({ state });

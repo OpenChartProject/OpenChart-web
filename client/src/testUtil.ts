@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
-import { NoteFieldData, NotefieldDisplayData, RootStore } from "./store";
+import { NotefieldData, NotefieldDisplayData, RootStore } from "./store";
 import { DeepPartial } from "./util";
 
 /**
@@ -33,7 +33,7 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
 export interface CreateStoreArgs {
     chart?: Chart;
     config?: DeepPartial<NotefieldDisplayData>;
-    state?: DeepPartial<NoteFieldData>;
+    state?: DeepPartial<NotefieldData>;
 }
 
 /**
