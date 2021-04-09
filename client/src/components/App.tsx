@@ -4,7 +4,14 @@ import React, { useState } from "react";
 import { RootStore } from "../store/";
 
 import { Metronome, Music, NoteField } from ".";
-import { AudioPanel, AudioOffsetPanel, BeatTimePanel, NoteFieldPanel, PanelContainer, SongPanel } from "./panels";
+import {
+    AudioOffsetPanel,
+    AudioPanel,
+    BeatTimePanel,
+    NoteFieldPanel,
+    PanelContainer,
+    SongPanel,
+} from "./panels";
 import { Toolbar } from "./Toolbar";
 import { WelcomeModal } from "./WelcomeModal";
 

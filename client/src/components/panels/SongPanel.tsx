@@ -54,7 +54,7 @@ export const SongPanel = observer((props: Props) => {
                 <div className="form-control">
                     <label className="form-label form-label-dark">
                         Title
-                    <input
+                        <input
                             type="text"
                             className="form-input"
                             value={title}
@@ -66,7 +66,7 @@ export const SongPanel = observer((props: Props) => {
                 <div className="form-control">
                     <label className="form-label form-label-dark">
                         Artist
-                    <input
+                        <input
                             type="text"
                             className="form-input"
                             value={artist}

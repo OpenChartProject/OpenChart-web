@@ -87,6 +87,10 @@ export class NoteFieldStore {
         return this.root.editor.data.pixelsPerSecond * this.data.zoom.valueOf();
     }
 
+    setAudioOffset(val: number) {
+        this.data.audioOffset = val;
+    }
+
     /**
      * Sets the height of the canvas. The height is controlled by the CSS, and a listener
      * calls this method when the height in the DOM changes.
