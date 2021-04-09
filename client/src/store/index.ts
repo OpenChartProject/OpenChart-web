@@ -1,5 +1,10 @@
 export { RootStore } from "./store";
-export { Baseline, ScrollDirection, EditorData, EditorStore } from "./editor";
+export {
+    Baseline,
+    ScrollDirection,
+    NotefieldDisplayData,
+    NotefieldDisplayStore,
+} from "./notefieldDisplay";
 export { NoteFieldStore, NoteFieldData } from "./noteField";
 export { ProjectStore } from "./project";
 export { WaveformStore } from "./waveform";

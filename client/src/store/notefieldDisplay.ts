@@ -42,7 +42,7 @@ export interface BeatLineSettings {
  * The editor config. This config applies to all notefields and is saved to the user's
  * local storage.
  */
-export interface EditorData {
+export interface NotefieldDisplayData {
     beatLines: BeatLineSettings;
     baseline: Baseline;
     columnWidth: number;
@@ -56,10 +56,10 @@ export interface EditorData {
 /**
  * The store for the editor config.
  */
-export class EditorStore {
+export class NotefieldDisplayStore {
     readonly STORAGE_KEY = "editor";
 
-    data!: EditorData;
+    data!: NotefieldDisplayData;
     readonly root: RootStore;
 
     constructor(root: RootStore) {
@@ -84,7 +84,7 @@ export class EditorStore {
         }
     }
 
-    get defaults(): EditorData {
+    get defaults(): NotefieldDisplayData {
         return {
             beatLines: {
                 measureLines: {
@@ -113,7 +113,7 @@ export class EditorStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: DeepPartial<EditorData>) {
+    update(config: DeepPartial<NotefieldDisplayData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
 

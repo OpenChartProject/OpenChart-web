@@ -6,12 +6,12 @@ import { Chart } from "../charting";
 import { NoteFieldData, zoom } from "../store/noteField";
 import { createStore } from "../testUtil";
 
-import { EditorData } from "./editor";
+import { NotefieldDisplayData } from "./notefieldDisplay";
 
 describe("NoteFieldStore", () => {
     describe("#pixelsPerSecond", () => {
         it("returns expected value for 1:1 scaling", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
             const state: Partial<NoteFieldData> = {
@@ -23,7 +23,7 @@ describe("NoteFieldStore", () => {
         });
 
         it("returns expected value for 2:1 scaling", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
             const state: Partial<NoteFieldData> = {

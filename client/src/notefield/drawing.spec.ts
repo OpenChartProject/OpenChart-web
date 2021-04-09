@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 
 import { Beat, Time } from "../charting/";
-import { Baseline, EditorData, NoteFieldData } from "../store";
+import { Baseline, NoteFieldData, NotefieldDisplayData } from "../store";
 import { createStore } from "../testUtil";
 
 import {
@@ -55,7 +55,7 @@ describe("notefield", () => {
 
     describe("#calculateViewport", () => {
         it("returns expected value when scroll and receptorY are 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
@@ -79,7 +79,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and receptorY is 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
@@ -103,7 +103,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and receptorY is 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
@@ -127,7 +127,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is > 1 and receptorY is > 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
@@ -151,7 +151,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when zoom is < 1 and receptorY is > 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
@@ -175,7 +175,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is 0 and receptorY is > 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
@@ -199,7 +199,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and receptorY is 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 0,
             };
@@ -220,7 +220,7 @@ describe("notefield", () => {
         });
 
         it("returns expected value when scroll is > 0 and receptorY is > 0", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
                 receptorY: 100,
             };
@@ -257,7 +257,7 @@ describe("notefield", () => {
 
     describe("#timeToPosition", () => {
         it("returns expected value", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
             const state: Partial<NoteFieldData> = {
@@ -278,7 +278,7 @@ describe("notefield", () => {
         });
 
         it("rounds to the nearest whole number", () => {
-            const config: Partial<EditorData> = {
+            const config: Partial<NotefieldDisplayData> = {
                 pixelsPerSecond: 100,
             };
             const state: Partial<NoteFieldData> = {

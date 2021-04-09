@@ -3,7 +3,7 @@ import Fraction from "fraction.js";
 
 import { Chart } from "./charting";
 import { KeyCount } from "./charting";
-import { EditorData, NoteFieldData } from "./store";
+import { NoteFieldData, NotefieldDisplayData } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
 import { DeepPartial } from "./util";
 
@@ -43,7 +43,7 @@ describe("testutil", () => {
         });
 
         it("merges the config if provided", () => {
-            const config: DeepPartial<EditorData> = {
+            const config: DeepPartial<NotefieldDisplayData> = {
                 beatLines: {
                     measureLines: {
                         color: "blue",
