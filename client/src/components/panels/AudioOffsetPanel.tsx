@@ -39,6 +39,8 @@ export const AudioOffsetPanel = observer((props: Props) => {
         ui.update({ panelVisibility: { audioOffset: !visible } });
     };
 
+    const disabled = noteField.data.isPlaying || ui.tools.timePicker.active;
+
     return (
         <Panel title="Audio Offset" visible={visible} onToggle={onToggle}>
             <form onSubmit={onSubmit}>
@@ -49,7 +51,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
                         <input
                             type="text"
                             className="form-input-inline"
-                            disabled={noteField.data.isPlaying}
+                            disabled={disabled}
                             value={inputVal}
                             onChange={(e) => setInputVal(e.currentTarget.value)}
                             onBlur={update}
@@ -57,9 +59,9 @@ export const AudioOffsetPanel = observer((props: Props) => {
                         <button
                             className="btn btn-secondary btn-thin"
                             style={{ float: "right" }}
-                            disabled={noteField.data.isPlaying}
+                            disabled={disabled}
                         >
-                            Use Picker
+                            Pick Time
                         </button>
                     </div>
                 </div>

@@ -6,13 +6,15 @@
     color: $col-white;
     outline: 0;
 
-    &:hover,
-    &:focus {
-        background-color: $col-gray;
-    }
+    &:not(:disabled) {
+        &:hover,
+        &:focus {
+            background-color: $col-gray;
+        }
 
-    &:focus {
-        border-bottom-color: $col-purple;
+        &:focus {
+            border-bottom-color: $col-purple;
+        }
     }
 }
 
