@@ -27,7 +27,7 @@ export interface MusicData {
 }
 
 export interface ActivateTimePickerArgs {
-    onPick?(): void;
+    onPick?(y: number, time: number): void;
     onCancel?(): void;
 }
 
@@ -63,9 +63,7 @@ export class UIStore {
     tools: {
         timePicker: {
             active: boolean;
-            onPick?(): void;
-            onCancel?(): void;
-        };
+        } & ActivateTimePickerArgs;
     };
 
     constructor(root: RootStore) {

@@ -8,13 +8,18 @@ export interface Props {
 }
 
 export const TimePicker = observer(({ store }: Props) => {
+    const { editor, noteField } = store;
     const [y, setY] = useState(0);
 
     const onClick = () => {
         const { timePicker } = store.ui.tools;
 
         if (timePicker.onPick) {
-            timePicker.onPick();
+            const receptorDistance = editor.data.receptorY - y;
+            const time =
+                noteField.data.scroll.time.value - receptorDistance / noteField.pixelsPerSecond;
+
+            timePicker.onPick(y, time);
         }
     };
 

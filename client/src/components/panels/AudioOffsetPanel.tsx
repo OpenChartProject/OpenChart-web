@@ -35,8 +35,12 @@ export const AudioOffsetPanel = observer((props: Props) => {
 
     const onPickTime = () => {
         ui.activateTimePicker({
-            onPick: () => {
-                noteField.setAudioOffset(0);
+            onPick: (y, time) => {
+                // Set the offset relative to where it already is, since the user is
+                // using the waveform to determine the offset, and if the audio offset
+                // is already set, then the waveform will be moved and we want to know
+                // the difference between where it is and where they clicked.
+                noteField.setAudioOffset(noteField.data.audioOffset - time);
                 ui.deactivateTimePicker();
             },
         });
