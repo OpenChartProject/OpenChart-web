@@ -1,8 +1,16 @@
 import assert from "assert";
+import Fraction from "fraction.js";
 
 import { Beat } from "./beat";
 
 describe("Beat", () => {
+    describe("set fraction", () => {
+        it("throws if value is negative", () => {
+            assert.throws(() => new Beat(new Fraction(-1)));
+            assert.throws(() => (new Beat(0).fraction = new Fraction(-1)));
+        });
+    });
+
     describe("#isStartOfMeasure", () => {
         it("returns false if beat is not whole", () => {
             assert.strictEqual(new Beat(0.5).isStartOfMeasure(), false);
