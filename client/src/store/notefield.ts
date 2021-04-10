@@ -5,7 +5,7 @@ import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
-import { AutoScrollController, MusicController } from "./controllers";
+import { AutoScrollController, MetronomeController, MusicController } from "./controllers";
 import { RootStore } from "./root";
 
 export const ZOOM_MIN = new Fraction(256, 6561);
@@ -43,14 +43,13 @@ export class NotefieldStore {
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScrollController;
-    readonly music: MusicController;
+    readonly metronome: MetronomeController;
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
             autoScroller: false,
             canvas: observable.ref,
             defaults: false,
-            music: false,
             root: false,
         });
 
@@ -60,8 +59,8 @@ export class NotefieldStore {
             zoom: observable.ref,
         });
 
-        this.autoScroller = new AutoScrollController(this.root);
-        this.music = new MusicController(this.root.ui);
+        this.metronome = new MetronomeController(this.root.ui);
+        this.autoScroller = new AutoScrollController(this.root, this.metronome);
     }
 
     get defaults(): NotefieldData {

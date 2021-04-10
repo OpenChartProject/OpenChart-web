@@ -14,14 +14,9 @@ describe("NotefieldStore", () => {
             assert.deepStrictEqual(store.data.chart, new Chart());
         });
 
-        it("creates the auto scroller", () => {
+        it("creates the autoscroll controller", () => {
             const store = createStore();
             assert(store.notefield.autoScroller);
-        });
-
-        it("creates the music controller", () => {
-            const store = createStore();
-            assert(store.notefield.music);
         });
     });
 

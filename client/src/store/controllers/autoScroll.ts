@@ -7,13 +7,13 @@ import { MetronomeController } from "./metronome";
  */
 export class AutoScrollController {
     earlier: number;
-    metronome: MetronomeController;
+    metronome?: MetronomeController;
     store: RootStore;
 
-    constructor(store: RootStore) {
+    constructor(store: RootStore, metronome?: MetronomeController) {
         this.store = store;
         this.earlier = -1;
-        this.metronome = new MetronomeController(store.ui);
+        this.metronome = metronome;
 
         this.onFrame = this.onFrame.bind(this);
     }
@@ -41,7 +41,10 @@ export class AutoScrollController {
         const seconds = (time - this.earlier) / 1000;
 
         this.store.notefield.scrollBy({ time: seconds });
-        this.metronome.update(state.scroll.beat);
+
+        if(this.metronome) {
+            this.metronome.update(state.scroll.beat);
+        }
 
         this.earlier = time;
 
