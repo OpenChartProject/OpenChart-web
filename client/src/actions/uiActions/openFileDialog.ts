@@ -7,6 +7,7 @@ const elFilePicker = document.getElementById("file-picker") as HTMLInputElement;
  */
 export interface OpenFileDialogArgs {
     accept: string[];
+    el?: HTMLInputElement;
     multiple?: boolean;
 }
 
@@ -15,9 +16,11 @@ export interface OpenFileDialogArgs {
  */
 export class OpenFileDialogAction implements Action {
     args: OpenFileDialogArgs;
+    el: HTMLInputElement;
 
     constructor(args: OpenFileDialogArgs) {
         this.args = args;
+        this.el = this.args.el ?? elFilePicker;
     }
 
     /**
@@ -26,13 +29,12 @@ export class OpenFileDialogAction implements Action {
      * the promise will not resolve or reject.
      */
     run(): Promise<FileList> {
-        elFilePicker.files = null;
-        elFilePicker.accept = this.args.accept.join(",");
-        elFilePicker.multiple = this.args.multiple === true;
+        this.el.accept = this.args.accept.join(",");
+        this.el.multiple = this.args.multiple === true;
 
         return new Promise<FileList>((resolve) => {
-            elFilePicker.onchange = () => resolve(elFilePicker.files as FileList);
-            elFilePicker.click();
+            this.el.onchange = () => resolve(this.el.files as FileList);
+            this.el.click();
         });
     }
 }
