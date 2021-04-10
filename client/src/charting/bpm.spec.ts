@@ -12,14 +12,14 @@ describe("BPM", () => {
     describe("#beatsPerSecond", () => {
         it("returns the expected value", () => {
             const bpm = new BPM(0, 120);
-            assert.strictEqual(bpm.beatsPerSecond(), 2);
+            assert.strictEqual(bpm.beatsPerSecond, 2);
         });
     });
 
     describe("#secondsPerBeat", () => {
         it("returns the expected value", () => {
             const bpm = new BPM(0, 120);
-            assert.strictEqual(bpm.secondsPerBeat(), 0.5);
+            assert.strictEqual(bpm.secondsPerBeat, 0.5);
         });
     });
 });

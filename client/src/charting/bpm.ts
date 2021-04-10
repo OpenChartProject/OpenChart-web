@@ -15,11 +15,11 @@ export class BPM {
         this.value = value;
     }
 
-    beatsPerSecond(): number {
+    get beatsPerSecond(): number {
         return this.value / 60.0;
     }
 
-    secondsPerBeat(): number {
+    get secondsPerBeat(): number {
         return 60.0 / this.value;
     }
 

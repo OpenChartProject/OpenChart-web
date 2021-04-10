@@ -66,7 +66,7 @@ export class BPMList {
 
         const bt = this.bpms[i - 1];
 
-        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond());
+        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond);
     }
 
     /**
@@ -89,7 +89,7 @@ export class BPMList {
             bt = next;
         }
 
-        return new Time(bt.time.value + (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat());
+        return new Time(bt.time.value + (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat);
     }
 
     /**
@@ -111,7 +111,7 @@ export class BPMList {
                 end = beat.value;
             }
 
-            time += (end - bt.bpm.beat.value) * bt.bpm.secondsPerBeat();
+            time += (end - bt.bpm.beat.value) * bt.bpm.secondsPerBeat;
 
             if (end === beat.value) break;
         }
