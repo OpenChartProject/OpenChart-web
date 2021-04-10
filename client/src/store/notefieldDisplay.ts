@@ -20,17 +20,24 @@ export enum Baseline {
  */
 export type ScrollDirection = "up" | "down";
 
+/**
+ * The display settings for beat lines.
+ */
 export interface BeatLineSettings {
+    // These lines occur on every 4th beat
     measureLines: {
         color: string;
         lineWidth: number;
     };
 
+    // These lines occur on every whole beat (1, 2, 3...)
     wholeBeatLines: {
         color: string;
         lineWidth: number;
     };
 
+    // These lines occur on any beat value that isn't a whole number. They are used when
+    // drawing the lines for the beat snapping.
     fractionalLines: {
         color: string;
         lineWidth: number;
@@ -38,8 +45,7 @@ export interface BeatLineSettings {
 }
 
 /**
- * The editor config. This config applies to all notefields and is saved to the user's
- * local storage.
+ * The data used to describe the look and feel of all notefields.
  */
 export interface NotefieldDisplayData {
     beatLines: BeatLineSettings;
@@ -53,7 +59,9 @@ export interface NotefieldDisplayData {
 }
 
 /**
- * The store for the editor config.
+ * This store manages the look and feel of all notefields.
+ *
+ * Any updates made to the notefield display are saved to localStorage.
  */
 export class NotefieldDisplayStore {
     readonly STORAGE_KEY = "editor";
@@ -122,6 +130,11 @@ export class NotefieldDisplayStore {
         }
     }
 
+    /**
+     * Updates a specific property in the config and saves it.
+     *
+     * This is useful for doing updates on properties that are objects.
+     */
     updateProperty<K extends keyof NotefieldDisplayData>(
         key: K,
         value: Partial<NotefieldDisplayData[K]>,
@@ -134,6 +147,11 @@ export class NotefieldDisplayStore {
      * Saves the editor config to the user's local storage.
      */
     save() {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.data));
+        const clone = _.cloneDeep(this.data);
+
+        // Remove any properties we don't want saved
+        delete clone.noteSkin;
+
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
     }
 }

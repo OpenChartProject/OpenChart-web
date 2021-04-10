@@ -171,6 +171,11 @@ export class UIStore {
         this.save();
     }
 
+    /**
+     * Updates a specific property in the config and saves it.
+     *
+     * This is useful for doing updates on properties that are objects.
+     */
     updateProperty<K extends keyof UIData>(key: K, value: Partial<UIData[K]>) {
         this.data[key] = _.merge(this.data[key] || {}, value) as UIData[K];
         this.save();

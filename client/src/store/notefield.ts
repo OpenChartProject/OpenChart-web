@@ -12,11 +12,10 @@ export const ZOOM_MIN = new Fraction(256, 6561);
 export const ZOOM_MAX = new Fraction(6561, 256);
 
 /**
- * The data for managing
+ * The state of a notefield. For the notefield look and feel, see `NotefieldDisplayData`
  */
 export interface NotefieldData {
-    // This is a bit redundant since the width and height always match the dimensions of
-    // the canvas element, but without them mobx doesn't respond to them changing.
+    // These always match the canvas width and height.
     width: number;
     height: number;
 
@@ -32,10 +31,10 @@ export interface NotefieldData {
 }
 
 /**
- * The NotefieldStore manages the state of a notefield.
+ * This store manages the state of a notefield.
  *
- * Every notefield has its own NotefieldStore, but all notefields share the same
- * NotefieldDisplayStore.
+ * Every notefield has its own `NotefieldStore`, but all notefields share the same
+ * `NotefieldDisplayStore`.
  */
 export class NotefieldStore {
     readonly root: RootStore;
