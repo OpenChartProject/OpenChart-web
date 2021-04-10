@@ -8,6 +8,7 @@ const elDownloadLink = document.getElementById("download-link") as HTMLAnchorEle
 export interface SaveFileArgs {
     data: string;
     fileName: string;
+    el?: HTMLAnchorElement;
     mimeType?: string;
 }
 
@@ -16,9 +17,11 @@ export interface SaveFileArgs {
  */
 export class SaveFileAction implements Action {
     args: SaveFileArgs;
+    el: HTMLAnchorElement;
 
     constructor(args: SaveFileArgs) {
         this.args = args;
+        this.el = this.args.el ?? elDownloadLink;
     }
 
     /**
@@ -36,8 +39,8 @@ export class SaveFileAction implements Action {
         const data = encodeURI(this.args.data);
         const mimeType = this.args.mimeType ?? "text/plain";
 
-        elDownloadLink.href = `data:${mimeType};charset=utf-8,${data}`;
-        elDownloadLink.download = this.args.fileName;
-        elDownloadLink.click();
+        this.el.href = `data:${mimeType};charset=utf-8,${data}`;
+        this.el.download = this.args.fileName;
+        this.el.click();
     }
 }
