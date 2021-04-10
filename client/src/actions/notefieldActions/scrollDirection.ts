@@ -1,10 +1,16 @@
 import { RootStore, ScrollDirection } from "../../store";
 import { Action } from "../action";
 
+/**
+ * Arguments for the ScrollDirectionAction.
+ */
 export interface ScrollDirectionArgs {
     to: ScrollDirection | "swap";
 }
 
+/**
+ * Action for setting the notefield scroll direction.
+ */
 export class ScrollDirectionAction implements Action {
     args: ScrollDirectionArgs;
     store: RootStore;
