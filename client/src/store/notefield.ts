@@ -8,10 +8,8 @@ import { BeatSnap } from "../notefield/beatsnap";
 import { AutoScrollController, MusicController } from "./controllers";
 import { RootStore } from "./store";
 
-export const zoom = {
-    min: new Fraction(256, 6561),
-    max: new Fraction(6561, 256),
-};
+export const ZOOM_MIN = new Fraction(256, 6561);
+export const ZOOM_MAX = new Fraction(6561, 256);
 
 export interface NotefieldData {
     // This is a bit redundant since the width and height always match the dimensions of
@@ -130,7 +128,9 @@ export class NotefieldStore {
      * provided beat/time deltas.
      */
     scrollBy({ beat, time }: { beat?: number; time?: number }) {
-        if (beat !== undefined) {
+        assert(beat !== undefined || time !== undefined, "beat or time must be set");
+
+        if (beat) {
             let dst = this.data.scroll.beat.fraction.add(beat);
 
             if (dst.compare(0) === -1) {
@@ -138,12 +138,10 @@ export class NotefieldStore {
             }
 
             this.setScroll({ beat: new Beat(dst) });
-        } else if (time !== undefined) {
+        } else if (time) {
             this.setScroll({
                 time: new Time(Math.max(time + this.data.scroll.time.value, 0)),
             });
-        } else {
-            throw Error("beat or time must be set");
         }
     }
 
@@ -186,14 +184,14 @@ export class NotefieldStore {
      * Sets the scroll position to a specific beat/time.
      */
     setScroll({ beat, time }: Partial<BeatTime>) {
-        if (beat !== undefined) {
+        assert(beat || time, "beat or time must be set");
+
+        if (beat) {
             time = this.chart.bpms.timeAt(beat);
             this.data.scroll = { beat, time };
-        } else if (time !== undefined) {
+        } else if (time) {
             beat = this.chart.bpms.beatAt(time);
             this.data.scroll = { beat, time };
-        } else {
-            throw Error("beat or time must be set");
         }
     }
 
@@ -205,10 +203,10 @@ export class NotefieldStore {
 
         let val = to;
 
-        if (val.compare(zoom.max) === 1) {
-            val = zoom.max;
-        } else if (val.compare(zoom.min) === -1) {
-            val = zoom.min;
+        if (val.compare(ZOOM_MAX) === 1) {
+            val = ZOOM_MAX;
+        } else if (val.compare(ZOOM_MIN) === -1) {
+            val = ZOOM_MIN;
         }
 
         if (!this.data.zoom.equals(val)) {
