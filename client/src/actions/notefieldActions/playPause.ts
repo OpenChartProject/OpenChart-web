@@ -1,6 +1,9 @@
 import { RootStore } from "../../store";
 import { Action } from "../action";
 
+/**
+ * Action for toggling if the notefield is playing or not.
+ */
 export class PlayPauseAction implements Action {
     store: RootStore;
 
