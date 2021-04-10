@@ -36,7 +36,7 @@ export interface DrawProps extends Viewport {
     h: number;
     chart: Chart;
     noteSkin: NoteSkin;
-    editor: NotefieldDisplayStore;
+    notefieldDisplay: NotefieldDisplayStore;
     notefield: NotefieldStore;
 }
 
@@ -44,7 +44,7 @@ export interface DrawProps extends Viewport {
  * Returns the new position of the object after taking the baseline into account.
  */
 export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number {
-    const { data } = dp.editor;
+    const { data } = dp.notefieldDisplay;
 
     switch (data.baseline) {
         case Baseline.After:
@@ -73,10 +73,12 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  * with respect to the scrolling.
  */
 export function calculateViewport(
-    editor: NotefieldDisplayStore,
+    notefieldDisplay: NotefieldDisplayStore,
     notefield: NotefieldStore,
 ): Viewport {
-    const y0 = notefield.data.scroll.time.value * notefield.pixelsPerSecond - editor.data.receptorY;
+    const y0 =
+        notefield.data.scroll.time.value * notefield.pixelsPerSecond -
+        notefieldDisplay.data.receptorY;
     const t0 = new Time(Math.max(y0 / notefield.pixelsPerSecond, 0));
     const t1 = new Time(Math.max((y0 + notefield.data.height) / notefield.pixelsPerSecond, 0));
     const tReceptor = notefield.data.scroll.time;
@@ -94,7 +96,10 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition({ editor, notefield }: DrawProps, time: Time | number): number {
+export function timeToPosition(
+    { notefieldDisplay, notefield }: DrawProps,
+    time: Time | number,
+): number {
     return Math.round(toTime(time).value * notefield.pixelsPerSecond);
 }
 
@@ -109,19 +114,19 @@ function clear(dp: DrawProps) {
 
 function drawBeatLines(dp: DrawProps) {
     const { ctx, w, t0, t1, chart } = dp;
-    const { data: editor } = dp.editor;
+    const { data: notefieldDisplay } = dp.notefieldDisplay;
     const { data: notefield } = dp.notefield;
 
     for (const bt of getBeatLineTimes(chart, notefield.snap, t0, t1)) {
         if (bt.beat.isStartOfMeasure()) {
-            ctx.strokeStyle = editor.beatLines.measureLines.color;
-            ctx.lineWidth = editor.beatLines.measureLines.lineWidth;
+            ctx.strokeStyle = notefieldDisplay.beatLines.measureLines.color;
+            ctx.lineWidth = notefieldDisplay.beatLines.measureLines.lineWidth;
         } else if (bt.beat.isWholeBeat()) {
-            ctx.strokeStyle = editor.beatLines.wholeBeatLines.color;
-            ctx.lineWidth = editor.beatLines.wholeBeatLines.lineWidth;
+            ctx.strokeStyle = notefieldDisplay.beatLines.wholeBeatLines.color;
+            ctx.lineWidth = notefieldDisplay.beatLines.wholeBeatLines.lineWidth;
         } else {
-            ctx.strokeStyle = editor.beatLines.fractionalLines.color;
-            ctx.lineWidth = editor.beatLines.fractionalLines.lineWidth;
+            ctx.strokeStyle = notefieldDisplay.beatLines.fractionalLines.color;
+            ctx.lineWidth = notefieldDisplay.beatLines.fractionalLines.lineWidth;
         }
 
         let y = timeToPosition(dp, bt.time);
@@ -139,8 +144,8 @@ function drawBeatLines(dp: DrawProps) {
 }
 
 function drawReceptor(dp: DrawProps, key: number) {
-    const { ctx, editor, notefield, noteSkin, tReceptor } = dp;
-    const { data } = editor;
+    const { ctx, notefieldDisplay, notefield, noteSkin, tReceptor } = dp;
+    const { data } = notefieldDisplay;
 
     const r = noteSkin.receptor[key];
     const h = scaleToWidth(r.width as number, r.height as number, data.columnWidth);
@@ -169,7 +174,7 @@ function drawReceptors(dp: DrawProps) {
 
 function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
     const { ctx, chart, noteSkin } = dp;
-    const { data } = dp.editor;
+    const { data } = dp.notefieldDisplay;
 
     const img = noteSkin.tap[key];
     const h = scaleToWidth(img.width as number, img.height as number, data.columnWidth);
@@ -189,7 +194,7 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
 
 function drawObjects(dp: DrawProps) {
     const { ctx, t0, t1, chart } = dp;
-    const { data } = dp.editor;
+    const { data } = dp.notefieldDisplay;
 
     for (let i = 0; i < chart.keyCount.value; i++) {
         const objects = chart.getObjectsInInterval(
@@ -220,30 +225,30 @@ function drawObjects(dp: DrawProps) {
 }
 
 export function drawNotefield(store: RootStore) {
-    const { editor, notefield } = store;
+    const { notefieldDisplay, notefield } = store;
 
-    if (!notefield.canvas || !editor.data.noteSkin) {
+    if (!notefield.canvas || !notefieldDisplay.data.noteSkin) {
         return;
     }
 
     const ctx = notefield.canvas.getContext("2d") as CanvasRenderingContext2D;
     ctx.save();
 
-    const viewport = calculateViewport(editor, notefield);
+    const viewport = calculateViewport(notefieldDisplay, notefield);
     const drawProps = {
         ctx,
         w: notefield.data.width,
         h: notefield.data.height,
         chart: notefield.data.chart,
-        noteSkin: editor.data.noteSkin,
-        editor,
+        noteSkin: notefieldDisplay.data.noteSkin,
+        notefieldDisplay,
         notefield,
         ...viewport,
     };
 
     // This mirrors the notefield vertically, so now the canvas origin is in the bottom
     // left corner instead of the top left corner.
-    if (editor.data.scrollDirection === "down") {
+    if (notefieldDisplay.data.scrollDirection === "down") {
         ctx.translate(0, drawProps.h);
         ctx.scale(1, -1);
     }

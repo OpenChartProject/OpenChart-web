@@ -8,7 +8,7 @@ import { WaveformStore } from "./waveform";
  * The root store for the application that contains all of the application data.
  */
 export class RootStore {
-    readonly editor: NotefieldDisplayStore;
+    readonly notefieldDisplay: NotefieldDisplayStore;
     readonly notefield: NotefieldStore;
     readonly project: ProjectStore;
     readonly waveform: WaveformStore;
@@ -16,7 +16,7 @@ export class RootStore {
 
     constructor() {
         this.ui = new UIStore(this);
-        this.editor = new NotefieldDisplayStore(this);
+        this.notefieldDisplay = new NotefieldDisplayStore(this);
         this.project = new ProjectStore(this);
         this.waveform = new WaveformStore(this);
 

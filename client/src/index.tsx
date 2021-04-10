@@ -10,7 +10,7 @@ export const store = new RootStore();
 
 // Preload the noteskin before creating the editor.
 loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((noteSkin) => {
-    store.editor.update({ noteSkin });
+    store.notefieldDisplay.update({ noteSkin });
 
     render(<App store={store} />, document.getElementById("app") as HTMLElement);
 });

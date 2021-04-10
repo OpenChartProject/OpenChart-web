@@ -23,7 +23,7 @@ describe("NotefieldStore", () => {
     describe("#pixelsPerSecond", () => {
         it("returns expected value for 1:1 scaling", () => {
             const store = createStore();
-            store.editor.data.pixelsPerSecond = 100;
+            store.notefieldDisplay.data.pixelsPerSecond = 100;
             store.notefield.data.zoom = new Fraction(1);
 
             assert.deepStrictEqual(store.notefield.pixelsPerSecond, 100);
@@ -31,7 +31,7 @@ describe("NotefieldStore", () => {
 
         it("returns expected value for 2:1 scaling", () => {
             const store = createStore();
-            store.editor.data.pixelsPerSecond = 100;
+            store.notefieldDisplay.data.pixelsPerSecond = 100;
             store.notefield.data.zoom = new Fraction(2);
 
             assert.deepStrictEqual(store.notefield.pixelsPerSecond, 200);
@@ -286,7 +286,7 @@ describe("NotefieldStore", () => {
             const colWidth = 32;
             const expected = colWidth * store.notefield.data.chart.keyCount.value;
 
-            store.editor.data.columnWidth = colWidth;
+            store.notefieldDisplay.data.columnWidth = colWidth;
             store.notefield.updateWidth();
 
             assert.strictEqual(store.notefield.canvas?.width, expected);

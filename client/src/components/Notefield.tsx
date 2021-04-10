@@ -69,7 +69,7 @@ export const Notefield = observer(({ store }: Props) => {
     // on an object that has makeAutoObservable called in its constructor.
     useEffect(() => {
         const observers = [
-            deepObserve(store.editor, () => redraw()),
+            deepObserve(store.notefieldDisplay, () => redraw()),
             deepObserve(store.notefield, () => redraw()),
         ];
 
@@ -106,7 +106,7 @@ export const Notefield = observer(({ store }: Props) => {
 
     let className = "notefield-container";
 
-    if (store.editor.data.scrollDirection === "up") {
+    if (store.notefieldDisplay.data.scrollDirection === "up") {
         className += " upscroll";
     } else {
         className += " downscroll";

@@ -18,38 +18,38 @@ describe("notefield", () => {
     describe("#adjustToBaseline", () => {
         it("returns expected value when baseline is After", () => {
             const store = createStore();
-            store.editor.data.baseline = Baseline.After;
-            const dp: Partial<DrawProps> = { editor: store.editor };
+            store.notefieldDisplay.data.baseline = Baseline.After;
+            const dp: Partial<DrawProps> = { notefieldDisplay: store.notefieldDisplay };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 0);
         });
 
         it("returns expected value when baseline is Before and is upscroll", () => {
             const store = createStore();
-            store.editor.data.baseline = Baseline.Before;
-            const dp: Partial<DrawProps> = { editor: store.editor };
+            store.notefieldDisplay.data.baseline = Baseline.Before;
+            const dp: Partial<DrawProps> = { notefieldDisplay: store.notefieldDisplay };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -50);
         });
 
         it("returns expected value when baseline is Before and is downscroll", () => {
             const store = createStore();
-            store.editor.data.baseline = Baseline.Before;
-            store.editor.data.scrollDirection = "down";
-            const dp: Partial<DrawProps> = { editor: store.editor };
+            store.notefieldDisplay.data.baseline = Baseline.Before;
+            store.notefieldDisplay.data.scrollDirection = "down";
+            const dp: Partial<DrawProps> = { notefieldDisplay: store.notefieldDisplay };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 50);
         });
 
         it("returns expected value when baseline is Centered and is upscroll", () => {
             const store = createStore();
-            store.editor.data.baseline = Baseline.Centered;
-            const dp: Partial<DrawProps> = { editor: store.editor };
+            store.notefieldDisplay.data.baseline = Baseline.Centered;
+            const dp: Partial<DrawProps> = { notefieldDisplay: store.notefieldDisplay };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), -25);
         });
 
         it("returns expected value when baseline is Centered and is downscroll", () => {
             const store = createStore();
-            store.editor.data.baseline = Baseline.Centered;
-            store.editor.data.scrollDirection = "down";
-            const dp: Partial<DrawProps> = { editor: store.editor };
+            store.notefieldDisplay.data.baseline = Baseline.Centered;
+            store.notefieldDisplay.data.scrollDirection = "down";
+            const dp: Partial<DrawProps> = { notefieldDisplay: store.notefieldDisplay };
             assert.strictEqual(adjustToBaseline(dp as DrawProps, 0, 50), 25);
         });
     });
@@ -69,10 +69,13 @@ describe("notefield", () => {
                 zoom: new Fraction(1),
             };
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -95,10 +98,13 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -121,10 +127,13 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -147,10 +156,13 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -173,10 +185,13 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -199,10 +214,13 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -221,11 +239,14 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
             store.notefield.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, 100);
             assert.strictEqual(t0.value, 1);
@@ -244,11 +265,14 @@ describe("notefield", () => {
             };
 
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
             store.notefield.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
+            const { y0, t0, t1, tReceptor } = calculateViewport(
+                store.notefieldDisplay,
+                store.notefield,
+            );
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -280,18 +304,21 @@ describe("notefield", () => {
                 zoom: new Fraction(1),
             };
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
-            const dp: Partial<DrawProps> = { editor: store.editor, notefield: store.notefield };
+            const dp: Partial<DrawProps> = {
+                notefieldDisplay: store.notefieldDisplay,
+                notefield: store.notefield,
+            };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
             assert.strictEqual(
                 timeToPosition(dp as DrawProps, 1),
-                store.editor.data.pixelsPerSecond,
+                store.notefieldDisplay.data.pixelsPerSecond,
             );
             assert.strictEqual(
                 timeToPosition(dp as DrawProps, 2),
-                2 * store.editor.data.pixelsPerSecond,
+                2 * store.notefieldDisplay.data.pixelsPerSecond,
             );
         });
 
@@ -303,9 +330,12 @@ describe("notefield", () => {
                 zoom: new Fraction(1.5),
             };
             const store = createStore();
-            store.editor.data = _.merge(store.editor.data, config);
+            store.notefieldDisplay.data = _.merge(store.notefieldDisplay.data, config);
             store.notefield.data = _.merge(store.notefield.data, state);
-            const dp: Partial<DrawProps> = { editor: store.editor, notefield: store.notefield };
+            const dp: Partial<DrawProps> = {
+                notefieldDisplay: store.notefieldDisplay,
+                notefield: store.notefield,
+            };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0.55), 83);
         });

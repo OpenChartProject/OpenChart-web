@@ -12,26 +12,27 @@ export interface Props {
 }
 
 export const NotefieldPanel = observer((props: Props) => {
-    const { editor, ui } = props.store;
-    const defaults = editor.defaults;
+    const { notefieldDisplay: nfDisplay, ui } = props.store;
+    const { scrollDirection } = nfDisplay.data;
+
+    const defaults = nfDisplay.defaults;
     const modified =
-        editor.data.columnWidth !== defaults.columnWidth ||
-        editor.data.receptorY !== defaults.receptorY;
+        nfDisplay.data.columnWidth !== defaults.columnWidth ||
+        nfDisplay.data.receptorY !== defaults.receptorY;
 
     const visible = ui.data.panelVisibility.notefield;
-    const { scrollDirection } = editor.data;
 
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
-        editor.update({ columnWidth: _.toInteger(e.target.value) });
+        nfDisplay.update({ columnWidth: _.toInteger(e.target.value) });
     };
 
     const onReceptorPosChange = (e: ChangeEvent<HTMLInputElement>) => {
-        editor.update({ receptorY: _.toInteger(e.target.value) });
+        nfDisplay.update({ receptorY: _.toInteger(e.target.value) });
     };
 
     const onRestore = () => {
         const { columnWidth, receptorY } = defaults;
-        editor.update({ columnWidth, receptorY });
+        nfDisplay.update({ columnWidth, receptorY });
     };
 
     const setScrollDirection = (val: ScrollDirection) => {
@@ -39,7 +40,7 @@ export const NotefieldPanel = observer((props: Props) => {
     };
 
     const onToggleWaveform = (e: ChangeEvent<HTMLInputElement>) => {
-        editor.update({ showWaveform: e.target.checked });
+        nfDisplay.update({ showWaveform: e.target.checked });
         e.target.blur();
     };
 
@@ -55,7 +56,7 @@ export const NotefieldPanel = observer((props: Props) => {
                     <input
                         type="checkbox"
                         className="form-input"
-                        checked={editor.data.showWaveform}
+                        checked={nfDisplay.data.showWaveform}
                         onChange={onToggleWaveform}
                     />
                     Enabled
@@ -93,10 +94,10 @@ export const NotefieldPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
-                    title={editor.data.columnWidth + "px"}
+                    title={nfDisplay.data.columnWidth + "px"}
                     min={32}
                     max={256}
-                    value={editor.data.columnWidth}
+                    value={nfDisplay.data.columnWidth}
                     onChange={onColumnWidthChange}
                 />
             </div>
@@ -106,10 +107,10 @@ export const NotefieldPanel = observer((props: Props) => {
                 <input
                     className="form-input"
                     type="range"
-                    title={editor.data.receptorY + "px"}
+                    title={nfDisplay.data.receptorY + "px"}
                     min={0}
                     max={1000}
-                    value={editor.data.receptorY}
+                    value={nfDisplay.data.receptorY}
                     onChange={onReceptorPosChange}
                 />
             </div>

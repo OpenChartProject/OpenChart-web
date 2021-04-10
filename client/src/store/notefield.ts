@@ -85,7 +85,7 @@ export class NotefieldStore {
      * Returns the pixels per second, taking into account the scaling.
      */
     get pixelsPerSecond(): number {
-        return this.root.editor.data.pixelsPerSecond * this.data.zoom.valueOf();
+        return this.root.notefieldDisplay.data.pixelsPerSecond * this.data.zoom.valueOf();
     }
 
     /**
@@ -217,7 +217,7 @@ export class NotefieldStore {
     updateWidth() {
         assert(this.canvas, "canvas must be set before calling updateWidth");
 
-        const width = this.root.editor.data.columnWidth * this.data.chart.keyCount.value;
+        const width = this.root.notefieldDisplay.data.columnWidth * this.data.chart.keyCount.value;
 
         // Only update if the width is different. Setting the canvas width ALWAYS causes
         // the canvas to be cleared.

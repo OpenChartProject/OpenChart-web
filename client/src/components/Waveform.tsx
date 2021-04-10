@@ -15,7 +15,8 @@ export interface WaveformSVGProps {
 }
 
 export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
-    const { editor, notefield } = store;
+    const { notefield } = store;
+    const { receptorY, scrollDirection } = store.notefieldDisplay.data;
 
     const zoom = notefield.data.zoom.valueOf();
     const height = notefield.data.height;
@@ -24,11 +25,11 @@ export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
     let y0 =
         (notefield.data.scroll.time.value - notefield.data.audioOffset) * notefield.pixelsPerSecond;
 
-    if (editor.data.scrollDirection === "down") {
+    if (scrollDirection === "down") {
         y0 = -(y0 + notefield.data.height);
-        y0 += editor.data.receptorY;
+        y0 += receptorY;
     } else {
-        y0 -= editor.data.receptorY;
+        y0 -= receptorY;
     }
 
     // Dividing by zoom converts from screen coordinates to notefield coordinates
@@ -71,7 +72,7 @@ export const Waveform = observer(({ store }: Props) => {
 });
 
 export const WaveformWrapper = observer(({ store }: Props) => {
-    if (store.waveform.data.el.length === 0 || !store.editor.data.showWaveform) {
+    if (store.waveform.data.el.length === 0 || !store.notefieldDisplay.data.showWaveform) {
         return null;
     }
 

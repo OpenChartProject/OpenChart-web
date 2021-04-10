@@ -22,16 +22,16 @@ export class ScrollDirectionAction implements Action {
 
     run(): void {
         const { to } = this.args;
-        const { data } = this.store.editor;
+        const { data } = this.store.notefieldDisplay;
 
         if (to === "swap") {
             if (data.scrollDirection === "up") {
-                this.store.editor.update({ scrollDirection: "down" });
+                this.store.notefieldDisplay.update({ scrollDirection: "down" });
             } else {
-                this.store.editor.update({ scrollDirection: "up" });
+                this.store.notefieldDisplay.update({ scrollDirection: "up" });
             }
         } else {
-            this.store.editor.update({ scrollDirection: to });
+            this.store.notefieldDisplay.update({ scrollDirection: to });
         }
     }
 }
