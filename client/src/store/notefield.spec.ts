@@ -8,6 +8,23 @@ import { createStore } from "../testUtil";
 import { ZOOM_MAX, ZOOM_MIN } from "./notefield";
 
 describe("NotefieldStore", () => {
+    describe("new", () => {
+        it("creates a default chart", () => {
+            const store = createStore().noteField;
+            assert.deepStrictEqual(store.chart, new Chart());
+        });
+
+        it("creates the auto scroller", () => {
+            const store = createStore();
+            assert(store.noteField.autoScroller);
+        });
+
+        it("creates the music controller", () => {
+            const store = createStore();
+            assert(store.noteField.music);
+        });
+    });
+
     describe("#pixelsPerSecond", () => {
         it("returns expected value for 1:1 scaling", () => {
             const store = createStore();
@@ -27,11 +44,44 @@ describe("NotefieldStore", () => {
     });
 
     describe("#scrollBy", () => {
-        it("throws if both beat and time are not set");
-        it("scrolls by the beat amount");
-        it("scrolls by the time amount");
-        it("sets scroll to 0 if beat would go negative");
-        it("sets scroll to 0 if time would go negative");
+        it("throws if both beat and time are not set", () => {
+            const store = createStore().noteField;
+            assert.throws(() => store.scrollBy({}));
+        });
+
+        it("scrolls by the beat amount", () => {
+            const store = createStore().noteField;
+
+            store.setScroll({ beat: new Beat(1) });
+            store.scrollBy({ beat: 1 });
+
+            assert.deepStrictEqual(store.data.scroll.beat.value, 2);
+        });
+
+        it("scrolls by the time amount", () => {
+            const store = createStore().noteField;
+
+            store.setScroll({ time: new Time(1) });
+            store.scrollBy({ time: 1 });
+
+            assert.deepStrictEqual(store.data.scroll.time.value, 2);
+        });
+
+        it("sets scroll to 0 if beat would go negative", () => {
+            const store = createStore().noteField;
+
+            store.scrollBy({ beat: -1 });
+
+            assert.deepStrictEqual(store.data.scroll.beat.value, 0);
+        });
+
+        it("sets scroll to 0 if time would go negative", () => {
+            const store = createStore().noteField;
+
+            store.scrollBy({ time: -1 });
+
+            assert.deepStrictEqual(store.data.scroll.time.value, 0);
+        });
     });
 
     describe("#setCanvas", () => {
@@ -74,11 +124,9 @@ describe("NotefieldStore", () => {
 
         it("sets scroll using beat", () => {
             const store = createStore().noteField;
-            const chart = new Chart();
-            store.setChart(chart);
 
             const beat = new Beat(1.5);
-            const time = chart.bpms.timeAt(beat);
+            const time = store.chart.bpms.timeAt(beat);
 
             store.setScroll({ beat });
 
@@ -87,11 +135,9 @@ describe("NotefieldStore", () => {
 
         it("sets scroll using time", () => {
             const store = createStore().noteField;
-            const chart = new Chart();
-            store.setChart(chart);
 
             const time = new Time(1.5);
-            const beat = chart.bpms.beatAt(time);
+            const beat = store.chart.bpms.beatAt(time);
 
             store.setScroll({ beat });
 
