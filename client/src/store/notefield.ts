@@ -5,7 +5,7 @@ import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
-import { AutoScrollController, MetronomeController, MusicController } from "./controllers";
+import { AutoScrollController, MetronomeController } from "./controllers";
 import { RootStore } from "./root";
 
 export const ZOOM_MIN = new Fraction(256, 6561);
@@ -25,9 +25,11 @@ export interface NotefieldData {
     scroll: BeatTime;
     snap: BeatSnap;
 
+    isPlaying: boolean;
+
+    // TODO: Move into Project
     audio?: HTMLAudioElement;
     audioOffset: number;
-    isPlaying: boolean;
 }
 
 /**

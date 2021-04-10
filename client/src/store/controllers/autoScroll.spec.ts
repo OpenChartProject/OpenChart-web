@@ -4,14 +4,13 @@ import sinon from "sinon";
 import { createStore } from "../../testUtil";
 
 import { AutoScrollController } from "./autoScroll";
+import { MetronomeController } from "./metronome";
 
 describe("AutoScrollController", () => {
     describe("new", () => {
         it("initializes as expected", () => {
             const store = createStore();
             const asc = new AutoScrollController(store);
-
-            assert(asc.metronome);
 
             // Tests that the onFrame method was bound.
             assert.strictEqual(asc.onFrame.prototype, undefined);
@@ -45,8 +44,9 @@ describe("AutoScrollController", () => {
 
         it("calls metronome update with the current scroll beat", () => {
             const store = createStore();
-            const asc = new AutoScrollController(store);
-            const stub = sinon.stub(asc.metronome, "update");
+            const metronome = new MetronomeController(store.ui);
+            const asc = new AutoScrollController(store, metronome);
+            const stub = sinon.stub(metronome, "update");
 
             store.notefield.data.isPlaying = true;
             asc.onFrame(1000);

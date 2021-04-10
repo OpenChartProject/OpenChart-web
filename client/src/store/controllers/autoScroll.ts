@@ -42,7 +42,7 @@ export class AutoScrollController {
 
         this.store.notefield.scrollBy({ time: seconds });
 
-        if(this.metronome) {
+        if (this.metronome) {
             this.metronome.update(state.scroll.beat);
         }
 
