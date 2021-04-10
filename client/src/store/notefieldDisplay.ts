@@ -2,7 +2,6 @@ import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
 import { NoteSkin } from "../noteskin";
-import { DeepPartial } from "../util";
 
 import { RootStore } from "./store";
 
@@ -113,7 +112,7 @@ export class NotefieldDisplayStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: DeepPartial<NotefieldDisplayData>) {
+    update(config: Partial<NotefieldDisplayData>) {
         this.data = _.merge(this.data || {}, config);
         this.save();
 
@@ -121,6 +120,14 @@ export class NotefieldDisplayStore {
         if (config.columnWidth !== undefined) {
             this.root.noteField?.updateWidth();
         }
+    }
+
+    updateProperty<K extends keyof NotefieldDisplayData>(
+        key: K,
+        value: Partial<NotefieldDisplayData[K]>,
+    ) {
+        this.data[key] = _.merge(this.data[key] || {}, value) as NotefieldDisplayData[K];
+        this.save();
     }
 
     /**

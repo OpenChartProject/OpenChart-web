@@ -27,7 +27,7 @@ export class MusicController {
             return;
         }
 
-        this.store.update({ music: { src } });
+        this.store.updateProperty("music", { src });
     }
 
     setVolume(volume: number) {
@@ -35,6 +35,6 @@ export class MusicController {
             return;
         }
 
-        this.store.update({ music: { volume } });
+        this.store.updateProperty("music", { volume });
     }
 }

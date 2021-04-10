@@ -3,7 +3,6 @@ import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
 import { KeyBinds } from "../notefield/input";
-import { DeepPartial } from "../util";
 
 import { MusicController } from "./controllers";
 import { RootStore } from "./store";
@@ -167,8 +166,13 @@ export class UIStore {
     /**
      * Updates the config with the provided changes and saves it.
      */
-    update(config: DeepPartial<UIData>) {
+    update(config: Partial<UIData>) {
         this.data = _.merge(this.data || {}, config);
+        this.save();
+    }
+
+    updateProperty<K extends keyof UIData>(key: K, value: Partial<UIData[K]>) {
+        this.data[key] = _.merge(this.data[key] || {}, value) as UIData[K];
         this.save();
     }
 

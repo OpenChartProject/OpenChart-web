@@ -1,9 +1,7 @@
 import _ from "lodash";
 
-import { Chart } from "./charting";
 import { NoteSkin } from "./noteskin";
-import { NotefieldData, NotefieldDisplayData, RootStore } from "./store";
-import { DeepPartial } from "./util";
+import { RootStore } from "./store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual
@@ -30,30 +28,12 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
     return ns;
 }
 
-export interface CreateStoreArgs {
-    chart?: Chart;
-    config?: DeepPartial<NotefieldDisplayData>;
-    state?: DeepPartial<NotefieldData>;
-}
-
 /**
  * Returns a new store with reasonable defaults, useful for testing.
  */
-export function createStore(args: CreateStoreArgs = {}): RootStore {
+export function createStore(): RootStore {
     const store = new RootStore();
     store.noteField.setCanvas(document.createElement("canvas"));
-
-    if (args.chart) {
-        store.noteField.setChart(args.chart);
-    }
-
-    if (args.config) {
-        store.editor.update(args.config);
-    }
-
-    if (args.state) {
-        store.noteField.data = _.merge(store.noteField.data, args.state);
-    }
 
     return store;
 }

@@ -1,11 +1,8 @@
 import assert from "assert";
-import Fraction from "fraction.js";
+import _ from "lodash";
 
 import { Chart } from "./charting";
-import { KeyCount } from "./charting";
-import { NotefieldData, NotefieldDisplayData } from "./store";
 import { createDummyNoteSkin, createStore } from "./testUtil";
-import { DeepPartial } from "./util";
 
 describe("testutil", () => {
     describe("#createDummyNoteSkin", () => {
@@ -31,46 +28,8 @@ describe("testutil", () => {
     describe("#createStore", () => {
         it("creates a store with defaults", () => {
             const store = createStore();
-            assert(store.editor);
-            assert(store.noteField);
             assert.deepStrictEqual(store.noteField.chart, new Chart());
-        });
-
-        it("creates a store with the provided chart", () => {
-            const chart = new Chart({ keyCount: new KeyCount(7) });
-            const store = createStore({ chart });
-            assert.strictEqual(store.noteField.chart, chart);
-        });
-
-        it("merges the config if provided", () => {
-            const config: DeepPartial<NotefieldDisplayData> = {
-                beatLines: {
-                    measureLines: {
-                        color: "blue",
-                        lineWidth: 5,
-                    },
-                },
-                pixelsPerSecond: 1,
-            };
-            const store = createStore({ config });
-
-            // Sanity check to make sure that the merge didn't remove anything
-            assert(store.editor.data.receptorY);
-
-            assert.strictEqual(store.editor.data.pixelsPerSecond, config.pixelsPerSecond);
-            assert.deepStrictEqual(
-                store.editor.data.beatLines.measureLines,
-                config.beatLines?.measureLines,
-            );
-        });
-
-        it("merges the state if provided", () => {
-            const state: Partial<NotefieldData> = {
-                zoom: new Fraction(1, 2),
-            };
-            const store = createStore({ state });
-
-            assert.deepStrictEqual(store.noteField.data.zoom, state.zoom);
+            assert(store.noteField.canvas);
         });
     });
 });

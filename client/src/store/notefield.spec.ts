@@ -5,31 +5,22 @@ import sinon from "sinon";
 import { Beat, Chart, Time } from "../charting";
 import { createStore } from "../testUtil";
 
-import { NotefieldData, ZOOM_MAX, ZOOM_MIN } from "./notefield";
-import { NotefieldDisplayData } from "./notefieldDisplay";
+import { ZOOM_MAX, ZOOM_MIN } from "./notefield";
 
 describe("NotefieldStore", () => {
     describe("#pixelsPerSecond", () => {
         it("returns expected value for 1:1 scaling", () => {
-            const config: Partial<NotefieldDisplayData> = {
-                pixelsPerSecond: 100,
-            };
-            const state: Partial<NotefieldData> = {
-                zoom: new Fraction(1),
-            };
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data.pixelsPerSecond = 100;
+            store.noteField.data.zoom = new Fraction(1);
 
             assert.deepStrictEqual(store.noteField.pixelsPerSecond, 100);
         });
 
         it("returns expected value for 2:1 scaling", () => {
-            const config: Partial<NotefieldDisplayData> = {
-                pixelsPerSecond: 100,
-            };
-            const state: Partial<NotefieldData> = {
-                zoom: new Fraction(2),
-            };
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data.pixelsPerSecond = 100;
+            store.noteField.data.zoom = new Fraction(2);
 
             assert.deepStrictEqual(store.noteField.pixelsPerSecond, 200);
         });

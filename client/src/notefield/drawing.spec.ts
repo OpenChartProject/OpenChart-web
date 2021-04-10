@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+import _ from "lodash";
 
 import { Beat, Time } from "../charting/";
 import { Baseline, NotefieldData, NotefieldDisplayData } from "../store";
@@ -67,8 +68,9 @@ describe("notefield", () => {
                 },
                 zoom: new Fraction(1),
             };
-
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -92,7 +94,9 @@ describe("notefield", () => {
                 zoom: new Fraction(2),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -116,7 +120,9 @@ describe("notefield", () => {
                 zoom: new Fraction(1, 2),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -140,7 +146,9 @@ describe("notefield", () => {
                 zoom: new Fraction(2),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -164,7 +172,9 @@ describe("notefield", () => {
                 zoom: new Fraction(1, 2),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -188,7 +198,9 @@ describe("notefield", () => {
                 zoom: new Fraction(1),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
 
@@ -208,7 +220,9 @@ describe("notefield", () => {
                 zoom: new Fraction(1),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
             store.noteField.setScroll({ time: new Time(1) });
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
@@ -229,7 +243,9 @@ describe("notefield", () => {
                 zoom: new Fraction(1),
             };
 
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
             store.noteField.setScroll({ time: new Time(1) });
 
             const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
@@ -263,7 +279,9 @@ describe("notefield", () => {
             const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1),
             };
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
             const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
@@ -284,7 +302,9 @@ describe("notefield", () => {
             const state: Partial<NotefieldData> = {
                 zoom: new Fraction(1.5),
             };
-            const store = createStore({ config, state });
+            const store = createStore();
+            store.editor.data = _.merge(store.editor.data, config);
+            store.noteField.data = _.merge(store.noteField.data, state);
             const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0.55), 83);
