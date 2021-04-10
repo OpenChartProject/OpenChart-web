@@ -1,9 +1,9 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { Beat } from "../../charting/";
-import { KeyIndex } from "../../charting/";
-import { Tap } from "../../charting/objects/";
+import { Beat } from "../../charting";
+import { KeyIndex } from "../../charting";
+import { Tap } from "../../charting/objects";
 import { createStore } from "../../testUtil";
 
 import { PlaceTapAction, PlaceTapArgs } from "./placeTap";

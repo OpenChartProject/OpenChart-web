@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 
 import { drawNotefield } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
-import { RootStore } from "../store/";
+import { RootStore } from "../store";
 
 import { BeatSnapDisplay } from "./BeatSnapDisplay";
 import { TimePicker } from "./TimePicker";

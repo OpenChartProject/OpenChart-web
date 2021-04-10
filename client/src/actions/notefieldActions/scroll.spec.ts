@@ -1,7 +1,7 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { Beat } from "../../charting/";
+import { Beat } from "../../charting";
 import { createStore } from "../../testUtil";
 
 import { ScrollAction, ScrollArgs } from "./scroll";

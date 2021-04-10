@@ -1,4 +1,4 @@
-import { RootStore } from "../../store/";
+import { RootStore } from "../../store";
 import { Action } from "../action";
 
 /**

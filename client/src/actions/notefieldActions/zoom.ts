@@ -1,7 +1,7 @@
 import assert from "assert";
 import Fraction from "fraction.js";
 
-import { RootStore } from "../../store/";
+import { RootStore } from "../../store";
 import { Action } from "../action";
 
 /**

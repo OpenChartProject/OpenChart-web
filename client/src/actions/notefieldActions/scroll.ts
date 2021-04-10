@@ -1,7 +1,7 @@
 import assert from "assert";
 
-import { BeatTime } from "../../charting/";
-import { RootStore } from "../../store/";
+import { BeatTime } from "../../charting";
+import { RootStore } from "../../store";
 import { Action } from "../action";
 
 /**

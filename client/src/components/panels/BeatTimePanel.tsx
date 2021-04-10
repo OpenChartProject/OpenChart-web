@@ -14,7 +14,7 @@ export const BeatTimePanel = observer((props: Props) => {
     const visible = ui.data.panelVisibility.beatTime;
 
     const onToggle = () => {
-        ui.update({ panelVisibility: { beatTime: !visible } });
+        ui.updateProperty("panelVisibility", { beatTime: !visible });
     };
 
     return (

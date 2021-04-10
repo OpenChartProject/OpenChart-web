@@ -1,4 +1,4 @@
-import { RootStore, ScrollDirection } from "../../store/";
+import { RootStore, ScrollDirection } from "../../store";
 import { Action } from "../action";
 
 export interface ScrollDirectionArgs {
