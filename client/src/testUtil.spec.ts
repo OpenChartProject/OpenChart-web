@@ -28,8 +28,8 @@ describe("testutil", () => {
     describe("#createStore", () => {
         it("creates a store with defaults", () => {
             const store = createStore();
-            assert.deepStrictEqual(store.noteField.chart, new Chart());
-            assert(store.noteField.canvas);
+            assert.deepStrictEqual(store.notefield.chart, new Chart());
+            assert(store.notefield.canvas);
         });
     });
 });

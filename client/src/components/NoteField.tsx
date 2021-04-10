@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
 import React, { useEffect, useRef } from "react";
 
-import { drawNoteField } from "../notefield/drawing";
+import { drawNotefield } from "../notefield/drawing";
 import { inputToAction } from "../notefield/input";
 import { RootStore } from "../store/";
 
@@ -15,7 +15,7 @@ export interface Props {
 }
 
 /**
- * The NoteField component.
+ * The Notefield component.
  *
  * This component doesn't do much on its own. It's mainly responsible for creating
  * a canvas element and setting up event listeners.
@@ -25,14 +25,14 @@ export interface Props {
  * It's important that changes to the store are handled using actions, otherwise the
  * changes are not broadcasted and the notefield won't redraw.
  */
-export const NoteField = observer(({ store }: Props) => {
+export const Notefield = observer(({ store }: Props) => {
     const refCanvas = useRef<HTMLCanvasElement>(null);
     const refContainer = useRef<HTMLDivElement>(null);
 
     const redraw = () => {
         if (!refCanvas.current) return;
 
-        drawNoteField(store);
+        drawNotefield(store);
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -61,7 +61,7 @@ export const NoteField = observer(({ store }: Props) => {
     const updateDim = () => {
         if (!refCanvas.current) return;
 
-        store.noteField.setHeight(refCanvas.current.clientHeight);
+        store.notefield.setHeight(refCanvas.current.clientHeight);
     };
 
     // Watch the entire store for changes so we know when to redraw.
@@ -70,7 +70,7 @@ export const NoteField = observer(({ store }: Props) => {
     useEffect(() => {
         const observers = [
             deepObserve(store.editor, () => redraw()),
-            deepObserve(store.noteField, () => redraw()),
+            deepObserve(store.notefield, () => redraw()),
         ];
 
         return () => observers.forEach((disposer) => disposer());
@@ -100,7 +100,7 @@ export const NoteField = observer(({ store }: Props) => {
     useEffect(() => {
         if (!refCanvas.current) return;
 
-        store.noteField.setCanvas(refCanvas.current);
+        store.notefield.setCanvas(refCanvas.current);
         updateDim();
     }, [refCanvas]);
 

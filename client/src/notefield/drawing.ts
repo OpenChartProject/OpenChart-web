@@ -37,7 +37,7 @@ export interface DrawProps extends Viewport {
     chart: Chart;
     noteSkin: NoteSkin;
     editor: NotefieldDisplayStore;
-    noteField: NotefieldStore;
+    notefield: NotefieldStore;
 }
 
 /**
@@ -74,12 +74,12 @@ export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number 
  */
 export function calculateViewport(
     editor: NotefieldDisplayStore,
-    noteField: NotefieldStore,
+    notefield: NotefieldStore,
 ): Viewport {
-    const y0 = noteField.data.scroll.time.value * noteField.pixelsPerSecond - editor.data.receptorY;
-    const t0 = new Time(Math.max(y0 / noteField.pixelsPerSecond, 0));
-    const t1 = new Time(Math.max((y0 + noteField.data.height) / noteField.pixelsPerSecond, 0));
-    const tReceptor = noteField.data.scroll.time;
+    const y0 = notefield.data.scroll.time.value * notefield.pixelsPerSecond - editor.data.receptorY;
+    const t0 = new Time(Math.max(y0 / notefield.pixelsPerSecond, 0));
+    const t1 = new Time(Math.max((y0 + notefield.data.height) / notefield.pixelsPerSecond, 0));
+    const tReceptor = notefield.data.scroll.time;
 
     return { y0, t0, t1, tReceptor };
 }
@@ -94,8 +94,8 @@ export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
 /**
  * Converts time to position.
  */
-export function timeToPosition({ editor, noteField }: DrawProps, time: Time | number): number {
-    return Math.round(toTime(time).value * noteField.pixelsPerSecond);
+export function timeToPosition({ editor, notefield }: DrawProps, time: Time | number): number {
+    return Math.round(toTime(time).value * notefield.pixelsPerSecond);
 }
 
 function clear(dp: DrawProps) {
@@ -110,9 +110,9 @@ function clear(dp: DrawProps) {
 function drawBeatLines(dp: DrawProps) {
     const { ctx, w, t0, t1, chart } = dp;
     const { data: editor } = dp.editor;
-    const { data: noteField } = dp.noteField;
+    const { data: notefield } = dp.notefield;
 
-    for (const bt of getBeatLineTimes(chart, noteField.snap, t0, t1)) {
+    for (const bt of getBeatLineTimes(chart, notefield.snap, t0, t1)) {
         if (bt.beat.isStartOfMeasure()) {
             ctx.strokeStyle = editor.beatLines.measureLines.color;
             ctx.lineWidth = editor.beatLines.measureLines.lineWidth;
@@ -139,12 +139,12 @@ function drawBeatLines(dp: DrawProps) {
 }
 
 function drawReceptor(dp: DrawProps, key: number) {
-    const { ctx, editor, noteField, noteSkin, tReceptor } = dp;
+    const { ctx, editor, notefield, noteSkin, tReceptor } = dp;
     const { data } = editor;
 
     const r = noteSkin.receptor[key];
     const h = scaleToWidth(r.width as number, r.height as number, data.columnWidth);
-    const y = adjustToBaseline(dp, tReceptor.value * noteField.pixelsPerSecond, h);
+    const y = adjustToBaseline(dp, tReceptor.value * notefield.pixelsPerSecond, h);
 
     ctx.save();
     ctx.translate(0, y);
@@ -219,25 +219,25 @@ function drawObjects(dp: DrawProps) {
     }
 }
 
-export function drawNoteField(store: RootStore) {
-    const { editor, noteField } = store;
+export function drawNotefield(store: RootStore) {
+    const { editor, notefield } = store;
 
-    if (!noteField.canvas || !editor.data.noteSkin) {
+    if (!notefield.canvas || !editor.data.noteSkin) {
         return;
     }
 
-    const ctx = noteField.canvas.getContext("2d") as CanvasRenderingContext2D;
+    const ctx = notefield.canvas.getContext("2d") as CanvasRenderingContext2D;
     ctx.save();
 
-    const viewport = calculateViewport(editor, noteField);
+    const viewport = calculateViewport(editor, notefield);
     const drawProps = {
         ctx,
-        w: noteField.data.width,
-        h: noteField.data.height,
-        chart: noteField.chart,
+        w: notefield.data.width,
+        h: notefield.data.height,
+        chart: notefield.chart,
         noteSkin: editor.data.noteSkin,
         editor,
-        noteField,
+        notefield,
         ...viewport,
     };
 

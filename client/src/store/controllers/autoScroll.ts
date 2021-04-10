@@ -1,4 +1,4 @@
-import { RootStore } from "../store";
+import { RootStore } from "../root";
 
 import { MetronomeController } from "./metronome";
 
@@ -28,7 +28,7 @@ export class AutoScrollController {
      * false.
      */
     onFrame(time: number) {
-        const state = this.store.noteField.data;
+        const state = this.store.notefield.data;
 
         if (!state.isPlaying) {
             return;
@@ -40,7 +40,7 @@ export class AutoScrollController {
 
         const seconds = (time - this.earlier) / 1000;
 
-        this.store.noteField.scrollBy({ time: seconds });
+        this.store.notefield.scrollBy({ time: seconds });
         this.metronome.update(state.scroll.beat);
 
         this.earlier = time;

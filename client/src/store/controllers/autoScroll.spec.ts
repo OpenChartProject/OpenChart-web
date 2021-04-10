@@ -22,9 +22,9 @@ describe("AutoScrollController", () => {
         it("calls scrollBy with a time of 0 on the first frame", () => {
             const store = createStore();
             const asc = new AutoScrollController(store);
-            const stub = sinon.stub(store.noteField, "scrollBy");
+            const stub = sinon.stub(store.notefield, "scrollBy");
 
-            store.noteField.data.isPlaying = true;
+            store.notefield.data.isPlaying = true;
             asc.onFrame(1000);
 
             assert(stub.calledWith({ time: 0 }));
@@ -33,9 +33,9 @@ describe("AutoScrollController", () => {
         it("calls scrollBy with the time difference from the last frame", () => {
             const store = createStore();
             const asc = new AutoScrollController(store);
-            const stub = sinon.stub(store.noteField, "scrollBy");
+            const stub = sinon.stub(store.notefield, "scrollBy");
 
-            store.noteField.data.isPlaying = true;
+            store.notefield.data.isPlaying = true;
             asc.earlier = 1000;
 
             asc.onFrame(2500);
@@ -48,10 +48,10 @@ describe("AutoScrollController", () => {
             const asc = new AutoScrollController(store);
             const stub = sinon.stub(asc.metronome, "update");
 
-            store.noteField.data.isPlaying = true;
+            store.notefield.data.isPlaying = true;
             asc.onFrame(1000);
 
-            assert(stub.calledWith(store.noteField.data.scroll.beat));
+            assert(stub.calledWith(store.notefield.data.scroll.beat));
         });
 
         it("calls requestAnimationFrame again if notefield is playing", () => {
@@ -59,7 +59,7 @@ describe("AutoScrollController", () => {
             const asc = new AutoScrollController(store);
             const stub = sinon.stub(globalThis, "requestAnimationFrame");
 
-            store.noteField.data.isPlaying = true;
+            store.notefield.data.isPlaying = true;
             asc.onFrame(1000);
 
             assert(stub.calledWith(asc.onFrame));

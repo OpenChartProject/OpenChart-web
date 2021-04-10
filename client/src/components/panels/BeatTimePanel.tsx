@@ -10,7 +10,7 @@ export interface Props {
 }
 
 export const BeatTimePanel = observer((props: Props) => {
-    const { noteField, ui } = props.store;
+    const { notefield, ui } = props.store;
     const visible = ui.data.panelVisibility.beatTime;
 
     const onToggle = () => {
@@ -23,11 +23,11 @@ export const BeatTimePanel = observer((props: Props) => {
                 <tbody>
                     <tr>
                         <td>Beat:</td>
-                        <td>{noteField.data.scroll.beat.value.toFixed(3)}</td>
+                        <td>{notefield.data.scroll.beat.value.toFixed(3)}</td>
                     </tr>
                     <tr>
                         <td>Time:</td>
-                        <td>{noteField.data.scroll.time.value.toFixed(3)}</td>
+                        <td>{notefield.data.scroll.time.value.toFixed(3)}</td>
                     </tr>
                 </tbody>
             </table>

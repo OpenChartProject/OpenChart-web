@@ -9,7 +9,7 @@ import { WaveformStore } from "./waveform";
  */
 export class RootStore {
     readonly editor: NotefieldDisplayStore;
-    readonly noteField: NotefieldStore;
+    readonly notefield: NotefieldStore;
     readonly project: ProjectStore;
     readonly waveform: WaveformStore;
     readonly ui: UIStore;
@@ -22,6 +22,6 @@ export class RootStore {
 
         // The NotefieldStore needs to be created last since it depends on the other
         // stores as part of its initialization.
-        this.noteField = new NotefieldStore(this);
+        this.notefield = new NotefieldStore(this);
     }
 }

@@ -6,7 +6,7 @@ import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
 import { AutoScrollController, MusicController } from "./controllers";
-import { RootStore } from "./store";
+import { RootStore } from "./root";
 
 export const ZOOM_MIN = new Fraction(256, 6561);
 export const ZOOM_MAX = new Fraction(6561, 256);

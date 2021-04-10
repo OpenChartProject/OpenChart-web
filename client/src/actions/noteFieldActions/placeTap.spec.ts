@@ -12,7 +12,7 @@ describe("PlaceTapAction", () => {
     describe("new", () => {
         it("throws if key index is out of range", () => {
             const store = createStore();
-            const { chart } = store.noteField;
+            const { chart } = store.notefield;
             const args: PlaceTapArgs = {
                 beat: Beat.Zero,
                 key: new KeyIndex(chart.keyCount.value),
@@ -25,7 +25,7 @@ describe("PlaceTapAction", () => {
     describe("#run", () => {
         it("calls placeObject", () => {
             const store = createStore();
-            const { chart } = store.noteField;
+            const { chart } = store.notefield;
             const args: PlaceTapArgs = {
                 beat: Beat.Zero,
                 key: new KeyIndex(0),

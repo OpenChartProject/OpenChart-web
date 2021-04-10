@@ -9,7 +9,7 @@ export interface Props {
 
 export const BeatSnapDisplay = observer(({ store }: Props) => {
     const { receptorY, scrollDirection } = store.editor.data;
-    const { snap } = store.noteField.data;
+    const { snap } = store.notefield.data;
 
     let style: CSSProperties;
 

@@ -5,14 +5,14 @@ import { makeAutoObservable } from "mobx";
 import { KeyBinds } from "../notefield/input";
 
 import { MusicController } from "./controllers";
-import { RootStore } from "./store";
+import { RootStore } from "./root";
 
 export interface PanelVisibility {
     audio: boolean;
     audioOffset: boolean;
     beatTime: boolean;
     songInfo: boolean;
-    noteField: boolean;
+    notefield: boolean;
 }
 
 export interface MetronomeData {
@@ -134,7 +134,7 @@ export class UIStore {
                 audioOffset: true,
                 beatTime: true,
                 songInfo: true,
-                noteField: true,
+                notefield: true,
             },
         };
     }

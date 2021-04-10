@@ -15,17 +15,17 @@ export interface WaveformSVGProps {
 }
 
 export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
-    const { editor, noteField } = store;
+    const { editor, notefield } = store;
 
-    const zoom = noteField.data.zoom.valueOf();
-    const height = noteField.data.height;
+    const zoom = notefield.data.zoom.valueOf();
+    const height = notefield.data.height;
 
     // This took me like 3 hours to figure out lol
     let y0 =
-        (noteField.data.scroll.time.value - noteField.data.audioOffset) * noteField.pixelsPerSecond;
+        (notefield.data.scroll.time.value - notefield.data.audioOffset) * notefield.pixelsPerSecond;
 
     if (editor.data.scrollDirection === "down") {
-        y0 = -(y0 + noteField.data.height);
+        y0 = -(y0 + notefield.data.height);
         y0 += editor.data.receptorY;
     } else {
         y0 -= editor.data.receptorY;
@@ -48,14 +48,14 @@ export const WaveformSVG = observer(({ el, store }: WaveformSVGProps) => {
 });
 
 export const Waveform = observer(({ store }: Props) => {
-    const { noteField } = store;
+    const { notefield } = store;
 
     let lastDiff = Number.MAX_VALUE;
     let index = 0;
 
     for (let i = 0; i < store.waveform.data.el.length; i++) {
         const el = store.waveform.data.el[i];
-        const diff = Math.abs(el.data.pixels_per_second - noteField.pixelsPerSecond);
+        const diff = Math.abs(el.data.pixels_per_second - notefield.pixelsPerSecond);
 
         if (diff < lastDiff) {
             lastDiff = diff;

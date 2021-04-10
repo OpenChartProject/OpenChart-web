@@ -21,7 +21,7 @@ describe("ScrollAction", () => {
                 by: { beat: 1 },
             };
             const spy = sinon.spy();
-            sinon.replace(store.noteField, "scrollBy", spy);
+            sinon.replace(store.notefield, "scrollBy", spy);
 
             new ScrollAction(store, args).run();
             assert(spy.calledWith(args.by));
@@ -33,7 +33,7 @@ describe("ScrollAction", () => {
                 to: { beat: Beat.Zero },
             };
             const spy = sinon.spy();
-            sinon.replace(store.noteField, "setScroll", spy);
+            sinon.replace(store.notefield, "setScroll", spy);
 
             new ScrollAction(store, args).run();
             assert(spy.calledWith(args.to));

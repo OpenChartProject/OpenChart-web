@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 
-import { ZoomAction } from "../actions/noteFieldActions";
+import { ZoomAction } from "../actions/notefieldActions";
 import { OpenFileAction, OpenFileDialogAction, SaveFileAction } from "../actions/uiActions";
 import { discord, github } from "../assets";
 import { Chart } from "../charting";
@@ -17,7 +17,7 @@ export const Toolbar = observer((props: Props) => {
     const { store } = props;
 
     const newFile = () => {
-        store.noteField.setChart(new Chart());
+        store.notefield.setChart(new Chart());
     };
 
     const openFilePicker = () => {
@@ -30,7 +30,7 @@ export const Toolbar = observer((props: Props) => {
 
     const saveFile = () => {
         const project: Project = {
-            charts: [store.noteField.chart],
+            charts: [store.notefield.chart],
             song: store.project.data.song,
         };
 
@@ -42,13 +42,13 @@ export const Toolbar = observer((props: Props) => {
 
     const zoomIn = () => {
         new ZoomAction(store, {
-            to: store.noteField.data.zoom.mul(1.5),
+            to: store.notefield.data.zoom.mul(1.5),
         }).run();
     };
 
     const zoomOut = () => {
         new ZoomAction(store, {
-            to: store.noteField.data.zoom.div(1.5),
+            to: store.notefield.data.zoom.div(1.5),
         }).run();
     };
 

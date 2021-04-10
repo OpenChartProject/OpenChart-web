@@ -1,4 +1,4 @@
-export { RootStore } from "./store";
+export { RootStore } from "./root";
 export {
     Baseline,
     ScrollDirection,

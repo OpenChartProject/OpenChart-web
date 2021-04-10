@@ -8,7 +8,7 @@ export interface Props {
 }
 
 export const TimePicker = observer(({ store }: Props) => {
-    const { editor, noteField } = store;
+    const { editor, notefield } = store;
     const [y, setY] = useState(0);
 
     const onClick = () => {
@@ -17,7 +17,7 @@ export const TimePicker = observer(({ store }: Props) => {
         if (timePicker.onPick) {
             const receptorDistance = editor.data.receptorY - y;
             const time =
-                noteField.data.scroll.time.value - receptorDistance / noteField.pixelsPerSecond;
+                notefield.data.scroll.time.value - receptorDistance / notefield.pixelsPerSecond;
 
             timePicker.onPick(y, time);
         }

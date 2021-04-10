@@ -11,17 +11,17 @@ export interface Props {
 }
 
 export const AudioOffsetPanel = observer((props: Props) => {
-    const { noteField, ui } = props.store;
+    const { notefield, ui } = props.store;
     const visible = ui.data.panelVisibility.audioOffset;
-    const [inputVal, setInputVal] = useState(noteField.data.audioOffset.toFixed(3));
+    const [inputVal, setInputVal] = useState(notefield.data.audioOffset.toFixed(3));
 
     // Update the offset input if the stored offset changed.
     useEffect(() => {
         reset();
-    }, [noteField.data.audioOffset]);
+    }, [notefield.data.audioOffset]);
 
     const reset = () => {
-        setInputVal(noteField.data.audioOffset.toFixed(3));
+        setInputVal(notefield.data.audioOffset.toFixed(3));
     };
 
     const update = () => {
@@ -30,7 +30,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
             return;
         }
 
-        noteField.setAudioOffset(_.toNumber(inputVal));
+        notefield.setAudioOffset(_.toNumber(inputVal));
     };
 
     const onPickTime = () => {
@@ -40,7 +40,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
                 // using the waveform to determine the offset, and if the audio offset
                 // is already set, then the waveform will be moved and we want to know
                 // the difference between where it is and where they clicked.
-                noteField.setAudioOffset(noteField.data.audioOffset - time);
+                notefield.setAudioOffset(notefield.data.audioOffset - time);
                 ui.deactivateTimePicker();
             },
         });
@@ -56,7 +56,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
         ui.update({ panelVisibility: { audioOffset: !visible } });
     };
 
-    const disabled = noteField.data.isPlaying || ui.tools.timePicker.active;
+    const disabled = notefield.data.isPlaying || ui.tools.timePicker.active;
 
     return (
         <Panel title="Audio Offset" visible={visible} onToggle={onToggle}>

@@ -3,12 +3,12 @@ import React, { useState } from "react";
 
 import { RootStore } from "../store/";
 
-import { Metronome, Music, NoteField } from ".";
+import { Metronome, Music, Notefield } from ".";
 import {
     AudioOffsetPanel,
     AudioPanel,
     BeatTimePanel,
-    NoteFieldPanel,
+    NotefieldPanel,
     PanelContainer,
     SongPanel,
 } from "./panels";
@@ -32,14 +32,14 @@ export const App = observer((props: Props) => {
 
             <Toolbar store={store} />
 
-            <NoteField store={store} />
+            <Notefield store={store} />
 
             <PanelContainer store={store}>
                 <BeatTimePanel store={store} />
                 <SongPanel store={store} />
                 <AudioOffsetPanel store={store} />
                 <AudioPanel store={store} />
-                <NoteFieldPanel store={store} />
+                <NotefieldPanel store={store} />
             </PanelContainer>
         </div>
     );

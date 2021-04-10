@@ -33,7 +33,7 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
  */
 export function createStore(): RootStore {
     const store = new RootStore();
-    store.noteField.setCanvas(document.createElement("canvas"));
+    store.notefield.setCanvas(document.createElement("canvas"));
 
     return store;
 }

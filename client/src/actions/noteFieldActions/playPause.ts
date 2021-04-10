@@ -9,7 +9,7 @@ export class PlayPauseAction implements Action {
     }
 
     run(): void {
-        const { noteField } = this.store;
-        noteField.setPlaying(!noteField.data.isPlaying);
+        const { notefield } = this.store;
+        notefield.setPlaying(!notefield.data.isPlaying);
     }
 }

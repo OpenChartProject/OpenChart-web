@@ -70,9 +70,9 @@ describe("notefield", () => {
             };
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -96,9 +96,9 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -122,9 +122,9 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -148,9 +148,9 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -174,9 +174,9 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -200,9 +200,9 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
+            store.notefield.data = _.merge(store.notefield.data, state);
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, -100);
             assert.strictEqual(t0.value, 0);
@@ -222,10 +222,10 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
-            store.noteField.setScroll({ time: new Time(1) });
+            store.notefield.data = _.merge(store.notefield.data, state);
+            store.notefield.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, 100);
             assert.strictEqual(t0.value, 1);
@@ -245,10 +245,10 @@ describe("notefield", () => {
 
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
-            store.noteField.setScroll({ time: new Time(1) });
+            store.notefield.data = _.merge(store.notefield.data, state);
+            store.notefield.setScroll({ time: new Time(1) });
 
-            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.noteField);
+            const { y0, t0, t1, tReceptor } = calculateViewport(store.editor, store.notefield);
 
             assert.strictEqual(y0, 0);
             assert.strictEqual(t0.value, 0);
@@ -281,8 +281,8 @@ describe("notefield", () => {
             };
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
-            const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
+            store.notefield.data = _.merge(store.notefield.data, state);
+            const dp: Partial<DrawProps> = { editor: store.editor, notefield: store.notefield };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0), 0);
             assert.strictEqual(
@@ -304,8 +304,8 @@ describe("notefield", () => {
             };
             const store = createStore();
             store.editor.data = _.merge(store.editor.data, config);
-            store.noteField.data = _.merge(store.noteField.data, state);
-            const dp: Partial<DrawProps> = { editor: store.editor, noteField: store.noteField };
+            store.notefield.data = _.merge(store.notefield.data, state);
+            const dp: Partial<DrawProps> = { editor: store.editor, notefield: store.notefield };
 
             assert.strictEqual(timeToPosition(dp as DrawProps, 0.55), 83);
         });

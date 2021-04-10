@@ -31,6 +31,6 @@ export class ZoomAction implements Action {
     }
 
     run(): void {
-        this.store.noteField.setZoom(this.args.to);
+        this.store.notefield.setZoom(this.args.to);
     }
 }

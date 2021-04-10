@@ -2,7 +2,7 @@ import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent } from "react";
 
-import { ScrollDirectionAction } from "../../actions/noteFieldActions";
+import { ScrollDirectionAction } from "../../actions/notefieldActions";
 import { RootStore, ScrollDirection } from "../../store";
 
 import { Panel } from "./Panel";
@@ -11,14 +11,14 @@ export interface Props {
     store: RootStore;
 }
 
-export const NoteFieldPanel = observer((props: Props) => {
+export const NotefieldPanel = observer((props: Props) => {
     const { editor, ui } = props.store;
     const defaults = editor.defaults;
     const modified =
         editor.data.columnWidth !== defaults.columnWidth ||
         editor.data.receptorY !== defaults.receptorY;
 
-    const visible = ui.data.panelVisibility.noteField;
+    const visible = ui.data.panelVisibility.notefield;
     const { scrollDirection } = editor.data;
 
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ export const NoteFieldPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.update({ panelVisibility: { noteField: !visible } });
+        ui.update({ panelVisibility: { notefield: !visible } });
     };
 
     return (

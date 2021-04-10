@@ -5,7 +5,7 @@ import {
     SnapAdjustAction,
     SnapScrollAction,
     ZoomAction,
-} from "../actions/noteFieldActions/";
+} from "../actions/notefieldActions/";
 import { KeyIndex } from "../charting/";
 import { RootStore } from "../store/";
 
@@ -57,9 +57,9 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
  * Maps a keyboard event to an Action.
  */
 export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Action | null {
-    const { chart } = store.noteField;
+    const { chart } = store.notefield;
     const { keyBinds } = store.ui.data;
-    const { scroll, zoom } = store.noteField.data;
+    const { scroll, zoom } = store.notefield.data;
 
     // Check if this key is for placing a note.
     const keyIndex = keyBinds.keys[chart.keyCount.value].findIndex((k) => k === e.key);
@@ -126,7 +126,7 @@ export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | nu
         return null;
     }
 
-    const { zoom } = store.noteField.data;
+    const { zoom } = store.notefield.data;
     e.preventDefault();
 
     if (e.deltaY > 0) {

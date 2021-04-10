@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 
 import { NoteSkin } from "../noteskin";
 
-import { RootStore } from "./store";
+import { RootStore } from "./root";
 
 /**
  * The different baseline options for how the notefield is displayed. This affects
@@ -118,7 +118,7 @@ export class NotefieldDisplayStore {
 
         // Update the canvas width when the column width changes.
         if (config.columnWidth !== undefined) {
-            this.root.noteField?.updateWidth();
+            this.root.notefield?.updateWidth();
         }
     }
 

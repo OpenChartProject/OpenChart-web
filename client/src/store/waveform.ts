@@ -3,7 +3,7 @@ import { min as arrayMin } from "lodash";
 import { makeAutoObservable, makeObservable, observable } from "mobx";
 import WaveformData from "waveform-data";
 
-import { RootStore } from "./store";
+import { RootStore } from "./root";
 
 export interface WaveformStoreData {
     audioData?: ArrayBuffer;
@@ -39,7 +39,7 @@ export class WaveformStore {
     }
 
     get width(): number {
-        return this.duration * this.root.noteField.pixelsPerSecond;
+        return this.duration * this.root.notefield.pixelsPerSecond;
     }
 
     generateAll() {
