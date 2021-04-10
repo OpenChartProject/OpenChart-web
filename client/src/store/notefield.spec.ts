@@ -43,6 +43,19 @@ describe("NotefieldStore", () => {
         });
     });
 
+    describe("#resetView", () => {
+        it("resets the scroll and zoom", () => {
+            const store = createStore().notefield;
+
+            store.setScroll({ time: new Time(1) });
+            store.setZoom(new Fraction(0.5));
+            store.resetView();
+
+            assert.strictEqual(store.data.scroll.time.value, 0);
+            assert.strictEqual(store.data.zoom.valueOf(), 1);
+        });
+    });
+
     describe("#scrollBy", () => {
         it("throws if both beat and time are not set", () => {
             const store = createStore().notefield;
@@ -84,6 +97,17 @@ describe("NotefieldStore", () => {
         });
     });
 
+    describe("#setAudioOffset", () => {
+        it("updates the offset", () => {
+            const store = createStore().notefield;
+            const offset = -0.5;
+
+            store.setAudioOffset(offset);
+
+            assert.strictEqual(store.data.audioOffset, offset);
+        });
+    });
+
     describe("#setCanvas", () => {
         it("sets the canvas element and updates the width", () => {
             const el = document.createElement("canvas");
@@ -113,6 +137,81 @@ describe("NotefieldStore", () => {
             store.setChart(store.chart);
 
             assert(spy.called);
+        });
+    });
+
+    describe("#setHeight", () => {
+        it("throws if the canvas isn't set", () => {
+            const store = createStore().notefield;
+            store.canvas = undefined;
+
+            assert.throws(() => store.setHeight(0));
+        });
+
+        it("sets the canvas and internal height", () => {
+            const store = createStore().notefield;
+            const height = 123;
+
+            store.setHeight(height);
+
+            assert.strictEqual(store.canvas!.height, height);
+            assert.strictEqual(store.data.height, height);
+        });
+
+        it("doesn't set the height if it hasn't changed", () => {
+            const store = createStore().notefield;
+            const spy = sinon.spy(store.canvas!, "height", ["set"]);
+            const height = 123;
+
+            store.setHeight(height);
+            store.setHeight(height);
+            assert(spy.set.calledOnce);
+        });
+    });
+
+    describe("#setPlaying", () => {
+        it("sets isPlaying", () => {
+            const store = createStore().notefield;
+
+            store.setPlaying(true);
+            assert.strictEqual(store.data.isPlaying, true);
+
+            store.setPlaying(false);
+            assert.strictEqual(store.data.isPlaying, false);
+        });
+
+        it("pauses when passed false", () => {
+            const store = createStore();
+            const spy = sinon.spy(store.ui.controllers.music, "pause");
+
+            store.notefield.setPlaying(true);
+            store.notefield.setPlaying(false);
+            assert(spy.calledOnce);
+
+            // Check that it doesn't call pause if it's already paused.
+            store.notefield.setPlaying(false);
+            assert(spy.calledOnce);
+        });
+
+        it("plays when passed true", () => {
+            const store = createStore();
+            const autoScrollSpy = sinon.spy(store.notefield.autoScroller, "start");
+            const seekSpy = sinon.spy(store.ui.controllers.music, "seek");
+            const playSpy = sinon.spy(store.ui.controllers.music, "play");
+
+            store.notefield.setPlaying(false);
+            store.notefield.setPlaying(true);
+
+            assert(autoScrollSpy.calledOnce);
+            assert(seekSpy.calledOnceWith(store.notefield.data.scroll.time.value));
+            assert(playSpy.calledOnce);
+
+            store.notefield.setPlaying(true);
+
+            // Check that it doesn't call these again if it's already playing
+            assert(autoScrollSpy.calledOnce);
+            assert(seekSpy.calledOnce);
+            assert(playSpy.calledOnce);
         });
     });
 
@@ -177,5 +276,38 @@ describe("NotefieldStore", () => {
         });
 
         it("doesn't set the zoom if it's already the same");
+    });
+
+    describe("#updateWidth", () => {
+        it("throws if the canvas isn't set", () => {
+            const store = createStore().notefield;
+            store.canvas = undefined;
+
+            assert.throws(() => store.updateWidth());
+        });
+
+        it("updates the canvas and internal width", () => {
+            const store = createStore();
+            const colWidth = 32;
+            const expected = colWidth * store.notefield.chart.keyCount.value;
+
+            store.editor.data.columnWidth = colWidth;
+            store.notefield.updateWidth();
+
+            assert.strictEqual(store.notefield.canvas?.width, expected);
+            assert.strictEqual(store.notefield.data.width, expected);
+        });
+
+        it("doesn't set the width if it hasn't changed", () => {
+            const store = createStore().notefield;
+            store.canvas!.width = 0;
+
+            const spy = sinon.spy(store.canvas!, "width", ["set"]);
+
+            store.updateWidth();
+            store.updateWidth();
+
+            assert(spy.set.calledOnce);
+        });
     });
 });

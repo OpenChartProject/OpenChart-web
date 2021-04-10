@@ -84,37 +84,6 @@ export class NotefieldStore {
         return this.root.editor.data.pixelsPerSecond * this.data.zoom.valueOf();
     }
 
-    setAudioOffset(val: number) {
-        this.data.audioOffset = val;
-    }
-
-    /**
-     * Sets the height of the canvas. The height is controlled by the CSS, and a listener
-     * calls this method when the height in the DOM changes.
-     */
-    setHeight(val: number) {
-        if (!this.canvas || this.canvas.height === val) {
-            return;
-        }
-
-        this.canvas.height = val;
-        this.data.height = this.canvas.height;
-    }
-
-    /**
-     * Updates the canvas width.
-     */
-    updateWidth() {
-        const width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
-
-        if (!this.canvas || this.canvas.width === width) {
-            return;
-        }
-
-        this.canvas.width = width;
-        this.data.width = this.canvas.width;
-    }
-
     /**
      * Resets the scroll and zoom to the default.
      */
@@ -146,6 +115,13 @@ export class NotefieldStore {
     }
 
     /**
+     * Sets the audio offset (in seconds).
+     */
+    setAudioOffset(val: number) {
+        this.data.audioOffset = val;
+    }
+
+    /**
      * Sets the canvas element and sets its render width.
      */
     setCanvas(canvas: HTMLCanvasElement) {
@@ -159,6 +135,21 @@ export class NotefieldStore {
     setChart(chart: Chart) {
         this.chart = chart;
         this.resetView();
+    }
+
+    /**
+     * Sets the height of the canvas. The height is controlled by the CSS, and a listener
+     * calls this method when the height in the DOM changes.
+     */
+    setHeight(val: number) {
+        assert(this.canvas, "canvas must be set before calling setHeight");
+
+        if (this.canvas.height === val) {
+            return;
+        }
+
+        this.canvas.height = val;
+        this.data.height = this.canvas.height;
     }
 
     /**
@@ -212,5 +203,23 @@ export class NotefieldStore {
         if (!this.data.zoom.equals(val)) {
             this.data.zoom = val;
         }
+    }
+
+    /**
+     * Updates the canvas width.
+     */
+    updateWidth() {
+        assert(this.canvas, "canvas must be set before calling updateWidth");
+
+        const width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
+
+        // Only update if the width is different. Setting the canvas width ALWAYS causes
+        // the canvas to be cleared.
+        if (this.canvas.width === width) {
+            return;
+        }
+
+        this.canvas.width = width;
+        this.data.width = this.canvas.width;
     }
 }
