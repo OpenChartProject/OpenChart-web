@@ -30,7 +30,7 @@ export const Toolbar = observer((props: Props) => {
 
     const saveFile = () => {
         const project: Project = {
-            charts: [store.notefield.chart],
+            charts: [store.notefield.data.chart],
             song: store.project.data.song,
         };
 

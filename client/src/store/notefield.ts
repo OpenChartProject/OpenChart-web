@@ -11,11 +11,16 @@ import { RootStore } from "./root";
 export const ZOOM_MIN = new Fraction(256, 6561);
 export const ZOOM_MAX = new Fraction(6561, 256);
 
+/**
+ * The data for managing
+ */
 export interface NotefieldData {
     // This is a bit redundant since the width and height always match the dimensions of
     // the canvas element, but without them mobx doesn't respond to them changing.
     width: number;
     height: number;
+
+    chart: Chart;
 
     zoom: Fraction;
     scroll: BeatTime;
@@ -27,13 +32,14 @@ export interface NotefieldData {
 }
 
 /**
- * This store contains all the state for a notefield. Each notefield has its own instance
- * of the NotefieldStore.
+ * The NotefieldStore manages the state of a notefield.
+ *
+ * Every notefield has its own NotefieldStore, but all notefields share the same
+ * NotefieldDisplayStore.
  */
 export class NotefieldStore {
     readonly root: RootStore;
 
-    chart: Chart;
     data: NotefieldData;
     canvas?: HTMLCanvasElement;
 
@@ -51,10 +57,6 @@ export class NotefieldStore {
 
         this.root = root;
 
-        // Always start with a blank chart so we don't need to worry about passing a chart
-        // in during init.
-        this.chart = new Chart();
-
         this.data = makeAutoObservable(this.defaults, {
             zoom: observable.ref,
         });
@@ -67,6 +69,8 @@ export class NotefieldStore {
         return {
             width: 1,
             height: 1,
+
+            chart: new Chart(),
 
             zoom: new Fraction(1),
             scroll: { beat: Beat.Zero, time: Time.Zero },
@@ -133,7 +137,7 @@ export class NotefieldStore {
      * Sets the chart being rendered by the notefield.
      */
     setChart(chart: Chart) {
-        this.chart = chart;
+        this.data.chart = chart;
         this.resetView();
     }
 
@@ -177,11 +181,13 @@ export class NotefieldStore {
     setScroll({ beat, time }: Partial<BeatTime>) {
         assert(beat || time, "beat or time must be set");
 
+        const { bpms } = this.data.chart;
+
         if (beat) {
-            time = this.chart.bpms.timeAt(beat);
+            time = bpms.timeAt(beat);
             this.data.scroll = { beat, time };
         } else if (time) {
-            beat = this.chart.bpms.beatAt(time);
+            beat = bpms.beatAt(time);
             this.data.scroll = { beat, time };
         }
     }
@@ -211,7 +217,7 @@ export class NotefieldStore {
     updateWidth() {
         assert(this.canvas, "canvas must be set before calling updateWidth");
 
-        const width = this.root.editor.data.columnWidth * this.chart.keyCount.value;
+        const width = this.root.editor.data.columnWidth * this.data.chart.keyCount.value;
 
         // Only update if the width is different. Setting the canvas width ALWAYS causes
         // the canvas to be cleared.

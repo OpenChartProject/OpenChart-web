@@ -57,7 +57,7 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
  * Maps a keyboard event to an Action.
  */
 export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Action | null {
-    const { chart } = store.notefield;
+    const { chart } = store.notefield.data;
     const { keyBinds } = store.ui.data;
     const { scroll, zoom } = store.notefield.data;
 

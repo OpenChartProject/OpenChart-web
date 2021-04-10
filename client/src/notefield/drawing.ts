@@ -234,7 +234,7 @@ export function drawNotefield(store: RootStore) {
         ctx,
         w: notefield.data.width,
         h: notefield.data.height,
-        chart: notefield.chart,
+        chart: notefield.data.chart,
         noteSkin: editor.data.noteSkin,
         editor,
         notefield,

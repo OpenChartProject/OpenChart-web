@@ -11,7 +11,7 @@ describe("NotefieldStore", () => {
     describe("new", () => {
         it("creates a default chart", () => {
             const store = createStore().notefield;
-            assert.deepStrictEqual(store.chart, new Chart());
+            assert.deepStrictEqual(store.data.chart, new Chart());
         });
 
         it("creates the auto scroller", () => {
@@ -127,14 +127,14 @@ describe("NotefieldStore", () => {
             const chart = new Chart();
 
             store.setChart(chart);
-            assert.strictEqual(chart, store.chart);
+            assert.strictEqual(chart, store.data.chart);
         });
 
         it("resets the view", () => {
             const store = createStore().notefield;
             const spy = sinon.spy(store, "resetView");
 
-            store.setChart(store.chart);
+            store.setChart(store.data.chart);
 
             assert(spy.called);
         });
@@ -225,7 +225,7 @@ describe("NotefieldStore", () => {
             const store = createStore().notefield;
 
             const beat = new Beat(1.5);
-            const time = store.chart.bpms.timeAt(beat);
+            const time = store.data.chart.bpms.timeAt(beat);
 
             store.setScroll({ beat });
 
@@ -236,7 +236,7 @@ describe("NotefieldStore", () => {
             const store = createStore().notefield;
 
             const time = new Time(1.5);
-            const beat = store.chart.bpms.beatAt(time);
+            const beat = store.data.chart.bpms.beatAt(time);
 
             store.setScroll({ beat });
 
@@ -289,7 +289,7 @@ describe("NotefieldStore", () => {
         it("updates the canvas and internal width", () => {
             const store = createStore();
             const colWidth = 32;
-            const expected = colWidth * store.notefield.chart.keyCount.value;
+            const expected = colWidth * store.notefield.data.chart.keyCount.value;
 
             store.editor.data.columnWidth = colWidth;
             store.notefield.updateWidth();

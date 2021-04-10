@@ -21,7 +21,7 @@ export class PlaceTapAction implements Action {
     store: RootStore;
 
     constructor(store: RootStore, args: PlaceTapArgs) {
-        const { chart } = store.notefield;
+        const { chart } = store.notefield.data;
 
         assert(args.key.value < chart.keyCount.value, "key index is out of range");
 
@@ -30,7 +30,7 @@ export class PlaceTapAction implements Action {
     }
 
     run(): void {
-        const { chart } = this.store.notefield;
+        const { chart } = this.store.notefield.data;
         const args = this.args;
 
         chart.placeObject(new Tap(args.beat, args.key), {

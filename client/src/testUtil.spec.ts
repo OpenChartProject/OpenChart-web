@@ -28,7 +28,7 @@ describe("testutil", () => {
     describe("#createStore", () => {
         it("creates a store with defaults", () => {
             const store = createStore();
-            assert.deepStrictEqual(store.notefield.chart, new Chart());
+            assert.deepStrictEqual(store.notefield.data.chart, new Chart());
             assert(store.notefield.canvas);
         });
     });
