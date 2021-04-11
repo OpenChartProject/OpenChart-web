@@ -11,34 +11,17 @@ export interface Props {
 }
 
 export const WaveformSVG = observer(({ el, store }: Props) => {
-    const { notefield } = store;
-    const { receptorY, scrollDirection } = store.notefieldDisplay.data;
+    const { notefield, waveform } = store;
+    const { x, y, width, height } = waveform.viewBox;
 
-    const zoom = notefield.data.zoom.valueOf();
-    const height = notefield.data.height;
-
-    // This took me like 3 hours to figure out lol
-    let y0 =
-        (notefield.data.scroll.time.value - notefield.data.audioOffset) * notefield.pixelsPerSecond;
-
-    if (scrollDirection === "down") {
-        y0 = -(y0 + notefield.data.height);
-        y0 += receptorY;
-    } else {
-        y0 -= receptorY;
-    }
-
-    // Dividing by zoom converts from screen coordinates to notefield coordinates
-    const viewBox = `-250 ${y0 / zoom} 500 ${height / zoom}`;
-
-    const attributes: Record<string, string> = {
-        viewBox,
+    const attributes: Record<string, number | string> = {
+        viewBox: `${x} ${y} ${width} ${height}`,
         preserveAspectRatio: "none",
-        height: height + "px",
+        height: notefield.data.height,
     };
 
     for (const key in attributes) {
-        el.svg.setAttribute(key, attributes[key]);
+        el.svg.setAttribute(key, attributes[key].toString());
     }
 
     return <React.Fragment>{convert(el.svg)}</React.Fragment>;

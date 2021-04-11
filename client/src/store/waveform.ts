@@ -5,6 +5,13 @@ import WaveformData from "waveform-data";
 
 import { RootStore } from "./root";
 
+export interface ViewBox {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
 /**
  * WaveformElement holds the waveform SVG and the data used for that SVG.
  */
@@ -31,6 +38,13 @@ export class WaveformStore {
     data: WaveformStoreData;
     root: RootStore;
 
+    /**
+     * Used for calculating the viewBox. This is not actually the height of the waveform.
+     *
+     * You probably want the `width` getter.
+     */
+    readonly WAVEFORM_HEIGHT = 500;
+
     constructor(store: RootStore) {
         makeAutoObservable(this);
         this.root = store;
@@ -53,6 +67,35 @@ export class WaveformStore {
      */
     get scales(): number[] {
         return [64, 128, 256, 512, 1024, 2048];
+    }
+
+    /**
+     * Returns the viewbox for the waveform SVG. This viewbox depends on the current zoom
+     * and scroll of the notefield.
+     */
+    get viewBox(): ViewBox {
+        const { notefield } = this.root;
+        const { receptorY, scrollDirection } = this.root.notefieldDisplay.data;
+        const zoom = notefield.data.zoom.valueOf();
+        const height = notefield.data.height;
+
+        let y0 =
+            (notefield.data.scroll.time.value - notefield.data.audioOffset) *
+            notefield.pixelsPerSecond;
+
+        if (scrollDirection === "down") {
+            y0 = -(y0 + notefield.data.height);
+            y0 += receptorY;
+        } else {
+            y0 -= receptorY;
+        }
+
+        return {
+            x: -(this.WAVEFORM_HEIGHT / 2),
+            y: y0 / zoom,
+            width: this.WAVEFORM_HEIGHT,
+            height: height / zoom,
+        };
     }
 
     /**
@@ -80,7 +123,7 @@ export class WaveformStore {
         const waveform = (this.data.waveform as WaveformData).resample({ scale });
 
         const width = this.width;
-        const height = 500;
+        const height = this.WAVEFORM_HEIGHT;
         const channel = waveform.channel(0);
         const x = d3.scaleLinear();
         const y = d3.scaleLinear();
