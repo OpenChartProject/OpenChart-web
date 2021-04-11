@@ -57,6 +57,7 @@ export interface NotefieldDisplayData {
     scrollDirection: ScrollDirection;
     showWaveform: boolean;
     showWaveformWhilePlaying: boolean;
+    highQualityWaveform: boolean;
 }
 
 /**
@@ -116,6 +117,7 @@ export class NotefieldDisplayStore {
             scrollDirection: "up",
             showWaveform: true,
             showWaveformWhilePlaying: true,
+            highQualityWaveform: true,
         };
     }
 

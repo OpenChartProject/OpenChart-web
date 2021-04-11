@@ -44,6 +44,11 @@ export const NotefieldPanel = observer((props: Props) => {
         e.target.blur();
     };
 
+    const onToggleWaveformQuality = (e: ChangeEvent<HTMLInputElement>) => {
+        nfDisplay.update({ highQualityWaveform: e.target.checked });
+        e.target.blur();
+    };
+
     const onToggleWaveformWhilePlaying = (e: ChangeEvent<HTMLInputElement>) => {
         nfDisplay.update({ showWaveformWhilePlaying: e.target.checked });
         e.target.blur();
@@ -71,10 +76,20 @@ export const NotefieldPanel = observer((props: Props) => {
                     <input
                         type="checkbox"
                         className="form-input"
+                        checked={nfDisplay.data.highQualityWaveform}
+                        onChange={onToggleWaveformQuality}
+                    />
+                    High quality
+                </label>
+                <br />
+                <label className="form-label-inline form-label-light">
+                    <input
+                        type="checkbox"
+                        className="form-input"
                         checked={nfDisplay.data.showWaveformWhilePlaying}
                         onChange={onToggleWaveformWhilePlaying}
                     />
-                    Show when playing
+                    Show while playing
                 </label>
             </div>
 

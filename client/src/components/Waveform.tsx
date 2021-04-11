@@ -5,6 +5,8 @@ import { RootStore } from "../store";
 
 import { WaveformSVG } from "./WaveformSVG";
 
+const LOW_QUALITY_SCALAR = 4;
+
 export interface Props {
     store: RootStore;
 }
@@ -18,7 +20,13 @@ export const Waveform = observer(({ store }: Props) => {
     }
 
     const { notefield, waveform } = store;
-    const el = waveform.getBestMatchingWaveform(notefield.pixelsPerSecond);
+    let pps = notefield.pixelsPerSecond;
+
+    if (!store.notefieldDisplay.data.highQualityWaveform) {
+        pps /= LOW_QUALITY_SCALAR;
+    }
+
+    const el = waveform.getBestMatchingWaveform(pps);
 
     if (!el) {
         return null;
