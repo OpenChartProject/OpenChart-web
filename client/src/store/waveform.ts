@@ -5,17 +5,28 @@ import WaveformData from "waveform-data";
 
 import { RootStore } from "./root";
 
+/**
+ * WaveformElement holds the waveform SVG and the data used for that SVG.
+ */
+export interface WaveformElement {
+    data: WaveformData;
+    svg: SVGElement;
+}
+
+/**
+ * This stores the audio data and the various SVGs of the waveforms. Each WaveformElement
+ * represents a different zoom level. Without zoom levels the waveform will have too
+ * much detail when the user zooms out the notefield, and it causes serious lag.
+ */
 export interface WaveformStoreData {
     audioData?: ArrayBuffer;
     el: WaveformElement[];
     waveform?: WaveformData;
 }
 
-export interface WaveformElement {
-    data: WaveformData;
-    svg: SVGElement;
-}
-
+/**
+ * This stores the waveform data for the currently loaded audio.
+ */
 export class WaveformStore {
     data: WaveformStoreData;
     root: RootStore;
@@ -26,6 +37,9 @@ export class WaveformStore {
         this.data = makeObservable({ el: [] }, { el: observable.ref });
     }
 
+    /**
+     * Returns the duration of the waveform, in seconds.
+     */
     get duration(): number {
         if (!this.data.waveform) {
             return 0;
@@ -34,20 +48,33 @@ export class WaveformStore {
         return this.data.waveform.duration;
     }
 
+    /**
+     * This returns the different scaling/zoom levels for the waveforms.
+     */
     get scales(): number[] {
         return [64, 128, 256, 512, 1024, 2048];
     }
 
+    /**
+     * This returns the size of the waveform, in pixels.
+     *
+     * The waveform is generated to be horizontal and then rotated to be vertical, which
+     * is why this is called "width" and not "height".
+     */
     get width(): number {
         return this.duration * this.root.notefield.pixelsPerSecond;
     }
 
-    generateAll() {
+    /**
+     * Generates waveforms at different zoom levels and returns them.
+     */
+    generateAll(): WaveformElement[] {
         this.data.el = this.scales.map((val) => this.generate(val));
+        return this.data.el;
     }
 
     /**
-     * Generates a SVG of the waveform with the given height and returns it.
+     * Generates a SVG of the waveform with the given scale and returns it.
      */
     generate(scale: number): WaveformElement {
         const waveform = (this.data.waveform as WaveformData).resample({ scale });
@@ -119,7 +146,8 @@ export class WaveformStore {
     }
 
     /**
-     * Sets the audio data to use for the waveform.
+     * Sets the audio data to use for the waveform. This returns a promise that is resolved
+     * once the audio has been processed and is ready to use.
      */
     setAudioData(data: ArrayBuffer): Promise<void> {
         if (data === this.data.audioData) {
