@@ -5,5 +5,6 @@ export { Modal } from "./Modal";
 export { Music } from "./Music";
 export { Notefield } from "./Notefield";
 export { Toolbar } from "./Toolbar";
-export { Waveform, WaveformWrapper } from "./Waveform";
+export { Waveform } from "./Waveform";
+export { WaveformSVG } from "./WaveformSVG";
 export { WelcomeModal } from "./WelcomeModal";

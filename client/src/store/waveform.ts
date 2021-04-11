@@ -146,6 +146,35 @@ export class WaveformStore {
     }
 
     /**
+     * Returns the most appropriate waveform, given a pixels per second value.
+     *
+     * If no waveforms have been generated yet it returns null.
+     *
+     * This compares all of the PPS values for the zoom levels and returns the element
+     * that closest matches the provided PPS.
+     */
+    getBestMatchingWaveform(pps: number): WaveformElement | null {
+        if (this.data.el.length === 0) {
+            return null;
+        }
+
+        let lastDiff = Number.MAX_VALUE;
+        let index = 0;
+
+        for (let i = 0; i < this.data.el.length; i++) {
+            const el = this.data.el[i];
+            const diff = Math.abs(el.data.pixels_per_second - pps);
+
+            if (diff < lastDiff) {
+                lastDiff = diff;
+                index = i;
+            }
+        }
+
+        return this.data.el[index];
+    }
+
+    /**
      * Sets the audio data to use for the waveform. This returns a promise that is resolved
      * once the audio has been processed and is ready to use.
      */
