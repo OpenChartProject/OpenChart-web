@@ -44,6 +44,11 @@ export const NotefieldPanel = observer((props: Props) => {
         e.target.blur();
     };
 
+    const onToggleWaveformWhilePlaying = (e: ChangeEvent<HTMLInputElement>) => {
+        nfDisplay.update({ showWaveformWhilePlaying: e.target.checked });
+        e.target.blur();
+    };
+
     const onToggle = () => {
         ui.updateProperty("panelVisibility", { notefield: !visible });
     };
@@ -60,6 +65,16 @@ export const NotefieldPanel = observer((props: Props) => {
                         onChange={onToggleWaveform}
                     />
                     Enabled
+                </label>
+                <br />
+                <label className="form-label-inline form-label-light">
+                    <input
+                        type="checkbox"
+                        className="form-input"
+                        checked={nfDisplay.data.showWaveformWhilePlaying}
+                        onChange={onToggleWaveformWhilePlaying}
+                    />
+                    Show when playing
                 </label>
             </div>
 

@@ -56,6 +56,7 @@ export interface NotefieldDisplayData {
     pixelsPerSecond: number;
     scrollDirection: ScrollDirection;
     showWaveform: boolean;
+    showWaveformWhilePlaying: boolean;
 }
 
 /**
@@ -114,6 +115,7 @@ export class NotefieldDisplayStore {
             receptorY: 384,
             scrollDirection: "up",
             showWaveform: true,
+            showWaveformWhilePlaying: true,
         };
     }
 

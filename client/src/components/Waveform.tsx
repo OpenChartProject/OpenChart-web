@@ -10,7 +10,10 @@ export interface Props {
 }
 
 export const Waveform = observer(({ store }: Props) => {
-    if (!store.notefieldDisplay.data.showWaveform) {
+    if (
+        !store.notefieldDisplay.data.showWaveform ||
+        (store.notefield.data.isPlaying && !store.notefieldDisplay.data.showWaveformWhilePlaying)
+    ) {
         return null;
     }
 
