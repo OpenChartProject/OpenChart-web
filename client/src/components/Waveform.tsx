@@ -9,7 +9,7 @@ export interface Props {
     store: RootStore;
 }
 
-export const WaveformWrapper = observer(({ store }: Props) => {
+export const Waveform = observer(({ store }: Props) => {
     if (!store.notefieldDisplay.data.showWaveform) {
         return null;
     }

@@ -8,7 +8,7 @@ import { RootStore } from "../store";
 
 import { BeatSnapDisplay } from "./BeatSnapDisplay";
 import { TimePicker } from "./TimePicker";
-import { WaveformWrapper } from "./Waveform";
+import { Waveform } from "./Waveform";
 
 export interface Props {
     store: RootStore;
@@ -117,7 +117,7 @@ export const Notefield = observer(({ store }: Props) => {
             <div className="canvas-container">
                 {store.ui.tools.timePicker.active && <TimePicker store={store} />}
 
-                <WaveformWrapper store={store} />
+                <Waveform store={store} />
                 <canvas className="notefield" ref={refCanvas}></canvas>
                 <BeatSnapDisplay store={store} />
             </div>
