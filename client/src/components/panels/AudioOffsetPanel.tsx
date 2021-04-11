@@ -33,6 +33,18 @@ export const AudioOffsetPanel = observer((props: Props) => {
         notefield.setAudioOffset(_.toNumber(inputVal));
     };
 
+    const onOffsetKeyDown = (e: React.KeyboardEvent) => {
+        const delta = 0.001;
+
+        if (e.key === "ArrowUp") {
+            notefield.setAudioOffset(notefield.data.audioOffset + delta);
+            e.preventDefault();
+        } else if (e.key === "ArrowDown") {
+            notefield.setAudioOffset(notefield.data.audioOffset - delta);
+            e.preventDefault();
+        }
+    };
+
     const onPickTime = () => {
         ui.activateTimePicker({
             onPick: (y, time) => {
@@ -72,6 +84,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
                             value={inputVal}
                             onChange={(e) => setInputVal(e.currentTarget.value)}
                             onBlur={update}
+                            onKeyDown={onOffsetKeyDown}
                         />
                         <button
                             type="button"
