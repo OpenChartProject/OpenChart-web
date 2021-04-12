@@ -1,10 +1,17 @@
 import sinon from "sinon";
 
-globalThis.localStorage = window.localStorage;
-window.requestAnimationFrame = (cb) => 0;
+window.requestAnimationFrame = () => 0;
 globalThis.requestAnimationFrame = window.requestAnimationFrame;
 
+beforeEach(() => {
+    (globalThis.localStorage as any) = {
+        getItem: sinon.stub(),
+        removeItem: sinon.stub(),
+        setItem: sinon.stub(),
+        clear: sinon.stub(),
+    };
+});
+
 afterEach(() => {
-    localStorage.clear();
     sinon.restore();
 });
