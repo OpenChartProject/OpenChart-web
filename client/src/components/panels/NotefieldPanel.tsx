@@ -2,7 +2,7 @@ import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent } from "react";
 
-import { ScrollDirectionAction } from "../../actions/notefieldActions";
+import { ScrollDirectionAction } from "../../actions/notefield";
 import { RootStore, ScrollDirection } from "../../store";
 
 import { Panel } from "./Panel";
