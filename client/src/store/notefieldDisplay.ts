@@ -2,6 +2,7 @@ import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
 import { NoteSkin } from "../noteskin";
+import Storage from "../storage";
 
 import { RootStore } from "./root";
 
@@ -66,7 +67,7 @@ export interface NotefieldDisplayData {
  * Any updates made to the notefield display are saved to localStorage.
  */
 export class NotefieldDisplayStore {
-    readonly STORAGE_KEY = "editor";
+    static readonly STORAGE_KEY = "editor";
 
     data!: NotefieldDisplayData;
     readonly root: RootStore;
@@ -83,7 +84,7 @@ export class NotefieldDisplayStore {
         // This loads the default editor config and overwrites it with the user's saved
         // config, if it exists.
         const defaults = this.defaults;
-        const existing = localStorage.getItem(this.STORAGE_KEY);
+        const existing = Storage.get(NotefieldDisplayStore.STORAGE_KEY);
 
         if (!existing) {
             this.update(defaults);
@@ -156,6 +157,6 @@ export class NotefieldDisplayStore {
         // Remove any properties we don't want saved
         delete clone.noteSkin;
 
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
+        Storage.set(NotefieldDisplayStore.STORAGE_KEY, JSON.stringify(clone));
     }
 }

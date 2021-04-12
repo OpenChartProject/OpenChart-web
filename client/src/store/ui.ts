@@ -3,6 +3,7 @@ import _ from "lodash";
 import { makeAutoObservable } from "mobx";
 
 import { KeyBinds } from "../notefield/input";
+import Storage from "../storage";
 
 import { MusicController } from "./controllers";
 import { RootStore } from "./root";
@@ -42,7 +43,7 @@ export interface UIData {
 }
 
 export class UIStore {
-    readonly STORAGE_KEY = "ui";
+    static readonly STORAGE_KEY = "ui";
 
     data!: UIData;
     readonly root: RootStore;
@@ -92,7 +93,7 @@ export class UIStore {
         // This loads the default editor config and overwrites it with the user's saved
         // config, if it exists.
         const defaults = this.defaults;
-        const existing = localStorage.getItem(this.STORAGE_KEY);
+        const existing = Storage.get(UIStore.STORAGE_KEY);
 
         if (!existing) {
             this.update(defaults);
@@ -190,6 +191,6 @@ export class UIStore {
         // Remove any properties we don't want saved
         delete clone.music.src;
 
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clone));
+        Storage.set(UIStore.STORAGE_KEY, JSON.stringify(clone));
     }
 }
