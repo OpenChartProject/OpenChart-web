@@ -1,5 +1,7 @@
 import sinon from "sinon";
 
+import Storage from "./storage";
+
 window.requestAnimationFrame = () => 0;
 globalThis.requestAnimationFrame = window.requestAnimationFrame;
 
@@ -13,5 +15,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+    Storage.clear();
     sinon.restore();
 });

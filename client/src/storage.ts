@@ -1,5 +1,9 @@
 let memoryStorage: Record<string, string> = {};
 
+/**
+ * This is a simple wrapper around localStorage. If localStorage is not available it falls
+ * back to using a simple in-memory store.
+ */
 export default {
     clear() {
         if (localStorage) {
