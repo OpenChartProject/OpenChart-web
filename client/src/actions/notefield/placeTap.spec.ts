@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { Beat } from "../../charting";
 import { KeyIndex } from "../../charting";
 import { Tap } from "../../charting/objects";
-import { createStore } from "../../testUtil";
+import { createStore } from "../../test";
 
 import { PlaceTapAction, PlaceTapArgs } from "./placeTap";
 

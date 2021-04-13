@@ -1,7 +1,7 @@
 import _ from "lodash";
 
-import { NoteSkin } from "./noteskin";
-import { RootStore } from "./store";
+import { NoteSkin } from "../noteskin";
+import { RootStore } from "../store";
 
 /**
  * Returns a dummy noteskin for testing. The noteskin doesn't refer to any actual

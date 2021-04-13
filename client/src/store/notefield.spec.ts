@@ -3,7 +3,7 @@ import Fraction from "fraction.js";
 import sinon from "sinon";
 
 import { Beat, Chart, Time } from "../charting";
-import { createStore } from "../testUtil";
+import { createStore } from "../test";
 
 import { ZOOM_MAX, ZOOM_MIN } from "./notefield";
 

@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import sinon from "sinon";
 
-import { createStore } from "../../testUtil";
+import { createStore } from "../../test";
 
 import { ZoomAction, ZoomArgs } from "./zoom";
 

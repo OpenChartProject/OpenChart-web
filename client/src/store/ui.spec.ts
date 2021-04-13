@@ -3,7 +3,7 @@ import _ from "lodash";
 import sinon from "sinon";
 
 import Storage from "../storage";
-import { createStore } from "../testUtil";
+import { createStore } from "../test";
 
 import { MetronomeData, UIData, UIStore } from "./ui";
 

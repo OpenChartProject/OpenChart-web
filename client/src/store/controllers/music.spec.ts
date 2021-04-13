@@ -1,7 +1,7 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { createStore } from "../../testUtil";
+import { createStore } from "../../test";
 
 import { MusicController } from "./music";
 

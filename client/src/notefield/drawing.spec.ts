@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { Beat, Time } from "../charting/";
 import { Baseline, NotefieldData, NotefieldDisplayData } from "../store";
-import { createStore } from "../testUtil";
+import { createStore } from "../test";
 
 import {
     adjustToBaseline,

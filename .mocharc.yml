@@ -6,4 +6,4 @@ require:
   - jsdom-global/register
   - mock-local-storage
 file:
-  - client/src/testSetup.ts
+  - client/src/test/setup.ts

@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import Storage from "./storage";
+import Storage from "../storage";
 
 window.requestAnimationFrame = () => 0;
 globalThis.requestAnimationFrame = window.requestAnimationFrame;

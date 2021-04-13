@@ -2,7 +2,7 @@ import assert from "assert";
 import sinon from "sinon";
 
 import { Beat } from "../../charting";
-import { createStore } from "../../testUtil";
+import { createStore } from "../../test";
 
 import { SnapScrollAction, SnapScrollArgs } from "./snapScroll";
 

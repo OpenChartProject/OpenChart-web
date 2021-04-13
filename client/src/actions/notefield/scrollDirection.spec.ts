@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import { createStore } from "../../testUtil";
+import { createStore } from "../../test";
 
 import { ScrollDirectionAction } from "./scrollDirection";
 

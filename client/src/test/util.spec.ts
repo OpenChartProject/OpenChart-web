@@ -1,10 +1,11 @@
 import assert from "assert";
 import _ from "lodash";
 
-import { Chart } from "./charting";
-import { createDummyNoteSkin, createStore } from "./testUtil";
+import { Chart } from "../charting";
 
-describe("testutil", () => {
+import { createDummyNoteSkin, createStore } from "./util";
+
+describe("test", () => {
     describe("#createDummyNoteSkin", () => {
         it("returns a dummy skin with a default keycount of 4", () => {
             const ns = createDummyNoteSkin();
