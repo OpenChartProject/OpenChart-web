@@ -1,7 +1,7 @@
 import assert from "assert";
 import sinon from "sinon";
 
-import { createStore } from "../test";
+import { createStore, TestData } from "../test";
 
 describe("WaveformStore", () => {
     describe("duration", () => {});
@@ -25,6 +25,17 @@ describe("WaveformStore", () => {
         it("throws an error if the waveform data has not yet been generated", () => {
             const store = createStore().waveform;
             assert.throws(() => store.generate(1));
+        });
+
+        it("returns a resampled WaveformElement", () => {
+            const store = createStore().waveform;
+            store.data.waveform = TestData.audio.waveData;
+
+            const scale = 300;
+            const result = store.generate(scale);
+
+            assert(result.svg);
+            assert.strictEqual(result.data.scale, scale);
         });
     });
     describe("#getBestMatchingWaveform", () => {});
