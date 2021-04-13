@@ -44,7 +44,7 @@ export class WaveformStore {
      *
      * You probably want the `width` getter.
      */
-    readonly WAVEFORM_HEIGHT = 500;
+    static readonly WAVEFORM_HEIGHT = 500;
 
     constructor(store: RootStore) {
         makeAutoObservable(this);
@@ -92,9 +92,9 @@ export class WaveformStore {
         }
 
         return {
-            x: -(this.WAVEFORM_HEIGHT / 2),
+            x: -(WaveformStore.WAVEFORM_HEIGHT / 2),
             y: y0 / zoom,
-            width: this.WAVEFORM_HEIGHT,
+            width: WaveformStore.WAVEFORM_HEIGHT,
             height: height / zoom,
         };
     }
@@ -126,7 +126,7 @@ export class WaveformStore {
         const waveform = this.data.waveform.resample({ scale });
 
         const width = this.width;
-        const height = this.WAVEFORM_HEIGHT;
+        const height = WaveformStore.WAVEFORM_HEIGHT;
         const channel = waveform.channel(0);
         const x = d3.scaleLinear();
         const y = d3.scaleLinear();
