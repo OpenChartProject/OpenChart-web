@@ -1,3 +1,4 @@
+import assert from "assert";
 import * as d3 from "d3";
 import { min as arrayMin } from "lodash";
 import { makeAutoObservable, makeObservable, observable } from "mobx";
@@ -120,7 +121,9 @@ export class WaveformStore {
      * Generates a SVG of the waveform with the given scale and returns it.
      */
     generate(scale: number): WaveformElement {
-        const waveform = (this.data.waveform as WaveformData).resample({ scale });
+        assert(this.data.waveform, "cannot generate svg without waveform data");
+
+        const waveform = this.data.waveform.resample({ scale });
 
         const width = this.width;
         const height = this.WAVEFORM_HEIGHT;
@@ -157,7 +160,7 @@ export class WaveformStore {
      * Generates a WaveformData object for the given data and returns a promise that is
      * resolved once the WaveformData object is ready.
      */
-    private generateWaveformData(data: ArrayBuffer): Promise<WaveformData> {
+    generateWaveformData(data: ArrayBuffer): Promise<WaveformData> {
         return new Promise<WaveformData>((resolve) => {
             const ctx = new AudioContext();
 

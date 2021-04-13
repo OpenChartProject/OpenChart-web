@@ -6,6 +6,9 @@
   "rules": {
     "forin": false,
     "no-console": false,
+    "no-empty": {
+      "severity": "warning"
+    },
     "no-unused-variable": [
       true
     ],
