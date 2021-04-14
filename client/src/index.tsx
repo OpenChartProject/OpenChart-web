@@ -9,8 +9,8 @@ import { RootStore } from "./store";
 declare global {
     interface NodeModule {
         hot?: {
-            accept(fn?: Function): void;
-            dispose(fn?: Function): void;
+            accept(fn?: () => void): void;
+            dispose(fn?: () => void): void;
         };
     }
 }

@@ -1,8 +1,8 @@
+import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import { BPMTime } from "../../charting";
-import _ from "lodash";
 
+import { BPMTime } from "../../charting";
 import { RootStore } from "../../store";
 
 import { Panel } from "./Panel";

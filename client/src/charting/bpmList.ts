@@ -27,6 +27,24 @@ export class BPMList {
     }
 
     /**
+     * Returns the beat at a particular time.
+     */
+    beatAt(time: Time | number): Beat {
+        time = toTime(time);
+        let i = 1;
+
+        // Use the cached BPM times to quickly find the BPM interval that the target
+        // time is in.
+        for (; i < this.bpms.length; i++) {
+            if (this.bpms[i].time.value > time.value) break;
+        }
+
+        const bt = this.bpms[i - 1];
+
+        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond);
+    }
+
+    /**
      * Returns a copy of the BPM that is at the given index.
      */
     get(index: number): BPMTime {
@@ -49,33 +67,11 @@ export class BPMList {
      */
     setBPMs(bpms: BPM[]) {
         assert(bpms.length > 0, "bpm list cannot be empty");
-        assert(bpms[0].beat.value === 0, "the first bpm change must be at beat 0");
 
-        this.bpms = bpms.map((bpm) => {
-            return { bpm, time: Time.Zero };
-        });
+        bpms = this.clean(bpms);
+        this.bpms = bpms.map((x) => ({ bpm: x, time: Time.Zero }));
 
-        for (const bpm of this.bpms) {
-            bpm.time = this.timeAt(bpm.bpm.beat, false);
-        }
-    }
-
-    /**
-     * Returns the beat at a particular time.
-     */
-    beatAt(time: Time | number): Beat {
-        time = toTime(time);
-        let i = 1;
-
-        // Use the cached BPM times to quickly find the BPM interval that the target
-        // time is in.
-        for (; i < this.bpms.length; i++) {
-            if (this.bpms[i].time.value > time.value) break;
-        }
-
-        const bt = this.bpms[i - 1];
-
-        return new Beat(bt.bpm.beat.value + (time.value - bt.time.value) * bt.bpm.beatsPerSecond);
+        this.recalculateTimes();
     }
 
     /**
@@ -107,7 +103,61 @@ export class BPMList {
     update(index: number, bpm: BPM) {
         assert(index >= 0 && index < this.bpms.length, "index is out of range");
 
-        this.bpms[index] = { bpm, time: this.timeAt(bpm.beat) };
+        // Create a copy of the bpms just in case clean() throws an exception.
+        const copy = _.cloneDeep(this.bpms.map((x) => x.bpm));
+        copy[index] = bpm;
+
+        this.clean(copy);
+        this.bpms = copy.map((x) => ({ bpm: x, time: Time.Zero }));
+        this.recalculateTimes();
+    }
+
+    /**
+     * Cleans the list of BPMs by sorting them and removing duplicates. Throws if none
+     * of the BPM changes occur at beat 0.
+     */
+    private clean(bpms: BPM[]): BPM[] {
+        const sorted = this.sortByBeat(bpms);
+
+        assert(sorted[0].beat.value === 0, "there must be a bpm set at beat 0");
+
+        const duplicates: number[] = [];
+
+        // Compare each bpm with the previous to see if it's a duplicate.
+        for (let i = 1; i < sorted.length; i++) {
+            const a = sorted[i - 1];
+            const b = sorted[i];
+
+            if (a.beat.fraction.equals(b.beat.fraction) || a.value === b.value) {
+                duplicates.push(i);
+            }
+        }
+
+        // Remove the duplicates in reverse order so we keep the order of the indicies.
+        duplicates.reverse();
+
+        for (const i of duplicates) {
+            sorted.splice(i, 1);
+        }
+
+        return sorted;
+    }
+
+    /**
+     * Recalculates the times for each BPM.
+     */
+    private recalculateTimes() {
+        for (const bpm of this.bpms) {
+            bpm.time = this.timeAt(bpm.bpm.beat, false);
+        }
+    }
+
+    /**
+     * Sorts the provided bpms by beat and returns it.
+     */
+    private sortByBeat(bpms: BPM[]): BPM[] {
+        const copy = _.clone(bpms);
+        return copy.sort((a, b) => (a.beat.value < b.beat.value ? -1 : 1));
     }
 
     /**
