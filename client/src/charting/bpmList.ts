@@ -68,8 +68,7 @@ export class BPMList {
     setBPMs(bpms: BPM[]) {
         assert(bpms.length > 0, "bpm list cannot be empty");
 
-        bpms = this.clean(bpms);
-        this.bpms = bpms.map((x) => ({ bpm: x, time: Time.Zero }));
+        this.bpms = this.clean(bpms).map((x) => ({ bpm: x, time: Time.Zero }));
 
         this.recalculateTimes();
     }
@@ -107,8 +106,8 @@ export class BPMList {
         const copy = _.cloneDeep(this.bpms.map((x) => x.bpm));
         copy[index] = bpm;
 
-        this.clean(copy);
-        this.bpms = copy.map((x) => ({ bpm: x, time: Time.Zero }));
+        this.bpms = this.clean(copy).map((x) => ({ bpm: x, time: Time.Zero }));
+
         this.recalculateTimes();
     }
 
@@ -128,7 +127,7 @@ export class BPMList {
             const a = sorted[i - 1];
             const b = sorted[i];
 
-            if (a.beat.fraction.equals(b.beat.fraction) || a.value === b.value) {
+            if (a.beat.fraction.equals(b.beat.fraction)) {
                 duplicates.push(i);
             }
         }
