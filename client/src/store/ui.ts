@@ -12,6 +12,7 @@ export interface PanelVisibility {
     audio: boolean;
     audioOffset: boolean;
     beatTime: boolean;
+    bpm: boolean;
     songInfo: boolean;
     notefield: boolean;
 }
@@ -134,6 +135,7 @@ export class UIStore {
                 audio: true,
                 audioOffset: true,
                 beatTime: true,
+                bpm: true,
                 songInfo: true,
                 notefield: true,
             },

@@ -8,6 +8,7 @@ import {
     AudioOffsetPanel,
     AudioPanel,
     BeatTimePanel,
+    BPMPanel,
     NotefieldPanel,
     PanelContainer,
     SongPanel,
@@ -37,6 +38,7 @@ export const App = observer((props: Props) => {
             <PanelContainer store={store}>
                 <BeatTimePanel store={store} />
                 <SongPanel store={store} />
+                <BPMPanel store={store} />
                 <AudioOffsetPanel store={store} />
                 <AudioPanel store={store} />
                 <NotefieldPanel store={store} />
