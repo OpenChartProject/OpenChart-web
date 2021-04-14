@@ -1,7 +1,18 @@
+@import "./colors";
+
 .bpm-list-container {
 }
 
 .bpm-list-item {
     padding: 14px 10px;
     background-color: $col-gray;
+    cursor: pointer;
+
+    &:hover {
+        background-color: lighten($col-gray, 3%);
+    }
+
+    &.selected {
+        background-color: $col-light-gray;
+    }
 }

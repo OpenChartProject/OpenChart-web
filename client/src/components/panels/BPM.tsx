@@ -2,20 +2,27 @@ import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 
-import { BPMTime } from "../../charting";
+import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
 
 import { Panel } from "./Panel";
 
 export interface BPMListItemProps {
     bpm: BPMTime;
+    selected: boolean;
     onClick?(e: React.MouseEvent): void;
 }
 
 export const BPMListItem = observer((props: BPMListItemProps) => {
+    let cls = "bpm-list-item";
+
+    if (props.selected) {
+        cls += " selected";
+    }
+
     return (
-        <div className="bpm-list-item" onClick={props.onClick}>
-            {props.bpm.bpm.value} @ {props.bpm.time.value}s
+        <div className={cls} onClick={props.onClick}>
+            {props.bpm.bpm.value} BPM @ {props.bpm.time.value.toFixed(3)}s
         </div>
     );
 });
@@ -26,40 +33,105 @@ export interface BPMListProps {
 }
 
 export const BPMList = observer((props: BPMListProps) => {
+    const [selected, setSelected] = useState(0);
+
     const onSelect = (i: number) => {
         if (props.onSelect) {
             props.onSelect(i);
         }
+
+        setSelected(i);
     };
 
     return (
         <div className="bpm-list-container">
             {props.bpms.map((bpm, i) => (
-                <BPMListItem bpm={bpm} onClick={() => onSelect(i)} />
+                <BPMListItem bpm={bpm} onClick={() => onSelect(i)} selected={i === selected} />
             ))}
         </div>
     );
 });
 
+export interface BPMFormSubmitArgs {
+    bpm: number;
+    beat: number;
+    time: number;
+}
+
 export interface BPMFormProps {
     bpm: BPMTime;
     index: number;
+    onSubmit?(args: BPMFormSubmitArgs): void;
 }
 
 export const BPMForm = observer((props: BPMFormProps) => {
     const { bpm, time } = props.bpm;
 
-    const [bpmVal, setBPMVal] = useState(bpm.value);
-    const [beatVal, setBeatVal] = useState(bpm.beat.value);
-    const [timeVal, setTimeVal] = useState(time.value);
+    const [bpmVal, setBPMVal] = useState(bpm.value.toString());
+    const [beatVal, setBeatVal] = useState(bpm.beat.value.toFixed(3));
+    const [timeVal, setTimeVal] = useState(time.value.toFixed(3));
 
-    const onApply = () => {};
-    const onCancel = () => {};
+    const reset = (field: "bpm" | "beat" | "time" | "all") => {
+        if (field === "bpm" || field === "all") {
+            setBPMVal(bpm.value.toString());
+        }
+
+        if (field === "beat" || field === "all") {
+            setBeatVal(bpm.beat.value.toFixed(3));
+        }
+
+        if (field === "time" || field === "all") {
+            setTimeVal(bpm.beat.value.toFixed(3));
+        }
+    };
+
+    const onApply = () => {
+        if (props.onSubmit) {
+            props.onSubmit({
+                bpm: _.toNumber(bpmVal),
+                beat: _.toNumber(beatVal),
+                time: _.toNumber(timeVal),
+            });
+        }
+    };
+
+    const onCancel = () => {
+        reset("all");
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
     };
 
-    const modified = bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value;
+    const onBPMBlur = () => {
+        if (bpmVal.trim() === "") {
+            reset("bpm");
+        }
+    };
+
+    const onBeatBlur = () => {
+        if (beatVal.trim() === "") {
+            reset("beat");
+        } else {
+            setBeatVal(_.toNumber(beatVal).toFixed(3));
+        }
+    };
+
+    const onTimeBlur = () => {
+        if (timeVal.trim() === "") {
+            reset("time");
+        } else {
+            setTimeVal(_.toNumber(timeVal).toFixed(3));
+        }
+    };
+
+    const modified =
+        bpmVal &&
+        beatVal &&
+        timeVal &&
+        (_.toNumber(bpmVal) !== bpm.value ||
+            _.toNumber(beatVal) !== bpm.beat.value ||
+            _.toNumber(timeVal) !== time.value);
 
     return (
         <form onSubmit={onSubmit}>
@@ -69,7 +141,8 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     type="text"
                     className="form-input"
                     value={bpmVal}
-                    onChange={(e) => setBPMVal(_.toNumber(e.currentTarget.value))}
+                    onBlur={onBPMBlur}
+                    onChange={(e) => setBPMVal(e.currentTarget.value)}
                 />
             </div>
             <div className="form-control">
@@ -78,7 +151,8 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     type="text"
                     className="form-input"
                     value={beatVal}
-                    onChange={(e) => setBeatVal(_.toNumber(e.currentTarget.value))}
+                    onBlur={onBeatBlur}
+                    onChange={(e) => setBeatVal(e.currentTarget.value)}
                 />
             </div>
             <div className="form-control">
@@ -87,7 +161,8 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     type="text"
                     className="form-input"
                     value={timeVal}
-                    onChange={(e) => setTimeVal(_.toNumber(e.currentTarget.value))}
+                    onBlur={onTimeBlur}
+                    onChange={(e) => setTimeVal(e.currentTarget.value)}
                 />
             </div>
             <div className="form-control">
@@ -115,13 +190,28 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     const [selected, setSelected] = useState(0);
 
     const { notefield, ui } = props.store;
+    const chart = notefield.data.chart;
     const visible = ui.data.panelVisibility.bpm;
+
+    const bpms = chart.bpms.getAll();
+    const cur = bpms[selected];
+
+    const onSubmit = (args: BPMFormSubmitArgs) => {
+        const { bpm, beat, time } = args;
+        let newBPM: BPM;
+
+        if (time !== cur.time.value) {
+            newBPM = new BPM(chart.bpms.beatAt(time), bpm);
+        } else {
+            newBPM = new BPM(beat, bpm);
+        }
+
+        chart.bpms.update(selected, newBPM);
+    };
 
     const onToggle = () => {
         ui.updateProperty("panelVisibility", { bpm: !visible });
     };
-
-    const bpms = notefield.data.chart.bpms.getAll();
 
     return (
         <Panel title="BPM" visible={visible} onToggle={onToggle}>
@@ -129,7 +219,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
                 <label className="form-label form-label-dark">BPMs</label>
                 <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
             </div>
-            <BPMForm bpm={bpms[selected]} index={selected} />
+            <BPMForm bpm={cur} index={selected} onSubmit={onSubmit} />
         </Panel>
     );
 });
