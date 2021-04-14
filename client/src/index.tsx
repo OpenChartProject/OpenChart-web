@@ -6,6 +6,19 @@ import { App } from "./components/";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { RootStore } from "./store";
 
+declare global {
+    interface NodeModule {
+        hot?: {
+            accept(fn?: Function): void;
+            dispose(fn?: Function): void;
+        };
+    }
+}
+
+if (module.hot) {
+    module.hot.accept();
+}
+
 export const store = new RootStore();
 
 // Preload the noteskin before creating the editor.
