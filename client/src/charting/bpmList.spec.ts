@@ -16,8 +16,8 @@ describe("BPMList", () => {
         it("calculates the time of each bpm", () => {
             const lst = new BPMList([new BPM(0, 120), new BPM(4, 60)]);
 
-            assert.strictEqual(lst.getBPMS()[0].time.value, 0);
-            assert.strictEqual(lst.getBPMS()[1].time.value, 2);
+            assert.strictEqual(lst.getAll()[0].time.value, 0);
+            assert.strictEqual(lst.getAll()[1].time.value, 2);
         });
     });
 

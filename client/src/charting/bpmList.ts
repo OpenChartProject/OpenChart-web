@@ -22,14 +22,23 @@ export class BPMList {
     private bpms: BPMTime[] = [];
 
     constructor(bpms?: BPM[]) {
-        this.setBPMs(bpms ?? [new BPM(Beat.Zero, 120)]);
         makeAutoObservable(this);
+        this.setBPMs(bpms ?? [new BPM(Beat.Zero, 120)]);
     }
 
     /**
-     * Returns the BPM changes.
+     * Returns a copy of the BPM that is at the given index.
      */
-    getBPMS(): BPMTime[] {
+    get(index: number): BPMTime {
+        assert(index >= 0 && index < this.bpms.length, "index is out of range");
+
+        return _.cloneDeep(this.bpms[index]);
+    }
+
+    /**
+     * Returns a copy of all the BPMs.
+     */
+    getAll(): BPMTime[] {
         return _.cloneDeep(this.bpms);
     }
 
@@ -90,6 +99,15 @@ export class BPMList {
         }
 
         return new Time(bt.time.value + (beat.value - bt.bpm.beat.value) * bt.bpm.secondsPerBeat);
+    }
+
+    /**
+     * Updates the BPM at the given index.
+     */
+    update(index: number, bpm: BPM) {
+        assert(index >= 0 && index < this.bpms.length, "index is out of range");
+
+        this.bpms[index] = { bpm, time: this.timeAt(bpm.beat) };
     }
 
     /**

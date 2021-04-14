@@ -121,7 +121,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         ui.updateProperty("panelVisibility", { bpm: !visible });
     };
 
-    const bpms = notefield.data.chart.bpms.getBPMS();
+    const bpms = notefield.data.chart.bpms.getAll();
 
     return (
         <Panel title="BPM" visible={visible} onToggle={onToggle}>

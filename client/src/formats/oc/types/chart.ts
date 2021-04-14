@@ -34,7 +34,7 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
 
     fromNative(data: NativeChart): Chart {
         return {
-            bpms: data.bpms.getBPMS().map((bpm) => new BPMConverter().fromNative(bpm.bpm)),
+            bpms: data.bpms.getAll().map((bpm) => new BPMConverter().fromNative(bpm.bpm)),
             keyCount: data.keyCount.value,
             objects: data.objects.map((keyObjects) => {
                 const objectList = keyObjects.map((obj) => {
