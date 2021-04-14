@@ -111,6 +111,17 @@ describe("BPMList", () => {
                 expected,
             );
         });
+
+        it("removes duplicates", () => {
+            const bpms = [new BPM(0, 120), new BPM(0, 120)];
+            const expected = [bpms[0]];
+            const list = new BPMList(bpms);
+
+            assert.deepStrictEqual(
+                list.getAll().map((bpm) => bpm.bpm),
+                expected,
+            );
+        });
     });
 
     describe("#timeAt", () => {
@@ -175,6 +186,18 @@ describe("BPMList", () => {
             const expected: number[] = [0, 2, 6];
 
             assert.deepStrictEqual(actual, expected);
+        });
+
+        it("removes duplicates", () => {
+            const bpms = [new BPM(0, 120), new BPM(4, 60)];
+            const expected = [bpms[0]];
+            const list = new BPMList(bpms);
+            list.update(1, new BPM(4, 120));
+
+            assert.deepStrictEqual(
+                list.getAll().map((bpm) => bpm.bpm),
+                expected,
+            );
         });
     });
 });

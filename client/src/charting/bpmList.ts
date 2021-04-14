@@ -127,7 +127,7 @@ export class BPMList {
             const a = sorted[i - 1];
             const b = sorted[i];
 
-            if (a.beat.fraction.equals(b.beat.fraction)) {
+            if (a.value === b.value) {
                 duplicates.push(i);
             }
         }
