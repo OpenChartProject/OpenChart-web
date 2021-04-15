@@ -8,6 +8,11 @@ import Storage from "../storage";
 import { MusicController } from "./controllers";
 import { RootStore } from "./root";
 
+export interface NotifyArgs {
+    msg: string;
+    type: "error" | "ok";
+}
+
 export interface PanelVisibility {
     audio: boolean;
     audioOffset: boolean;
@@ -54,11 +59,14 @@ export class UIStore {
     };
 
     emitters: {
-        // Emits a "tick" event.
+        // Emits a "tick" event. See the MetronomeController for more info
         metronome: EventEmitter;
 
-        // Emits a "play", "pause", and "seek" event.
+        // Emits a "play", "pause", and "seek" event. See the MusicController for more info
         music: EventEmitter;
+
+        // Emits a "notif" event. See the notify method for more info
+        notif: EventEmitter;
     };
 
     tools: {
@@ -83,6 +91,7 @@ export class UIStore {
         this.emitters = {
             metronome: new EventEmitter(),
             music: new EventEmitter(),
+            notif: new EventEmitter(),
         };
 
         this.tools = {
@@ -156,6 +165,14 @@ export class UIStore {
         timePicker.active = false;
         timePicker.onCancel = undefined;
         timePicker.onPick = undefined;
+    }
+
+    /**
+     * Emits a notif event with the notification info. This is consumed by a
+     * notification component that displays the message to the user.
+     */
+    notify(args: NotifyArgs) {
+        this.emitters.notif.emit("notif", args);
     }
 
     /**
