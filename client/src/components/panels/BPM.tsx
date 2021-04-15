@@ -65,11 +65,13 @@ export interface BPMFormSubmitArgs {
 
 export interface BPMFormProps {
     bpm: BPMTime;
+    disabled?: boolean;
     index: number;
     onSubmit?(args: BPMFormSubmitArgs): void;
 }
 
 export const BPMForm = observer((props: BPMFormProps) => {
+    const { disabled } = props;
     const { bpm, time } = props.bpm;
 
     const [bpmVal, setBPMVal] = useState(bpm.value.toString());
@@ -146,6 +148,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     value={bpmVal}
                     onBlur={onBPMBlur}
                     onChange={(e) => setBPMVal(e.currentTarget.value)}
+                    disabled={disabled}
                 />
             </div>
             <div className="form-control-grid form-control-grid-half">
@@ -157,6 +160,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                         value={beatVal}
                         onBlur={onBeatBlur}
                         onChange={(e) => setBeatVal(e.currentTarget.value)}
+                        disabled={disabled}
                     />
                 </div>
                 <div className="form-control">
@@ -167,6 +171,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                         value={timeVal}
                         onBlur={onTimeBlur}
                         onChange={(e) => setTimeVal(e.currentTarget.value)}
+                        disabled={disabled}
                     />
                 </div>
             </div>
@@ -200,6 +205,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
 
     const bpms = chart.bpms.getAll();
     const cur = bpms[selected];
+    const disabled = notefield.data.isPlaying;
 
     // TODO: Move this logic into an action
     const onSubmit = (args: BPMFormSubmitArgs) => {
@@ -230,7 +236,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
                 <label className="form-label form-label-dark">BPM List</label>
                 <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
             </div>
-            <BPMForm bpm={cur} index={selected} onSubmit={onSubmit} />
+            <BPMForm bpm={cur} disabled={disabled} index={selected} onSubmit={onSubmit} />
         </Panel>
     );
 });
