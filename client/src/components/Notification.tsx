@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { RootStore } from "../store";
 import { NotifyArgs } from "../store/ui";
@@ -38,22 +38,33 @@ interface QueueItem {
     id: number;
 }
 
+interface ContainerState {
+    lastId: number;
+    queue: QueueItem[];
+}
+
 export const NotificationContainer = observer((props: NotificationContainerProps) => {
     const { ui } = props.store;
-    const [id, setId] = useState(0);
-    const [queue, setQueue] = useState<QueueItem[]>([]);
+
+    // The state needs to be stored in a ref so we can access it within onNotification.
+    // Otherwise onNotification only sees the initial state.
+    const state = useRef<ContainerState>({ lastId: 0, queue: [] });
+
+    // Used for triggering a manual re-render since our state is stored in a ref.
+    const [_, setState] = useState({});
 
     const onNotification = (args: NotifyArgs) => {
-        // Add the notification to the end of the queue
-        setQueue(queue.concat({ args, id }));
-        setId(id + 1);
+        const { lastId, queue } = state.current;
+
+        // Add the item to the queue and re-render
+        state.current.queue = queue.concat({ args, id: lastId });
+        state.current.lastId++;
+        setState({});
 
         // Set a delay for removing the notification at the start of the queue.
-        //
         setTimeout(() => {
-            const copy = _.clone(queue);
-            copy.splice(0, 1);
-            setQueue(copy);
+            state.current.queue.splice(0, 1);
+            setState({});
         }, notificationDisplayTime * 1000);
     };
 
@@ -66,7 +77,7 @@ export const NotificationContainer = observer((props: NotificationContainerProps
 
     return (
         <div className="notification-container">
-            {queue.map(({ args, id }) => (
+            {state.current.queue.map(({ args, id }) => (
                 <Notification args={args} key={id} />
             ))}
         </div>
