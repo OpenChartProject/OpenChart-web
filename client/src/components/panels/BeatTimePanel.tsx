@@ -1,6 +1,8 @@
+import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import { Beat, Time } from "../../charting";
 import { RootStore } from "../../store";
 
 import { Panel } from "./Panel";
@@ -19,13 +21,69 @@ export const BeatTimePanel = observer((props: Props) => {
     const disabled = notefield.data.isPlaying;
     const visible = ui.data.panelVisibility.beatTime;
 
+    const reset = (field: "beat" | "time" | "all") => {
+        if (field === "beat" || field === "all") {
+            setBeatVal(beat.value.toFixed(3));
+        }
+
+        if (field === "time" || field === "all") {
+            setTimeVal(time.value.toFixed(3));
+        }
+    };
+
+    const submit = (): boolean => {
+        if (!/^[-+]?\d*\.?\d*$/.test(beatVal) || !/^[-+]?\d*\.?\d*$/.test(timeVal)) {
+            reset("all");
+            return false;
+        }
+
+        try {
+            if (beatVal !== beat.value.toFixed(3)) {
+                notefield.setScroll({ beat: new Beat(_.toNumber(beatVal)) });
+            } else if (timeVal !== time.value.toFixed(3)) {
+                notefield.setScroll({ time: new Time(_.toNumber(timeVal)) });
+            }
+
+            reset("all");
+            return true;
+        } catch (e) {
+            ui.notify({ type: "error", msg: (e as Error).message });
+            return false;
+        }
+    };
+
+    const onBeatBlur = () => {
+        if (beatVal.trim() === "") {
+            reset("beat");
+        } else {
+            submit();
+        }
+    };
+
+    const onTimeBlur = () => {
+        if (timeVal.trim() === "") {
+            reset("time");
+        } else {
+            submit();
+        }
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Only blur if the submit was successful
+        if (submit()) {
+            (document.activeElement as HTMLElement).blur();
+        }
     };
 
     const onToggle = () => {
         ui.updateProperty("panelVisibility", { beatTime: !visible });
     };
+
+    useEffect(() => {
+        reset("all");
+    }, [beat.value, time.value]);
 
     return (
         <Panel title="Beat &amp; Time" visible={visible} onToggle={onToggle}>
@@ -37,6 +95,7 @@ export const BeatTimePanel = observer((props: Props) => {
                             className="form-input"
                             type="text"
                             value={beatVal}
+                            onBlur={onBeatBlur}
                             onChange={(e) => setBeatVal(e.currentTarget.value)}
                             disabled={disabled}
                         />
@@ -47,11 +106,14 @@ export const BeatTimePanel = observer((props: Props) => {
                             className="form-input"
                             type="text"
                             value={timeVal}
+                            onBlur={onTimeBlur}
                             onChange={(e) => setTimeVal(e.currentTarget.value)}
                             disabled={disabled}
                         />
                     </div>
                 </div>
+
+                <button type="submit" hidden />
             </form>
         </Panel>
     );

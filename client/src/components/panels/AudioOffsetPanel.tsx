@@ -97,6 +97,8 @@ export const AudioOffsetPanel = observer((props: Props) => {
                         </button>
                     </div>
                 </div>
+
+                <button type="submit" hidden />
             </form>
         </Panel>
     );
