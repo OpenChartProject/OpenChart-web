@@ -1,6 +1,5 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import { AssertionError } from "node:assert";
 import React, { useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
@@ -151,25 +150,27 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     onChange={(e) => setBPMVal(e.currentTarget.value)}
                 />
             </div>
-            <div className="form-control">
-                <label className="form-label form-label-dark">Beat</label>
-                <input
-                    type="text"
-                    className="form-input"
-                    value={beatVal}
-                    onBlur={onBeatBlur}
-                    onChange={(e) => setBeatVal(e.currentTarget.value)}
-                />
-            </div>
-            <div className="form-control">
-                <label className="form-label form-label-dark">Time</label>
-                <input
-                    type="text"
-                    className="form-input"
-                    value={timeVal}
-                    onBlur={onTimeBlur}
-                    onChange={(e) => setTimeVal(e.currentTarget.value)}
-                />
+            <div className="form-control-grid form-control-grid-half">
+                <div className="form-control">
+                    <label className="form-label form-label-dark">Beat</label>
+                    <input
+                        type="text"
+                        className="form-input"
+                        value={beatVal}
+                        onBlur={onBeatBlur}
+                        onChange={(e) => setBeatVal(e.currentTarget.value)}
+                    />
+                </div>
+                <div className="form-control">
+                    <label className="form-label form-label-dark">Time</label>
+                    <input
+                        type="text"
+                        className="form-input"
+                        value={timeVal}
+                        onBlur={onTimeBlur}
+                        onChange={(e) => setTimeVal(e.currentTarget.value)}
+                    />
+                </div>
             </div>
             <div className="form-control">
                 <button className="btn btn-primary btn-thin" disabled={!modified} onClick={onApply}>
@@ -227,7 +228,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     return (
         <Panel title="BPM" visible={visible} onToggle={onToggle}>
             <div className="form-control">
-                <label className="form-label form-label-dark">BPMs</label>
+                <label className="form-label form-label-dark">BPM List</label>
                 <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
             </div>
             <BPMForm bpm={cur} index={selected} onSubmit={onSubmit} />

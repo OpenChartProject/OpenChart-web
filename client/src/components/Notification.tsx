@@ -51,7 +51,7 @@ export const NotificationContainer = observer((props: NotificationContainerProps
     const state = useRef<ContainerState>({ lastId: 0, queue: [] });
 
     // Used for triggering a manual re-render since our state is stored in a ref.
-    const [_, setState] = useState({});
+    const [, setState] = useState({});
 
     const onNotification = (args: NotifyArgs) => {
         const { lastId, queue } = state.current;

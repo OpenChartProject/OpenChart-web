@@ -26,6 +26,19 @@
     }
 }
 
+.form-control-grid {
+    display: grid;
+    margin-bottom: 12px;
+}
+
+.form-control-grid-half {
+    grid-template-columns: 50% 50%;
+
+    .form-control {
+        padding-right: 8px;
+    }
+}
+
 .form-input {
     &[type="range"] {
         display: block;
