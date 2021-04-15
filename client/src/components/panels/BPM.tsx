@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
+import { AssertionError } from "node:assert";
 import React, { useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
@@ -201,17 +202,22 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     const bpms = chart.bpms.getAll();
     const cur = bpms[selected];
 
+    // TODO: Move this logic into an action
     const onSubmit = (args: BPMFormSubmitArgs) => {
         const { bpm, beat, time } = args;
         let newBPM: BPM;
 
-        if (time !== cur.time.value) {
-            newBPM = new BPM(chart.bpms.beatAt(time), bpm);
-        } else {
-            newBPM = new BPM(beat, bpm);
-        }
+        try {
+            if (time !== cur.time.value) {
+                newBPM = new BPM(chart.bpms.beatAt(time), bpm);
+            } else {
+                newBPM = new BPM(beat, bpm);
+            }
 
-        chart.bpms.update(selected, newBPM);
+            chart.bpms.update(selected, newBPM);
+        } catch (e) {
+            ui.notify({ type: "error", msg: (e as Error).message });
+        }
     };
 
     const onToggle = () => {

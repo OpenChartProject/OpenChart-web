@@ -33,13 +33,20 @@ export interface NotificationContainerProps {
 
 const notificationDisplayTime = 7;
 
+interface QueueItem {
+    args: NotifyArgs;
+    id: number;
+}
+
 export const NotificationContainer = observer((props: NotificationContainerProps) => {
     const { ui } = props.store;
-    const [queue, setQueue] = useState<NotifyArgs[]>([]);
+    const [id, setId] = useState(0);
+    const [queue, setQueue] = useState<QueueItem[]>([]);
 
     const onNotification = (args: NotifyArgs) => {
         // Add the notification to the end of the queue
-        setQueue(queue.concat(args));
+        setQueue(queue.concat({ args, id }));
+        setId(id + 1);
 
         // Set a delay for removing the notification at the start of the queue.
         //
@@ -59,8 +66,8 @@ export const NotificationContainer = observer((props: NotificationContainerProps
 
     return (
         <div className="notification-container">
-            {queue.map((x) => (
-                <Notification args={x} />
+            {queue.map(({ args, id }) => (
+                <Notification args={args} key={id} />
             ))}
         </div>
     );
