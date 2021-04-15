@@ -8,3 +8,4 @@ export { Toolbar } from "./Toolbar";
 export { Waveform } from "./Waveform";
 export { WaveformSVG } from "./WaveformSVG";
 export { WelcomeModal } from "./WelcomeModal";
+export { NotificationContainer } from "./Notification";

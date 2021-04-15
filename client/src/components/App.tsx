@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { RootStore } from "../store/";
 
 import { Metronome, Music, Notefield } from ".";
+import { NotificationContainer } from "./Notification";
 import {
     AudioOffsetPanel,
     AudioPanel,
@@ -27,6 +28,8 @@ export const App = observer((props: Props) => {
     return (
         <div className="app-container">
             {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
+
+            <NotificationContainer store={store} />
 
             <Metronome store={store} />
             <Music store={store} />
