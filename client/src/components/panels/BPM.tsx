@@ -90,7 +90,13 @@ export const BPMForm = observer((props: BPMFormProps) => {
         }
     };
 
-    const onApply = () => {
+    const onCancel = () => {
+        reset("all");
+    };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
         if (props.onSubmit) {
             props.onSubmit({
                 bpm: _.toNumber(bpmVal),
@@ -98,14 +104,6 @@ export const BPMForm = observer((props: BPMFormProps) => {
                 time: _.toNumber(timeVal),
             });
         }
-    };
-
-    const onCancel = () => {
-        reset("all");
-    };
-
-    const onSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
     };
 
     const onBPMBlur = () => {
@@ -173,7 +171,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                 </div>
             </div>
             <div className="form-control">
-                <button className="btn btn-primary btn-thin" disabled={!modified} onClick={onApply}>
+                <button className="btn btn-primary btn-thin" disabled={!modified} type="submit">
                     Apply
                 </button>
                 <button
@@ -216,6 +214,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
             }
 
             chart.bpms.update(selected, newBPM);
+            (document.activeElement as HTMLElement).blur();
         } catch (e) {
             ui.notify({ type: "error", msg: (e as Error).message });
         }

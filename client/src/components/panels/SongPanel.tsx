@@ -30,10 +30,6 @@ export const SongPanel = observer((props: Props) => {
         setTitle(song.title);
     }, [song.artist, song.title]);
 
-    const onApply = () => {
-        props.store.project.updateSong({ artist, title });
-    };
-
     const onRevert = () => {
         setArtist(song.artist);
         setTitle(song.title);
@@ -41,7 +37,7 @@ export const SongPanel = observer((props: Props) => {
 
     const onFormSubmit = (e: FormEvent) => {
         e.preventDefault();
-        onApply();
+        props.store.project.updateSong({ artist, title });
     };
 
     const onToggle = () => {
@@ -76,11 +72,7 @@ export const SongPanel = observer((props: Props) => {
                 </div>
 
                 <div className="form-control">
-                    <button
-                        className="btn btn-primary btn-thin"
-                        disabled={!modified}
-                        onClick={onApply}
-                    >
+                    <button className="btn btn-primary btn-thin" disabled={!modified} type="submit">
                         Apply
                     </button>
                     <button
