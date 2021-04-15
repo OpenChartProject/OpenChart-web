@@ -18,6 +18,10 @@
     }
 }
 
+.form-buttons {
+    margin-top: 20px;
+}
+
 .form-control {
     margin-bottom: 12px;
 
@@ -28,7 +32,11 @@
 
 .form-control-grid {
     display: grid;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+
+    .form-control {
+        margin-bottom: 0;
+    }
 }
 
 .form-control-grid-half {

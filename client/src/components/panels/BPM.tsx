@@ -175,7 +175,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     />
                 </div>
             </div>
-            <div className="form-control">
+            <div className="form-control form-buttons">
                 <button className="btn btn-primary btn-thin" disabled={!modified} type="submit">
                     Apply
                 </button>
