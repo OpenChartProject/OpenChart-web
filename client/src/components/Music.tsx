@@ -9,20 +9,35 @@ export interface Props {
 
 export const Music = observer(({ store }: Props) => {
     const ref = useRef<HTMLAudioElement>(null);
-    const { volume } = store.ui.data.music;
+    const { src, volume } = store.ui.data.music;
 
     const onPlay = () => {
         const el = ref.current!;
+
+        if (!src) {
+            return;
+        }
+
         el.play();
     };
 
     const onPause = () => {
         const el = ref.current!;
+
+        if (!src) {
+            return;
+        }
+
         el.pause();
     };
 
     const onSeek = (time: number) => {
         const el = ref.current!;
+
+        if (!src) {
+            return;
+        }
+
         el.currentTime = time - store.notefield.data.audioOffset;
     };
 
@@ -35,7 +50,7 @@ export const Music = observer(({ store }: Props) => {
             music.off("play", onPlay).off("pause", onPause).off("seek", onSeek);
             return;
         };
-    });
+    }, []);
 
     useEffect(() => {
         if (!ref.current) {
@@ -46,5 +61,5 @@ export const Music = observer(({ store }: Props) => {
         ref.current.volume = Math.pow(volume, 2);
     }, [ref, volume]);
 
-    return <audio ref={ref} src={store.ui.data.music.src}></audio>;
+    return <audio ref={ref} src={src}></audio>;
 });
