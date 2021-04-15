@@ -71,7 +71,7 @@ export const SongPanel = observer((props: Props) => {
                     </label>
                 </div>
 
-                <div className="form-control">
+                <div className="form-control form-buttons">
                     <button className="btn btn-primary btn-thin" disabled={!modified} type="submit">
                         Apply
                     </button>

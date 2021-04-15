@@ -15,11 +15,6 @@ export const NotefieldPanel = observer((props: Props) => {
     const { notefieldDisplay: nfDisplay, ui } = props.store;
     const { scrollDirection } = nfDisplay.data;
 
-    const defaults = nfDisplay.defaults;
-    const modified =
-        nfDisplay.data.columnWidth !== defaults.columnWidth ||
-        nfDisplay.data.receptorY !== defaults.receptorY;
-
     const visible = ui.data.panelVisibility.notefield;
 
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +23,6 @@ export const NotefieldPanel = observer((props: Props) => {
 
     const onReceptorPosChange = (e: ChangeEvent<HTMLInputElement>) => {
         nfDisplay.update({ receptorY: _.toInteger(e.target.value) });
-    };
-
-    const onRestore = () => {
-        const { columnWidth, receptorY } = defaults;
-        nfDisplay.update({ columnWidth, receptorY });
     };
 
     const setScrollDirection = (val: ScrollDirection) => {
@@ -143,16 +133,6 @@ export const NotefieldPanel = observer((props: Props) => {
                     value={nfDisplay.data.receptorY}
                     onChange={onReceptorPosChange}
                 />
-            </div>
-
-            <div className="form-control clearfix">
-                <button
-                    className="btn btn-secondary btn-thin float-right"
-                    onClick={onRestore}
-                    disabled={!modified}
-                >
-                    Restore Defaults
-                </button>
             </div>
         </Panel>
     );
