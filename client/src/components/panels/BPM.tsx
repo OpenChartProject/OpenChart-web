@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
+import { blurEverything } from "../../util";
 
 import { Panel } from "./Panel";
 
@@ -220,7 +221,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
             }
 
             chart.bpms.update(selected, newBPM);
-            (document.activeElement as HTMLElement).blur();
+            blurEverything();
         } catch (e) {
             ui.notify({ type: "error", msg: (e as Error).message });
         }

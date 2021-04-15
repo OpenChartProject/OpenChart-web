@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import React, { FormEvent, useEffect, useState } from "react";
 
 import { RootStore } from "../../store";
+import { blurEverything, isNumber } from "../../util";
 
 import { Panel } from "./Panel";
 
@@ -25,7 +26,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
     };
 
     const update = () => {
-        if (!/^[-+]?\d*\.?\d*$/.test(inputVal)) {
+        if (!isNumber(inputVal)) {
             reset();
             return;
         }
@@ -61,7 +62,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         update();
-        (document.activeElement as HTMLElement).blur();
+        blurEverything();
     };
 
     const onToggle = () => {

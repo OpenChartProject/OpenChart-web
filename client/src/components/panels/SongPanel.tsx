@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { FormEvent, useEffect, useState } from "react";
 
 import { RootStore } from "../../store";
+import { blurEverything } from "../../util";
 
 import { Panel } from "./Panel";
 
@@ -38,6 +39,7 @@ export const SongPanel = observer((props: Props) => {
     const onFormSubmit = (e: FormEvent) => {
         e.preventDefault();
         props.store.project.updateSong({ artist, title });
+        blurEverything();
     };
 
     const onToggle = () => {

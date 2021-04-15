@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import { Beat, Time } from "../../charting";
 import { RootStore } from "../../store";
+import { blurEverything, isNumber } from "../../util";
 
 import { Panel } from "./Panel";
 
@@ -32,7 +33,7 @@ export const BeatTimePanel = observer((props: Props) => {
     };
 
     const submit = (): boolean => {
-        if (!/^[-+]?\d*\.?\d*$/.test(beatVal) || !/^[-+]?\d*\.?\d*$/.test(timeVal)) {
+        if (!isNumber(beatVal) || !isNumber(timeVal)) {
             reset("all");
             return false;
         }
@@ -73,7 +74,7 @@ export const BeatTimePanel = observer((props: Props) => {
 
         // Only blur if the submit was successful
         if (submit()) {
-            (document.activeElement as HTMLElement).blur();
+            blurEverything();
         }
     };
 
