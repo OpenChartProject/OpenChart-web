@@ -65,7 +65,7 @@ export class UIStore {
         // Emits a "play", "pause", and "seek" event. See the MusicController for more info
         music: EventEmitter;
 
-        // Emits a "notif" event. See the notify method for more info
+        // Emits a "notify" event. See the notify method for more info
         notif: EventEmitter;
     };
 
@@ -168,11 +168,11 @@ export class UIStore {
     }
 
     /**
-     * Emits a notif event with the notification info. This is consumed by a
+     * Emits a notify event with the notification info. This is consumed by a
      * notification component that displays the message to the user.
      */
     notify(args: NotifyArgs) {
-        this.emitters.notif.emit("notif", args);
+        this.emitters.notif.emit("notify", args);
     }
 
     /**

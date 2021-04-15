@@ -46,7 +46,12 @@ export const BPMList = observer((props: BPMListProps) => {
     return (
         <div className="bpm-list-container">
             {props.bpms.map((bpm, i) => (
-                <BPMListItem bpm={bpm} onClick={() => onSelect(i)} selected={i === selected} />
+                <BPMListItem
+                    bpm={bpm}
+                    onClick={() => onSelect(i)}
+                    selected={i === selected}
+                    key={bpm.time.value}
+                />
             ))}
         </div>
     );

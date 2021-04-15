@@ -1,0 +1,17 @@
+@import "./colors";
+
+.notification-container {
+    width: 400px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.notification {
+    margin-top: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    background-color: $col-purple;
+}

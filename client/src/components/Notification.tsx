@@ -1,5 +1,6 @@
+import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { RootStore } from "../store";
 import { NotifyArgs } from "../store/ui";
@@ -9,13 +10,58 @@ export interface NotificationProps {
 }
 
 export const Notification = observer((props: NotificationProps) => {
-    return <div className="notification"></div>;
+    const { type, msg } = props.args;
+
+    let inner;
+
+    if (type === "error") {
+        inner = (
+            <React.Fragment>
+                <strong>error:</strong> {msg}
+            </React.Fragment>
+        );
+    } else {
+        inner = msg;
+    }
+
+    return <div className={`notification notif-type-${type}`}>{inner}</div>;
 });
 
 export interface NotificationContainerProps {
     store: RootStore;
 }
 
+const notificationDisplayTime = 7;
+
 export const NotificationContainer = observer((props: NotificationContainerProps) => {
-    return <div className="notification-container"></div>;
+    const { ui } = props.store;
+    const [queue, setQueue] = useState<NotifyArgs[]>([]);
+
+    const onNotification = (args: NotifyArgs) => {
+        // Add the notification to the end of the queue
+        setQueue(queue.concat(args));
+
+        // Set a delay for removing the notification at the start of the queue.
+        //
+        setTimeout(() => {
+            const copy = _.clone(queue);
+            copy.splice(0, 1);
+            setQueue(copy);
+        }, notificationDisplayTime * 1000);
+    };
+
+    useEffect(() => {
+        ui.emitters.notif.addListener("notify", onNotification);
+        return () => {
+            ui.emitters.notif.removeListener("notify", onNotification);
+        };
+    }, []);
+
+    return (
+        <div className="notification-container">
+            {queue.map((x) => (
+                <Notification args={x} />
+            ))}
+        </div>
+    );
 });
