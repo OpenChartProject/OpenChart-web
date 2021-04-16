@@ -5,7 +5,7 @@ import { Chart } from "../charting";
 
 import { createDummyNoteSkin, createStore } from "./util";
 
-describe("test", () => {
+describe("test/util", () => {
     describe("#createDummyNoteSkin", () => {
         it("returns a dummy skin with a default keycount of 4", () => {
             const ns = createDummyNoteSkin();
