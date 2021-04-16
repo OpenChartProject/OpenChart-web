@@ -13,7 +13,10 @@ export const PickTimeButton = (props: Props) => {
     const { ui } = props.store;
 
     const onClick = () => {
-        ui.activateTimePicker(props);
+        ui.activateTimePicker({
+            onCancel: props.onCancel,
+            onPick: props.onPick,
+        });
     };
 
     return (
