@@ -54,8 +54,8 @@ export const NumberField = observer((props: Props) => {
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
     const postChanges = () => {
-        // Reset the input value if it's deleted
-        if (text.trim() === "") {
+        // Reset the input if it's blank or if the value is the same
+        if (text.trim() === "" || inputValue === value) {
             setText(valueToText(value));
             return;
         }
