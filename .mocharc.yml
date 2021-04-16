@@ -1,4 +1,4 @@
-spec: client/src/**/*.spec.ts
+spec: client/src/**/*.spec.{ts,tsx}
 exclude:
   - node_modules/
 require:
