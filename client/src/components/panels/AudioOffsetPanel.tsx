@@ -4,7 +4,7 @@ import React, { FormEvent } from "react";
 
 import { RootStore } from "../../store";
 import { blurEverything } from "../../util";
-import { NumberField, PickTimeButton } from "../controls";
+import { ManagedNumberField, PickTimeButton } from "../controls";
 
 import { Panel } from "./Panel";
 
@@ -47,7 +47,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
                     <label className="form-label form-label-dark">Offset (seconds)</label>
 
                     <div className="clearfix">
-                        <NumberField
+                        <ManagedNumberField
                             value={notefield.data.audioOffset}
                             disabled={disabled}
                             inline={true}

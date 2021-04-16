@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
 import { blurEverything } from "../../util";
-import { NumberField } from "../controls";
+import { ManagedNumberField } from "../controls";
 
 import { Panel } from "./Panel";
 
@@ -103,33 +103,33 @@ export const BPMForm = observer((props: BPMFormProps) => {
         <form onSubmit={onSubmit}>
             <div className="form-control">
                 <label className="form-label form-label-dark">Beats per minute</label>
-                <NumberField
+                <ManagedNumberField
                     disabled={disabled}
                     value={bpm.value}
                     delta={0.001}
                     precision={3}
-                    onChange={(val) => setBPMVal(val)}
+                    onValueChange={(val) => setBPMVal(val)}
                 />
             </div>
             <div className="form-control-grid form-control-grid-half">
                 <div className="form-control">
                     <label className="form-label form-label-dark">Beat</label>
-                    <NumberField
+                    <ManagedNumberField
                         disabled={disabled}
                         value={bpm.beat.value}
                         precision={3}
                         delta={0.001}
-                        onChange={(val) => setBeatVal(val)}
+                        onValueChange={(val) => setBeatVal(val)}
                     />
                 </div>
                 <div className="form-control">
                     <label className="form-label form-label-dark">Time</label>
-                    <NumberField
+                    <ManagedNumberField
                         disabled={disabled}
                         value={time.value}
                         precision={3}
                         delta={0.001}
-                        onChange={(val) => setTimeVal(val)}
+                        onValueChange={(val) => setTimeVal(val)}
                     />
                 </div>
             </div>

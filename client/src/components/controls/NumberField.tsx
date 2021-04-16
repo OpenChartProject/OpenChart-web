@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { isNumber } from "../../util";
+import { isNumber, toFixed } from "../../util";
 
 export interface Props {
     delta?: number;
@@ -10,13 +10,16 @@ export interface Props {
     inline?: boolean;
     precision?: number;
     value: number;
+    text: string;
+
+    onChange(text: string): void;
 
     /**
      * Callback for when the value has changed but the user has not committed the change.
      *
      * This is useful for tracking if the field's value was changed.
      */
-    onChange?(val: number): void;
+    onValueChange?(val: number): void;
 
     /**
      * Callback for when the value has changed and the user has committed the change,
@@ -48,24 +51,20 @@ export interface Props {
  *     - On submit, call e.preventDefault() and blurEverything()
  */
 export const NumberField = observer((props: Props) => {
-    const { delta, disabled, value, inline, precision } = props;
+    const { delta, disabled, value, inline, text } = props;
+    const precision = props.precision ?? null;
 
-    const valueToText = (val: number): string => {
-        return precision != null ? val.toFixed(precision) : val.toString();
-    };
-
-    const [text, setText] = useState(valueToText(value));
     let inputValue = isNumber(text) ? _.toNumber(text) : null;
 
     useEffect(() => {
-        if (inputValue !== null && props.onChange) {
-            props.onChange(inputValue);
+        if (inputValue !== null && props.onValueChange) {
+            props.onValueChange(inputValue);
         }
     }, [inputValue]);
 
     // Replace the input value when the value prop changes
     useEffect(() => {
-        setText(valueToText(value));
+        props.onChange(toFixed(value, precision));
     }, [value]);
 
     // This is called once the user is done editing the field. Pressing enter and blurring
@@ -73,11 +72,11 @@ export const NumberField = observer((props: Props) => {
     const postChanges = (): boolean => {
         // Reset the input if it's invalid or should be reformatted
         if (text.trim() === "" || inputValue === null || inputValue === value) {
-            setText(valueToText(value));
+            props.onChange(toFixed(value, precision));
             return false;
         }
 
-        setText(valueToText(inputValue));
+        props.onChange(toFixed(inputValue, precision));
 
         if (props.onSubmit) {
             return props.onSubmit(inputValue) !== false;
@@ -126,7 +125,7 @@ export const NumberField = observer((props: Props) => {
             disabled={disabled}
             value={text}
             onBlur={postChanges}
-            onChange={(e) => setText(e.currentTarget.value)}
+            onChange={(e) => props.onChange(e.currentTarget.value)}
             onKeyDown={onKeyDown}
         />
     );

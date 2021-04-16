@@ -15,3 +15,11 @@ export const isNumber = (val: string) => {
 
     return /^[-+]?\d*\.?\d*$/.test(val);
 };
+
+/**
+ * Returns the value as a string with the given decimal precision. If the precision is null
+ * it just returns the value as a string
+ */
+export const toFixed = (val: number, precision: number | null): string => {
+    return precision !== null ? val.toFixed(precision) : val.toString();
+};

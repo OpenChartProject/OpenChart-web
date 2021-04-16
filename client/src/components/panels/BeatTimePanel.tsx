@@ -5,7 +5,7 @@ import React from "react";
 import { Beat, Time } from "../../charting";
 import { RootStore } from "../../store";
 import { blurEverything } from "../../util";
-import { NumberField, PickTimeButton } from "../controls";
+import { ManagedNumberField, PickTimeButton } from "../controls";
 
 import { Panel } from "./Panel";
 
@@ -55,7 +55,7 @@ export const BeatTimePanel = observer((props: Props) => {
                 <div className="form-control-grid form-control-grid-half">
                     <div className="form-control">
                         <label className="form-label form-label-dark">Beat</label>
-                        <NumberField
+                        <ManagedNumberField
                             value={beat.value}
                             precision={3}
                             onSubmit={(val) => onChanged({ beat: val })}
@@ -63,7 +63,7 @@ export const BeatTimePanel = observer((props: Props) => {
                     </div>
                     <div className="form-control">
                         <label className="form-label form-label-dark">Time</label>
-                        <NumberField
+                        <ManagedNumberField
                             value={time.value}
                             precision={3}
                             onSubmit={(val) => onChanged({ time: val })}
