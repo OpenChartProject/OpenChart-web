@@ -4,8 +4,8 @@ import React, { useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
-import { blurEverything } from "../../util";
-import { ManagedNumberField } from "../controls";
+import { blurEverything, toFixed } from "../../util";
+import { NumberField } from "../controls";
 
 import { Panel } from "./Panel";
 
@@ -72,13 +72,26 @@ export interface BPMFormProps {
     onSubmit?(args: BPMFormSubmitArgs): boolean | void;
 }
 
+const precision = 3;
+
 export const BPMForm = observer((props: BPMFormProps) => {
     const { disabled } = props;
     const { bpm, time } = props.bpm;
 
+    const [bpmText, setBPMText] = useState(toFixed(bpm.value, precision));
     const [bpmVal, setBPMVal] = useState(bpm.value);
+
+    const [beatText, setBeatText] = useState(toFixed(bpm.beat.value, precision));
     const [beatVal, setBeatVal] = useState(bpm.beat.value);
+
+    const [timeText, setTimeText] = useState(toFixed(time.value, precision));
     const [timeVal, setTimeVal] = useState(time.value);
+
+    const onRevert = () => {
+        setBPMText(toFixed(bpm.value, precision));
+        setBeatText(toFixed(bpm.beat.value, precision));
+        setTimeText(toFixed(time.value, precision));
+    };
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -103,32 +116,38 @@ export const BPMForm = observer((props: BPMFormProps) => {
         <form onSubmit={onSubmit}>
             <div className="form-control">
                 <label className="form-label form-label-dark">Beats per minute</label>
-                <ManagedNumberField
+                <NumberField
                     disabled={disabled}
                     value={bpm.value}
                     delta={0.001}
-                    precision={3}
+                    precision={precision}
+                    text={bpmText}
+                    onChange={(val) => setBPMText(val)}
                     onValueChange={(val) => setBPMVal(val)}
                 />
             </div>
             <div className="form-control-grid form-control-grid-half">
                 <div className="form-control">
                     <label className="form-label form-label-dark">Beat</label>
-                    <ManagedNumberField
+                    <NumberField
                         disabled={disabled}
                         value={bpm.beat.value}
-                        precision={3}
+                        precision={precision}
                         delta={0.001}
+                        text={beatText}
+                        onChange={(val) => setBeatText(val)}
                         onValueChange={(val) => setBeatVal(val)}
                     />
                 </div>
                 <div className="form-control">
                     <label className="form-label form-label-dark">Time</label>
-                    <ManagedNumberField
+                    <NumberField
                         disabled={disabled}
                         value={time.value}
-                        precision={3}
+                        precision={precision}
                         delta={0.001}
+                        text={timeText}
+                        onChange={(val) => setTimeText(val)}
                         onValueChange={(val) => setTimeVal(val)}
                     />
                 </div>
@@ -137,13 +156,13 @@ export const BPMForm = observer((props: BPMFormProps) => {
                 <button className="btn btn-primary btn-thin" disabled={!modified} type="submit">
                     Apply
                 </button>
-                {/* <button
+                <button
                     className="btn btn-secondary btn-thin float-right"
                     disabled={!modified}
                     onClick={onRevert}
                 >
                     Revert
-                </button> */}
+                </button>
             </div>
         </form>
     );

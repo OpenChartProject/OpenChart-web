@@ -13,8 +13,7 @@ export type Props = Omit<NumberFieldProps, "text" | "onChange">;
  * This is useful if you don't need to change the text of a field, e.g. with a reset button.
  */
 export const ManagedNumberField = observer((props: Props) => {
-    const precision = props.precision ?? null;
-    const [text, setText] = useState(toFixed(props.value, precision));
+    const [text, setText] = useState(toFixed(props.value, props.precision ?? null));
 
     return <NumberField {...props} text={text} onChange={(val) => setText(val)} />;
 });
