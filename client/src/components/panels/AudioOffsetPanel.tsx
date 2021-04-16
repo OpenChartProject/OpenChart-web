@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent } from "react";
 
 import { RootStore } from "../../store";
-import { blurEverything, isNumber } from "../../util";
-import { PickTimeButton } from "../controls";
+import { blurEverything } from "../../util";
+import { NumberField, PickTimeButton } from "../controls";
 
 import { Panel } from "./Panel";
 
@@ -15,36 +15,9 @@ export interface Props {
 export const AudioOffsetPanel = observer((props: Props) => {
     const { notefield, ui } = props.store;
     const visible = ui.data.panelVisibility.audioOffset;
-    const [inputVal, setInputVal] = useState(notefield.data.audioOffset.toFixed(3));
 
-    // Update the offset input if the stored offset changed.
-    useEffect(() => {
-        reset();
-    }, [notefield.data.audioOffset]);
-
-    const reset = () => {
-        setInputVal(notefield.data.audioOffset.toFixed(3));
-    };
-
-    const update = () => {
-        if (!isNumber(inputVal)) {
-            reset();
-            return;
-        }
-
-        notefield.setAudioOffset(_.toNumber(inputVal));
-    };
-
-    const onOffsetKeyDown = (e: React.KeyboardEvent) => {
-        const delta = 0.001;
-
-        if (e.key === "ArrowUp") {
-            notefield.setAudioOffset(notefield.data.audioOffset + delta);
-            e.preventDefault();
-        } else if (e.key === "ArrowDown") {
-            notefield.setAudioOffset(notefield.data.audioOffset - delta);
-            e.preventDefault();
-        }
+    const onOffsetChanged = (val: number) => {
+        notefield.setAudioOffset(val);
     };
 
     const onPickTime = (y: number, time: number) => {
@@ -58,7 +31,6 @@ export const AudioOffsetPanel = observer((props: Props) => {
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        update();
         blurEverything();
     };
 
@@ -75,14 +47,13 @@ export const AudioOffsetPanel = observer((props: Props) => {
                     <label className="form-label form-label-dark">Offset (seconds)</label>
 
                     <div className="clearfix">
-                        <input
-                            type="text"
-                            className="form-input-inline"
+                        <NumberField
+                            value={notefield.data.audioOffset}
                             disabled={disabled}
-                            value={inputVal}
-                            onChange={(e) => setInputVal(e.currentTarget.value)}
-                            onBlur={update}
-                            onKeyDown={onOffsetKeyDown}
+                            inline={true}
+                            precision={3}
+                            onChanged={onOffsetChanged}
+                            delta={0.001}
                         />
                         <PickTimeButton
                             store={props.store}

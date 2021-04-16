@@ -7,63 +7,57 @@ import { isNumber } from "../../util";
 export interface Props {
     delta?: number;
     disabled?: boolean;
-    initialValue: number;
     inline?: boolean;
     precision?: number;
+    value: number;
+
     onChanged?(val: number): void;
 }
 
 export const NumberField = observer((props: Props) => {
-    const { delta, disabled, initialValue, inline, precision } = props;
+    const { delta, disabled, value, inline, precision } = props;
 
     const valueToText = (val: number): string => {
         return precision != null ? val.toFixed(precision) : val.toString();
     };
 
-    const [text, setText] = useState(valueToText(initialValue));
-    let value = isNumber(text) ? _.toNumber(text) : null;
+    const [text, setText] = useState(valueToText(value));
+    let inputValue = isNumber(text) ? _.toNumber(text) : null;
 
     useEffect(() => {
-        setText(valueToText(initialValue));
-    }, [initialValue]);
+        setText(valueToText(value));
+    }, [value]);
 
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
     const postChanges = () => {
-        if (value === null) {
-            return;
-        }
-
-        setText(valueToText(value));
-
-        if (props.onChanged) {
-            props.onChanged(value);
+        if (inputValue !== null && props.onChanged) {
+            props.onChanged(inputValue);
         }
     };
 
     const onKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
-            e.preventDefault();
             postChanges();
         } else if (delta) {
             if (e.key === "ArrowUp") {
                 e.preventDefault();
 
-                if (value === null) {
-                    value = initialValue;
+                if (inputValue === null) {
+                    inputValue = value;
                 }
 
-                value += delta;
+                inputValue += delta;
 
                 postChanges();
             } else if (e.key === "ArrowDown") {
                 e.preventDefault();
 
-                if (value === null) {
-                    value = initialValue;
+                if (inputValue === null) {
+                    inputValue = value;
                 }
 
-                value -= delta;
+                inputValue -= delta;
 
                 postChanges();
             }
