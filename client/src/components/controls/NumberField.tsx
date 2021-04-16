@@ -5,14 +5,51 @@ import React, { useEffect } from "react";
 import { isNumber, toFixed, toFixedTrim } from "../../util";
 
 export interface Props {
+    /**
+     * The increment/decrement amount when the user presses up/down arrow. If the delta
+     * is 0 or not set then this is disabled.
+     */
     delta?: number;
+
+    /**
+     * Whether the input is disabled or not.
+     */
     disabled?: boolean;
+
+    /**
+     * Whether the input is inline or not (affects className).
+     */
     inline?: boolean;
+
+    /**
+     * The decimal precision to use when formatting the input.
+     */
     precision?: number;
-    trim?: boolean;
-    value: number;
+
+    /**
+     * The field text. This is handled outside of the component to allow for modifying
+     * the input as needed.
+     */
     text: string;
 
+    /**
+     * When true, this trims any leading zeroes after the decimal place.
+     */
+    trim?: boolean;
+
+    /**
+     * The value associated with the field. This is used as a fallback for when the user
+     * deletes the input, as well as updating the input if the value changed externally.
+     *
+     * Typically, you'll use the onSubmit or onValueChange callbacks to receive the number
+     * value from the component, do whatever you need to do with the value, and then feed
+     * that value back into this prop.
+     */
+    value: number;
+
+    /**
+     * Callback for when the text input has changed.
+     */
     onChange(text: string): void;
 
     /**
