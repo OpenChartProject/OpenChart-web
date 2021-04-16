@@ -2,13 +2,14 @@ import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 
-import { isNumber, toFixed } from "../../util";
+import { isNumber, toFixed, toFixedTrim } from "../../util";
 
 export interface Props {
     delta?: number;
     disabled?: boolean;
     inline?: boolean;
     precision?: number;
+    trim?: boolean;
     value: number;
     text: string;
 
@@ -55,6 +56,7 @@ export const NumberField = observer((props: Props) => {
     const precision = props.precision ?? null;
 
     let inputValue = isNumber(text) ? _.toNumber(text) : null;
+    const formatValue = props.trim ? toFixedTrim : toFixed;
 
     useEffect(() => {
         if (inputValue !== null && props.onValueChange) {
@@ -64,7 +66,7 @@ export const NumberField = observer((props: Props) => {
 
     // Replace the input value when the value prop changes
     useEffect(() => {
-        props.onChange(toFixed(value, precision));
+        props.onChange(formatValue(value, precision));
     }, [value]);
 
     // This is called once the user is done editing the field. Pressing enter and blurring
@@ -72,11 +74,11 @@ export const NumberField = observer((props: Props) => {
     const postChanges = (): boolean => {
         // Reset the input if it's invalid or should be reformatted
         if (text.trim() === "" || inputValue === null || inputValue === value) {
-            props.onChange(toFixed(value, precision));
+            props.onChange(formatValue(value, precision));
             return false;
         }
 
-        props.onChange(toFixed(inputValue, precision));
+        props.onChange(formatValue(inputValue, precision));
 
         if (props.onSubmit) {
             return props.onSubmit(inputValue) !== false;

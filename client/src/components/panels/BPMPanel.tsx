@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
-import { blurEverything, toFixed } from "../../util";
+import { blurEverything, toFixed, toFixedTrim } from "../../util";
 import { NumberField } from "../controls";
 
 import { Panel } from "./Panel";
@@ -78,7 +78,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
     const { disabled } = props;
     const { bpm, time } = props.bpm;
 
-    const [bpmText, setBPMText] = useState(toFixed(bpm.value, precision));
+    const [bpmText, setBPMText] = useState(toFixedTrim(bpm.value, precision));
     const [bpmVal, setBPMVal] = useState(bpm.value);
 
     const [beatText, setBeatText] = useState(toFixed(bpm.beat.value, precision));
@@ -88,7 +88,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
     const [timeVal, setTimeVal] = useState(time.value);
 
     const onRevert = () => {
-        setBPMText(toFixed(bpm.value, precision));
+        setBPMText(toFixedTrim(bpm.value, precision));
         setBeatText(toFixed(bpm.beat.value, precision));
         setTimeText(toFixed(time.value, precision));
     };
@@ -122,6 +122,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                     delta={0.001}
                     precision={precision}
                     text={bpmText}
+                    trim={true}
                     onChange={(val) => setBPMText(val)}
                     onValueChange={(val) => setBPMVal(val)}
                 />

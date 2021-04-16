@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 /**
  * Blurs the active element in the document.
  */
@@ -22,4 +24,18 @@ export const isNumber = (val: string) => {
  */
 export const toFixed = (val: number, precision: number | null): string => {
     return precision !== null ? val.toFixed(precision) : val.toString();
+};
+
+/**
+ * Like toFixed, but trims leading zeroes after the decimal place.
+ *
+ * e.g.  1.230 -> 1.23
+ *       1.0   -> 1
+ */
+export const toFixedTrim = (val: number, precision: number | null): string => {
+    if (precision === null || precision < 1) {
+        return toFixed(val, precision);
+    }
+
+    return _.trimEnd(_.trimEnd(toFixed(val, precision), "0"), ".");
 };
