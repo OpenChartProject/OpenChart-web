@@ -11,9 +11,31 @@ export interface Props {
     precision?: number;
     value: number;
 
+    /**
+     * Callback for when the value has changed and the user has committed the change,
+     * either by pressing enter or blurring the field.
+     *
+     * This is not called if the user entered something that's not a number.
+     */
     onChanged?(val: number): void;
 }
 
+/**
+ * NumberField is a text input field for numbers.
+ *
+ * Behavior:
+ *  - Calls the onChanged prop only when the user is done editing the field
+ *     - Triggered by onBlur and when the user presses Enter
+ *  - Formats the input up to precision decimal places (if provided)
+ *  - Overwrites the input value when the value prop changes
+ *  - Increments/decrements by delta prop using up/down arrow (if provided)
+ *  - Resets the field to the value prop if the user leaves the field empty
+ *
+ * Suggested usage:
+ *  - Update the value prop when onChanged is triggered
+ *  - Wrap this component in a form with an onSubmit callback
+ *     - On submit, call e.preventDefault() and blurEverything()
+ */
 export const NumberField = observer((props: Props) => {
     const { delta, disabled, value, inline, precision } = props;
 
@@ -24,6 +46,7 @@ export const NumberField = observer((props: Props) => {
     const [text, setText] = useState(valueToText(value));
     let inputValue = isNumber(text) ? _.toNumber(text) : null;
 
+    // Replace the input value when the value prop changes
     useEffect(() => {
         setText(valueToText(value));
     }, [value]);
@@ -31,11 +54,20 @@ export const NumberField = observer((props: Props) => {
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
     const postChanges = () => {
+        // Reset the input value if it's deleted
+        if (text.trim() === "") {
+            setText(valueToText(value));
+            return;
+        }
+
         if (inputValue !== null && props.onChanged) {
             props.onChanged(inputValue);
         }
     };
 
+    // Enter posts the changes
+    // Up arrow increments by delta and posts the changes
+    // Down arrow increments by delta and posts the changes
     const onKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
             postChanges();
