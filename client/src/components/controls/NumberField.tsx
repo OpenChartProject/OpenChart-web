@@ -122,8 +122,8 @@ export const NumberField = observer((props: Props) => {
 
         const formatted = formatValue(inputValue, precision);
 
-        // Don't broadcast a change if the input is the same
-        if (formatted === text) {
+        // Don't broadcast a change if the formatting and value hasn't changed
+        if (formatted === text && inputValue === value) {
             return false;
         }
 
@@ -145,6 +145,7 @@ export const NumberField = observer((props: Props) => {
             // by the onSubmit callback
             if (!postChanges()) {
                 e.preventDefault();
+                e.stopPropagation();
             }
         } else if (delta) {
             if (e.key === "ArrowUp") {
