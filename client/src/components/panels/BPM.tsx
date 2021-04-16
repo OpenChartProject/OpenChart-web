@@ -93,7 +93,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
         }
     };
 
-    const onCancel = () => {
+    const onRevert = () => {
         reset("all");
     };
 
@@ -183,9 +183,9 @@ export const BPMForm = observer((props: BPMFormProps) => {
                 <button
                     className="btn btn-secondary btn-thin float-right"
                     disabled={!modified}
-                    onClick={onCancel}
+                    onClick={onRevert}
                 >
-                    Cancel
+                    Revert
                 </button>
             </div>
         </form>
