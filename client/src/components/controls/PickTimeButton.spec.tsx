@@ -8,7 +8,7 @@ import { RootStore } from "../../store";
 
 import { PickTimeButton, Props } from "./PickTimeButton";
 
-describe("PickTimeButton", () => {
+describe("components/PickTimeButton", () => {
     let container: HTMLElement | null = null;
     let store: RootStore;
 
@@ -41,7 +41,7 @@ describe("PickTimeButton", () => {
         assert.strictEqual(button.innerHTML, "Pick Time");
 
         act(() => {
-            button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+            button.click();
         });
 
         assert(stub.calledOnceWith({ onCancel: props.onCancel, onPick: props.onPick }));

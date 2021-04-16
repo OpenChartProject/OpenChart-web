@@ -95,6 +95,7 @@ export const NumberField = observer((props: Props) => {
     let inputValue = isNumber(text) ? _.toNumber(text) : null;
     const formatValue = props.trim ? toFixedTrim : toFixed;
 
+    // Call onValueChange when the input value has changed
     useEffect(() => {
         if (inputValue !== null && props.onValueChange) {
             props.onValueChange(inputValue);
@@ -108,14 +109,25 @@ export const NumberField = observer((props: Props) => {
 
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
+    //
+    // This returns true when the number value of the field has changed, false otherwise.
+    // If the user pressed enter but the number value stayed the same, this function returns
+    // false, and the enter keypress is swallowed to prevent form submissions.
     const postChanges = (): boolean => {
-        // Reset the input if it's invalid or should be reformatted
-        if (text.trim() === "" || inputValue === null || inputValue === value) {
+        // Reset the input if it's empty or invalid
+        if (text.trim() === "" || inputValue === null) {
             props.onChange(formatValue(value, precision));
             return false;
         }
 
-        props.onChange(formatValue(inputValue, precision));
+        const formatted = formatValue(inputValue, precision);
+
+        // Don't broadcast a change if the input is the same
+        if (formatted === text) {
+            return false;
+        }
+
+        props.onChange(formatted);
 
         if (props.onSubmit) {
             return props.onSubmit(inputValue) !== false;
@@ -129,6 +141,8 @@ export const NumberField = observer((props: Props) => {
     // Down arrow increments by delta and posts the changes
     const onKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
+            // Prevent the keypress from propagating if the value isn't valid, or was rejected
+            // by the onSubmit callback
             if (!postChanges()) {
                 e.preventDefault();
             }
