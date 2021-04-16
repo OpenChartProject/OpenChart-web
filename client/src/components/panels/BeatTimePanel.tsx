@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Beat, Time } from "../../charting";
 import { RootStore } from "../../store";
 import { blurEverything, isNumber } from "../../util";
-import { PickTimeButton } from "../forms";
+import { PickTimeButton } from "../controls";
 
 import { Panel } from "./Panel";
 
