@@ -52,7 +52,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
                             disabled={disabled}
                             inline={true}
                             precision={3}
-                            onChanged={onOffsetChanged}
+                            onSubmit={onOffsetChanged}
                             delta={0.001}
                         />
                         <PickTimeButton

@@ -58,7 +58,7 @@ export const BeatTimePanel = observer((props: Props) => {
                         <NumberField
                             value={beat.value}
                             precision={3}
-                            onChanged={(val) => onChanged({ beat: val })}
+                            onSubmit={(val) => onChanged({ beat: val })}
                         />
                     </div>
                     <div className="form-control">
@@ -66,7 +66,7 @@ export const BeatTimePanel = observer((props: Props) => {
                         <NumberField
                             value={time.value}
                             precision={3}
-                            onChanged={(val) => onChanged({ time: val })}
+                            onSubmit={(val) => onChanged({ time: val })}
                         />
                     </div>
                 </div>

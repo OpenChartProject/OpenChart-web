@@ -12,6 +12,13 @@ export interface Props {
     value: number;
 
     /**
+     * Callback for when the value has changed but the user has not committed the change.
+     *
+     * This is useful for tracking if the field's value was changed.
+     */
+    onChange?(val: number): void;
+
+    /**
      * Callback for when the value has changed and the user has committed the change,
      * either by pressing enter or blurring the field.
      *
@@ -21,7 +28,7 @@ export interface Props {
      * case, if the user had pressed enter to submit the form, the enter keypress stops
      * propagating to prevent the outer form from submitting.
      */
-    onChanged?(val: number): boolean | void;
+    onSubmit?(val: number): boolean | void;
 }
 
 /**
@@ -50,6 +57,12 @@ export const NumberField = observer((props: Props) => {
     const [text, setText] = useState(valueToText(value));
     let inputValue = isNumber(text) ? _.toNumber(text) : null;
 
+    useEffect(() => {
+        if (inputValue !== null && props.onChange) {
+            props.onChange(inputValue);
+        }
+    }, [inputValue]);
+
     // Replace the input value when the value prop changes
     useEffect(() => {
         setText(valueToText(value));
@@ -58,17 +71,19 @@ export const NumberField = observer((props: Props) => {
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
     const postChanges = (): boolean => {
-        // Reset the input if it's blank or if the value is the same
-        if (text.trim() === "" || inputValue === value) {
+        // Reset the input if it's invalid or should be reformatted
+        if (text.trim() === "" || inputValue === null || inputValue === value) {
             setText(valueToText(value));
             return false;
         }
 
-        if (inputValue !== null && props.onChanged) {
-            return props.onChanged(inputValue) !== false;
+        setText(valueToText(inputValue));
+
+        if (props.onSubmit) {
+            return props.onSubmit(inputValue) !== false;
         }
 
-        return false;
+        return true;
     };
 
     // Enter posts the changes
