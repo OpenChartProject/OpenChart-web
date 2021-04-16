@@ -19,7 +19,7 @@ export const BeatTimePanel = observer((props: Props) => {
     const [beatVal, setBeatVal] = useState(beat.value.toFixed(3));
     const [timeVal, setTimeVal] = useState(time.value.toFixed(3));
 
-    const disabled = notefield.data.isPlaying;
+    const disabled = notefield.data.isPlaying || ui.tools.timePicker.active;
     const visible = ui.data.panelVisibility.beatTime;
 
     const reset = (field: "beat" | "time" | "all") => {
@@ -59,6 +59,15 @@ export const BeatTimePanel = observer((props: Props) => {
         } else {
             submit();
         }
+    };
+
+    const onPickTime = () => {
+        ui.activateTimePicker({
+            onPick: (y, pickedTime) => {
+                notefield.setScroll({ time: new Time(Math.max(0, pickedTime)) });
+                ui.deactivateTimePicker();
+            },
+        });
     };
 
     const onTimeBlur = () => {
@@ -112,6 +121,18 @@ export const BeatTimePanel = observer((props: Props) => {
                             disabled={disabled}
                         />
                     </div>
+                </div>
+
+                <div className="form-buttons clearfix">
+                    <button
+                        type="button"
+                        className="btn btn-secondary btn-thin"
+                        style={{ float: "right" }}
+                        disabled={disabled}
+                        onClick={onPickTime}
+                    >
+                        Pick Time
+                    </button>
                 </div>
 
                 <button type="submit" hidden />
