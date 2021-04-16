@@ -4,6 +4,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 
 import { RootStore } from "../../store";
 import { blurEverything, isNumber } from "../../util";
+import { PickTimeButton } from "../forms";
 
 import { Panel } from "./Panel";
 
@@ -46,17 +47,13 @@ export const AudioOffsetPanel = observer((props: Props) => {
         }
     };
 
-    const onPickTime = () => {
-        ui.activateTimePicker({
-            onPick: (y, time) => {
-                // Set the offset relative to where it already is, since the user is
-                // using the waveform to determine the offset, and if the audio offset
-                // is already set, then the waveform will be moved and we want to know
-                // the difference between where it is and where they clicked.
-                notefield.setAudioOffset(notefield.data.audioOffset - time);
-                ui.deactivateTimePicker();
-            },
-        });
+    const onPickTime = (y: number, time: number) => {
+        // Set the offset relative to where it already is, since the user is
+        // using the waveform to determine the offset, and if the audio offset
+        // is already set, then the waveform will be moved and we want to know
+        // the difference between where it is and where they clicked.
+        notefield.setAudioOffset(notefield.data.audioOffset - time);
+        ui.deactivateTimePicker();
     };
 
     const onSubmit = (e: FormEvent) => {
@@ -87,15 +84,12 @@ export const AudioOffsetPanel = observer((props: Props) => {
                             onBlur={update}
                             onKeyDown={onOffsetKeyDown}
                         />
-                        <button
-                            type="button"
-                            className="btn btn-secondary btn-thin"
-                            style={{ float: "right" }}
+                        <PickTimeButton
+                            store={props.store}
+                            className="float-right"
                             disabled={disabled}
-                            onClick={onPickTime}
-                        >
-                            Pick Time
-                        </button>
+                            onPick={onPickTime}
+                        />
                     </div>
                 </div>
 

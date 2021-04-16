@@ -237,6 +237,14 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
                 <label className="form-label form-label-dark">BPM List</label>
                 <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
             </div>
+            <div className="form-control form-buttons">
+                <button type="button" className="btn btn-secondary btn-thin">
+                    New BPM
+                </button>
+                <button type="button" className="btn btn-secondary btn-thin float-right" disabled>
+                    Sync
+                </button>
+            </div>
             <BPMForm bpm={cur} disabled={disabled} index={selected} onSubmit={onSubmit} />
         </Panel>
     );

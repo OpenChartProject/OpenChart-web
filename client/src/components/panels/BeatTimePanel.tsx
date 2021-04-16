@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Beat, Time } from "../../charting";
 import { RootStore } from "../../store";
 import { blurEverything, isNumber } from "../../util";
+import { PickTimeButton } from "../forms";
 
 import { Panel } from "./Panel";
 
@@ -61,13 +62,9 @@ export const BeatTimePanel = observer((props: Props) => {
         }
     };
 
-    const onPickTime = () => {
-        ui.activateTimePicker({
-            onPick: (y, pickedTime) => {
-                notefield.setScroll({ time: new Time(Math.max(0, pickedTime)) });
-                ui.deactivateTimePicker();
-            },
-        });
+    const onPickTime = (y: number, pickedTime: number) => {
+        notefield.setScroll({ time: new Time(Math.max(0, pickedTime)) });
+        ui.deactivateTimePicker();
     };
 
     const onTimeBlur = () => {
@@ -124,15 +121,12 @@ export const BeatTimePanel = observer((props: Props) => {
                 </div>
 
                 <div className="form-buttons clearfix">
-                    <button
-                        type="button"
-                        className="btn btn-secondary btn-thin"
-                        style={{ float: "right" }}
+                    <PickTimeButton
+                        store={props.store}
+                        className="float-right"
                         disabled={disabled}
-                        onClick={onPickTime}
-                    >
-                        Pick Time
-                    </button>
+                        onPick={onPickTime}
+                    />
                 </div>
 
                 <button type="submit" hidden />
