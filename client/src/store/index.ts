@@ -7,5 +7,13 @@ export {
 } from "./notefieldDisplay";
 export { NotefieldStore, NotefieldData } from "./notefield";
 export { ProjectStore } from "./project";
-export { WaveformStore } from "./waveform";
-export { UIData, UIStore } from "./ui";
+export { ViewBox, WaveformStore } from "./waveform";
+export {
+    ActivateTimePickerArgs,
+    MetronomeData,
+    MusicData,
+    NotifyArgs,
+    PanelVisibility,
+    UIData,
+    UIStore,
+} from "./ui";

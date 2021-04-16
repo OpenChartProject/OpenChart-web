@@ -2,8 +2,7 @@ import _ from "lodash";
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useRef, useState } from "react";
 
-import { RootStore } from "../store";
-import { NotifyArgs } from "../store/ui";
+import { NotifyArgs, RootStore } from "../store";
 
 export interface NotificationProps {
     args: NotifyArgs;
