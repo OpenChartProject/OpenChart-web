@@ -16,8 +16,12 @@ export interface Props {
      * either by pressing enter or blurring the field.
      *
      * This is not called if the user entered something that's not a number.
+     *
+     * If this returns false, that's interpreted to mean the change was rejected. In that
+     * case, if the user had pressed enter to submit the form, the enter keypress stops
+     * propagating to prevent the outer form from submitting.
      */
-    onChanged?(val: number): void;
+    onChanged?(val: number): boolean | void;
 }
 
 /**
@@ -53,16 +57,18 @@ export const NumberField = observer((props: Props) => {
 
     // This is called once the user is done editing the field. Pressing enter and blurring
     // both trigger postChanges.
-    const postChanges = () => {
+    const postChanges = (): boolean => {
         // Reset the input if it's blank or if the value is the same
         if (text.trim() === "" || inputValue === value) {
             setText(valueToText(value));
-            return;
+            return false;
         }
 
         if (inputValue !== null && props.onChanged) {
-            props.onChanged(inputValue);
+            return props.onChanged(inputValue) !== false;
         }
+
+        return false;
     };
 
     // Enter posts the changes
@@ -70,7 +76,9 @@ export const NumberField = observer((props: Props) => {
     // Down arrow increments by delta and posts the changes
     const onKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
-            postChanges();
+            if (!postChanges()) {
+                e.preventDefault();
+            }
         } else if (delta) {
             if (e.key === "ArrowUp") {
                 e.preventDefault();

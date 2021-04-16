@@ -20,7 +20,7 @@ export const BeatTimePanel = observer((props: Props) => {
     const disabled = notefield.data.isPlaying || ui.tools.timePicker.active;
     const visible = ui.data.panelVisibility.beatTime;
 
-    const onChanged = (args: { beat?: number; time?: number }) => {
+    const onChanged = (args: { beat?: number; time?: number }): boolean => {
         try {
             if (args.beat != null) {
                 notefield.setScroll({ beat: new Beat(args.beat) });
@@ -29,7 +29,10 @@ export const BeatTimePanel = observer((props: Props) => {
             }
         } catch (e) {
             ui.notify({ type: "error", msg: (e as Error).message });
+            return false;
         }
+
+        return true;
     };
 
     const onPickTime = (y: number, pickedTime: number) => {
