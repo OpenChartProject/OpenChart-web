@@ -176,38 +176,65 @@ describe("NotefieldStore", () => {
             assert.strictEqual(store.data.isPlaying, false);
         });
 
-        it("pauses when passed false", () => {
-            const store = createStore();
-            const spy = sinon.spy(store.ui.controllers.music, "pause");
+        it("calls the expected functions when play starts", () => {
+            const { notefield, ui } = createStore();
+            const stubs = {
+                autoScroller: sinon.stub(notefield.autoScroller, "start"),
+                metronome: sinon.stub(notefield.metronome, "start"),
+                music: sinon.stub(ui.controllers.music),
+            };
 
-            store.notefield.setPlaying(true);
-            store.notefield.setPlaying(false);
-            assert(spy.calledOnce);
+            notefield.setPlaying(true);
 
-            // Check that it doesn't call pause if it's already paused.
-            store.notefield.setPlaying(false);
-            assert(spy.calledOnce);
+            assert(stubs.autoScroller.calledOnce);
+            assert(stubs.metronome.calledOnce);
+            assert(stubs.music.seek.calledOnceWith(notefield.data.scroll.time.value));
+            assert(stubs.music.play.calledOnce);
         });
 
-        it("plays when passed true", () => {
-            const store = createStore();
-            const autoScrollSpy = sinon.spy(store.notefield.autoScroller, "start");
-            const seekSpy = sinon.spy(store.ui.controllers.music, "seek");
-            const playSpy = sinon.spy(store.ui.controllers.music, "play");
+        it("calls the expected functions when play stops", () => {
+            const { notefield, ui } = createStore();
+            const stubs = {
+                metronome: sinon.stub(notefield.metronome, "stop"),
+                music: sinon.stub(ui.controllers.music, "pause"),
+            };
 
-            store.notefield.setPlaying(false);
-            store.notefield.setPlaying(true);
+            notefield.setPlaying(true);
+            notefield.setPlaying(false);
 
-            assert(autoScrollSpy.calledOnce);
-            assert(seekSpy.calledOnceWith(store.notefield.data.scroll.time.value));
-            assert(playSpy.calledOnce);
+            assert(stubs.metronome.calledOnce);
+            assert(stubs.music.calledOnce);
+        });
 
-            store.notefield.setPlaying(true);
+        it("doesn't call play functions if already playing", () => {
+            const { notefield, ui } = createStore();
+            const stubs = {
+                autoScroller: sinon.stub(notefield.autoScroller, "start"),
+                metronome: sinon.stub(notefield.metronome, "start"),
+                music: sinon.stub(ui.controllers.music),
+            };
 
-            // Check that it doesn't call these again if it's already playing
-            assert(autoScrollSpy.calledOnce);
-            assert(seekSpy.calledOnce);
-            assert(playSpy.calledOnce);
+            notefield.data.isPlaying = true;
+            notefield.setPlaying(true);
+
+            assert(stubs.autoScroller.notCalled);
+            assert(stubs.metronome.notCalled);
+            assert(stubs.music.seek.notCalled);
+            assert(stubs.music.play.notCalled);
+        });
+
+        it("doesn't call pause/stop functions if already paused", () => {
+            const { notefield, ui } = createStore();
+            const stubs = {
+                metronome: sinon.stub(notefield.metronome, "stop"),
+                music: sinon.stub(ui.controllers.music, "pause"),
+            };
+
+            notefield.data.isPlaying = false;
+            notefield.setPlaying(false);
+
+            assert(stubs.metronome.notCalled);
+            assert(stubs.music.notCalled);
         });
     });
 
