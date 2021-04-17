@@ -211,16 +211,27 @@ export class NotefieldStore {
         }
     }
 
+    /**
+     * Converts the time to a position relative to the notefield canvas origin.
+     * This is unaffected by things like scroll, scroll direction, receptorY, etc.
+     */
     timeToNotefieldPosition(time: number): number {
         return time * this.pixelsPerSecond;
     }
 
+    /**
+     * Converts the time to a position relative to the top of the notefield element
+     * in the DOM.
+     */
     timeToScreenPosition(time: number): number {
-        const { scrollDirection } = this.root.notefieldDisplay.data;
-        let pos = this.timeToNotefieldPosition(time - this.data.scroll.time.value);
+        const { receptorY, scrollDirection } = this.root.notefieldDisplay.data;
+        let pos = (time - this.data.scroll.time.value) * this.pixelsPerSecond;
 
         if (scrollDirection === "down") {
             pos = this.data.height - pos;
+            pos -= receptorY;
+        } else {
+            pos += receptorY;
         }
 
         return pos;

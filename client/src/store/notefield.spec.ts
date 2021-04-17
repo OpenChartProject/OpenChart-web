@@ -321,6 +321,7 @@ describe("NotefieldStore", () => {
             time: number;
             scroll: number;
             scrollDirection: ScrollDirection;
+            receptorY: number;
             expected: number;
             when: string;
         }
@@ -335,6 +336,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 0,
                 scrollDirection: "up",
+                receptorY: 0,
 
                 time: 0,
                 expected: 0,
@@ -343,6 +345,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 0,
                 scrollDirection: "down",
+                receptorY: 0,
 
                 time: 0,
                 expected: height,
@@ -351,6 +354,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 2,
                 scrollDirection: "up",
+                receptorY: 0,
 
                 expected: -2 * store.notefield.pixelsPerSecond,
                 time: 0,
@@ -359,6 +363,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 2,
                 scrollDirection: "down",
+                receptorY: 0,
 
                 time: 0,
                 expected: 2 * store.notefield.pixelsPerSecond + height,
@@ -367,6 +372,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 0,
                 scrollDirection: "up",
+                receptorY: 0,
 
                 time: 1,
                 expected: store.notefield.pixelsPerSecond,
@@ -375,6 +381,7 @@ describe("NotefieldStore", () => {
             {
                 scroll: 2,
                 scrollDirection: "up",
+                receptorY: 0,
 
                 time: 1,
                 expected: -1 * store.notefield.pixelsPerSecond,
@@ -383,10 +390,29 @@ describe("NotefieldStore", () => {
             {
                 scroll: 2,
                 scrollDirection: "down",
+                receptorY: 0,
 
                 time: 1,
                 expected: store.notefield.pixelsPerSecond + height,
                 when: "time is 1 (scrolled, downscroll)",
+            },
+            {
+                scroll: 0,
+                scrollDirection: "up",
+                receptorY: 100,
+
+                time: 0,
+                expected: 100,
+                when: "receptor Y is set",
+            },
+            {
+                scroll: 0,
+                scrollDirection: "down",
+                receptorY: 100,
+
+                time: 0,
+                expected: height - 100,
+                when: "receptor Y is set (downscroll)",
             },
         ];
 
@@ -394,6 +420,8 @@ describe("NotefieldStore", () => {
             it(`returns expected value when ${c.when}`, () => {
                 store.notefield.setScroll({ time: new Time(c.scroll ?? 0) });
                 store.notefieldDisplay.data.scrollDirection = c.scrollDirection;
+                store.notefieldDisplay.data.receptorY = c.receptorY;
+
                 assert.strictEqual(store.notefield.timeToScreenPosition(c.time), c.expected);
             });
         });
