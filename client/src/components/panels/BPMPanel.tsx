@@ -119,7 +119,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
                 <NumberField
                     disabled={disabled}
                     value={bpm.value}
-                    delta={0.001}
+                    delta={0.1}
                     precision={precision}
                     text={bpmText}
                     trim={true}
