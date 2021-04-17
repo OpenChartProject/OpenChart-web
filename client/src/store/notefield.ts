@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 
-import { Beat, BeatTime, Chart, Time } from "../charting";
+import { Beat, BeatTime, Chart, Time, toTime } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
 import { AutoScrollController, MetronomeController } from "./controllers";
@@ -209,6 +209,24 @@ export class NotefieldStore {
         if (!this.data.zoom.equals(val)) {
             this.data.zoom = val;
         }
+    }
+
+    timeToNotefieldPosition(time: number): number {
+        return time * this.pixelsPerSecond;
+    }
+
+    timeToScreenPosition(time: number): number {
+        const { scrollDirection } = this.root.notefieldDisplay.data;
+        let pos: number;
+
+        if(scrollDirection === "down") {
+            pos = this.timeToNotefieldPosition(time + this.data.scroll.time.value);
+            pos += this.data.height;
+        } else {
+            pos  = this.timeToNotefieldPosition(time - this.data.scroll.time.value);
+        }
+
+        return pos;
     }
 
     /**
