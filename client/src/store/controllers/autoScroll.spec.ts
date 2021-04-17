@@ -4,7 +4,6 @@ import sinon from "sinon";
 import { createStore } from "../../test";
 
 import { AutoScrollController } from "./autoScroll";
-import { MetronomeController } from "./metronome";
 
 describe("AutoScrollController", () => {
     describe("new", () => {
@@ -40,18 +39,6 @@ describe("AutoScrollController", () => {
             asc.onFrame(2500);
 
             assert(stub.calledWith({ time: 1.5 }));
-        });
-
-        it("calls metronome update with the current scroll beat", () => {
-            const store = createStore();
-            const metronome = new MetronomeController(store.ui);
-            const asc = new AutoScrollController(store, metronome);
-            const stub = sinon.stub(metronome, "update");
-
-            store.notefield.data.isPlaying = true;
-            asc.onFrame(1000);
-
-            assert(stub.calledWith(store.notefield.data.scroll.beat));
         });
 
         it("calls requestAnimationFrame again if notefield is playing", () => {

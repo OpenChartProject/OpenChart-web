@@ -4,16 +4,10 @@ import Storage from "../storage";
 
 import { loadAll } from "./data";
 
-window.requestAnimationFrame = () => 0;
-globalThis.requestAnimationFrame = window.requestAnimationFrame;
-
 beforeEach(() => {
-    (globalThis.localStorage as any) = {
-        getItem: sinon.stub(),
-        removeItem: sinon.stub(),
-        setItem: sinon.stub(),
-        clear: sinon.stub(),
-    };
+    window.requestAnimationFrame = () => 0;
+    (globalThis.localStorage as any) = null;
+    globalThis.requestAnimationFrame = window.requestAnimationFrame;
 });
 
 afterEach(() => {
