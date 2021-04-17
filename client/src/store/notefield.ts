@@ -2,7 +2,7 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import { makeAutoObservable, observable } from "mobx";
 
-import { Beat, BeatTime, Chart, Time, toTime } from "../charting";
+import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
 import { AutoScrollController, MetronomeController } from "./controllers";
@@ -217,13 +217,10 @@ export class NotefieldStore {
 
     timeToScreenPosition(time: number): number {
         const { scrollDirection } = this.root.notefieldDisplay.data;
-        let pos: number;
+        let pos = this.timeToNotefieldPosition(time - this.data.scroll.time.value);
 
-        if(scrollDirection === "down") {
-            pos = this.timeToNotefieldPosition(time + this.data.scroll.time.value);
-            pos += this.data.height;
-        } else {
-            pos  = this.timeToNotefieldPosition(time - this.data.scroll.time.value);
+        if (scrollDirection === "down") {
+            pos = this.data.height - pos;
         }
 
         return pos;

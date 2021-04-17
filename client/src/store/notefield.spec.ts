@@ -287,25 +287,25 @@ describe("NotefieldStore", () => {
             {
                 time: 0,
                 expected: 0,
-                when: "time is 0"
+                when: "time is 0",
             },
             {
                 time: 1,
                 expected: store.pixelsPerSecond,
-                when: "time is 1"
+                when: "time is 1",
             },
             {
                 time: 2.34,
                 expected: 2.34 * store.pixelsPerSecond,
-                when: "time is 2.34"
+                when: "time is 2.34",
             },
             {
                 scroll: 2,
 
                 time: 1,
                 expected: store.pixelsPerSecond,
-                when: "time is 1 but scrolled"
-            }
+                when: "time is 1 but scrolled",
+            },
         ];
 
         cases.forEach((c) => {
@@ -338,7 +338,7 @@ describe("NotefieldStore", () => {
 
                 time: 0,
                 expected: 0,
-                when: "everything is 0"
+                when: "everything is 0",
             },
             {
                 scroll: 0,
@@ -346,7 +346,7 @@ describe("NotefieldStore", () => {
 
                 time: 0,
                 expected: height,
-                when: "everything is 0 (downscroll)"
+                when: "everything is 0 (downscroll)",
             },
             {
                 scroll: 2,
@@ -354,7 +354,7 @@ describe("NotefieldStore", () => {
 
                 expected: -2 * store.notefield.pixelsPerSecond,
                 time: 0,
-                when: "time is 0 (scrolled)"
+                when: "time is 0 (scrolled)",
             },
             {
                 scroll: 2,
@@ -362,7 +362,7 @@ describe("NotefieldStore", () => {
 
                 time: 0,
                 expected: 2 * store.notefield.pixelsPerSecond + height,
-                when: "time is 0 (scrolled, downscroll)"
+                when: "time is 0 (scrolled, downscroll)",
             },
             {
                 scroll: 0,
@@ -370,7 +370,7 @@ describe("NotefieldStore", () => {
 
                 time: 1,
                 expected: store.notefield.pixelsPerSecond,
-                when: "time is 1"
+                when: "time is 1",
             },
             {
                 scroll: 2,
@@ -378,7 +378,7 @@ describe("NotefieldStore", () => {
 
                 time: 1,
                 expected: -1 * store.notefield.pixelsPerSecond,
-                when: "time is 1 (scrolled)"
+                when: "time is 1 (scrolled)",
             },
             {
                 scroll: 2,
@@ -386,8 +386,8 @@ describe("NotefieldStore", () => {
 
                 time: 1,
                 expected: store.notefield.pixelsPerSecond + height,
-                when: "time is 1 (scrolled, downscroll)"
-            }
+                when: "time is 1 (scrolled, downscroll)",
+            },
         ];
 
         cases.forEach((c) => {
