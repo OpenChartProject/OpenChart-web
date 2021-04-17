@@ -61,8 +61,8 @@ export class NotefieldStore {
             zoom: observable.ref,
         });
 
-        this.metronome = new MetronomeController(this.root.ui);
-        this.autoScroller = new AutoScrollController(this.root, this.metronome);
+        this.metronome = new MetronomeController(this.root);
+        this.autoScroller = new AutoScrollController(this.root);
     }
 
     get defaults(): NotefieldData {
@@ -167,9 +167,11 @@ export class NotefieldStore {
 
             if (isPlaying) {
                 this.autoScroller.start();
+                this.metronome.start();
                 music.seek(this.data.scroll.time.value);
                 music.play();
             } else {
+                this.metronome.stop();
                 music.pause();
             }
         }
