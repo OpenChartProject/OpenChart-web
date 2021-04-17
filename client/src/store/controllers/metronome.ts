@@ -43,7 +43,8 @@ export class MetronomeController {
             return;
         }
 
-        clearInterval(this.timerId);
+        window.clearInterval(this.timerId);
+        this.timerId = 0;
     }
 
     /**
