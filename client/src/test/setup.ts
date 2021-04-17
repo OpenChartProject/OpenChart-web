@@ -6,8 +6,15 @@ import { loadAll } from "./data";
 
 beforeEach(() => {
     window.requestAnimationFrame = () => 0;
-    (globalThis.localStorage as any) = null;
     globalThis.requestAnimationFrame = window.requestAnimationFrame;
+
+    (globalThis.localStorage as any) = null;
+
+    sinon.stub(window, "setInterval");
+    sinon.stub(window, "setTimeout");
+
+    globalThis.setInterval = window.setInterval;
+    globalThis.setTimeout = window.setTimeout;
 });
 
 afterEach(() => {

@@ -6,8 +6,8 @@ let memoryStorage: Record<string, string> = {};
  */
 export default {
     clear() {
-        if (localStorage) {
-            localStorage.clear();
+        if (globalThis.localStorage) {
+            globalThis.localStorage.clear();
             return;
         }
 
@@ -15,8 +15,8 @@ export default {
     },
 
     del(key: string) {
-        if (localStorage) {
-            localStorage.removeItem(key);
+        if (globalThis.localStorage) {
+            globalThis.localStorage.removeItem(key);
             return;
         }
 
@@ -24,8 +24,8 @@ export default {
     },
 
     get(key: string): string | null {
-        if (localStorage) {
-            return localStorage.getItem(key);
+        if (globalThis.localStorage) {
+            return globalThis.localStorage.getItem(key);
         }
 
         if (key in memoryStorage) {
@@ -36,8 +36,8 @@ export default {
     },
 
     set(key: string, value: string) {
-        if (localStorage) {
-            localStorage.setItem(key, value);
+        if (globalThis.localStorage) {
+            globalThis.localStorage.setItem(key, value);
             return;
         }
 
