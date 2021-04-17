@@ -17,6 +17,10 @@ export class MetronomeController {
         this.timerId = 0;
     }
 
+    /**
+     * Starts the metronome. This starts an interval which checks periodically if the
+     * metronome should play a tick.
+     */
     start() {
         // The metronome is already running
         if (this.timerId !== 0) {
@@ -30,6 +34,9 @@ export class MetronomeController {
         }, timerInterval);
     }
 
+    /**
+     * Stops the metronome.
+     */
     stop() {
         // The metronome is already stopped
         if (this.timerId === 0) {
