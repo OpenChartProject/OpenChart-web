@@ -23,6 +23,16 @@
         right: -50px;
         user-select: none;
     }
+
+    .bpm-display-container {
+        position: absolute;
+        left: -50px;
+    }
+
+    .bpm-display-item {
+        position: relative;
+        transform: translateY(-50%);
+    }
 }
 
 .time-selector-container {
