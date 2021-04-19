@@ -15,8 +15,10 @@ export const BPMDisplay = observer((props: Props) => {
             top: notefield.timeToScreenPosition(x.time.value),
         };
 
+        const title = `${x.bpm.value}bpm @ ${x.time.value.toFixed(3)}s`;
+
         return (
-            <div className="bpm-display-item" key={x.bpm.beat.value} style={style}>
+            <div className="bpm-display-item" key={x.bpm.beat.value} style={style} title={title}>
                 {x.bpm.value}
             </div>
         );
