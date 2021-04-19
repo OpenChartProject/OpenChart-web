@@ -85,6 +85,20 @@ describe("BPMList", () => {
         });
     });
 
+    describe("#removeDuplicates", () => {
+        it("removes and returns duplicate BPMs", () => {
+            const bpms = [new BPM(0, 120), new BPM(4, 120)];
+            const list = new BPMList(bpms);
+            const dupes = list.removeDuplicates().map((val) => val.bpm);
+
+            assert.deepStrictEqual(dupes, [bpms[1]]);
+            assert.deepStrictEqual(
+                list.getAll().map((val) => val.bpm),
+                [bpms[0]],
+            );
+        });
+    });
+
     describe("#setBPMS", () => {
         it("throws if list is empty", () => {
             assert.throws(() => new BPMList([]));
@@ -104,17 +118,6 @@ describe("BPMList", () => {
         it("reorders the bpms by beat ascending", () => {
             const bpms = [new BPM(4, 60), new BPM(0, 120)];
             const expected = [bpms[1], bpms[0]];
-            const list = new BPMList(bpms);
-
-            assert.deepStrictEqual(
-                list.getAll().map((bpm) => bpm.bpm),
-                expected,
-            );
-        });
-
-        it("removes duplicates", () => {
-            const bpms = [new BPM(0, 120), new BPM(0, 120)];
-            const expected = [bpms[0]];
             const list = new BPMList(bpms);
 
             assert.deepStrictEqual(
@@ -186,18 +189,6 @@ describe("BPMList", () => {
             const expected: number[] = [0, 2, 6];
 
             assert.deepStrictEqual(actual, expected);
-        });
-
-        it("removes duplicates", () => {
-            const bpms = [new BPM(0, 120), new BPM(4, 60)];
-            const expected = [bpms[0]];
-            const list = new BPMList(bpms);
-            list.update(1, new BPM(4, 120));
-
-            assert.deepStrictEqual(
-                list.getAll().map((bpm) => bpm.bpm),
-                expected,
-            );
         });
     });
 });

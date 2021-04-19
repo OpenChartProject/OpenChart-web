@@ -61,6 +61,38 @@ export class BPMList {
     }
 
     /**
+     * Removes any duplicate BPMs from the BPM list and returns them. A duplicate is any
+     * BPM change which has no effect.
+     *
+     * For example, if the BPM list has two items, and both set a BPM of 120, then the second
+     * item would be considered a duplicate, since it's changing from 120 to 120.
+     */
+    removeDuplicates(): BPMTime[] {
+        // A list of BPMTime and index pairs. The index is used for removing the duplicate
+        // and the BPMTime is used to return the list of removed dupes.
+        const duplicates: [BPMTime, number][] = [];
+
+        // Compare each bpm with the previous to see if it's a duplicate.
+        for (let i = 1; i < this.bpms.length; i++) {
+            const a = this.bpms[i - 1];
+            const b = this.bpms[i];
+
+            if (a.bpm.value === b.bpm.value) {
+                duplicates.push([b, i]);
+            }
+        }
+
+        // Remove the duplicates in reverse order so we keep the order of the indicies.
+        duplicates.reverse();
+
+        for (const [_, i] of duplicates) {
+            this.bpms.splice(i, 1);
+        }
+
+        return duplicates.reverse().map(([bpm, _]) => bpm);
+    }
+
+    /**
      * Updates the BPM changes.
      * @throws if the list is empty
      * @throws if the first bpm change is not at beat 0
@@ -69,7 +101,6 @@ export class BPMList {
         assert(bpms.length > 0, "bpm list cannot be empty");
 
         this.bpms = this.clean(bpms).map((x) => ({ bpm: x, time: Time.Zero }));
-
         this.recalculateTimes();
     }
 
@@ -112,33 +143,11 @@ export class BPMList {
     }
 
     /**
-     * Cleans the list of BPMs by sorting them and removing duplicates. Throws if none
-     * of the BPM changes occur at beat 0.
+     * Sorts the BPMs by beat and throws if the first BPM doesn't start at beat 0.
      */
     private clean(bpms: BPM[]): BPM[] {
         const sorted = this.sortByBeat(bpms);
-
         assert(sorted[0].beat.value === 0, "there must be a bpm set at beat 0");
-
-        const duplicates: number[] = [];
-
-        // Compare each bpm with the previous to see if it's a duplicate.
-        for (let i = 1; i < sorted.length; i++) {
-            const a = sorted[i - 1];
-            const b = sorted[i];
-
-            if (a.value === b.value) {
-                duplicates.push(i);
-            }
-        }
-
-        // Remove the duplicates in reverse order so we keep the order of the indicies.
-        duplicates.reverse();
-
-        for (const i of duplicates) {
-            sorted.splice(i, 1);
-        }
-
         return sorted;
     }
 
