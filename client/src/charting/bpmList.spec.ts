@@ -1,4 +1,6 @@
 import assert from "assert";
+import _ from "lodash";
+import sinon from "sinon";
 
 import { BPM } from "./bpm";
 import { BPMList, BPMTime } from "./bpmList";
@@ -40,6 +42,36 @@ describe("BPMList", () => {
             assert.strictEqual(list.beatAt(2).value, 4);
             assert.strictEqual(list.beatAt(3).value, 5);
             assert.strictEqual(list.beatAt(4).value, 6);
+        });
+    });
+
+    describe("#clean", () => {
+        it("throws if there is no bpm change at beat 0", () => {
+            const list = new BPMList();
+            assert.throws(() => list.clean([new BPM(1, 120)]));
+        });
+
+        it("throws if there are multiple bpm changes on the same beat", () => {
+            const list = new BPMList();
+            assert.throws(() => list.clean([new BPM(0, 120), new BPM(0, 120)]));
+        });
+
+        it("returns the bpms sorted by beat", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(4, 60), new BPM(0, 120)];
+            const expected = [bpms[1], bpms[0]];
+
+            assert.deepStrictEqual(list.clean(bpms), expected);
+        });
+
+        it("doesn't mutate the input list", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(4, 60), new BPM(0, 120)];
+            const copy = _.clone(bpms);
+
+            list.clean(bpms);
+
+            assert.deepStrictEqual(bpms, copy);
         });
     });
 
@@ -108,22 +140,45 @@ describe("BPMList", () => {
             assert.throws(() => new BPMList([new BPM(1, 120)]));
         });
 
-        it("calculates the time of each bpm", () => {
-            const list = new BPMList([new BPM(0, 120), new BPM(4, 60)]);
+        it("sets the bpms", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(0, 120), new BPM(4, 60)];
 
-            assert.strictEqual(list.get(0).time.value, 0);
-            assert.strictEqual(list.get(1).time.value, 2);
-        });
-
-        it("reorders the bpms by beat ascending", () => {
-            const bpms = [new BPM(4, 60), new BPM(0, 120)];
-            const expected = [bpms[1], bpms[0]];
-            const list = new BPMList(bpms);
+            list.setBPMs(bpms);
 
             assert.deepStrictEqual(
-                list.getAll().map((bpm) => bpm.bpm),
-                expected,
+                list.getAll().map((x) => x.bpm),
+                bpms,
             );
+        });
+
+        it("calls clean with the list of bpms", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(0, 120), new BPM(4, 60)];
+            const spy = sinon.spy(list, "clean");
+
+            list.setBPMs(bpms);
+
+            assert(spy.calledOnceWith(bpms));
+        });
+    });
+
+    describe("#sortByBeat", () => {
+        it("sorts the list of bpms by beat", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(4, 120), new BPM(0, 60)];
+
+            assert.deepStrictEqual(list.sortByBeat(bpms), [bpms[1], bpms[0]]);
+        });
+
+        it("doesn't mutate the input list", () => {
+            const list = new BPMList();
+            const bpms = [new BPM(4, 120), new BPM(0, 60)];
+            const copy = _.clone(bpms);
+
+            list.sortByBeat(bpms);
+
+            assert.deepStrictEqual(bpms, copy);
         });
     });
 
@@ -167,28 +222,14 @@ describe("BPMList", () => {
             assert.deepStrictEqual(list.get(0).bpm, bpm);
         });
 
-        it("sorts the bpm list by beat ascending", () => {
-            const list = new BPMList([new BPM(0, 120), new BPM(2, 60), new BPM(4, 90)]);
-            const bpm = list.get(1).bpm;
-            bpm.beat.value = 10;
-            list.update(1, bpm);
+        it("calls clean with the list of bpms", () => {
+            const list = new BPMList();
+            const bpm = new BPM(0, 60);
+            const spy = sinon.spy(list, "clean");
 
-            const actual: BPM[] = list.getAll().map((x) => x.bpm);
-            const expected: BPM[] = [new BPM(0, 120), new BPM(4, 90), new BPM(10, 60)];
+            list.update(0, bpm);
 
-            assert.deepStrictEqual(actual, expected);
-        });
-
-        it("recalculates the bpm times", () => {
-            const list = new BPMList([new BPM(0, 120), new BPM(2, 60), new BPM(4, 90)]);
-            const bpm = list.get(1).bpm;
-            bpm.beat.value = 10;
-            list.update(1, bpm);
-
-            const actual: number[] = list.getAll().map((x) => x.time.value);
-            const expected: number[] = [0, 2, 6];
-
-            assert.deepStrictEqual(actual, expected);
+            assert(spy.calledOnceWith([bpm]));
         });
     });
 });

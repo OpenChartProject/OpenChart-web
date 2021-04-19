@@ -45,6 +45,25 @@ export class BPMList {
     }
 
     /**
+     * Sorts the BPMs by beat and throws if the first BPM doesn't start at beat 0.
+     */
+    clean(bpms: BPM[]): BPM[] {
+        const sorted = this.sortByBeat(bpms);
+        assert(sorted[0].beat.value === 0, "there must be a bpm set at beat 0");
+
+        for (let i = 1; i < sorted.length; i++) {
+            const a = sorted[i - 1];
+            const b = sorted[i];
+
+            if (a.beat.fraction.equals(b.beat.fraction)) {
+                throw Error("there cannot be multiple bpm changes on the same beat");
+            }
+        }
+
+        return sorted;
+    }
+
+    /**
      * Returns a copy of the BPM that is at the given index.
      */
     get(index: number): BPMTime {
@@ -105,6 +124,14 @@ export class BPMList {
     }
 
     /**
+     * Sorts the provided bpms by beat and returns it.
+     */
+    sortByBeat(bpms: BPM[]): BPM[] {
+        const copy = _.clone(bpms);
+        return copy.sort((a, b) => (a.beat.value < b.beat.value ? -1 : 1));
+    }
+
+    /**
      * Returns the time at a particular beat.
      */
     timeAt(beat: Beat | number, cache = true): Time {
@@ -143,29 +170,12 @@ export class BPMList {
     }
 
     /**
-     * Sorts the BPMs by beat and throws if the first BPM doesn't start at beat 0.
-     */
-    private clean(bpms: BPM[]): BPM[] {
-        const sorted = this.sortByBeat(bpms);
-        assert(sorted[0].beat.value === 0, "there must be a bpm set at beat 0");
-        return sorted;
-    }
-
-    /**
      * Recalculates the times for each BPM.
      */
     private recalculateTimes() {
         for (const bpm of this.bpms) {
             bpm.time = this.timeAt(bpm.bpm.beat, false);
         }
-    }
-
-    /**
-     * Sorts the provided bpms by beat and returns it.
-     */
-    private sortByBeat(bpms: BPM[]): BPM[] {
-        const copy = _.clone(bpms);
-        return copy.sort((a, b) => (a.beat.value < b.beat.value ? -1 : 1));
     }
 
     /**
