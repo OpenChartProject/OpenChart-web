@@ -19,9 +19,22 @@
     }
 
     .beatsnap {
+        $transform: translateX(100%);
+
         position: absolute;
-        right: -50px;
+        right: 0;
+        width: 100px;
+        text-align: left;
         user-select: none;
+        padding-left: 20px;
+
+        .upscroll & {
+            transform: $transform translateY(-50%);
+        }
+
+        .downscroll & {
+            transform: $transform translateY(50%);
+        }
     }
 
     .bpm-display-container {

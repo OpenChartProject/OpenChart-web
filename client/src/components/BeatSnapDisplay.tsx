@@ -16,12 +16,10 @@ export const BeatSnapDisplay = observer(({ store }: Props) => {
     if (scrollDirection === "up") {
         style = {
             top: receptorY + "px",
-            transform: "translateY(-50%)",
         };
     } else {
         style = {
             bottom: receptorY + "px",
-            transform: "translateY(50%)",
         };
     }
 
