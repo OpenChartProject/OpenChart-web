@@ -27,6 +27,12 @@
       {
         "grouped-imports": true
       }
+    ],
+    "no-shadowed-variable": [
+      true,
+      {
+        "underscore": false
+      }
     ]
   }
 }
