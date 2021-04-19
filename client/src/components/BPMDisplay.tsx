@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { CSSProperties } from "react";
+
 import { RootStore } from "../store";
 
 export interface Props {
