@@ -1,4 +1,6 @@
 import { Beat } from "../../charting";
+import { getBeatLineTimes } from "../../notefield/beatlines";
+import { BeatSnap } from "../../notefield/beatsnap";
 import { RootStore } from "../root";
 
 /**
@@ -19,7 +21,7 @@ export class MetronomeController {
     /**
      * The frequency of the metornome tick, in Hz
      */
-    readonly FREQUENCY = 600;
+    readonly FREQUENCY = 1000;
 
     /**
      * How long the tick should last, in seconds
@@ -31,16 +33,12 @@ export class MetronomeController {
         this.playing = false;
     }
 
-    clickAt(time: number) {
-        const { gain } = this.gain!;
-
-        gain.cancelScheduledValues(time);
-        gain.setValueAtTime(0, time);
-
-        gain.linearRampToValueAtTime(1, time + 0.001);
-        gain.linearRampToValueAtTime(0, time + 0.001 + this.TICK_TIME);
-    }
-
+    /**
+     * Creates the audio nodes we need to make the metronome work.
+     *
+     * The metronome sound itself is just a sine wave, and we basically "flick" the gain
+     * knob up when the tick should play.
+     */
     setUp() {
         this.ctx = new AudioContext();
         this.osc = this.ctx.createOscillator();
@@ -48,13 +46,17 @@ export class MetronomeController {
 
         this.osc.type = "sine";
         this.osc.frequency.value = this.FREQUENCY;
+        this.gain.gain.value = 0;
 
         this.osc.connect(this.gain);
         this.gain.connect(this.ctx.destination);
     }
 
     /**
-     * Starts the metronome.
+     * Starts the metronome. This sets up the audio nodes and schedules the metronome ticks
+     * ahead of time.
+     *
+     * This schedules up to 5 minutes or 1000 ticks, whichever comes first.
      */
     start() {
         if (this.playing) {
@@ -63,9 +65,21 @@ export class MetronomeController {
 
         this.setUp();
 
-        // TODO: look ahead at beats and use those times to tick the metronome
-        for (let i = 0; i < 1000; i++) {
-            this.clickAt(i);
+        let count = 0;
+        const { chart, scroll } = this.store.notefield.data;
+
+        // TODO: Should probably refactor this so we aren't using beat line code lol
+        for (const bt of getBeatLineTimes(
+            chart,
+            new BeatSnap(),
+            scroll.time.value,
+            scroll.time.value + 300,
+        )) {
+            if (count++ >= 1000) {
+                break;
+            }
+
+            this.tickAt(bt.time.value - scroll.time.value, bt.beat.isStartOfMeasure());
         }
 
         this.osc!.start(0);
@@ -84,6 +98,9 @@ export class MetronomeController {
         this.tearDown();
     }
 
+    /**
+     * Cleans up the audio nodes.
+     */
     tearDown() {
         if (this.osc) {
             this.osc!.stop();
@@ -92,5 +109,20 @@ export class MetronomeController {
         this.osc = undefined;
         this.gain = undefined;
         this.ctx = undefined;
+    }
+
+    /**
+     * Schedules a metronome tick at the given time. The tick is louder when the beat is
+     * the start of a measure.
+     */
+    tickAt(time: number, startOfMeasure: boolean) {
+        const { gain } = this.gain!;
+        const volume = startOfMeasure ? 1 : 0.4;
+
+        gain.cancelScheduledValues(time);
+        gain.setValueAtTime(0, time);
+
+        gain.linearRampToValueAtTime(volume, time + 0.001);
+        gain.linearRampToValueAtTime(0, time + 0.001 + this.TICK_TIME);
     }
 }
