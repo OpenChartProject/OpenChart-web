@@ -5,7 +5,7 @@ import { makeAutoObservable, observable } from "mobx";
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
 
-import { AutoScrollController, MetronomeController } from "./controllers";
+import { AutoScrollController } from "./controllers";
 import { RootStore } from "./root";
 
 export const ZOOM_MIN = new Fraction(256, 6561);

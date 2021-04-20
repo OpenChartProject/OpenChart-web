@@ -15,7 +15,7 @@ export const AudioPanel = observer((props: Props) => {
     const visible = ui.data.panelVisibility.audio;
 
     const onMetronomeVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
-        ui.updateProperty("metronome", { volume: _.toNumber(e.target.value) });
+        ui.setMetronomeVolume(_.toNumber(e.target.value));
     };
 
     const onMusicVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {

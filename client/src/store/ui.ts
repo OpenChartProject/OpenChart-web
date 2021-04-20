@@ -109,6 +109,8 @@ export class UIStore {
             this.data = JSON.parse(existing);
             this.data = _.merge(defaults, this.data);
         }
+
+        this.controllers.metronome.setVolume(this.data.metronome.volume);
     }
 
     get defaults(): UIData {
@@ -171,6 +173,16 @@ export class UIStore {
      */
     notify(args: NotifyArgs) {
         this.emitters.notif.emit("notify", args);
+    }
+
+    /**
+     * Sets the volume for the metronome.
+     */
+    setMetronomeVolume(val: number) {
+        this.data.metronome.volume = val;
+        this.controllers.metronome.setVolume(val);
+
+        this.save();
     }
 
     /**
