@@ -14,7 +14,7 @@ export const Music = observer(({ store }: Props) => {
     const onPlay = () => {
         const el = ref.current!;
 
-        if (!src) {
+        if (!store.ui.data.music.src) {
             return;
         }
 
@@ -24,7 +24,7 @@ export const Music = observer(({ store }: Props) => {
     const onPause = () => {
         const el = ref.current!;
 
-        if (!src) {
+        if (!store.ui.data.music.src) {
             return;
         }
 
@@ -34,7 +34,7 @@ export const Music = observer(({ store }: Props) => {
     const onSeek = (time: number) => {
         const el = ref.current!;
 
-        if (!src) {
+        if (!store.ui.data.music.src) {
             return;
         }
 
