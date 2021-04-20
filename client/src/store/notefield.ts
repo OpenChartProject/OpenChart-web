@@ -45,7 +45,6 @@ export class NotefieldStore {
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScrollController;
-    readonly metronome: MetronomeController;
 
     constructor(root: RootStore) {
         makeAutoObservable(this, {
@@ -61,7 +60,6 @@ export class NotefieldStore {
             zoom: observable.ref,
         });
 
-        this.metronome = new MetronomeController(this.root);
         this.autoScroller = new AutoScrollController(this.root);
     }
 
@@ -163,15 +161,15 @@ export class NotefieldStore {
     setPlaying(isPlaying: boolean) {
         if (isPlaying !== this.data.isPlaying) {
             this.data.isPlaying = isPlaying;
-            const music = this.root.ui.controllers.music;
+            const { metronome, music } = this.root.ui.controllers;
 
             if (isPlaying) {
                 this.autoScroller.start();
-                this.metronome.start();
+                metronome.start();
                 music.seek(this.data.scroll.time.value);
                 music.play();
             } else {
-                this.metronome.stop();
+                metronome.stop();
                 music.pause();
             }
         }

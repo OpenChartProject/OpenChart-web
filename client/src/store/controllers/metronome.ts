@@ -12,7 +12,8 @@ import { RootStore } from "../root";
 export class MetronomeController {
     ctx?: AudioContext;
     osc?: OscillatorNode;
-    gain?: GainNode;
+    tickGain?: GainNode;
+    outGain?: GainNode;
 
     lastBeat?: Beat;
     playing: boolean;
@@ -42,14 +43,16 @@ export class MetronomeController {
     setUp() {
         this.ctx = new AudioContext();
         this.osc = this.ctx.createOscillator();
-        this.gain = this.ctx.createGain();
+        this.tickGain = this.ctx.createGain();
+        this.outGain = this.ctx.createGain();
 
         this.osc.type = "sine";
         this.osc.frequency.value = this.FREQUENCY;
-        this.gain.gain.value = 0;
+        this.tickGain.gain.value = 0;
 
-        this.osc.connect(this.gain);
-        this.gain.connect(this.ctx.destination);
+        this.osc.connect(this.tickGain);
+        this.tickGain.connect(this.outGain);
+        this.outGain.connect(this.ctx.destination);
     }
 
     /**
@@ -102,12 +105,10 @@ export class MetronomeController {
      * Cleans up the audio nodes.
      */
     tearDown() {
-        if (this.osc) {
-            this.osc!.stop();
-        }
+        this.ctx?.close();
 
         this.osc = undefined;
-        this.gain = undefined;
+        this.tickGain = undefined;
         this.ctx = undefined;
     }
 
@@ -116,7 +117,7 @@ export class MetronomeController {
      * the start of a measure.
      */
     tickAt(time: number, startOfMeasure: boolean) {
-        const { gain } = this.gain!;
+        const { gain } = this.tickGain!;
         const volume = startOfMeasure ? 1 : 0.4;
 
         gain.cancelScheduledValues(time);

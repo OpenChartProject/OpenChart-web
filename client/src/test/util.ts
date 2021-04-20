@@ -36,7 +36,7 @@ export function createStore(): RootStore {
     const store = new RootStore();
 
     store.notefield.setCanvas(document.createElement("canvas"));
-    sinon.stub(store.notefield.metronome);
+    sinon.stub(store.ui.controllers.metronome);
 
     return store;
 }

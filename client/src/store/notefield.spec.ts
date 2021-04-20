@@ -180,7 +180,7 @@ describe("NotefieldStore", () => {
             const { notefield, ui } = createStore();
             const stubs = {
                 autoScroller: sinon.stub(notefield.autoScroller, "start"),
-                metronome: notefield.metronome.start as sinon.SinonStub,
+                metronome: ui.controllers.metronome.start as sinon.SinonStub,
                 music: sinon.stub(ui.controllers.music),
             };
 
@@ -195,7 +195,7 @@ describe("NotefieldStore", () => {
         it("calls the expected functions when play stops", () => {
             const { notefield, ui } = createStore();
             const stubs = {
-                metronome: notefield.metronome.stop as sinon.SinonStub,
+                metronome: ui.controllers.metronome.stop as sinon.SinonStub,
                 music: sinon.stub(ui.controllers.music, "pause"),
             };
 
@@ -210,7 +210,7 @@ describe("NotefieldStore", () => {
             const { notefield, ui } = createStore();
             const stubs = {
                 autoScroller: sinon.stub(notefield.autoScroller, "start"),
-                metronome: notefield.metronome.start as sinon.SinonStub,
+                metronome: ui.controllers.metronome.start as sinon.SinonStub,
                 music: sinon.stub(ui.controllers.music),
             };
 
@@ -226,7 +226,7 @@ describe("NotefieldStore", () => {
         it("doesn't call pause/stop functions if already paused", () => {
             const { notefield, ui } = createStore();
             const stubs = {
-                metronome: notefield.metronome.stop as sinon.SinonStub,
+                metronome: ui.controllers.metronome.stop as sinon.SinonStub,
                 music: sinon.stub(ui.controllers.music, "pause"),
             };
 

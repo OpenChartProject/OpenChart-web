@@ -5,7 +5,7 @@ import { makeAutoObservable } from "mobx";
 import { KeyBinds } from "../notefield/input";
 import Storage from "../storage";
 
-import { MusicController } from "./controllers";
+import { MetronomeController, MusicController } from "./controllers";
 import { RootStore } from "./root";
 
 export interface NotifyArgs {
@@ -55,6 +55,7 @@ export class UIStore {
     readonly root: RootStore;
 
     controllers: {
+        metronome: MetronomeController;
         music: MusicController;
     };
 
@@ -82,6 +83,7 @@ export class UIStore {
         this.root = root;
 
         this.controllers = {
+            metronome: new MetronomeController(this.root),
             music: new MusicController(this),
         };
 
