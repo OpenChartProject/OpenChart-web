@@ -174,16 +174,17 @@ export interface BPMPanelProps {
 }
 
 export const BPMPanel = observer((props: BPMPanelProps) => {
-    // The index of the BPM that's currently selected in the list
-    const [selected, setSelected] = useState(0);
-
     const { notefield, ui } = props.store;
     const chart = notefield.data.chart;
-    const { visible } = ui.data.panels.bpm;
+    const { selected, visible } = ui.data.panels.bpm;
 
     const bpms = chart.bpms.getAll();
     const cur = bpms[selected];
     const disabled = notefield.data.isPlaying;
+
+    const setSelected = (i: number) => {
+        ui.updatePanel("bpm", { selected: i });
+    };
 
     // TODO: Move this logic into an action
     const onSubmit = (args: BPMFormSubmitArgs): boolean => {

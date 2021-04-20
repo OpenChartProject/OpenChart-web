@@ -17,7 +17,7 @@ export interface Panels {
     audio: { visible: boolean };
     audioOffset: { visible: boolean };
     beatTime: { visible: boolean };
-    bpm: { visible: boolean };
+    bpm: { selected: number; visible: boolean };
     songInfo: { visible: boolean };
     notefield: { visible: boolean };
 }
@@ -145,7 +145,7 @@ export class UIStore {
                 audio: { visible: true },
                 audioOffset: { visible: true },
                 beatTime: { visible: true },
-                bpm: { visible: true },
+                bpm: { selected: 0, visible: true },
                 songInfo: { visible: true },
                 notefield: { visible: true },
             },
@@ -231,6 +231,7 @@ export class UIStore {
 
         // Remove any properties we don't want saved
         delete clone.music.src;
+        delete (clone.panels.bpm as any).selected;
 
         Storage.set(UIStore.STORAGE_KEY, JSON.stringify(clone));
     }
