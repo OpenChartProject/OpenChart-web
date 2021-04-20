@@ -111,7 +111,6 @@ export const BPMForm = observer((props: BPMFormProps) => {
 
     useEffect(() => {
         onRevert();
-        console.log("auto revert");
     }, [bpm.value, bpm.beat.value, time.value]);
 
     const modified =

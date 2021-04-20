@@ -5,7 +5,10 @@
   ],
   "rules": {
     "forin": false,
-    "no-console": false,
+    "no-console": [
+      true,
+      "log"
+    ],
     "no-empty": {
       "severity": "warning"
     },
