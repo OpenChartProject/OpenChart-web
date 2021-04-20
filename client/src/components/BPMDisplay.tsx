@@ -18,11 +18,11 @@ export const BPMDisplay = observer((props: Props) => {
         const title = `${x.bpm.value}bpm @ ${x.time.value.toFixed(3)}s`;
 
         return (
-            <div className="bpm-display-item" key={x.bpm.beat.value} style={style} title={title}>
-                {x.bpm.value}
+            <div className="bpm-item-container" key={x.bpm.beat.value} style={style} title={title}>
+                <div className="bpm-item">{x.bpm.value}</div>
             </div>
         );
     });
 
-    return <div className="bpm-display-container">{items}</div>;
+    return <React.Fragment>{items}</React.Fragment>;
 });

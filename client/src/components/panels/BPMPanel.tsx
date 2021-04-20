@@ -206,6 +206,16 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         return true;
     };
 
+    const onNewBPM = () => {
+        try {
+            chart.bpms.add(new BPM(notefield.data.scroll.beat, 120));
+        } catch (e) {
+            ui.notify({ type: "error", msg: (e as Error).message });
+        }
+
+        blurEverything();
+    };
+
     const onToggle = () => {
         ui.updateProperty("panelVisibility", { bpm: !visible });
     };
@@ -217,7 +227,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
                 <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
             </div>
             <div className="form-control form-buttons">
-                <button type="button" className="btn btn-secondary btn-thin">
+                <button type="button" className="btn btn-secondary btn-thin" onClick={onNewBPM}>
                     New BPM
                 </button>
                 <button type="button" className="btn btn-secondary btn-thin float-right" disabled>

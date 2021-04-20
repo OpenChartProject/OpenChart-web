@@ -27,6 +27,16 @@ export class BPMList {
     }
 
     /**
+     * Adds a new BPM change.
+     */
+    add(bpm: BPM) {
+        const bpms = this.bpms.map((x) => x.bpm);
+        bpms.push(bpm);
+
+        this.setBPMs(bpms);
+    }
+
+    /**
      * Returns the beat at a particular time.
      */
     beatAt(time: Time | number): Beat {

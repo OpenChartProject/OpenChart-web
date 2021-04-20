@@ -37,21 +37,18 @@
         }
     }
 
-    .bpm-display-container {
+    .bpm-item-container {
         position: absolute;
-        width: 200px;
-        transform: translateX(-100%);
-        text-align: right;
+        transform: translate(-100%, -50%);
         padding-right: 20px;
+        user-select: none;
+        z-index: 10;
     }
 
-    .bpm-display-item {
-        position: relative;
+    .bpm-item {
         display: inline-block;
-        transform: translateY(-50%);
         padding: 4px 12px;
         background-color: $col-purple;
-        user-select: none;
         border-radius: 2px;
     }
 }
