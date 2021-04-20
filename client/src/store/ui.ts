@@ -110,6 +110,7 @@ export class UIStore {
             this.data = _.merge(defaults, this.data);
         }
 
+        this.controllers.metronome.setMuted(!this.data.metronome.enabled);
         this.controllers.metronome.setVolume(this.data.metronome.volume);
     }
 
@@ -175,14 +176,17 @@ export class UIStore {
         this.emitters.notif.emit("notify", args);
     }
 
+    setMetronomeEnabled(enabled: boolean) {
+        this.controllers.metronome.setMuted(!enabled);
+        this.updateProperty("metronome", { enabled });
+    }
+
     /**
      * Sets the volume for the metronome.
      */
     setMetronomeVolume(val: number) {
-        this.data.metronome.volume = val;
         this.controllers.metronome.setVolume(val);
-
-        this.save();
+        this.updateProperty("metronome", { volume: val });
     }
 
     /**

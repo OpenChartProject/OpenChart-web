@@ -14,6 +14,7 @@ export class MetronomeController {
     tickGain?: GainNode;
     outGain?: GainNode;
 
+    muted: boolean;
     playing: boolean;
     store: RootStore;
     volume: number;
@@ -32,6 +33,15 @@ export class MetronomeController {
         this.store = store;
         this.playing = false;
         this.volume = 1;
+        this.muted = false;
+    }
+
+    adjustOutputGain() {
+        if (!this.outGain) {
+            return;
+        }
+
+        this.outGain.gain.value = this.muted ? 0 : Math.pow(this.volume, 2);
     }
 
     /**
@@ -48,13 +58,18 @@ export class MetronomeController {
 
         this.osc.type = "sine";
         this.osc.frequency.value = this.FREQUENCY;
-
         this.tickGain.gain.value = 0;
-        this.outGain.gain.value = this.volume;
 
         this.osc.connect(this.tickGain);
         this.tickGain.connect(this.outGain);
         this.outGain.connect(this.ctx.destination);
+
+        this.adjustOutputGain();
+    }
+
+    setMuted(muted: boolean) {
+        this.muted = muted;
+        this.adjustOutputGain();
     }
 
     /**
@@ -62,17 +77,12 @@ export class MetronomeController {
      */
     setVolume(val: number) {
         this.volume = val;
-
-        if (this.outGain) {
-            this.outGain.gain.value = Math.pow(val, 2);
-        }
+        this.adjustOutputGain();
     }
 
     /**
      * Starts the metronome. This sets up the audio nodes and schedules the metronome ticks
      * ahead of time.
-     *
-     * This schedules up to 5 minutes or 1000 ticks, whichever comes first.
      */
     start() {
         if (this.playing) {
@@ -80,6 +90,15 @@ export class MetronomeController {
         }
 
         this.setUp();
+
+        // Set some limits to how many ticks we want to schedule.
+        const limit = {
+            // The max number of ticks we will schedule
+            count: 1000,
+
+            // The max number of seconds we will schedule
+            seconds: 300,
+        };
 
         let count = 0;
         const { chart, scroll } = this.store.notefield.data;
@@ -89,9 +108,9 @@ export class MetronomeController {
             chart,
             new BeatSnap(),
             scroll.time.value,
-            scroll.time.value + 300,
+            scroll.time.value + limit.seconds,
         )) {
-            if (count++ >= 1000) {
+            if (count++ >= limit.count) {
                 break;
             }
 

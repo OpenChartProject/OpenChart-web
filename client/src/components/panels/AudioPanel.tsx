@@ -23,7 +23,7 @@ export const AudioPanel = observer((props: Props) => {
     };
 
     const onToggleMetronome = (e: ChangeEvent<HTMLInputElement>) => {
-        ui.updateProperty("metronome", { enabled: e.target.checked });
+        ui.setMetronomeEnabled(!ui.data.metronome.enabled);
         e.target.blur();
     };
 
