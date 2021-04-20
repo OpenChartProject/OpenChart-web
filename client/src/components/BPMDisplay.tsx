@@ -8,9 +8,14 @@ export interface Props {
 }
 
 export const BPMDisplay = observer((props: Props) => {
-    const { notefield } = props.store;
+    const { notefield, ui } = props.store;
     const bpms = notefield.data.chart.bpms.getAll();
-    const items = bpms.map((x) => {
+
+    const selectBPM = (i: number) => {
+        ui.updatePanel("bpm", { selected: i });
+    };
+
+    const items = bpms.map((x, i) => {
         const style: CSSProperties = {
             top: notefield.timeToScreenPosition(x.time.value),
         };
@@ -18,7 +23,13 @@ export const BPMDisplay = observer((props: Props) => {
         const title = `${x.bpm.value}bpm @ ${x.time.value.toFixed(3)}s`;
 
         return (
-            <div className="bpm-item-container" key={x.bpm.beat.value} style={style} title={title}>
+            <div
+                className="bpm-item-container"
+                key={x.bpm.beat.value}
+                onClick={() => selectBPM(i)}
+                style={style}
+                title={title}
+            >
                 <div className="bpm-item">{x.bpm.value}</div>
             </div>
         );
