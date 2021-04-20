@@ -12,7 +12,7 @@ export interface Props {
 
 export const AudioPanel = observer((props: Props) => {
     const { ui } = props.store;
-    const visible = ui.data.panelVisibility.audio;
+    const { visible } = ui.data.panels.audio;
 
     const onMetronomeVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
         ui.setMetronomeVolume(_.toNumber(e.target.value));
@@ -28,7 +28,7 @@ export const AudioPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { audio: !visible });
+        ui.updatePanel("audio", { visible: !visible });
     };
 
     return (

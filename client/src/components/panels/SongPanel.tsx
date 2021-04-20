@@ -13,7 +13,7 @@ export interface Props {
 export const SongPanel = observer((props: Props) => {
     const song = props.store.project.data.song;
     const { ui } = props.store;
-    const visible = ui.data.panelVisibility.songInfo;
+    const { visible } = ui.data.panels.songInfo;
 
     const [artist, setArtist] = useState(song.artist);
     const [title, setTitle] = useState(song.title);
@@ -43,7 +43,7 @@ export const SongPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { songInfo: !visible });
+        ui.updatePanel("songInfo", { visible: !visible });
     };
 
     return (

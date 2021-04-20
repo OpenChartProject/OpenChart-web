@@ -14,7 +14,7 @@ export interface Props {
 
 export const AudioOffsetPanel = observer((props: Props) => {
     const { notefield, ui } = props.store;
-    const visible = ui.data.panelVisibility.audioOffset;
+    const { visible } = ui.data.panels.audioOffset;
 
     const onOffsetChanged = (val: number) => {
         notefield.setAudioOffset(val);
@@ -35,7 +35,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { audioOffset: !visible });
+        ui.updatePanel("audioOffset", { visible: !visible });
     };
 
     const disabled = notefield.data.isPlaying || ui.tools.timePicker.active;

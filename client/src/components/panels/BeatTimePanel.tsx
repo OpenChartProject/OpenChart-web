@@ -18,7 +18,7 @@ export const BeatTimePanel = observer((props: Props) => {
     const { beat, time } = notefield.data.scroll;
 
     const disabled = notefield.data.isPlaying || ui.tools.timePicker.active;
-    const visible = ui.data.panelVisibility.beatTime;
+    const { visible } = ui.data.panels.beatTime;
 
     const onChanged = (args: { beat?: number; time?: number }): boolean => {
         try {
@@ -46,7 +46,7 @@ export const BeatTimePanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { beatTime: !visible });
+        ui.updatePanel("beatTime", { visible: !visible });
     };
 
     return (

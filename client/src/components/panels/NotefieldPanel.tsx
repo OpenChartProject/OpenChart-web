@@ -15,7 +15,7 @@ export const NotefieldPanel = observer((props: Props) => {
     const { notefieldDisplay: nfDisplay, ui } = props.store;
     const { scrollDirection } = nfDisplay.data;
 
-    const visible = ui.data.panelVisibility.notefield;
+    const { visible } = ui.data.panels.notefield;
 
     const onColumnWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
         nfDisplay.update({ columnWidth: _.toInteger(e.target.value) });
@@ -45,7 +45,7 @@ export const NotefieldPanel = observer((props: Props) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { notefield: !visible });
+        ui.updatePanel("notefield", { visible: !visible });
     };
 
     return (

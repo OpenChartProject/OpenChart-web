@@ -13,7 +13,7 @@ export {
     MetronomeData,
     MusicData,
     NotifyArgs,
-    PanelVisibility,
+    Panels as PanelVisibility,
     UIData,
     UIStore,
 } from "./ui";

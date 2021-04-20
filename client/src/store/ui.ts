@@ -13,13 +13,13 @@ export interface NotifyArgs {
     type: "error" | "ok";
 }
 
-export interface PanelVisibility {
-    audio: boolean;
-    audioOffset: boolean;
-    beatTime: boolean;
-    bpm: boolean;
-    songInfo: boolean;
-    notefield: boolean;
+export interface Panels {
+    audio: { visible: boolean };
+    audioOffset: { visible: boolean };
+    beatTime: { visible: boolean };
+    bpm: { visible: boolean };
+    songInfo: { visible: boolean };
+    notefield: { visible: boolean };
 }
 
 export interface MetronomeData {
@@ -45,7 +45,7 @@ export interface UIData {
     showWelcomeModal: boolean;
 
     keyBinds: KeyBinds;
-    panelVisibility: PanelVisibility;
+    panels: Panels;
 }
 
 export class UIStore {
@@ -141,13 +141,13 @@ export class UIStore {
                 playPause: " ",
             },
 
-            panelVisibility: {
-                audio: true,
-                audioOffset: true,
-                beatTime: true,
-                bpm: true,
-                songInfo: true,
-                notefield: true,
+            panels: {
+                audio: { visible: true },
+                audioOffset: { visible: true },
+                beatTime: { visible: true },
+                bpm: { visible: true },
+                songInfo: { visible: true },
+                notefield: { visible: true },
             },
         };
     }
@@ -202,6 +202,14 @@ export class UIStore {
      */
     update(config: Partial<UIData>) {
         this.data = _.merge(this.data || {}, config);
+        this.save();
+    }
+
+    /**
+     * Updates a specific panel.
+     */
+    updatePanel<K extends keyof Panels>(key: K, value: Partial<Panels[K]>) {
+        this.data.panels[key] = _.merge(this.data.panels[key] || {}, value) as Panels[K];
         this.save();
     }
 

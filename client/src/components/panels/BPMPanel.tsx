@@ -179,7 +179,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
 
     const { notefield, ui } = props.store;
     const chart = notefield.data.chart;
-    const visible = ui.data.panelVisibility.bpm;
+    const { visible } = ui.data.panels.bpm;
 
     const bpms = chart.bpms.getAll();
     const cur = bpms[selected];
@@ -218,7 +218,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     };
 
     const onToggle = () => {
-        ui.updateProperty("panelVisibility", { bpm: !visible });
+        ui.updatePanel("bpm", { visible: !visible });
     };
 
     return (
