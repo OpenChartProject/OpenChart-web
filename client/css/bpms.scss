@@ -1,6 +1,8 @@
 @import "./colors";
 
 .bpm-list-container {
+    max-height: 140px;
+    overflow-y: auto;
 }
 
 .bpm-list-item {

@@ -110,7 +110,7 @@ export const BPMForm = observer((props: BPMFormProps) => {
         }
     };
 
-    const modified = bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value;
+    const modified = !disabled && (bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value);
 
     return (
         <form onSubmit={onSubmit}>
