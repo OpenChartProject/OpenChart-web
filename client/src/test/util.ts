@@ -1,4 +1,5 @@
 import _ from "lodash";
+import sinon from "sinon";
 
 import { NoteSkin } from "../noteskin";
 import { RootStore } from "../store";
@@ -33,7 +34,9 @@ export function createDummyNoteSkin(keyCount = 4): NoteSkin {
  */
 export function createStore(): RootStore {
     const store = new RootStore();
+
     store.notefield.setCanvas(document.createElement("canvas"));
+    sinon.stub(store.notefield.metronome);
 
     return store;
 }

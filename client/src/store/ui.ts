@@ -59,9 +59,6 @@ export class UIStore {
     };
 
     emitters: {
-        // Emits a "tick" event. See the MetronomeController for more info
-        metronome: EventEmitter;
-
         // Emits a "play", "pause", and "seek" event. See the MusicController for more info
         music: EventEmitter;
 
@@ -89,7 +86,6 @@ export class UIStore {
         };
 
         this.emitters = {
-            metronome: new EventEmitter(),
             music: new EventEmitter(),
             notif: new EventEmitter(),
         };
