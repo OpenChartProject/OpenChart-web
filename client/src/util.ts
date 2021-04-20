@@ -8,6 +8,13 @@ export const blurEverything = () => {
 };
 
 /**
+ * Compares two floating point numbers and returns true if they are approximately equal.
+ */
+export const fuzzyEquals = (a: number, b: number): boolean => {
+    return Math.abs(a - b) < 0.0005;
+};
+
+/**
  * Returns true if the string input is a valid number.
  */
 export const isNumber = (val: string) => {

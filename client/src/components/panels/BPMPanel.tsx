@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BPM, BPMTime } from "../../charting";
 import { RootStore } from "../../store";
-import { blurEverything, toFixed, toFixedTrim } from "../../util";
+import { blurEverything, fuzzyEquals, toFixed, toFixedTrim } from "../../util";
 import { NumberField } from "../controls";
 
 import { Panel } from "./Panel";
@@ -109,8 +109,16 @@ export const BPMForm = observer((props: BPMFormProps) => {
         }
     };
 
+    useEffect(() => {
+        onRevert();
+        console.log("auto revert");
+    }, [bpm.value, bpm.beat.value, time.value]);
+
     const modified =
-        !disabled && (bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value);
+        !disabled &&
+        (!fuzzyEquals(bpmVal, bpm.value) ||
+            !fuzzyEquals(beatVal, bpm.beat.value) ||
+            !fuzzyEquals(timeVal, time.value));
 
     return (
         <form onSubmit={onSubmit}>
