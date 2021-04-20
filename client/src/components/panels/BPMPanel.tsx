@@ -183,7 +183,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     const disabled = notefield.data.isPlaying;
 
     const setSelected = (i: number) => {
-        ui.updatePanel("bpm", { selected: i });
+        ui.selectBPM(i);
     };
 
     // TODO: Move this logic into an action

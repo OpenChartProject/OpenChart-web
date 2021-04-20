@@ -12,7 +12,7 @@ export const BPMDisplay = observer((props: Props) => {
     const bpms = notefield.data.chart.bpms.getAll();
 
     const selectBPM = (i: number) => {
-        ui.updatePanel("bpm", { selected: i });
+        ui.selectBPM(i);
     };
 
     const items = bpms.map((x, i) => {

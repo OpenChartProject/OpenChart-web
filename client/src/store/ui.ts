@@ -176,6 +176,21 @@ export class UIStore {
         this.emitters.notif.emit("notify", args);
     }
 
+    /**
+     * Selects the BPM with the given index and scrolls the notefield to it.
+     */
+    selectBPM(index: number) {
+        this.data.panels.bpm.selected = index;
+
+        const { notefield } = this.root;
+
+        // Scroll to the BPM change if not playing
+        if (!notefield.data.isPlaying) {
+            const bpm = notefield.data.chart.bpms.get(index);
+            notefield.setScroll({ time: bpm.time });
+        }
+    }
+
     setMetronomeEnabled(enabled: boolean) {
         this.controllers.metronome.setMuted(!enabled);
         this.updateProperty("metronome", { enabled });
