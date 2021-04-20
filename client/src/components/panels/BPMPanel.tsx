@@ -31,18 +31,17 @@ export const BPMListItem = observer((props: BPMListItemProps) => {
 
 export interface BPMListProps {
     bpms: BPMTime[];
-    onSelect?(i: number): void;
+    index: number;
+    onSelect(i: number): void;
 }
 
 export const BPMList = observer((props: BPMListProps) => {
-    const [selected, setSelected] = useState(0);
-
     const onSelect = (i: number) => {
         if (props.onSelect) {
             props.onSelect(i);
         }
 
-        setSelected(i);
+        props.onSelect(i);
     };
 
     return (
@@ -51,7 +50,7 @@ export const BPMList = observer((props: BPMListProps) => {
                 <BPMListItem
                     bpm={bpm}
                     onClick={() => onSelect(i)}
-                    selected={i === selected}
+                    selected={i === props.index}
                     key={bpm.time.value}
                 />
             ))}
@@ -110,7 +109,8 @@ export const BPMForm = observer((props: BPMFormProps) => {
         }
     };
 
-    const modified = !disabled && (bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value);
+    const modified =
+        !disabled && (bpmVal !== bpm.value || beatVal !== bpm.beat.value || timeVal !== time.value);
 
     return (
         <form onSubmit={onSubmit}>
@@ -208,7 +208,8 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
 
     const onNewBPM = () => {
         try {
-            chart.bpms.add(new BPM(notefield.data.scroll.beat, 120));
+            const index = chart.bpms.add(new BPM(notefield.data.scroll.beat, 120));
+            setSelected(index);
         } catch (e) {
             ui.notify({ type: "error", msg: (e as Error).message });
         }
@@ -224,7 +225,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         <Panel title="BPM" visible={visible} onToggle={onToggle}>
             <div className="form-control">
                 <label className="form-label form-label-dark">BPM List</label>
-                <BPMList bpms={bpms} onSelect={(i) => setSelected(i)} />
+                <BPMList bpms={bpms} index={selected} onSelect={(i) => setSelected(i)} />
             </div>
             <div className="form-control form-buttons">
                 <button type="button" className="btn btn-secondary btn-thin" onClick={onNewBPM}>

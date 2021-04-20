@@ -27,13 +27,15 @@ export class BPMList {
     }
 
     /**
-     * Adds a new BPM change.
+     * Adds a new BPM change and returns the index in the list where the BPM was inserted.
      */
-    add(bpm: BPM) {
+    add(bpm: BPM): number {
         const bpms = this.bpms.map((x) => x.bpm);
         bpms.push(bpm);
+        const sorted = this.sortByBeat(bpms);
+        this.setBPMs(sorted);
 
-        this.setBPMs(bpms);
+        return sorted.indexOf(bpm);
     }
 
     /**
