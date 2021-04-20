@@ -1,67 +1,96 @@
 import { Beat } from "../../charting";
 import { RootStore } from "../root";
 
-// How often to check if the metronome should tick, in ms.
-const timerInterval = 20;
-
 /**
  * This handles playing the metronome ticks while the chart is playing.
+ *
+ * This metronome was adapted from a really great blog post by Monica D.
+ * https://meowni.ca/posts/metronomes/
  */
 export class MetronomeController {
+    ctx?: AudioContext;
+    osc?: OscillatorNode;
+    gain?: GainNode;
+
     lastBeat?: Beat;
-    timerId: number;
+    playing: boolean;
     store: RootStore;
+
+    /**
+     * The frequency of the metornome tick, in Hz
+     */
+    readonly FREQUENCY = 600;
+
+    /**
+     * How long the tick should last, in seconds
+     */
+    readonly TICK_TIME = 0.02;
 
     constructor(store: RootStore) {
         this.store = store;
-        this.timerId = 0;
+        this.playing = false;
+    }
+
+    clickAt(time: number) {
+        const { gain } = this.gain!;
+
+        gain.cancelScheduledValues(time);
+        gain.setValueAtTime(0, time);
+
+        gain.linearRampToValueAtTime(1, time + 0.001);
+        gain.linearRampToValueAtTime(0, time + 0.001 + this.TICK_TIME);
+    }
+
+    setUp() {
+        this.ctx = new AudioContext();
+        this.osc = this.ctx.createOscillator();
+        this.gain = this.ctx.createGain();
+
+        this.osc.type = "sine";
+        this.osc.frequency.value = this.FREQUENCY;
+
+        this.osc.connect(this.gain);
+        this.gain.connect(this.ctx.destination);
     }
 
     /**
-     * Starts the metronome. This starts an interval which checks periodically if the
-     * metronome should play a tick.
+     * Starts the metronome.
      */
     start() {
-        // The metronome is already running
-        if (this.timerId !== 0) {
+        if (this.playing) {
             return;
         }
 
-        const { notefield } = this.store;
+        this.setUp();
 
-        this.timerId = window.setInterval(() => {
-            this.update(notefield.data.scroll.beat);
-        }, timerInterval);
+        // TODO: look ahead at beats and use those times to tick the metronome
+        for (let i = 0; i < 1000; i++) {
+            this.clickAt(i);
+        }
+
+        this.osc!.start(0);
+        this.playing = true;
     }
 
     /**
      * Stops the metronome.
      */
     stop() {
-        // The metronome is already stopped
-        if (this.timerId === 0) {
+        if (!this.playing) {
             return;
         }
 
-        window.clearInterval(this.timerId);
-        this.timerId = 0;
+        this.playing = false;
+        this.tearDown();
     }
 
-    /**
-     * This calculates if the metronome should tick or not based on the provided beat.
-     * The metronome only ticks on whole beats and when it crosses a "beat boundary".
-     */
-    update(beat: Beat) {
-        const { ui } = this.store;
-
-        if (!this.lastBeat) {
-            this.lastBeat = beat;
+    tearDown() {
+        if (this.osc) {
+            this.osc!.stop();
         }
 
-        if (beat.isWholeBeat() || Math.floor(beat.value) > this.lastBeat.value) {
-            ui.emitters.metronome.emit("tick");
-        }
-
-        this.lastBeat = beat;
+        this.osc = undefined;
+        this.gain = undefined;
+        this.ctx = undefined;
     }
 }

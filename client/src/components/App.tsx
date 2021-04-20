@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { RootStore } from "../store/";
 
-import { Metronome, Music, Notefield } from ".";
+import { Music, Notefield } from ".";
 import { NotificationContainer } from "./Notification";
 import {
     AudioOffsetPanel,
@@ -31,7 +31,6 @@ export const App = observer((props: Props) => {
 
             <NotificationContainer store={store} />
 
-            <Metronome store={store} />
             <Music store={store} />
 
             <Toolbar store={store} />
