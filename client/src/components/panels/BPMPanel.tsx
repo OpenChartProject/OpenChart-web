@@ -24,7 +24,7 @@ export const BPMListItem = observer((props: BPMListItemProps) => {
 
     return (
         <div className={cls} onClick={props.onClick}>
-            {props.bpm.bpm.value} BPM @ {props.bpm.time.value.toFixed(3)}s
+            {toFixedTrim(props.bpm.bpm.value, 3)} BPM @ {props.bpm.time.value.toFixed(3)}s
         </div>
     );
 });

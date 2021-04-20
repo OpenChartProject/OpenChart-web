@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { CSSProperties } from "react";
 
 import { RootStore } from "../store";
+import { toFixedTrim } from "../util";
 
 export interface Props {
     store: RootStore;
@@ -20,7 +21,8 @@ export const BPMDisplay = observer((props: Props) => {
             top: notefield.timeToScreenPosition(x.time.value),
         };
 
-        const title = `${x.bpm.value}bpm @ ${x.time.value.toFixed(3)}s`;
+        const bpm = toFixedTrim(x.bpm.value, 3);
+        const title = `${bpm} BPM @ ${x.time.value.toFixed(3)}s`;
 
         return (
             <div
@@ -30,7 +32,7 @@ export const BPMDisplay = observer((props: Props) => {
                 style={style}
                 title={title}
             >
-                <div className="bpm-item">{x.bpm.value}</div>
+                <div className="bpm-item">{bpm}</div>
             </div>
         );
     });
