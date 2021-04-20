@@ -218,6 +218,24 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         blurEverything();
     };
 
+    // The sync feature activates the time picker. When the user picks a time on the notefield,
+    // we assume that time to be 4 beats ahead. Then we calculate the time difference between
+    // the picked time and where the BPM change occurs to find the new BPM.
+    const onSync = () => {
+        ui.activateTimePicker({
+            onPick: (_, time) => {
+                if (time <= cur.time.value) {
+                    return;
+                }
+
+                const bpm = (60 * 4) / (time - cur.time.value);
+                chart.bpms.update(selected, new BPM(cur.bpm.beat, bpm));
+
+                ui.deactivateTimePicker();
+            },
+        });
+    };
+
     const onToggle = () => {
         ui.updatePanel("bpm", { visible: !visible });
     };
@@ -229,10 +247,20 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
                 <BPMList bpms={bpms} index={selected} onSelect={(i) => setSelected(i)} />
             </div>
             <div className="form-control form-buttons">
-                <button type="button" className="btn btn-secondary btn-thin" onClick={onNewBPM}>
+                <button
+                    type="button"
+                    className="btn btn-secondary btn-thin"
+                    onClick={onNewBPM}
+                    disabled={disabled}
+                >
                     New BPM
                 </button>
-                <button type="button" className="btn btn-secondary btn-thin float-right" disabled>
+                <button
+                    type="button"
+                    className="btn btn-secondary btn-thin float-right"
+                    onClick={onSync}
+                    disabled={disabled}
+                >
                     Sync
                 </button>
             </div>
