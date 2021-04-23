@@ -1,3 +1,8 @@
+export interface BPM {
+    beat: number;
+    value: number;
+}
+
 export interface DisplayBPM {
     min?: number;
     max?: number;
@@ -11,10 +16,13 @@ export interface FilePaths {
 }
 
 export interface SongData {
-    bpm: DisplayBPM;
+    artist: string;
     title: string;
     subtitle: string;
-    artist: string;
+
+    bpms: BPM[];
+    displayBPM?: DisplayBPM;
+    offset: number;
     previewStart: number;
     previewLength: number;
 }
