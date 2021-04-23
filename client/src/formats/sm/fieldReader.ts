@@ -12,21 +12,21 @@ export interface Field {
  * The different states the reader can be in.
  */
 enum State {
-    LookingForField,
-    ReadingName,
-    ReadingValue,
-    InComment,
+    lookingForField,
+    readingName,
+    readingValue,
+    inComment,
 }
 
 /**
  * The different tokens that trigger the reader to change states.
  */
 enum Token {
-    Comment = "/",
-    FieldStart = "#",
-    FieldNameEnd = ":",
-    FieldValueEnd = ";",
-    NewLine = "\n",
+    comment = "/",
+    fieldStart = "#",
+    fieldNameEnd = ":",
+    fieldValueEnd = ";",
+    newLine = "\n",
 }
 
 /**
@@ -37,7 +37,7 @@ enum Token {
  */
 export function readFields(contents: string): Field[] {
     const fields: Field[] = [];
-    let state = State.LookingForField;
+    let state = State.lookingForField;
     let preCommentState: State = state;
     let prevChar = "";
     let buffer = "";
@@ -48,9 +48,9 @@ export function readFields(contents: string): Field[] {
             continue;
         }
 
-        if (c === Token.Comment && prevChar === Token.Comment) {
+        if (c === Token.comment && prevChar === Token.comment) {
             preCommentState = state;
-            state = State.InComment;
+            state = State.inComment;
 
             if (buffer.length > 0) {
                 buffer = buffer.slice(0, buffer.length - 1);
@@ -60,42 +60,42 @@ export function readFields(contents: string): Field[] {
         }
 
         switch (state as State) {
-            case State.LookingForField:
-                if (c === Token.FieldStart) {
+            case State.lookingForField:
+                if (c === Token.fieldStart) {
                     buffer = "";
-                    state = State.ReadingName;
+                    state = State.readingName;
                 }
 
                 break;
 
-            case State.ReadingName:
-                if (c === Token.FieldNameEnd) {
+            case State.readingName:
+                if (c === Token.fieldNameEnd) {
                     fieldName = buffer.toUpperCase();
                     buffer = "";
-                    state = State.ReadingValue;
+                    state = State.readingValue;
                 } else {
                     buffer += c;
                 }
 
                 break;
 
-            case State.ReadingValue:
-                if (c === Token.FieldValueEnd) {
+            case State.readingValue:
+                if (c === Token.fieldValueEnd) {
                     fields.push({
                         name: fieldName,
                         value: buffer.trim(),
                     });
 
                     buffer = "";
-                    state = State.LookingForField;
+                    state = State.lookingForField;
                 } else {
                     buffer += c;
                 }
 
                 break;
 
-            case State.InComment:
-                if (c === Token.NewLine) {
+            case State.inComment:
+                if (c === Token.newLine) {
                     state = preCommentState;
                     buffer += c;
                 }
@@ -107,7 +107,7 @@ export function readFields(contents: string): Field[] {
     }
 
     assert(
-        state !== State.ReadingName && state !== State.ReadingValue,
+        state !== State.readingName && state !== State.readingValue,
         "unexpected EOF while reading fields",
     );
 

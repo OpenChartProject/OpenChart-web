@@ -21,6 +21,14 @@ describe("sm/fieldReader", () => {
             ]);
         });
 
+        it("reads multiple fields with the same name", () => {
+            const fields = readFields("#FIELD:a;\n#FIELD:b;");
+            assert.deepStrictEqual(fields, [
+                { name: "FIELD", value: "a" },
+                { name: "FIELD", value: "b" },
+            ]);
+        });
+
         it("reads multiline fields and converts CRLF to LF", () => {
             const fields = readFields("#FIELD1:abc\r\ndef;#FIELD2:foo\nbar;");
             assert.deepStrictEqual(fields, [
