@@ -4,7 +4,7 @@ import { ISerializer } from "../serializer";
 
 import { readFields } from "./fieldReader";
 import { Fields } from "./fields";
-import { FileData } from "./fileData";
+import { BPM, FileData } from "./fileData";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {
@@ -65,6 +65,10 @@ export class Serializer implements ISerializer<FileData> {
                     data.song.previewStart = _.toNumber(value);
                     break;
 
+                case Fields.bpms:
+                    data.song.bpms = this.parseBPMs(value);
+                    break;
+
                 default:
                 // skip
             }
@@ -75,5 +79,22 @@ export class Serializer implements ISerializer<FileData> {
 
     write(data: FileData): string {
         throw Error;
+    }
+
+    /**
+     * Parses the contents of the BPMS field and returns a list of BPM changes.
+     *
+     * BPMs are formatted as: "beat=value,beat=value,..."
+     */
+    private parseBPMs(contents: string): BPM[] {
+        const bpms: BPM[] = [];
+
+        for (const change of contents.split(",")) {
+            const [beat, value] = change.split("=");
+
+            bpms.push({ beat: _.toNumber(beat), value: _.toNumber(value) });
+        }
+
+        return bpms;
     }
 }
