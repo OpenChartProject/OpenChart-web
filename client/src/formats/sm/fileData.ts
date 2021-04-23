@@ -1,7 +1,4 @@
-export interface BPM {
-    beat: number;
-    value: number;
-}
+import { BPM } from "./types";
 
 export interface DisplayBPM {
     min?: number;

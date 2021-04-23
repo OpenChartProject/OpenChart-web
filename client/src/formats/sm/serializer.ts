@@ -4,7 +4,8 @@ import { ISerializer } from "../serializer";
 
 import { readFields } from "./fieldReader";
 import { Fields } from "./fields";
-import { BPM, Chart, FileData } from "./fileData";
+import { Chart, FileData } from "./fileData";
+import { BPM } from "./types";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {
@@ -97,7 +98,7 @@ export class Serializer implements ISerializer<FileData> {
         for (const change of contents.split(",")) {
             const [beat, value] = change.split("=");
 
-            bpms.push({ beat: _.toNumber(beat), value: _.toNumber(value) });
+            bpms.push({ beat: _.toNumber(beat), val: _.toNumber(value) });
         }
 
         return bpms;

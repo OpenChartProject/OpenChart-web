@@ -1,8 +1,9 @@
 import assert from "assert";
 import _ from "lodash";
 
-import { BPM, FileData } from "./fileData";
+import { FileData } from "./fileData";
 import { Serializer } from "./serializer";
+import { BPM } from "./types";
 
 describe("sm/serializer", () => {
     describe("#read", () => {
@@ -64,7 +65,7 @@ describe("sm/serializer", () => {
         it("reads the bpms when there's one bpm change", () => {
             const input = "#BPMS:0.000=123.456;";
             const data = new Serializer().read(input);
-            const expected: BPM[] = [{ beat: 0, value: 123.456 }];
+            const expected: BPM[] = [{ beat: 0, val: 123.456 }];
 
             assert.deepStrictEqual(data.song.bpms, expected);
         });
@@ -73,8 +74,8 @@ describe("sm/serializer", () => {
             const input = "#BPMS:0.000=123.456,5.432=987.654;";
             const data = new Serializer().read(input);
             const expected: BPM[] = [
-                { beat: 0, value: 123.456 },
-                { beat: 5.432, value: 987.654 },
+                { beat: 0, val: 123.456 },
+                { beat: 5.432, val: 987.654 },
             ];
 
             assert.deepStrictEqual(data.song.bpms, expected);
@@ -83,7 +84,7 @@ describe("sm/serializer", () => {
         it("reads the bpms when the values don't include decimals", () => {
             const input = "#BPMS:0=120;";
             const data = new Serializer().read(input);
-            const expected: BPM[] = [{ beat: 0, value: 120 }];
+            const expected: BPM[] = [{ beat: 0, val: 120 }];
 
             assert.deepStrictEqual(data.song.bpms, expected);
         });
