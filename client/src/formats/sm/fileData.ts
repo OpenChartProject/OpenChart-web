@@ -27,7 +27,16 @@ export interface SongData {
     previewLength: number;
 }
 
+export interface Chart {
+    type: string;
+    name: string;
+    difficulty: string;
+    rating: number;
+    measures: string[];
+}
+
 export interface FileData {
+    charts: Chart[];
     files: FilePaths;
     song: SongData;
 }

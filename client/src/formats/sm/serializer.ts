@@ -4,11 +4,12 @@ import { ISerializer } from "../serializer";
 
 import { readFields } from "./fieldReader";
 import { Fields } from "./fields";
-import { BPM, FileData } from "./fileData";
+import { BPM, Chart, FileData } from "./fileData";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {
         const data: FileData = {
+            charts: [],
             files: {
                 background: "",
                 banner: "",
@@ -69,6 +70,10 @@ export class Serializer implements ISerializer<FileData> {
                     data.song.bpms = this.parseBPMs(value);
                     break;
 
+                case Fields.notes:
+                    data.charts.push(this.parseChart(value));
+                    break;
+
                 default:
                 // skip
             }
@@ -96,5 +101,33 @@ export class Serializer implements ISerializer<FileData> {
         }
 
         return bpms;
+    }
+
+    /**
+     * Parses the contents of the NOTES field. A file can have mutliple NOTES fields.
+     *
+     * The NOTES field is formatted as:
+     *  chart-type : name : chart-difficulty : chart-rating : radar-values : measures
+     *
+     * The radar values are a legacy feature from early versions of SM so we can ignore them.
+     *
+     * The measures are comma separated.
+     */
+    private parseChart(contents: string): Chart {
+        const parts = contents.split(":");
+        const chart: Chart = {
+            type: parts[0].trim(),
+            name: parts[1].trim(),
+            difficulty: parts[2].trim(),
+            rating: _.toNumber(parts[3].trim()),
+            measures: [],
+        };
+
+        for (const measure of parts[5].split(",")) {
+            // Remove all whitespace
+            chart.measures.push(measure.replace(/\s+/g, ""));
+        }
+
+        return chart;
     }
 }

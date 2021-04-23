@@ -11,6 +11,7 @@ export enum Fields {
     keySounds = "KEYSOUNDS",
     lyricsPath = "LYRICSPATH",
     music = "MUSIC",
+    notes = "NOTES",
     offset = "OFFSET",
     sampleLength = "SAMPLELENGTH",
     sampleStart = "SAMPLESTART",

@@ -1,4 +1,5 @@
 import assert from "assert";
+import _ from "lodash";
 
 import { BPM, FileData } from "./fileData";
 import { Serializer } from "./serializer";
@@ -8,6 +9,7 @@ describe("sm/serializer", () => {
         it("sets default values for missing fields", () => {
             const data = new Serializer().read("");
             const expected: FileData = {
+                charts: [],
                 files: {
                     background: "",
                     banner: "",
@@ -84,6 +86,79 @@ describe("sm/serializer", () => {
             const expected: BPM[] = [{ beat: 0, value: 120 }];
 
             assert.deepStrictEqual(data.song.bpms, expected);
+        });
+
+        it("parses the chart metadata", () => {
+            const input = `
+            #NOTES:
+                dance-single:
+                foo:
+                Challenge:
+                1:
+                :;
+            `;
+            const data = new Serializer().read(input);
+
+            assert.strictEqual(data.charts.length, 1);
+            assert.strictEqual(data.charts[0].type, "dance-single");
+            assert.strictEqual(data.charts[0].name, "foo");
+            assert.strictEqual(data.charts[0].difficulty, "Challenge");
+            assert.strictEqual(data.charts[0].rating, 1);
+        });
+
+        it("parses empty note data", () => {
+            const input = `
+            #NOTES:
+                :::::;
+            `;
+            const data = new Serializer().read(input);
+
+            assert.strictEqual(data.charts.length, 1);
+            assert.deepStrictEqual(data.charts[0].measures, [""]);
+        });
+
+        it("parses note data", () => {
+            const input = `
+            #NOTES:
+                :::::
+            0000
+            0000
+            0000
+            0000
+            ,
+            0000
+            0000
+            0000
+            0000
+            ;
+            `;
+            const data = new Serializer().read(input);
+            const expected = [_.repeat("0", 16), _.repeat("0", 16)];
+
+            assert.strictEqual(data.charts.length, 1);
+            assert.deepStrictEqual(data.charts[0].measures, expected);
+        });
+
+        it("parses multiple charts", () => {
+            const input = `
+            #NOTES:
+                dance-single:
+                foo:
+                Challenge:
+                1:
+                :;
+            #NOTES:
+                dance-solo:
+                bar:
+                Hard:
+                2:
+                :;
+            `;
+            const data = new Serializer().read(input);
+
+            assert.strictEqual(data.charts.length, 2);
+            assert.strictEqual(data.charts[0].type, "dance-single");
+            assert.strictEqual(data.charts[1].type, "dance-solo");
         });
     });
 
