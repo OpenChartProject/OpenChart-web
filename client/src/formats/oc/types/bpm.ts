@@ -1,7 +1,7 @@
 import { BPM as NativeBPM } from "../../../charting/";
+import { TypeConverter } from "../../converter";
 
 import { Beat, BeatConverter } from "./beat";
-import { TypeConverter } from "./typeConverter";
 
 export interface BPM {
     beat: Beat;

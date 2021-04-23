@@ -89,7 +89,7 @@ export class Serializer implements ISerializer<FileData> {
     /**
      * Parses the contents of the BPMS field and returns a list of BPM changes.
      *
-     * BPMs are formatted as: "beat=value,beat=value,..."
+     * BPMs are formatted as: beat=value,beat=value,...
      */
     private parseBPMs(contents: string): BPM[] {
         const bpms: BPM[] = [];

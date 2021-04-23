@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 
 import "./assets";
-import { App } from "./components/";
+import { App } from "./components";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { RootStore } from "./store";
 

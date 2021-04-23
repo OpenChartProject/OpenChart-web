@@ -1,11 +1,11 @@
 import { Chart as NativeChart } from "../../../charting/";
 import { Hold as NativeHold, Tap as NativeTap } from "../../../charting/objects/";
+import { TypeConverter } from "../../converter";
 
 import { BPM, BPMConverter } from "./bpm";
 import { ChartObject } from "./chartObject";
 import { HoldConverter } from "./hold";
 import { Tap, TapConverter } from "./tap";
-import { TypeConverter } from "./typeConverter";
 
 export interface Chart {
     bpms: BPM[];

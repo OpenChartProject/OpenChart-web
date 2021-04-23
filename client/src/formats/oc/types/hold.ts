@@ -1,8 +1,8 @@
 import { Hold as NativeHold } from "../../../charting/objects/";
+import { TypeConverter } from "../../converter";
 
 import { Beat, BeatConverter } from "./beat";
 import { ChartObject } from "./chartObject";
-import { TypeConverter } from "./typeConverter";
 
 export interface Hold extends ChartObject {
     duration: Beat;
