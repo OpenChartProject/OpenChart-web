@@ -4,28 +4,12 @@ import { ISerializer } from "../serializer";
 
 import { readFields } from "./fieldReader";
 import { Fields } from "./fields";
-import { Chart, FileData } from "./fileData";
+import { Chart, FileData, newFileData } from "./fileData";
 import { BPM } from "./types";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {
-        const data: FileData = {
-            charts: [],
-            files: {
-                background: "",
-                banner: "",
-                cdTitle: "",
-            },
-            song: {
-                artist: "",
-                bpms: [],
-                offset: 0,
-                previewLength: 0,
-                previewStart: 0,
-                subtitle: "",
-                title: "",
-            },
-        };
+        const data: FileData = newFileData();
 
         for (const field of readFields(contents)) {
             const { name, value } = field;

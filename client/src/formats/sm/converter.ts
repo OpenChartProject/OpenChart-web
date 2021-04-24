@@ -1,14 +1,27 @@
 import { Project } from "../../project";
 import { IConverter } from "../converter";
 
-import { FileData } from "./fileData";
+import { FileData, newFileData } from "./fileData";
 
 export class Converter implements IConverter<FileData> {
     fromNative(project: Project): FileData {
-        throw new Error("Method not implemented.");
+        const data = newFileData();
+
+        data.song.artist = project.song.artist;
+        data.song.title = project.song.title;
+
+        return data;
     }
 
     toNative(data: FileData): Project {
-        throw new Error("Method not implemented.");
+        const p: Project = {
+            charts: [],
+            song: {
+                artist: data.song.artist,
+                title: data.song.title,
+            },
+        };
+
+        return p;
     }
 }

@@ -37,3 +37,26 @@ export interface FileData {
     files: FilePaths;
     song: SongData;
 }
+
+/**
+ * Returns a FileData object with defaults
+ */
+export const newFileData = (): FileData => {
+    return {
+        charts: [],
+        files: {
+            background: "",
+            banner: "",
+            cdTitle: "",
+        },
+        song: {
+            artist: "",
+            bpms: [],
+            offset: 0,
+            previewLength: 0,
+            previewStart: 0,
+            subtitle: "",
+            title: "",
+        },
+    };
+};
