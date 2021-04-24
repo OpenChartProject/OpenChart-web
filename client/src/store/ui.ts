@@ -78,6 +78,7 @@ export class UIStore {
             defaults: false,
             controllers: false,
             emitters: false,
+            tools: false,
         });
 
         this.root = root;
