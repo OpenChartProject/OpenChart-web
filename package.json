@@ -1,13 +1,15 @@
 {
     "name": "openchart",
     "version": "1.0.0",
-    "main": "dist/index.js",
     "author": "Jesse <2302541+Kangaroux@users.noreply.github.com>",
     "private": true,
     "browsersList": [
         "defaults",
         "not IE 11"
     ],
+    "engines": {
+        "node": "14"
+    },
     "scripts": {
         "build": "parcel build --no-source-maps client/index.html",
         "serve": "parcel serve --hmr-port 8001 client/index.html",
@@ -22,6 +24,11 @@
         "@babel/core": "^7.0.0-0",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/preset-react": "^7.12.13",
+        "@babel/preset-typescript": "^7.13.0",
+        "@parcel/transformer-image": "2.0.0-beta.2",
+        "@parcel/transformer-sass": "2.0.0-beta.2",
+        "@parcel/transformer-typescript-tsc": "^2.0.0-beta.2",
+        "@parcel/ts-utils": "^2.0.0-beta.2",
         "@types/assert": "^1.5.4",
         "@types/d3": "^6.3.0",
         "@types/events": "^3.0.0",
@@ -39,7 +46,7 @@
         "jsdom-global": "^3.0.2",
         "mocha": "^8.3.0",
         "mock-local-storage": "^1.1.17",
-        "parcel": "^1.12.4",
+        "parcel": "^2.0.0-beta.2",
         "postcss": "^8.0.0",
         "prettier": "^2.2.1",
         "sass": "^1.26.10",

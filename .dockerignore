@@ -1,5 +1,6 @@
 .cache/
 .git/
+.parcel-cache/
 .vscode/
 docker/
 node_modules/

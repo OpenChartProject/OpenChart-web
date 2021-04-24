@@ -1,6 +1,6 @@
 *.log
 
 .cache/
-.parcel_cache/
+.parcel-cache/
 dist/
 node_modules/
