@@ -7,9 +7,6 @@
         "defaults",
         "not IE 11"
     ],
-    "engines": {
-        "node": "14"
-    },
     "scripts": {
         "build": "parcel build --no-source-maps client/index.html",
         "serve": "parcel serve --hmr-port 8001 client/index.html",
