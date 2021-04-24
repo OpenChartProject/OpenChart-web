@@ -1,26 +1,32 @@
-import { TypeConverter } from "../../converter";
-
-import { Chart as NativeChart } from "../../../charting";
 import assert from "assert";
 
+import { Chart as NativeChart } from "../../../charting";
+import { TypeConverter } from "../../converter";
+
 export interface Chart {
-    type: string;
+    type: ChartType;
     name: string;
     difficulty: string;
     rating: number;
     measures: string[];
 }
 
-export const chartTypeMapping: Record<string, number> = {
+export enum ChartType {
+    danceSingle = "dance-single",
+    danceSolo = "dance-solo",
+    danceDouble = "dance-double",
+}
+
+export const chartTypeMapping: Record<ChartType, number> = {
     "dance-single": 4,
     "dance-solo": 6,
     "dance-double": 8,
 };
 
-export const getChartTypeFromKeyCount = (keyCount: number): string | undefined => {
+export const getChartTypeFromKeyCount = (keyCount: number): ChartType | undefined => {
     for (const type in chartTypeMapping) {
-        if (chartTypeMapping[type] === keyCount) {
-            return type;
+        if (chartTypeMapping[type as ChartType] === keyCount) {
+            return type as ChartType;
         }
     }
 

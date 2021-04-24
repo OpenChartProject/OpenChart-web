@@ -1,2 +1,2 @@
 export { BPM, BPMConverter } from "./bpm";
-export { Chart, ChartConverter } from "./chart";
+export { Chart, ChartType, ChartConverter } from "./chart";
