@@ -45,8 +45,14 @@ describe("UIStore", () => {
             const { timePicker } = store.tools;
 
             assert.strictEqual(timePicker.active, true);
-            assert.strictEqual(timePicker.onCancel, onCancel);
-            assert.strictEqual(timePicker.onPick, onPick);
+            assert(timePicker.onCancel);
+            assert(timePicker.onPick);
+
+            timePicker.onCancel();
+            assert(onCancel.calledOnce);
+
+            timePicker.onPick(0, 1);
+            assert(onPick.calledOnceWith(0, 1));
         });
     });
 
