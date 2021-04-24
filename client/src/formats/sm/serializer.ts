@@ -4,8 +4,8 @@ import { ISerializer } from "../serializer";
 
 import { readFields } from "./fieldReader";
 import { Fields } from "./fields";
-import { Chart, FileData, newFileData } from "./fileData";
-import { BPM } from "./types";
+import { FileData, newFileData } from "./fileData";
+import { BPM, Chart } from "./types";
 
 export class Serializer implements ISerializer<FileData> {
     read(contents: string): FileData {
@@ -101,7 +101,7 @@ export class Serializer implements ISerializer<FileData> {
     private parseChart(contents: string): Chart {
         const parts = contents.split(":");
         const chart: Chart = {
-            type: parts[0].trim(),
+            type: parts[0].trim().toLowerCase(),
             name: parts[1].trim(),
             difficulty: parts[2].trim(),
             rating: _.toNumber(parts[3].trim()),

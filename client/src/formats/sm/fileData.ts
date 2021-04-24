@@ -1,4 +1,4 @@
-import { BPM } from "./types";
+import { BPM, Chart } from "./types";
 
 export interface DisplayBPM {
     min?: number;
@@ -22,14 +22,6 @@ export interface SongData {
     offset: number;
     previewStart: number;
     previewLength: number;
-}
-
-export interface Chart {
-    type: string;
-    name: string;
-    difficulty: string;
-    rating: number;
-    measures: string[];
 }
 
 export interface FileData {
