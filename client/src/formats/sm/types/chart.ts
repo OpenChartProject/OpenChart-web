@@ -46,7 +46,11 @@ export const newChart = (type?: ChartType): Chart => {
 };
 
 export class ChartConverter implements TypeConverter<NativeChart, Chart> {
-    bpms: BPM[];
+    /**
+     * The BPM changes from the .sm file. This is needed when converting the chart
+     * to a native chart.
+     */
+    private bpms: BPM[];
 
     constructor(bpms?: BPM[]) {
         this.bpms = bpms ?? [{ beat: 0, val: 120 }];
