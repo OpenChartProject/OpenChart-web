@@ -105,12 +105,12 @@ export class Serializer implements ISerializer<FileData> {
             name: parts[1].trim(),
             difficulty: parts[2].trim(),
             rating: _.toNumber(parts[3].trim()),
-            measures: [],
+            notes: [],
         };
 
         for (const measure of parts[5].split(",")) {
             // Remove all whitespace
-            chart.measures.push(measure.replace(/\s+/g, ""));
+            chart.notes.push(measure.replace(/\s+/g, ""));
         }
 
         return chart;

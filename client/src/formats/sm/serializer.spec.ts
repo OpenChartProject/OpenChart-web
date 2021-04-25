@@ -115,7 +115,7 @@ describe("sm/serializer", () => {
             const data = new Serializer().read(input);
 
             assert.strictEqual(data.charts.length, 1);
-            assert.deepStrictEqual(data.charts[0].measures, [""]);
+            assert.deepStrictEqual(data.charts[0].notes, [""]);
         });
 
         it("parses note data", () => {
@@ -137,7 +137,7 @@ describe("sm/serializer", () => {
             const expected = [_.repeat("0", 16), _.repeat("0", 16)];
 
             assert.strictEqual(data.charts.length, 1);
-            assert.deepStrictEqual(data.charts[0].measures, expected);
+            assert.deepStrictEqual(data.charts[0].notes, expected);
         });
 
         it("parses multiple charts", () => {

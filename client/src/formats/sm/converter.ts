@@ -11,7 +11,9 @@ export class Converter implements IConverter<FileData> {
         data.song.artist = project.song.artist;
         data.song.title = project.song.title;
 
+        // Convert the charts if there is at least one
         if (project.charts.length) {
+            // Convert the bpms from the first chart.
             data.song.bpms = project.charts[0].bpms
                 .getAll()
                 .map((bt) => new BPMConverter().fromNative(bt.bpm));

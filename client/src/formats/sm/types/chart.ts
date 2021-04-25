@@ -4,13 +4,14 @@ import { Chart as NativeChart } from "../../../charting";
 import { TypeConverter } from "../../converter";
 
 import { BPM, BPMConverter } from "./bpm";
+import { NoteData } from "./noteData";
 
 export interface Chart {
     type: ChartType;
     name: string;
     difficulty: string;
     rating: number;
-    measures: string[];
+    notes: NoteData;
 }
 
 export enum ChartType {
@@ -38,7 +39,7 @@ export const getChartTypeFromKeyCount = (keyCount: number): ChartType | undefine
 export const newChart = (type?: ChartType): Chart => {
     return {
         difficulty: "",
-        measures: [],
+        notes: [],
         name: "",
         rating: 1,
         type: type ?? ChartType.danceSingle,
