@@ -3,6 +3,8 @@ import assert from "assert";
 import { Chart as NativeChart } from "../../../charting";
 import { TypeConverter } from "../../converter";
 
+import { BPM, BPMConverter } from "./bpm";
+
 export interface Chart {
     type: ChartType;
     name: string;
@@ -44,11 +46,19 @@ export const newChart = (type?: ChartType): Chart => {
 };
 
 export class ChartConverter implements TypeConverter<NativeChart, Chart> {
+    bpms: BPM[];
+
+    constructor(bpms?: BPM[]) {
+        this.bpms = bpms ?? [{ beat: 0, val: 120 }];
+    }
+
     toNative(data: Chart): NativeChart {
         const keyCount = chartTypeMapping[data.type];
         assert(keyCount !== undefined, `unrecognized chart type "${data.type}"`);
 
         const chart = new NativeChart({ keyCount });
+
+        chart.bpms.setBPMs(this.bpms.map((bpm) => new BPMConverter().toNative(bpm)));
 
         return chart;
     }

@@ -1,7 +1,8 @@
 import assert from "assert";
 
-import { Chart } from "../../../charting";
+import { Chart as NativeChart } from "../../../charting";
 
+import { BPM, BPMConverter } from "./bpm";
 import {
     ChartConverter,
     ChartType,
@@ -45,11 +46,27 @@ describe("sm/types", () => {
                     assert.strictEqual(native.keyCount.value, expected);
                 }
             });
+
+            it("sets the expected BPM changes", () => {
+                const bpms: BPM[] = [
+                    { beat: 0, val: 120 },
+                    { beat: 4, val: 180 },
+                ];
+                const chart = newChart();
+                const native = new ChartConverter(bpms).toNative(chart);
+
+                const expected = bpms.map((bpm) => new BPMConverter().toNative(bpm));
+
+                assert.deepStrictEqual(
+                    native.bpms.getAll().map((bt) => bt.bpm),
+                    expected,
+                );
+            });
         });
 
         describe("#fromNative", () => {
             it("throws if the key count is not supported", () => {
-                const native = new Chart({ keyCount: 5 });
+                const native = new NativeChart({ keyCount: 5 });
 
                 assert.throws(() => {
                     new ChartConverter().fromNative(native);
@@ -58,7 +75,9 @@ describe("sm/types", () => {
 
             it("converts the key count to the correct chart type", () => {
                 for (const type in chartTypeMapping) {
-                    const native = new Chart({ keyCount: chartTypeMapping[type as ChartType] });
+                    const native = new NativeChart({
+                        keyCount: chartTypeMapping[type as ChartType],
+                    });
                     const chart = new ChartConverter().fromNative(native);
 
                     const expected = type;
