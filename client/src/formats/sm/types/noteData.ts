@@ -1,7 +1,9 @@
+import assert from "assert";
 import Fraction from "fraction.js";
+
 import { Beat } from "../../../charting";
 import { KeyObjects } from "../../../charting/chart";
-import { Tap } from "../../../charting/objects";
+import { Hold, Tap } from "../../../charting/objects";
 import { TypeConverter } from "../../converter";
 
 export type Measure = string;
@@ -27,7 +29,7 @@ export enum NoteType {
  * whereas the editor organizes the note data into columns.
  */
 export class NoteDataConverter implements TypeConverter<KeyObjects[], NoteData> {
-    private holds!: (number | null)[];
+    private holds!: (Fraction | null)[];
     private keys!: KeyObjects[];
     private readonly keyCount: number;
 
@@ -65,15 +67,36 @@ export class NoteDataConverter implements TypeConverter<KeyObjects[], NoteData> 
 
     private convertMeasureToNative(measure: Measure, measureBeat: number) {
         const rows = measure.length / this.keyCount;
+        assert(rows === Math.floor(rows), "note data is not evenly divisible by key count");
+
         let beat = new Fraction(measureBeat);
 
         for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < this.keyCount; j++) {
-                const ch = measure[i * this.keyCount + j];
+            for (let key = 0; key < this.keyCount; key++) {
+                const ch = measure[i * this.keyCount + key];
 
                 switch (ch as NoteType) {
                     case NoteType.tap:
-                        this.keys[j].push(new Tap(new Beat(beat), j));
+                        if (this.holds[key] === null) {
+                            this.keys[key].push(new Tap(new Beat(beat), key));
+                        }
+
+                        break;
+
+                    case NoteType.holdHead:
+                    case NoteType.rollHead:
+                        this.holds[key] = beat;
+                        break;
+
+                    case NoteType.holdRollTail:
+                        if (this.holds[key] !== null) {
+                            const start = new Beat(this.holds[key] as Fraction);
+                            const duration = new Beat(beat.sub(start.fraction));
+
+                            this.keys[key].push(new Hold(start, duration, key));
+                            this.holds[key] = null;
+                        }
+
                         break;
 
                     default:
