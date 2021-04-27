@@ -1,9 +1,11 @@
 export { RootStore } from "./root";
 export {
     Baseline,
-    ScrollDirection,
+    BeatLineSettings,
+    BeatLineStyle,
     NotefieldDisplayData,
     NotefieldDisplayStore,
+    ScrollDirection,
 } from "./notefieldDisplay";
 export { NotefieldStore, NotefieldData } from "./notefield";
 export { ProjectStore } from "./project";

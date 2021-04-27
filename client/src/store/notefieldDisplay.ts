@@ -21,28 +21,24 @@ export enum Baseline {
  */
 export type ScrollDirection = "up" | "down";
 
+export interface BeatLineStyle {
+    color: string;
+    lineWidth: number;
+}
+
 /**
  * The display settings for beat lines.
  */
 export interface BeatLineSettings {
     // These lines occur on every 4th beat
-    measureLines: {
-        color: string;
-        lineWidth: number;
-    };
+    measureLines: BeatLineStyle;
 
     // These lines occur on every whole beat (1, 2, 3...)
-    wholeBeatLines: {
-        color: string;
-        lineWidth: number;
-    };
+    wholeBeatLines: BeatLineStyle;
 
     // These lines occur on any beat value that isn't a whole number. They are used when
     // drawing the lines for the beat snapping.
-    fractionalLines: {
-        color: string;
-        lineWidth: number;
-    };
+    fractionalLines: BeatLineStyle;
 }
 
 /**

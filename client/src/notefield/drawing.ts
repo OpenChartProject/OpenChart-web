@@ -1,7 +1,13 @@
 import { Chart, Time, toTime } from "../charting/";
 import { ChartObject } from "../charting/objects/";
 import { NoteSkin } from "../noteskin";
-import { Baseline, NotefieldDisplayStore, NotefieldStore, RootStore } from "../store";
+import {
+    Baseline,
+    BeatLineStyle,
+    NotefieldDisplayStore,
+    NotefieldStore,
+    RootStore,
+} from "../store";
 
 import { getBeatLineTimes } from "./beatlines";
 
@@ -117,30 +123,46 @@ function drawBeatLines(dp: DrawProps) {
     const { data: notefieldDisplay } = dp.notefieldDisplay;
     const { data: notefield } = dp.notefield;
 
-    for (const bt of getBeatLineTimes(chart, notefield.snap, t0, t1)) {
-        if (bt.beat.isStartOfMeasure()) {
-            ctx.strokeStyle = notefieldDisplay.beatLines.measureLines.color;
-            ctx.lineWidth = notefieldDisplay.beatLines.measureLines.lineWidth;
-        } else if (bt.beat.isWholeBeat()) {
-            ctx.strokeStyle = notefieldDisplay.beatLines.wholeBeatLines.color;
-            ctx.lineWidth = notefieldDisplay.beatLines.wholeBeatLines.lineWidth;
-        } else {
-            ctx.strokeStyle = notefieldDisplay.beatLines.fractionalLines.color;
-            ctx.lineWidth = notefieldDisplay.beatLines.fractionalLines.lineWidth;
-        }
+    const lines = {
+        measure: [] as number[],
+        beat: [] as number[],
+        fractional: [] as number[],
+    };
 
+    for (const bt of getBeatLineTimes(chart, notefield.snap, t0, t1)) {
         let y = timeToPosition(dp, bt.time);
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
         }
 
+        if (bt.beat.isStartOfMeasure()) {
+            lines.measure.push(y);
+        } else if (bt.beat.isWholeBeat()) {
+            lines.beat.push(y);
+        } else {
+            lines.fractional.push(y);
+        }
+    }
+
+    const drawLines = (yPositions: number[], { color, lineWidth }: BeatLineStyle) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+
         ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
+
+        for (const y of yPositions) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+        }
+
         ctx.closePath();
         ctx.stroke();
-    }
+    };
+
+    drawLines(lines.measure, notefieldDisplay.beatLines.measureLines);
+    drawLines(lines.beat, notefieldDisplay.beatLines.wholeBeatLines);
+    drawLines(lines.fractional, notefieldDisplay.beatLines.fractionalLines);
 }
 
 function drawReceptor(dp: DrawProps, key: number) {
