@@ -46,16 +46,14 @@ export class NoteDataConverter implements TypeConverter<KeyObjects[], NoteData> 
             this.keys.push([]);
         }
 
-        let measureBeat = -1;
+        let measureBeat = 0;
 
         for (const measure of data) {
-            measureBeat++;
-
-            if (!measure) {
-                continue;
+            if (measure) {
+                this.convertMeasureToNative(measure, measureBeat);
             }
 
-            this.convertMeasureToNative(measure, measureBeat);
+            measureBeat += 4;
         }
 
         return this.keys;
@@ -104,7 +102,7 @@ export class NoteDataConverter implements TypeConverter<KeyObjects[], NoteData> 
                 }
             }
 
-            beat = beat.add(1, rows);
+            beat = beat.add(4, rows);
         }
     }
 }

@@ -24,9 +24,9 @@ describe("sm/types", () => {
 
                 const expected = [
                     [new Tap(0, 0)],
-                    [new Tap(0.25, 1)],
-                    [new Tap(0.5, 2)],
-                    [new Tap(0.75, 3)],
+                    [new Tap(1, 1)],
+                    [new Tap(2, 2)],
+                    [new Tap(3, 3)],
                 ];
 
                 assert.deepStrictEqual(native, expected);
@@ -36,11 +36,7 @@ describe("sm/types", () => {
                 const input = ["222", "300", "030", "003"].join("");
                 const native = new NoteDataConverter(3).toNative([input]);
 
-                const expected = [
-                    [new Hold(0, 0.25, 0)],
-                    [new Hold(0, 0.5, 1)],
-                    [new Hold(0, 0.75, 2)],
-                ];
+                const expected = [[new Hold(0, 1, 0)], [new Hold(0, 2, 1)], [new Hold(0, 3, 2)]];
 
                 assert.deepStrictEqual(native, expected);
             });
@@ -49,11 +45,7 @@ describe("sm/types", () => {
                 const input = ["444", "300", "030", "003"].join("");
                 const native = new NoteDataConverter(3).toNative([input]);
 
-                const expected = [
-                    [new Hold(0, 0.25, 0)],
-                    [new Hold(0, 0.5, 1)],
-                    [new Hold(0, 0.75, 2)],
-                ];
+                const expected = [[new Hold(0, 1, 0)], [new Hold(0, 2, 1)], [new Hold(0, 3, 2)]];
 
                 assert.deepStrictEqual(native, expected);
             });
@@ -62,7 +54,7 @@ describe("sm/types", () => {
                 const input = ["24", "11", "33", "00"].join("");
                 const native = new NoteDataConverter(2).toNative([input]);
 
-                const expected = [[new Hold(0, 0.5, 0)], [new Hold(0, 0.5, 1)]];
+                const expected = [[new Hold(0, 2, 0)], [new Hold(0, 2, 1)]];
 
                 assert.deepStrictEqual(native, expected);
             });

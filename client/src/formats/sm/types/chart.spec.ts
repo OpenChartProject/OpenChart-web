@@ -72,9 +72,9 @@ describe("sm/types", () => {
 
                 const expected = [
                     [new Tap(0, 0)],
-                    [new Tap(0.25, 1)],
-                    [new Tap(0.5, 2)],
-                    [new Tap(0.75, 3)],
+                    [new Tap(1, 1)],
+                    [new Tap(2, 2)],
+                    [new Tap(3, 3)],
                 ];
 
                 assert.deepStrictEqual(native.objects, expected);
