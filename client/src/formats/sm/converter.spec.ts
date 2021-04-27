@@ -16,6 +16,7 @@ describe("sm/converter", () => {
                 song: {
                     artist: "foo",
                     title: "bar",
+                    audioOffset: 0,
                 },
             };
             const fd = new Converter().fromNative(p);
@@ -30,6 +31,7 @@ describe("sm/converter", () => {
                 song: {
                     artist: "",
                     title: "",
+                    audioOffset: 0,
                 },
             };
             const fd = new Converter().fromNative(p);
@@ -46,6 +48,7 @@ describe("sm/converter", () => {
                 song: {
                     artist: "",
                     title: "",
+                    audioOffset: 0,
                 },
             };
             const fd = new Converter().fromNative(p);

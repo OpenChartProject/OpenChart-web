@@ -15,7 +15,7 @@ export class ProjectStore {
         });
 
         this.root = root;
-        this.data = { charts: [], song: { artist: "", title: "" } };
+        this.data = { charts: [], song: { artist: "", title: "", audioOffset: 0 } };
     }
 
     updateSong(data: Partial<SongData>) {

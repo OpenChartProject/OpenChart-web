@@ -15,6 +15,7 @@ describe("oc/Converter", () => {
                 song: {
                     artist: "foo",
                     title: "bar",
+                    audioOffset: 0,
                 },
             };
             const expected: FileData = {
@@ -25,6 +26,7 @@ describe("oc/Converter", () => {
                 song: {
                     artist: "foo",
                     title: "bar",
+                    audioOffset: 0,
                 },
             };
 
@@ -39,6 +41,7 @@ describe("oc/Converter", () => {
                 song: {
                     artist: "foo",
                     title: "bar",
+                    audioOffset: 0,
                 },
             };
             const fd = new Converter().fromNative(p);
