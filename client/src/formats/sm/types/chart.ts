@@ -4,7 +4,7 @@ import { Chart as NativeChart } from "../../../charting";
 import { TypeConverter } from "../../converter";
 
 import { BPM, BPMConverter } from "./bpm";
-import { NoteData } from "./noteData";
+import { NoteData, NoteDataConverter } from "./noteData";
 
 export interface Chart {
     type: ChartType;
@@ -61,9 +61,11 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
         const keyCount = chartTypeMapping[data.type];
         assert(keyCount !== undefined, `unrecognized chart type "${data.type}"`);
 
-        const chart = new NativeChart({ keyCount });
-
-        chart.bpms.setBPMs(this.bpms.map((bpm) => new BPMConverter().toNative(bpm)));
+        const chart = new NativeChart({
+            bpms: this.bpms.map((bpm) => new BPMConverter().toNative(bpm)),
+            keyCount,
+            objects: new NoteDataConverter(keyCount).toNative(data.notes),
+        });
 
         return chart;
     }
@@ -73,6 +75,7 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
         assert(chartType, `.sm does not support charts with ${data.keyCount.value} keys`);
 
         const chart = newChart(chartType);
+        chart.notes = new NoteDataConverter(data.keyCount.value).fromNative(data.objects);
 
         return chart;
     }

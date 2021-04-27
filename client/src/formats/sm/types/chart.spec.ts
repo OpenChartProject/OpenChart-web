@@ -1,6 +1,7 @@
 import assert from "assert";
 
 import { Chart as NativeChart } from "../../../charting";
+import { Tap } from "../../../charting/objects";
 
 import { BPM, BPMConverter } from "./bpm";
 import {
@@ -47,7 +48,7 @@ describe("sm/types", () => {
                 }
             });
 
-            it("sets the expected BPM changes", () => {
+            it("converts the BPM changes", () => {
                 const bpms: BPM[] = [
                     { beat: 0, val: 120 },
                     { beat: 4, val: 180 },
@@ -61,6 +62,22 @@ describe("sm/types", () => {
                     native.bpms.getAll().map((bt) => bt.bpm),
                     expected,
                 );
+            });
+
+            it("converts the note data", () => {
+                const noteData = ["1000", "0100", "0010", "0001"].join("");
+                const chart = newChart();
+                chart.notes = [noteData];
+                const native = new ChartConverter().toNative(chart);
+
+                const expected = [
+                    [new Tap(0, 0)],
+                    [new Tap(0.25, 1)],
+                    [new Tap(0.5, 2)],
+                    [new Tap(0.75, 3)],
+                ];
+
+                assert.deepStrictEqual(native.objects, expected);
             });
         });
 

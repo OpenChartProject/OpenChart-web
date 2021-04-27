@@ -1,6 +1,7 @@
 import assert from "assert";
 import { makeAutoObservable } from "mobx";
 
+import { BPM } from "./bpm";
 import { BPMList } from "./bpmList";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";
@@ -14,7 +15,7 @@ import { toKeyCount, toKeyIndex, toTime } from "./util";
 export type KeyObjects = ChartObject[];
 
 export interface ChartOpts {
-    bpms?: BPMList;
+    bpms?: BPM[];
     keyCount?: KeyCount | number;
     objects?: KeyObjects[];
 }
@@ -31,7 +32,7 @@ export class Chart {
     constructor({ bpms, keyCount, objects }: ChartOpts = {}) {
         makeAutoObservable(this);
 
-        this.bpms = bpms ?? new BPMList();
+        this.bpms = new BPMList(bpms);
 
         if (keyCount !== undefined) {
             this.keyCount = toKeyCount(keyCount!);

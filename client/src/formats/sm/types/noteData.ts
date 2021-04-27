@@ -62,7 +62,7 @@ export class NoteDataConverter implements TypeConverter<KeyObjects[], NoteData> 
     }
 
     fromNative(data: KeyObjects[]): NoteData {
-        throw new Error("Method not implemented.");
+        return [];
     }
 
     private convertMeasureToNative(measure: Measure, measureBeat: number) {
