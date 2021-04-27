@@ -36,10 +36,15 @@ export const getChartTypeFromKeyCount = (keyCount: number): ChartType | undefine
     return undefined;
 };
 
-export const newChart = (type?: ChartType): Chart => {
+export interface NewChartOpts {
+    notes?: NoteData;
+    type?: ChartType;
+}
+
+export const newChart = ({ type, notes }: NewChartOpts = {}): Chart => {
     return {
         difficulty: "",
-        notes: [],
+        notes: notes ?? [],
         name: "",
         rating: 1,
         type: type ?? ChartType.danceSingle,
@@ -71,11 +76,11 @@ export class ChartConverter implements TypeConverter<NativeChart, Chart> {
     }
 
     fromNative(data: NativeChart): Chart {
-        const chartType = getChartTypeFromKeyCount(data.keyCount.value);
-        assert(chartType, `.sm does not support charts with ${data.keyCount.value} keys`);
+        const type = getChartTypeFromKeyCount(data.keyCount.value);
+        assert(type, `.sm does not support charts with ${data.keyCount.value} keys`);
 
-        const chart = newChart(chartType);
-        chart.notes = new NoteDataConverter(data.keyCount.value).fromNative(data.objects);
+        const notes = new NoteDataConverter(data.keyCount.value).fromNative(data.objects);
+        const chart = newChart({ notes, type });
 
         return chart;
     }

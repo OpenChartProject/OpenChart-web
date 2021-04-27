@@ -74,7 +74,7 @@ describe("sm/converter", () => {
             const fd = newFileData();
 
             fd.song.bpms = [{ beat: 0, val: 120 }];
-            fd.charts = [newChart(), newChart(ChartType.danceSolo)];
+            fd.charts = [newChart(), newChart({ type: ChartType.danceSolo })];
 
             const p = new Converter().toNative(fd);
 

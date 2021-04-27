@@ -30,7 +30,7 @@ describe("sm/types", () => {
     describe("ChartConverter", () => {
         describe("#toNative", () => {
             it("throws if the chart type is not recognized", () => {
-                const chart = newChart("foo" as ChartType);
+                const chart = newChart({ type: "foo" as ChartType });
 
                 assert.throws(() => {
                     new ChartConverter().toNative(chart);
@@ -39,7 +39,7 @@ describe("sm/types", () => {
 
             it("converts the chart type to the correct key count", () => {
                 for (const type in chartTypeMapping) {
-                    const chart = newChart(type as ChartType);
+                    const chart = newChart({ type: type as ChartType });
                     const native = new ChartConverter().toNative(chart);
 
                     const expected = chartTypeMapping[type as ChartType];
