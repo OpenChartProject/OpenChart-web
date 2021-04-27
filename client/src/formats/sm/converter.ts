@@ -10,7 +10,7 @@ export class Converter implements IConverter<FileData> {
 
         data.song.artist = project.song.artist;
         data.song.title = project.song.title;
-        data.song.offset = project.song.audioOffset;
+        data.song.audioOffset = project.song.audioOffset;
 
         // Convert the charts if there is at least one
         if (project.charts.length) {
@@ -30,7 +30,7 @@ export class Converter implements IConverter<FileData> {
             song: {
                 artist: data.song.artist,
                 title: data.song.title,
-                audioOffset: data.song.offset,
+                audioOffset: data.song.audioOffset,
             },
         };
 

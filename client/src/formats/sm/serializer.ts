@@ -40,7 +40,7 @@ export class Serializer implements ISerializer<FileData> {
                     break;
 
                 case Fields.offset:
-                    data.song.offset = _.toNumber(value);
+                    data.song.audioOffset = _.toNumber(value);
                     break;
 
                 case Fields.sampleLength:

@@ -16,13 +16,14 @@ describe("sm/converter", () => {
                 song: {
                     artist: "foo",
                     title: "bar",
-                    audioOffset: 0,
+                    audioOffset: 0.123,
                 },
             };
             const fd = new Converter().fromNative(p);
 
             assert.strictEqual(fd.song.artist, p.song.artist);
             assert.strictEqual(fd.song.title, p.song.title);
+            assert.strictEqual(fd.song.audioOffset, p.song.audioOffset);
         });
 
         it("converts the BPMs", () => {

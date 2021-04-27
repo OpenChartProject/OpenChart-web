@@ -19,7 +19,7 @@ export interface SongData {
 
     bpms: BPM[];
     displayBPM?: DisplayBPM;
-    offset: number;
+    audioOffset: number;
     previewStart: number;
     previewLength: number;
 }
@@ -44,7 +44,7 @@ export const newFileData = (): FileData => {
         song: {
             artist: "",
             bpms: [],
-            offset: 0,
+            audioOffset: 0,
             previewLength: 0,
             previewStart: 0,
             subtitle: "",

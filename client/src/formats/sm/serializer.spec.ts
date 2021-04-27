@@ -19,7 +19,7 @@ describe("sm/serializer", () => {
                 song: {
                     artist: "",
                     bpms: [],
-                    offset: 0,
+                    audioOffset: 0,
                     previewLength: 0,
                     previewStart: 0,
                     subtitle: "",
@@ -57,7 +57,7 @@ describe("sm/serializer", () => {
             assert.strictEqual(data.song.artist, "artist");
             assert.strictEqual(data.song.subtitle, "subtitle");
             assert.strictEqual(data.song.title, "title");
-            assert.strictEqual(data.song.offset, 1.23);
+            assert.strictEqual(data.song.audioOffset, 1.23);
             assert.strictEqual(data.song.previewStart, 4.56);
             assert.strictEqual(data.song.previewLength, 7.89);
         });
