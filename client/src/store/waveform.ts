@@ -75,13 +75,13 @@ export class WaveformStore {
      * and scroll of the notefield.
      */
     get viewBox(): ViewBox {
-        const { notefield } = this.root;
+        const { notefield, project } = this.root;
         const { receptorY, scrollDirection } = this.root.notefieldDisplay.data;
         const zoom = notefield.data.zoom.valueOf();
         const height = notefield.data.height;
 
         let y0 =
-            (notefield.data.scroll.time.value - notefield.data.audioOffset) *
+            (notefield.data.scroll.time.value - project.data.song.audioOffset) *
             notefield.pixelsPerSecond;
 
         if (scrollDirection === "down") {

@@ -93,17 +93,6 @@ describe("NotefieldStore", () => {
         });
     });
 
-    describe("#setAudioOffset", () => {
-        it("updates the offset", () => {
-            const store = createStore().notefield;
-            const offset = -0.5;
-
-            store.setAudioOffset(offset);
-
-            assert.strictEqual(store.data.audioOffset, offset);
-        });
-    });
-
     describe("#setCanvas", () => {
         it("sets the canvas element and updates the width", () => {
             const el = document.createElement("canvas");

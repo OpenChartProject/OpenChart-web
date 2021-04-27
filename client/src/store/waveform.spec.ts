@@ -28,8 +28,8 @@ describe("WaveformStore", () => {
 
     describe("viewBox", () => {
         interface TestCase {
+            audioOffset: number;
             notefield: {
-                audioOffset: number;
                 height: number;
                 receptorY: number;
                 scroll: BeatTime;
@@ -49,8 +49,8 @@ describe("WaveformStore", () => {
 
         const cases: TestCase[] = [
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -66,8 +66,8 @@ describe("WaveformStore", () => {
                 when: "no offset, scroll, or zoom (downscroll)",
             },
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -84,8 +84,8 @@ describe("WaveformStore", () => {
             },
             ////////////////////////////////////////////////////
             {
+                audioOffset: 0.5,
                 notefield: {
-                    audioOffset: 0.5,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -101,8 +101,8 @@ describe("WaveformStore", () => {
                 when: "the audio offset is set (downscroll)",
             },
             {
+                audioOffset: 0.5,
                 notefield: {
-                    audioOffset: 0.5,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -119,8 +119,8 @@ describe("WaveformStore", () => {
             },
             ////////////////////////////////////////////////////
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -136,8 +136,8 @@ describe("WaveformStore", () => {
                 when: "the zoom is set (downscroll)",
             },
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(0, 0),
@@ -154,8 +154,8 @@ describe("WaveformStore", () => {
             },
             ////////////////////////////////////////////////////
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 200,
                     scroll: beatTime(0, 0),
@@ -171,8 +171,8 @@ describe("WaveformStore", () => {
                 when: "the receptors are moved (downscroll)",
             },
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 200,
                     scroll: beatTime(0, 0),
@@ -189,8 +189,8 @@ describe("WaveformStore", () => {
             },
             ////////////////////////////////////////////////////
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(2, 1),
@@ -206,8 +206,8 @@ describe("WaveformStore", () => {
                 when: "the notefield is scrolled (downscroll)",
             },
             {
+                audioOffset: 0,
                 notefield: {
-                    audioOffset: 0,
                     height: 100,
                     receptorY: 0,
                     scroll: beatTime(2, 1),
@@ -224,8 +224,8 @@ describe("WaveformStore", () => {
             },
             ////////////////////////////////////////////////////
             {
+                audioOffset: 1.5,
                 notefield: {
-                    audioOffset: 1.5,
                     height: 100,
                     receptorY: 50,
                     scroll: beatTime(2, 1),
@@ -241,8 +241,8 @@ describe("WaveformStore", () => {
                 when: "everything is modified (downscroll)",
             },
             {
+                audioOffset: 1.5,
                 notefield: {
-                    audioOffset: 1.5,
                     height: 100,
                     receptorY: 50,
                     scroll: beatTime(2, 1),
@@ -261,9 +261,9 @@ describe("WaveformStore", () => {
 
         cases.forEach((c) => {
             it(`should return the expected viewBox when ${c.when}`, () => {
-                const { notefield, notefieldDisplay, waveform } = createStore();
+                const { notefield, notefieldDisplay, project, waveform } = createStore();
 
-                notefield.setAudioOffset(c.notefield.audioOffset);
+                project.setAudioOffset(c.audioOffset);
                 notefield.setHeight(c.notefield.height);
                 notefield.setScroll(c.notefield.scroll);
                 notefield.setZoom(new Fraction(c.notefield.zoom));

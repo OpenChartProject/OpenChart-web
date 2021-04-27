@@ -38,7 +38,7 @@ export const Music = observer(({ store }: Props) => {
             return;
         }
 
-        el.currentTime = time - store.notefield.data.audioOffset;
+        el.currentTime = time - store.project.data.song.audioOffset;
     };
 
     useEffect(() => {

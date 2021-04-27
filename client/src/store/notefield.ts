@@ -26,10 +26,6 @@ export interface NotefieldData {
     snap: BeatSnap;
 
     isPlaying: boolean;
-
-    // TODO: Move into Project
-    audio?: HTMLAudioElement;
-    audioOffset: number;
 }
 
 /**
@@ -74,7 +70,6 @@ export class NotefieldStore {
             scroll: { beat: Beat.Zero, time: Time.Zero },
             snap: new BeatSnap(),
 
-            audioOffset: 0,
             isPlaying: false,
         };
     }
@@ -114,13 +109,6 @@ export class NotefieldStore {
                 time: new Time(Math.max(time + this.data.scroll.time.value, 0)),
             });
         }
-    }
-
-    /**
-     * Sets the audio offset (in seconds).
-     */
-    setAudioOffset(val: number) {
-        this.data.audioOffset = val;
     }
 
     /**

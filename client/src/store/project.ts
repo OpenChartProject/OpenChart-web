@@ -18,6 +18,13 @@ export class ProjectStore {
         this.data = { charts: [], song: { artist: "", title: "", audioOffset: 0 } };
     }
 
+    /**
+     * Sets the audio offset (in seconds).
+     */
+    setAudioOffset(val: number) {
+        this.data.song.audioOffset = val;
+    }
+
     setProject(project: Project) {
         this.data = project;
     }

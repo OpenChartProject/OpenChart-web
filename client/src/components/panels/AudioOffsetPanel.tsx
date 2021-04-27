@@ -13,11 +13,11 @@ export interface Props {
 }
 
 export const AudioOffsetPanel = observer((props: Props) => {
-    const { notefield, ui } = props.store;
+    const { notefield, project, ui } = props.store;
     const { visible } = ui.data.panels.audioOffset;
 
     const onOffsetChanged = (val: number) => {
-        notefield.setAudioOffset(val);
+        project.setAudioOffset(val);
     };
 
     const onPickTime = (y: number, time: number) => {
@@ -25,7 +25,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
         // using the waveform to determine the offset, and if the audio offset
         // is already set, then the waveform will be moved and we want to know
         // the difference between where it is and where they clicked.
-        notefield.setAudioOffset(notefield.data.audioOffset - time);
+        project.setAudioOffset(project.data.song.audioOffset - time);
         ui.deactivateTimePicker();
     };
 
@@ -48,7 +48,7 @@ export const AudioOffsetPanel = observer((props: Props) => {
 
                     <div className="clearfix">
                         <ManagedNumberField
-                            value={notefield.data.audioOffset}
+                            value={project.data.song.audioOffset}
                             disabled={disabled}
                             inline={true}
                             precision={3}
