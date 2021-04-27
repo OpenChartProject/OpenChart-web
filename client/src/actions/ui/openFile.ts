@@ -65,7 +65,11 @@ export class OpenFileAction implements Action {
 
                 reader.readAsArrayBuffer(f);
             } else {
-                console.warn("Unrecognized file type:", f.name);
+                const ext = f.name.replace(/^.*?\./, ".");
+                this.store.ui.notify({
+                    msg: `unsupported file type "${ext}"`,
+                    type: "error",
+                });
                 reject();
             }
         });
