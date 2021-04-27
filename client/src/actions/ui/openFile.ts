@@ -45,14 +45,18 @@ export class OpenFileAction implements Action {
                 reader.onload = () => {
                     const text = reader.result as string;
                     const project = loadFromString(format, text);
+
                     this.store.project.setProject(project);
                     this.store.notefield.setChart(project.charts[0]);
+
                     resolve();
                 };
 
                 reader.readAsText(f);
             } else if (f.name.match(/\.(mp3|wav|ogg)$/i)) {
                 reader.onload = () => {
+                    // TODO: Use a AudioBufferSourceNode instead of encoding into a data URL
+                    // and storing in an <audio> element
                     const audioData = reader.result as ArrayBuffer;
                     const dataURL = `data:${f.type};base64,${encode(audioData)}`;
 
@@ -66,10 +70,12 @@ export class OpenFileAction implements Action {
                 reader.readAsArrayBuffer(f);
             } else {
                 const ext = f.name.replace(/^.*?\./, ".");
+
                 this.store.ui.notify({
                     msg: `unsupported file type "${ext}"`,
                     type: "error",
                 });
+
                 reject();
             }
         });
