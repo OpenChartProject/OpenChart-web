@@ -1,0 +1,24 @@
+name: Check
+on:
+  pull_request:
+
+jobs:
+  # Runs all the checks on the changes. This is executed when any changes are pushed
+  # to master or a PR is updated
+  checks:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run linter and check formatting
+        run: yarn lint && yarn format-check
+
+      - name: Check syntax/types
+        run: yarn tsc --noEmit
+
+      - name: Run tests
+        run: yarn test --reporter min
