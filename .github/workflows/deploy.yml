@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: yarn install
+
       - name: Build image
         run: ./tasks.sh build
 
