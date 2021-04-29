@@ -18,7 +18,7 @@ jobs:
         run: yarn lint && yarn format-check
 
       - name: Check syntax/types
-        run: yarn tsc
+        run: yarn tsc --noEmit
 
       - name: Run tests
-        run: yarn test
+        run: yarn test --reporter min
