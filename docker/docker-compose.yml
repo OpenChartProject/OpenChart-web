@@ -9,6 +9,8 @@ services:
       update_config:
         parallelism: 1
         delay: 5s
+    depends_on:
+      - umami
 
   # Analytics
   umami:
@@ -19,6 +21,7 @@ services:
       HASH_SALT: f02ypNBAnyqGZM7Oi9BM6JCCkMJb0ObnaW6jit4M03k=
     depends_on:
       - umami-db
+
   umami-db:
     image: postgres:12-alpine
     environment:
@@ -26,6 +29,7 @@ services:
       POSTGRES_USER: umami
       POSTGRES_PASSWORD: umami
     volumes:
+      - ./umami-schema.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
       - umami-db-data:/var/lib/postgresql/data
 volumes:
   umami-db-data:
