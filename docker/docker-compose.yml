@@ -15,6 +15,9 @@ services:
   # Analytics
   umami:
     image: ghcr.io/mikecao/umami:postgresql-latest
+    deploy:
+      restart_policy:
+        condition: on-failure
     environment:
       DATABASE_URL: postgresql://umami:umami@umami-db:5432/umami
       DATABASE_TYPE: postgresql
@@ -24,6 +27,9 @@ services:
 
   umami-db:
     image: postgres:12-alpine
+    deploy:
+      restart_policy:
+        condition: on-failure
     environment:
       POSTGRES_DB: umami
       POSTGRES_USER: umami
