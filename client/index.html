@@ -30,6 +30,16 @@
 
         <noscript>This website requires Javascript.</noscript>
         <div id="app"></div>
+
+        <script>
+            var _host = window.location.host;
+            var _umami = document.createElement("script");
+            _umami.src = "/umami.js";
+            _umami.setAttribute("data-host-url", "//anal." + _host);
+            _umami.setAttribute("data-website-id", "704b03c7-6978-4e3f-b0d3-87ab7f63845f");
+            document.body.appendChild(_umami);
+        </script>
+
         <script type="text/javascript" src="./src/index.tsx"></script>
     </body>
 </html>
