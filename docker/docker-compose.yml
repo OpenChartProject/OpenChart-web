@@ -9,3 +9,23 @@ services:
       update_config:
         parallelism: 1
         delay: 5s
+
+  # Analytics
+  umami:
+    image: ghcr.io/mikecao/umami:postgresql-latest
+    environment:
+      DATABASE_URL: postgresql://umami:umami@umami-db:5432/umami
+      DATABASE_TYPE: postgresql
+      HASH_SALT: f02ypNBAnyqGZM7Oi9BM6JCCkMJb0ObnaW6jit4M03k=
+    depends_on:
+      - umami-db
+  umami-db:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+volumes:
+  umami-db-data:
