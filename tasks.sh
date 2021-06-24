@@ -19,8 +19,7 @@ function usage() {
     echo "  build   builds the app for production and creates a Docker image"
     echo "           tagged \"openchart/nginx\""
     echo "  check   runs a format check, linter, and tests"
-    echo "  watch   starts a server at localhost:8000 which automatically rebuilds"
-    echo "           when the code is updated"
+    echo "  watch   watches code for changes and hosts a server at localhost:8000"
 }
 
 case "$1" in
