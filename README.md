@@ -28,6 +28,29 @@ The primary goal for OpenChart is to create an editor which is:
 
 There are several other bullet points that could be added but it really just boils down to this: Provide the community with a transparent, accessible editor that makes it easy to share charts/maps between games.
 
+# Getting Started
+
+You will need:
+
+- Docker + Docker Compose
+- NodeJS
+
+Start by installing the dependencies
+
+```bash
+yarn
+```
+
+Watch code for changes and host the server at `localhost:8000`
+
+```bash
+./tasks.sh watch
+```
+
+OpenChart uses Docker to host a nginx server. OpenChart does not have a backend server and only relies on nginx to serve static files, like the JS bundle and noteskins.
+
+All the development happens outside of Docker. Docker is only used for hosting the files.
+
 # License
 
 The OpenChart project is dual-licensed.
