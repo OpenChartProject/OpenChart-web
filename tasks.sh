@@ -13,6 +13,16 @@ function make_dist_dir() {
     fi
 }
 
+function usage() {
+    echo "usage: $0 <command>"
+    echo
+    echo "  build   builds the app for production and creates a Docker image"
+    echo "           tagged \"openchart/nginx\""
+    echo "  check   runs a format check, linter, and tests"
+    echo "  watch   starts a server at localhost:8000 which automatically rebuilds"
+    echo "           when the code is updated"
+}
+
 case "$1" in
 build)
     make_dist_dir
@@ -51,4 +61,17 @@ watch)
     trap "docker kill $container && kill 0" SIGINT
     wait
     ;;
+
+help|-h|--help)
+    usage
+    ;;
+
+"")
+    usage && exit 1
+;;
+
+*)
+    echo "error: unknown command \"$1\""
+    usage && exit 1
+;;
 esac
