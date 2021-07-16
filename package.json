@@ -9,7 +9,6 @@
     ],
     "scripts": {
         "build": "parcel build --no-source-maps client/index.html",
-        "serve": "parcel serve --hmr-port 8001 client/index.html",
         "format": "prettier -w client/",
         "format-check": "prettier -c client/",
         "lint": "tslint --project tsconfig.json",
