@@ -92,10 +92,16 @@ describe("BPMList", () => {
             const list = new BPMList(bpms);
 
             list.del(1);
-            assert.deepStrictEqual([bpms[0], bpms[2]], list.getAll().map(bt => bt.bpm));
+            assert.deepStrictEqual(
+                [bpms[0], bpms[2]],
+                list.getAll().map((bt) => bt.bpm),
+            );
 
             list.del(1);
-            assert.deepStrictEqual([bpms[0]], list.getAll().map(bt => bt.bpm));
+            assert.deepStrictEqual(
+                [bpms[0]],
+                list.getAll().map((bt) => bt.bpm),
+            );
         });
     });
 

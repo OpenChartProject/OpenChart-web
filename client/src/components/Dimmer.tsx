@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
+
 import { store } from "..";
 import { RootStore } from "../store";
 
@@ -15,7 +16,7 @@ export interface Props {
 export const Dimmer = observer((props: React.PropsWithChildren<Props>) => {
     const closeModal = () => {
         store.ui.hideModal();
-    }
+    };
 
     const onKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -29,7 +30,5 @@ export const Dimmer = observer((props: React.PropsWithChildren<Props>) => {
         return () => window.removeEventListener("keydown", onKeyDown);
     }, []);
 
-    return (
-        <div className="dimmer" onClick={closeModal}></div>
-    );
+    return <div className="dimmer" onClick={closeModal}></div>;
 });

@@ -4,6 +4,7 @@ import React from "react";
 import { RootStore } from "../store/";
 
 import { Music, Notefield } from ".";
+import { Dimmer } from "./Dimmer";
 import { NotificationContainer } from "./Notification";
 import {
     AudioOffsetPanel,
@@ -15,7 +16,6 @@ import {
     SongPanel,
 } from "./panels";
 import { Toolbar } from "./Toolbar";
-import { Dimmer } from "./Dimmer";
 
 export interface Props {
     store: RootStore;
@@ -31,12 +31,12 @@ export const App = observer((props: Props) => {
 
     return (
         <div className="app-container">
-            {modal &&
+            {modal && (
                 <div>
                     <Dimmer store={store} />
                     {modal}
                 </div>
-            }
+            )}
 
             <NotificationContainer store={store} />
 

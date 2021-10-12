@@ -31,19 +31,20 @@ export const BPMListItem = observer((props: BPMListItemProps) => {
         // Prevent the list item from being selected.
         e.stopPropagation();
         props.onDelete();
-    }
+    };
 
     return (
         <div className={cls} onClick={props.onClick}>
             {toFixedTrim(props.bpm.bpm.value, 3)} BPM @ {props.bpm.time.value.toFixed(3)}s
-
-            {props.showDeleteButton &&
+            {props.showDeleteButton && (
                 <span
                     className="material-icons-outlined bpm-delete-btn"
                     title="Remove BPM"
                     onClick={onDelete}
-                >delete</span>
-            }
+                >
+                    delete
+                </span>
+            )}
         </div>
     );
 });
@@ -286,12 +287,7 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         <Panel title="BPM" visible={visible} onToggle={onToggle}>
             <div className="form-control">
                 <label className="form-label form-label-dark">BPM List</label>
-                <BPMList
-                    bpms={bpms}
-                    index={selected}
-                    onDelete={onDelete}
-                    onSelect={setSelected}
-                />
+                <BPMList bpms={bpms} index={selected} onDelete={onDelete} onSelect={setSelected} />
             </div>
             <div className="form-control form-buttons">
                 <button
