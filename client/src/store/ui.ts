@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
+import React from "react";
 
 import { KeyBinds } from "../notefield/input";
 import Storage from "../storage";
@@ -43,6 +44,8 @@ export interface UIData {
 
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
+
+    modal?: React.Component;
 
     keyBinds: KeyBinds;
     panels: Panels;
@@ -127,6 +130,8 @@ export class UIStore {
 
             sidePanelVisible: true,
             showWelcomeModal: true,
+
+            modal: undefined,
 
             keyBinds: {
                 keys: {
@@ -213,6 +218,20 @@ export class UIStore {
     }
 
     /**
+     * Shows a modal.
+     */
+    showModal(modal: React.Component) {
+        this.data.modal = modal;
+    }
+
+    /**
+     * Hides the modal (if one is active).
+     */
+    hideModal() {
+        this.data.modal = undefined;
+    }
+
+    /**
      * Updates the config with the provided changes and saves it.
      */
     update(config: Partial<UIData>) {
@@ -245,6 +264,7 @@ export class UIStore {
         const clone = _.cloneDeep(this.data);
 
         // Remove any properties we don't want saved
+        delete clone.modal;
         delete clone.music.src;
         delete (clone.panels.bpm as any).selected;
 
