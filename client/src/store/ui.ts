@@ -45,7 +45,7 @@ export interface UIData {
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
 
-    modal?: React.Component;
+    modal?: React.ReactElement;
 
     keyBinds: KeyBinds;
     panels: Panels;
@@ -220,8 +220,8 @@ export class UIStore {
     /**
      * Shows a modal.
      */
-    showModal(modal: React.Component) {
-        this.data.modal = modal;
+    showModal(el: React.ReactElement) {
+        this.data.modal = el;
     }
 
     /**

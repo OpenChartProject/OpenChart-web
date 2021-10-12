@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 
 import "./assets";
-import { App } from "./components";
+import { App, WelcomeModal } from "./components";
 import { getNoteSkinSource, loadNoteSkin } from "./noteskin";
 import { RootStore } from "./store";
 
@@ -20,6 +20,11 @@ if (module.hot) {
 }
 
 export const store = new RootStore();
+
+if (store.ui.data.showWelcomeModal) {
+    const modal = <WelcomeModal store={store} />;
+    store.ui.showModal(modal);
+}
 
 // Preload the noteskin before creating the editor.
 loadNoteSkin(getNoteSkinSource("default_4k", 4)).then((noteSkin) => {

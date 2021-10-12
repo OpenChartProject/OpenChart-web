@@ -1,6 +1,6 @@
 export { App } from "./App";
 export { BeatSnapDisplay } from "./BeatSnapDisplay";
-export { Modal } from "./Modal";
+export { Dimmer } from "./Dimmer";
 export { Music } from "./Music";
 export { Notefield } from "./Notefield";
 export { Toolbar } from "./Toolbar";
