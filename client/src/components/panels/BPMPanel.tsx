@@ -12,9 +12,14 @@ import { Panel } from "./Panel";
 export interface BPMListItemProps {
     bpm: BPMTime;
     selected: boolean;
-    onClick?(e: React.MouseEvent): void;
+    showDeleteButton: boolean;
+    onClick(e: React.MouseEvent): void;
+    onDelete(): void;
 }
 
+/**
+ * An item from the BPM list. The currently selected BPM is highlighted.
+ */
 export const BPMListItem = observer((props: BPMListItemProps) => {
     let cls = "bpm-list-item";
 
@@ -22,9 +27,23 @@ export const BPMListItem = observer((props: BPMListItemProps) => {
         cls += " selected";
     }
 
+    const onDelete = (e: React.MouseEvent) => {
+        // Prevent the list item from being selected.
+        e.stopPropagation();
+        props.onDelete();
+    }
+
     return (
         <div className={cls} onClick={props.onClick}>
             {toFixedTrim(props.bpm.bpm.value, 3)} BPM @ {props.bpm.time.value.toFixed(3)}s
+
+            {props.showDeleteButton &&
+                <span
+                    className="material-icons-outlined bpm-delete-btn"
+                    title="Remove BPM"
+                    onClick={onDelete}
+                >delete</span>
+            }
         </div>
     );
 });
@@ -32,17 +51,15 @@ export const BPMListItem = observer((props: BPMListItemProps) => {
 export interface BPMListProps {
     bpms: BPMTime[];
     index: number;
+    onDelete(i: number): void;
     onSelect(i: number): void;
 }
 
+/**
+ * The list of BPMs. Clicking a BPM from the list selects it.
+ */
 export const BPMList = observer((props: BPMListProps) => {
-    const onSelect = (i: number) => {
-        if (props.onSelect) {
-            props.onSelect(i);
-        }
-
-        props.onSelect(i);
-    };
+    const { onDelete, onSelect } = props;
 
     return (
         <div className="bpm-list-container">
@@ -50,7 +67,9 @@ export const BPMList = observer((props: BPMListProps) => {
                 <BPMListItem
                     bpm={bpm}
                     onClick={() => onSelect(i)}
+                    onDelete={() => onDelete(i)}
                     selected={i === props.index}
+                    showDeleteButton={i > 0}
                     key={bpm.time.value}
                 />
             ))}
@@ -68,11 +87,15 @@ export interface BPMFormProps {
     bpm: BPMTime;
     disabled?: boolean;
     index: number;
-    onSubmit?(args: BPMFormSubmitArgs): boolean | void;
+    onSubmit(args: BPMFormSubmitArgs): boolean | void;
 }
 
 const precision = 3;
 
+/**
+ * The form for editing BPM values. This form is populated with the current
+ * selected BPM.
+ */
 export const BPMForm = observer((props: BPMFormProps) => {
     const { disabled } = props;
     const { bpm, time } = props.bpm;
@@ -95,17 +118,15 @@ export const BPMForm = observer((props: BPMFormProps) => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (props.onSubmit) {
-            const ok =
-                props.onSubmit({
-                    bpm: bpmVal,
-                    beat: beatVal,
-                    time: timeVal,
-                }) !== false;
+        const ok =
+            props.onSubmit({
+                bpm: bpmVal,
+                beat: beatVal,
+                time: timeVal,
+            }) !== false;
 
-            if (ok) {
-                blurEverything();
-            }
+        if (ok) {
+            blurEverything();
         }
     };
 
@@ -180,6 +201,9 @@ export interface BPMPanelProps {
     store: RootStore;
 }
 
+/**
+ * A panel for displaying and managing BPM changes.
+ */
 export const BPMPanel = observer((props: BPMPanelProps) => {
     const { notefield, ui } = props.store;
     const chart = notefield.data.chart;
@@ -188,6 +212,10 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     const bpms = chart.bpms.getAll();
     const cur = bpms[selected];
     const disabled = notefield.data.isPlaying;
+
+    const onDelete = (i: number) => {
+        // notefield.data.chart.bpms.add
+    };
 
     const setSelected = (i: number) => {
         ui.selectBPM(i);
@@ -251,7 +279,12 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
         <Panel title="BPM" visible={visible} onToggle={onToggle}>
             <div className="form-control">
                 <label className="form-label form-label-dark">BPM List</label>
-                <BPMList bpms={bpms} index={selected} onSelect={(i) => setSelected(i)} />
+                <BPMList
+                    bpms={bpms}
+                    index={selected}
+                    onDelete={onDelete}
+                    onSelect={setSelected}
+                />
             </div>
             <div className="form-control form-buttons">
                 <button
