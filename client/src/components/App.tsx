@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React from "react";
 
 import { RootStore } from "../store/";
 
@@ -15,7 +15,6 @@ import {
     SongPanel,
 } from "./panels";
 import { Toolbar } from "./Toolbar";
-import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {
     store: RootStore;
@@ -26,12 +25,12 @@ export interface Props {
  * components. It also renders the welcome modal.
  */
 export const App = observer((props: Props) => {
-    const [showModal, setShowModal] = useState(props.store.ui.data.showWelcomeModal);
     const { store } = props;
+    const { modal } = props.store.ui.data;
 
     return (
         <div className="app-container">
-            {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
+            {modal}
 
             <NotificationContainer store={store} />
 
