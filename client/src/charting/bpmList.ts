@@ -79,7 +79,7 @@ export class BPMList {
      * Removes the BPM at the given index.
      */
     del(index: number) {
-        assert(index >= 0 && index < this.bpms.length, "index is out of range");
+        assert(index > 0 && index < this.bpms.length, "index is out of range");
 
         this.bpms.splice(index, 1);
     }
