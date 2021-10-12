@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import _ from "lodash";
 import { makeAutoObservable } from "mobx";
+import React from "react";
 
 import { KeyBinds } from "../notefield/input";
 import Storage from "../storage";
@@ -43,6 +44,8 @@ export interface UIData {
 
     sidePanelVisible: boolean;
     showWelcomeModal: boolean;
+
+    modal?: React.ReactElement;
 
     keyBinds: KeyBinds;
     panels: Panels;
@@ -128,6 +131,8 @@ export class UIStore {
             sidePanelVisible: true,
             showWelcomeModal: true,
 
+            modal: undefined,
+
             keyBinds: {
                 keys: {
                     4: ["1", "2", "3", "4"],
@@ -179,7 +184,7 @@ export class UIStore {
     /**
      * Selects the BPM with the given index and scrolls the notefield to it.
      */
-    selectBPM(index: number) {
+    selectBPM(index: number, scroll = true) {
         this.data.panels.bpm.selected = index;
 
         const { notefield } = this.root;
@@ -187,7 +192,10 @@ export class UIStore {
         // Scroll to the BPM change if not playing
         if (!notefield.data.isPlaying) {
             const bpm = notefield.data.chart.bpms.get(index);
-            notefield.setScroll({ time: bpm.time });
+
+            if (scroll) {
+                notefield.setScroll({ time: bpm.time });
+            }
         }
     }
 
@@ -210,6 +218,20 @@ export class UIStore {
     setMusic(src: string) {
         this.controllers.music.setSource(src);
         this.controllers.music.pause();
+    }
+
+    /**
+     * Shows a modal.
+     */
+    showModal(el: React.ReactElement) {
+        this.data.modal = el;
+    }
+
+    /**
+     * Hides the modal (if one is active).
+     */
+    hideModal() {
+        this.data.modal = undefined;
     }
 
     /**
@@ -245,6 +267,7 @@ export class UIStore {
         const clone = _.cloneDeep(this.data);
 
         // Remove any properties we don't want saved
+        delete clone.modal;
         delete clone.music.src;
         delete (clone.panels.bpm as any).selected;
 

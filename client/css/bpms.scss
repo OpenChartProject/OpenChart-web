@@ -18,3 +18,14 @@
         background-color: $col-light-gray;
     }
 }
+
+.bpm-delete-btn {
+    float: right;
+    margin-top: -2px;
+
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 1;
+    }
+}

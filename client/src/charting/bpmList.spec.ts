@@ -75,6 +75,36 @@ describe("BPMList", () => {
         });
     });
 
+    describe("#del", () => {
+        it("throws if the index is out of range", () => {
+            const list = new BPMList();
+            assert.throws(() => list.del(-1));
+            assert.throws(() => list.del(1));
+        });
+
+        it("throws if the index is 0", () => {
+            const list = new BPMList();
+            assert.throws(() => list.del(0));
+        });
+
+        it("removes the bpm at the given index", () => {
+            const bpms = [new BPM(0, 120), new BPM(1, 120), new BPM(2, 120)];
+            const list = new BPMList(bpms);
+
+            list.del(1);
+            assert.deepStrictEqual(
+                [bpms[0], bpms[2]],
+                list.getAll().map((bt) => bt.bpm),
+            );
+
+            list.del(1);
+            assert.deepStrictEqual(
+                [bpms[0]],
+                list.getAll().map((bt) => bt.bpm),
+            );
+        });
+    });
+
     describe("#get", () => {
         it("throws if the index is out of range", () => {
             const list = new BPMList();

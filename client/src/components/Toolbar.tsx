@@ -13,6 +13,10 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The toolbar is a component displayed on the left hand side of the screen.
+ * It is basically the "menu" for the app.
+ */
 export const Toolbar = observer((props: Props) => {
     const { store } = props;
 

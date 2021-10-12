@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React from "react";
 
 import { RootStore } from "../store/";
 
 import { Music, Notefield } from ".";
+import { Dimmer } from "./Dimmer";
 import { NotificationContainer } from "./Notification";
 import {
     AudioOffsetPanel,
@@ -15,19 +16,27 @@ import {
     SongPanel,
 } from "./panels";
 import { Toolbar } from "./Toolbar";
-import { WelcomeModal } from "./WelcomeModal";
 
 export interface Props {
     store: RootStore;
 }
 
+/**
+ * The root component for the app. This is responsible for rendering the other
+ * components. It also renders the welcome modal.
+ */
 export const App = observer((props: Props) => {
-    const [showModal, setShowModal] = useState(props.store.ui.data.showWelcomeModal);
     const { store } = props;
+    const { modal } = props.store.ui.data;
 
     return (
         <div className="app-container">
-            {showModal && <WelcomeModal store={store} onClose={() => setShowModal(false)} />}
+            {modal && (
+                <div>
+                    <Dimmer store={store} />
+                    {modal}
+                </div>
+            )}
 
             <NotificationContainer store={store} />
 

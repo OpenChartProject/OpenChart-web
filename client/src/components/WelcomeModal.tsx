@@ -3,21 +3,25 @@ import React from "react";
 import { banner } from "../assets";
 import { RootStore } from "../store";
 
-import { Modal } from "./Modal";
-
 export interface Props {
     store: RootStore;
-    onClose(): void;
 }
 
-export const WelcomeModal = (props: Props) => {
+/**
+ * A simple modal that's displayed when the user loads the page.
+ */
+export const WelcomeModal = ({ store }: Props) => {
+    const close = () => {
+        store.ui.hideModal();
+    };
+
     const dontShowAgain = () => {
-        props.store.ui.update({ showWelcomeModal: false });
-        props.onClose();
+        store.ui.update({ showWelcomeModal: false });
+        close();
     };
 
     return (
-        <Modal onClose={props.onClose} className="welcome-modal">
+        <div className="modal welcome-modal">
             <img className="oc-banner" src={banner} />
 
             <p>OpenChart is an open source rhythm game chart/map editor.</p>
@@ -27,12 +31,12 @@ export const WelcomeModal = (props: Props) => {
                 </strong>
             </p>
             <p>See the links in the sidebar to learn more.</p>
-            <button className="close-btn" onClick={props.onClose} autoFocus>
+            <button className="close-btn" onClick={close} autoFocus>
                 OK
             </button>
             <a className="dont-show-again" onClick={dontShowAgain}>
                 Don't show this again
             </a>
-        </Modal>
+        </div>
     );
 };

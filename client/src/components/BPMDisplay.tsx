@@ -8,6 +8,9 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * A container for the BPM changes shown on the side of the notefield.
+ */
 export const BPMDisplay = observer((props: Props) => {
     const { notefield, ui } = props.store;
     const bpms = notefield.data.chart.bpms.getAll();

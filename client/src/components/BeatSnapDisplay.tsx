@@ -7,6 +7,10 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * A simple component shown on the side of the notefield that says what
+ * the current beat snapping is.
+ */
 export const BeatSnapDisplay = observer(({ store }: Props) => {
     const { receptorY, scrollDirection } = store.notefieldDisplay.data;
     const { snap } = store.notefield.data;
