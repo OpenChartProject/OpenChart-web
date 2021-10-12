@@ -8,6 +8,9 @@ export interface NotificationProps {
     args: NotifyArgs;
 }
 
+/**
+ * A toast notification that appears at the top of the screen.
+ */
 export const Notification = observer((props: NotificationProps) => {
     const { type, msg } = props.args;
 
@@ -42,6 +45,14 @@ interface ContainerState {
     queue: QueueItem[];
 }
 
+/**
+ * A container for managing notifications being displayed.
+ *
+ * This listens for notifications emitted through `ui.emitters.notif`
+ *
+ * Notifications are queued up and displayed for a fixed amount of time before
+ * they are automatically removed.
+ */
 export const NotificationContainer = observer((props: NotificationContainerProps) => {
     const { ui } = props.store;
 

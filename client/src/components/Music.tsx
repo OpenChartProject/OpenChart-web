@@ -7,6 +7,10 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * This component is a simple wrapper around an <audio> element and is used
+ * for music playback.
+ */
 export const Music = observer(({ store }: Props) => {
     const ref = useRef<HTMLAudioElement>(null);
     const { src, volume } = store.ui.data.music;

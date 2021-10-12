@@ -10,6 +10,12 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The component for the waveform display.
+ *
+ * This is responsible for taking an existing SVG element (containing the waveform)
+ * and adjusting its viewbox and height to be rendered properly on the page.
+ */
 export const WaveformSVG = observer(({ el, store }: Props) => {
     const { notefield, waveform } = store;
     const { x, y, width, height } = waveform.viewBox;

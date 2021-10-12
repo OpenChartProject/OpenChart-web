@@ -10,6 +10,9 @@ export interface Props {
     onClose(): void;
 }
 
+/**
+ * A simple modal that's displayed when the user loads the page.
+ */
 export const WelcomeModal = (props: Props) => {
     const dontShowAgain = () => {
         props.store.ui.update({ showWelcomeModal: false });

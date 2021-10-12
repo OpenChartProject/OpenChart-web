@@ -21,6 +21,10 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The root component for the app. This is responsible for rendering the other
+ * components. It also renders the welcome modal.
+ */
 export const App = observer((props: Props) => {
     const [showModal, setShowModal] = useState(props.store.ui.data.showWelcomeModal);
     const { store } = props;

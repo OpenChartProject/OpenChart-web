@@ -11,6 +11,10 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The container for the waveform. This renders the actual waveform component
+ * on top of the notefield.
+ */
 export const Waveform = observer(({ store }: Props) => {
     if (
         !store.notefieldDisplay.data.showWaveform ||

@@ -7,6 +7,14 @@ export interface Props {
     store: RootStore;
 }
 
+/**
+ * The component for the time picker.
+ *
+ * This is rendered over the notefield and displays a green line wherever the
+ * user's mouse is. When the user clicks a point on the notefield it calls
+ * `store.ui.tools.timePicker.onPick`. If the user presses escape the time picker
+ * is cancelled.
+ */
 export const TimePicker = observer(({ store }: Props) => {
     const [y, setY] = useState(0);
 
