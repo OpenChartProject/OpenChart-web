@@ -184,7 +184,7 @@ export class UIStore {
     /**
      * Selects the BPM with the given index and scrolls the notefield to it.
      */
-    selectBPM(index: number) {
+    selectBPM(index: number, scroll = true) {
         this.data.panels.bpm.selected = index;
 
         const { notefield } = this.root;
@@ -192,7 +192,10 @@ export class UIStore {
         // Scroll to the BPM change if not playing
         if (!notefield.data.isPlaying) {
             const bpm = notefield.data.chart.bpms.get(index);
-            notefield.setScroll({ time: bpm.time });
+
+            if (scroll) {
+                notefield.setScroll({ time: bpm.time });
+            }
         }
     }
 

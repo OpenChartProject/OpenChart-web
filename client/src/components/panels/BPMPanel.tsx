@@ -214,7 +214,14 @@ export const BPMPanel = observer((props: BPMPanelProps) => {
     const disabled = notefield.data.isPlaying;
 
     const onDelete = (i: number) => {
-        // notefield.data.chart.bpms.add
+        const count = bpms.length;
+        notefield.data.chart.bpms.del(i);
+
+        // If we had the last BPM in the list selected we're now out of bounds,
+        // so decrement the selected index by 1
+        if (selected === count - 1) {
+            ui.selectBPM(selected - 1, false);
+        }
     };
 
     const setSelected = (i: number) => {
