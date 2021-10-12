@@ -128,6 +128,7 @@ describe("UIStore", () => {
             store.save();
 
             const expected = store.data;
+            delete expected.modal;
             delete expected.music.src;
             delete (expected.panels.bpm as any).selected;
             const actual = JSON.parse(Storage.get(STORAGE_KEY) as string);
