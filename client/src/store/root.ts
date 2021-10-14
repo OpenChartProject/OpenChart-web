@@ -1,3 +1,4 @@
+import { ActionStore } from "./action";
 import { NotefieldStore } from "./notefield";
 import { NotefieldDisplayStore } from "./notefieldDisplay";
 import { ProjectStore } from "./project";
@@ -8,6 +9,7 @@ import { WaveformStore } from "./waveform";
  * The root store for the application that contains all of the application data.
  */
 export class RootStore {
+    readonly actions: ActionStore;
     readonly notefieldDisplay: NotefieldDisplayStore;
     readonly notefield: NotefieldStore;
     readonly project: ProjectStore;
@@ -15,6 +17,7 @@ export class RootStore {
     readonly ui: UIStore;
 
     constructor() {
+        this.actions = new ActionStore(this);
         this.ui = new UIStore(this);
         this.notefieldDisplay = new NotefieldDisplayStore(this);
         this.project = new ProjectStore(this);
