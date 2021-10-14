@@ -15,4 +15,8 @@ export class PlayPauseAction implements Action {
         const { notefield } = this.store;
         notefield.setPlaying(!notefield.data.isPlaying);
     }
+
+    undo(): void {
+        this.run();
+    }
 }

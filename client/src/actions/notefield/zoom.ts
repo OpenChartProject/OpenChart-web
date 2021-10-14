@@ -16,6 +16,8 @@ export interface ZoomArgs {
  */
 export class ZoomAction implements Action {
     args: ZoomArgs;
+    oldZoom!: Fraction;
+
     store: RootStore;
 
     /**
@@ -31,6 +33,13 @@ export class ZoomAction implements Action {
     }
 
     run(): void {
-        this.store.notefield.setZoom(this.args.to);
+        const { notefield } = this.store;
+
+        this.oldZoom = notefield.data.zoom;
+        notefield.setZoom(this.args.to);
+    }
+
+    undo(): void {
+        this.store.notefield.setZoom(this.oldZoom);
     }
 }

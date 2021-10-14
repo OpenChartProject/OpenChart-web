@@ -37,4 +37,9 @@ export class PlaceTapAction implements Action {
             removeIfExists: true,
         });
     }
+
+    undo(): void {
+        // FIXME: This won't work correctly if placing a note gets rid of a hold.
+        this.run();
+    }
 }

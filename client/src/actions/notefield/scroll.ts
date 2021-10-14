@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import { BeatTime } from "../../charting";
+import { Beat, BeatTime } from "../../charting";
 import { RootStore } from "../../store";
 import { Action } from "../action";
 
@@ -17,6 +17,8 @@ export interface ScrollArgs {
  */
 export class ScrollAction implements Action {
     args: ScrollArgs;
+    oldScroll!: Beat;
+
     store: RootStore;
 
     constructor(store: RootStore, args: ScrollArgs) {
@@ -28,11 +30,16 @@ export class ScrollAction implements Action {
 
     run(): void {
         const args = this.args;
+        this.oldScroll = this.store.notefield.data.scroll.beat;
 
         if (args.by) {
             this.store.notefield.scrollBy(args.by);
         } else if (args.to) {
             this.store.notefield.setScroll(args.to);
         }
+    }
+
+    undo(): void {
+        this.store.notefield.setScroll({ beat: this.oldScroll });
     }
 }
