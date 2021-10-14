@@ -28,8 +28,11 @@ export class ActionStore {
 
     run(action: Action) {
         action.run();
-        this.stack.redo = [];
-        this.stack.undo.push(action);
+
+        if (action.undo) {
+            this.stack.redo = [];
+            this.stack.undo.push(action);
+        }
     }
 
     undo() {
@@ -39,7 +42,7 @@ export class ActionStore {
             return;
         }
 
-        action.undo();
+        action.undo!();
         this.stack.redo.push(action);
     }
 
