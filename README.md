@@ -30,23 +30,34 @@ There are several other bullet points that could be added but it really just boi
 
 # Getting Started
 
+## Prereq's
+
 You will need:
 
-- Node v14
+- Node
+    - v14 is preferred but other versions will likely work
 - yarn
 - Docker
 
-Run `yarn` to install dependencies.
+## Setup
 
-For serving the files, the preferred method is to use Docker and serve the files through nginx.
+The only setup that needs to be done is to install the dependencies:
 
-Open two terminals. In the first terminal, bundle the files and watch for changes:
+```
+yarn
+```
+
+## Serving Files Locally
+
+The preferred method is to use Docker and serve the files through nginx. There are issues using `parcel serve`, mainly due to the fact that noteskins are copied to the `dist/` dir manually.
+
+Start by opening two terminals. The first will watch and rebuild for changes:
 
 ```
 yarn watch
 ```
 
-In the second terminal, start an nginx container to serve the files, then open your browser to http://localhost:8000/
+The second will run nginx and serve the files at http://localhost:8000/
 
 ```
 docker run \
