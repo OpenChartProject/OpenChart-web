@@ -1,8 +1,9 @@
+# This Dockerfile creates an nginx image with all the built assets included
+
 FROM nginx:alpine
 
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/share/nginx/html
 
-WORKDIR /app/
 COPY client/img/noteskins noteskins/
 
 # Remove the original image files (.psd)
