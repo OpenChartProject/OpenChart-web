@@ -1,12 +1,8 @@
-# This Dockerfile creates an nginx image with all the built assets included
+# Creates an nginx image with the bundled assets. This is intended for
+# production. For development, check the README for more info.
 
 FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 
-COPY client/img/noteskins noteskins/
-
-# Remove the original image files (.psd)
-RUN find noteskins/ -name __original__ | xargs rm -rf
-
-COPY dist/ .
+COPY . .
