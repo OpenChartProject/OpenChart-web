@@ -30,26 +30,42 @@ There are several other bullet points that could be added but it really just boi
 
 # Getting Started
 
+## Prereq's
+
 You will need:
 
-- Docker + Docker Compose
-- NodeJS
+- Node
+    - v14 is preferred but other versions will likely work
+- yarn
+- Docker
 
-Start by installing the dependencies
+## Setup
 
-```bash
+The only setup that needs to be done is to install the dependencies:
+
+```
 yarn
 ```
 
-Watch code for changes and host the server at `localhost:8000`
+## Serving Files Locally
 
-```bash
-./tasks.sh watch
+The preferred method is to use Docker and serve the files through nginx. There are issues using `parcel serve`, mainly due to the fact that noteskins are copied to the `dist/` dir manually.
+
+Start by opening two terminals. The first will watch and rebuild for changes:
+
+```
+yarn watch
 ```
 
-OpenChart uses Docker to host a nginx server. OpenChart does not have a backend server and only relies on nginx to serve static files, like the JS bundle and noteskins.
+The second will run nginx and serve the files at http://localhost:8000/
 
-All the development happens outside of Docker. Docker is only used for hosting the files.
+```
+docker run \
+    --rm \
+    -v "`pwd`/dist:/usr/share/nginx/html:ro" \
+    -p "8000:80" \
+    nginx
+```
 
 # License
 

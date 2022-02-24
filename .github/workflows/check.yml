@@ -3,14 +3,14 @@ on:
   pull_request:
 
 jobs:
-  # Runs all the checks on the changes. This is executed when any changes are pushed
-  # to master or a PR is updated
   checks:
     name: Run checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+
+      - name: Use node v14
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 

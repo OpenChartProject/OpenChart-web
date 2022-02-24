@@ -8,11 +8,14 @@
         "not IE 11"
     ],
     "scripts": {
-        "build": "parcel build --no-source-maps client/index.html",
+        "build": "yarn clean-dist && yarn copy-noteskins && parcel build --no-source-maps client/index.html",
+        "build:docker": "yarn build && docker build -t openchart -f Dockerfile dist/",
+        "clean-dist": "rm -rf dist/ && mkdir dist/",
+        "copy-noteskins": "mkdir -p dist/ && cp -R client/img/noteskins/ dist/ && find dist/noteskins/ -name __original__ | xargs rm -rf",
         "format": "prettier -w client/",
         "format-check": "prettier -c client/",
         "lint": "tslint --project tsconfig.json",
-        "watch": "parcel watch client/index.html",
+        "watch": "yarn clean-dist && yarn copy-noteskins && parcel watch client/index.html",
         "test": "mocha",
         "test-watch": "mocha -w --watch-files 'client/src/**/*' --reporter min"
     },
