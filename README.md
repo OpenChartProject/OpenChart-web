@@ -43,8 +43,7 @@ yarn
 
 Watch code for changes and host the server at `localhost:8000`
 
-```bash
-./tasks.sh watch
+yarn watch
 ```
 
 OpenChart uses Docker to host a nginx server. OpenChart does not have a backend server and only relies on nginx to serve static files, like the JS bundle and noteskins.
