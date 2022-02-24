@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="./img/favicon.png" type="image/png" />
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="./img/favicon.png" type="image/png" />
+        <title>OpenChart</title>
 
-    <title>OpenChart</title>
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            rel="stylesheet"
+        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./css/app.scss" />
+    </head>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/app.scss" />
-</head>
-
-<body>
-    <!-- This is used for creating a download of the project that the user can save
+    <body>
+        <!-- This is used for creating a download of the project that the user can save
         to their computer -->
-    <a id="download-link" target="_blank" style="position: absolute; top: -1000px"></a>
+        <a id="download-link" target="_blank" style="position: absolute; top: -1000px"></a>
 
-    <!-- This is used to let the user pick a file when they click the open button -->
-    <input type="file" id="file-picker" style="position: absolute; top: -1000px" />
+        <!-- This is used to let the user pick a file when they click the open button -->
+        <input type="file" id="file-picker" style="position: absolute; top: -1000px" />
 
-    <noscript>This website requires Javascript.</noscript>
-    <div id="app"></div>
+        <noscript>This website requires Javascript.</noscript>
+        <div id="app"></div>
 
-    <script type="text/javascript" src="./src/index.tsx"></script>
-</body>
-
+        <script type="text/javascript" src="./src/index.tsx"></script>
+    </body>
 </html>
