@@ -3,6 +3,9 @@ import { Baseline, NotefieldDisplayStore, NotefieldStore } from "../../store";
 
 /**
  * Returns the new position of the object after taking the baseline into account.
+ *
+ * @param pos The position, in pixels, of the object
+ * @param h The height, in pixels, of the object
  */
 export function adjustToBaseline(display: NotefieldDisplayStore, pos: number, h: number): number {
     const { baseline, scrollDirection } = display.data;
