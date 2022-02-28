@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
 import React, { useEffect, useRef } from "react";
 
-import { drawNotefield } from "../notefield/drawing";
+import { drawNotefield } from "../notefield/drawing/drawing";
 import { inputToAction } from "../notefield/input";
 import { RootStore } from "../store";
 

@@ -1,40 +1,11 @@
-import { Chart, Time, toTime } from "../charting/";
-import { ChartObject } from "../charting/objects/";
-import { NoteSkin } from "../noteskin";
-import {
-    Baseline,
-    BeatLineStyle,
-    NotefieldDisplayStore,
-    NotefieldStore,
-    RootStore,
-} from "../store";
+import { Chart } from "../../charting/";
+import { ChartObject } from "../../charting/objects/";
+import { NoteSkin } from "../../noteskin";
+import { BeatLineStyle, NotefieldDisplayStore, NotefieldStore, RootStore } from "../../store";
+import { getBeatLineTimes } from "../beatlines";
 
-import { getBeatLineTimes } from "./beatlines";
-
-/**
- * Stores some useful values used for rendering.
- */
-export interface Viewport {
-    /**
-     * The scroll position, in pixels. This is the y-pos with respect to the canvas origin.
-     */
-    y0: number;
-
-    /**
-     * The time at the top of the viewport.
-     */
-    t0: Time;
-
-    /**
-     * The time at the bottom of the viewport.
-     */
-    t1: Time;
-
-    /**
-     * The time at the receptors.
-     */
-    tReceptor: Time;
-}
+import { adjustToBaseline, scaleToWidth, timeToPosition } from "./util";
+import { calculateViewport, Viewport } from "./viewport";
 
 export interface DrawProps extends Viewport {
     ctx: CanvasRenderingContext2D;
@@ -44,69 +15,6 @@ export interface DrawProps extends Viewport {
     noteSkin: NoteSkin;
     notefieldDisplay: NotefieldDisplayStore;
     notefield: NotefieldStore;
-}
-
-/**
- * Returns the new position of the object after taking the baseline into account.
- */
-export function adjustToBaseline(dp: DrawProps, pos: number, h: number): number {
-    const { data } = dp.notefieldDisplay;
-
-    switch (data.baseline) {
-        case Baseline.After:
-            return pos;
-        case Baseline.Before:
-            if (data.scrollDirection === "up") {
-                return pos - h;
-            } else {
-                return pos + h;
-            }
-        case Baseline.Centered:
-            if (data.scrollDirection === "up") {
-                return pos - h / 2;
-            } else {
-                return pos + h / 2;
-            }
-    }
-}
-
-/**
- * This calculates both the scroll position of the viewport as well as the boundaries
- * for what should be rendered.
- *
- * The term "viewport" in this context is just a concept, it's not a physical object.
- * The objects on the notefield are rendered with respect to the canvas origin, not
- * with respect to the scrolling.
- */
-export function calculateViewport(
-    notefieldDisplay: NotefieldDisplayStore,
-    notefield: NotefieldStore,
-): Viewport {
-    const y0 =
-        notefield.data.scroll.time.value * notefield.pixelsPerSecond -
-        notefieldDisplay.data.receptorY;
-    const t0 = new Time(Math.max(y0 / notefield.pixelsPerSecond, 0));
-    const t1 = new Time(Math.max((y0 + notefield.data.height) / notefield.pixelsPerSecond, 0));
-    const tReceptor = notefield.data.scroll.time;
-
-    return { y0, t0, t1, tReceptor };
-}
-
-/**
- * Returns the new height after scaling to fit a particular width.
- */
-export function scaleToWidth(srcW: number, srcH: number, dstW: number): number {
-    return (dstW / srcW) * srcH;
-}
-
-/**
- * Converts time to position.
- */
-export function timeToPosition(
-    { notefieldDisplay, notefield }: DrawProps,
-    time: Time | number,
-): number {
-    return Math.round(toTime(time).value * notefield.pixelsPerSecond);
 }
 
 function clear(dp: DrawProps) {
@@ -130,7 +38,7 @@ function drawBeatLines(dp: DrawProps) {
     };
 
     for (const bt of getBeatLineTimes(chart, notefield.snap, t0, t1)) {
-        let y = timeToPosition(dp, bt.time);
+        let y = timeToPosition(dp.notefield, bt.time);
 
         if (ctx.lineWidth % 2 === 1) {
             y += 0.5;
@@ -171,7 +79,7 @@ function drawReceptor(dp: DrawProps, key: number) {
 
     const r = noteSkin.receptor[key];
     const h = scaleToWidth(r.width as number, r.height as number, data.columnWidth);
-    const y = adjustToBaseline(dp, tReceptor.value * notefield.pixelsPerSecond, h);
+    const y = adjustToBaseline(notefieldDisplay, tReceptor.value * notefield.pixelsPerSecond, h);
 
     ctx.save();
     ctx.translate(0, y);
@@ -203,7 +111,7 @@ function drawTap(dp: DrawProps, key: number, obj: ChartObject) {
 
     // TODO: Add time property to ChartObject
     const t = chart.bpms.timeAt(obj.beat);
-    const y = adjustToBaseline(dp, timeToPosition(dp, t), h);
+    const y = adjustToBaseline(dp.notefieldDisplay, timeToPosition(dp.notefield, t), h);
 
     ctx.translate(0, y);
 

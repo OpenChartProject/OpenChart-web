@@ -2,9 +2,9 @@ import assert from "assert";
 import Fraction from "fraction.js";
 import _ from "lodash";
 
-import { Beat, Time } from "../charting/";
-import { Baseline, NotefieldData, NotefieldDisplayData } from "../store";
-import { createStore } from "../test";
+import { Beat, Time } from "../../charting";
+import { Baseline, NotefieldData, NotefieldDisplayData } from "../../store";
+import { createStore } from "../../test";
 
 import {
     adjustToBaseline,
