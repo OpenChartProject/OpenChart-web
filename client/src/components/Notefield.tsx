@@ -1,8 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
+import { NotefieldContext } from "../notefield/context";
+import { getNotefieldDrawData, NotefieldDrawData } from "../notefield/drawing/drawData";
 import { drawNotefield } from "../notefield/drawing/drawing";
+import { calculateViewport } from "../notefield/drawing/viewport";
 import { inputToAction } from "../notefield/input";
 import { RootStore } from "../store";
 
@@ -29,11 +32,27 @@ export interface Props {
 export const Notefield = observer(({ store }: Props) => {
     const refCanvas = useRef<HTMLCanvasElement>(null);
     const refContainer = useRef<HTMLDivElement>(null);
+    const [drawData, setDrawData] = useState<NotefieldDrawData>();
+    const [context, setContext] = useState<NotefieldContext>();
 
-    const redraw = () => {
-        if (!refCanvas.current) return;
+    const processNotefieldChanges = () => {
+        if (!store.notefieldDisplay.data.noteSkin) {
+            console.warn("Skipping redraw: no noteskin is set");
+            return;
+        }
 
-        drawNotefield(store);
+        const _context: NotefieldContext = {
+            chart: store.notefield.data.chart,
+            w: store.notefield.data.width,
+            h: store.notefield.data.height,
+            noteSkin: store.notefieldDisplay.data.noteSkin,
+            notefield: store.notefield,
+            notefieldDisplay: store.notefieldDisplay,
+            viewport: calculateViewport(store.notefieldDisplay, store.notefield),
+        };
+
+        setContext(_context);
+        setDrawData(getNotefieldDrawData(_context));
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -70,8 +89,8 @@ export const Notefield = observer(({ store }: Props) => {
     // on an object that has makeAutoObservable called in its constructor.
     useEffect(() => {
         const observers = [
-            deepObserve(store.notefieldDisplay, () => redraw()),
-            deepObserve(store.notefield, () => redraw()),
+            deepObserve(store.notefieldDisplay, () => processNotefieldChanges()),
+            deepObserve(store.notefield, () => processNotefieldChanges()),
         ];
 
         return () => observers.forEach((disposer) => disposer());
@@ -104,6 +123,18 @@ export const Notefield = observer(({ store }: Props) => {
         store.notefield.setCanvas(refCanvas.current);
         updateDim();
     }, [refCanvas]);
+
+    useEffect(() => {
+        if (!refCanvas.current) {
+            console.warn("Skipping redraw: canvas ref is null");
+            return;
+        } else if (!drawData || !context) {
+            console.warn("Skipping redraw: missing draw data or context");
+            return;
+        }
+
+        drawNotefield(refCanvas.current, context, drawData);
+    }, [drawData, context]);
 
     let className = "notefield-container";
 

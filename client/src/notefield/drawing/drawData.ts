@@ -2,6 +2,7 @@ import { ChartObject } from "../../charting/objects";
 import { NoteSkinImage } from "../../noteskin";
 import { getBeatLineTimes } from "../beatlines";
 import { NotefieldContext } from "../context";
+
 import { adjustToBaseline, scaleToWidth, timeToPosition } from "./util";
 
 export interface KeyImage {
@@ -37,10 +38,15 @@ export function getBeatLines(ctx: NotefieldContext): BeatLines {
         snap: [],
     };
 
-    const beatTimes = getBeatLineTimes(ctx.chart, ctx.notefield.data.snap, ctx.viewport.t0, ctx.viewport.t1);
+    const beatTimes = getBeatLineTimes(
+        ctx.chart,
+        ctx.notefield.data.snap,
+        ctx.viewport.t0,
+        ctx.viewport.t1,
+    );
 
     for (const bt of beatTimes) {
-        let y = timeToPosition(ctx.notefield, bt.time);
+        const y = timeToPosition(ctx.notefield, bt.time);
 
         if (bt.beat.isStartOfMeasure()) {
             pos.measure.push(y);
@@ -59,11 +65,22 @@ export function getReceptors(ctx: NotefieldContext): Receptor[] {
 
     for (let key = 0; key < ctx.chart.keyCount.value; key++) {
         const img = ctx.noteSkin.receptor[key];
-        const h = scaleToWidth(img.width as number, img.height as number, ctx.notefieldDisplay.data.columnWidth);
-        const y = adjustToBaseline(ctx.notefieldDisplay, ctx.viewport.tReceptor.value * ctx.notefield.pixelsPerSecond, h);
+        const h = scaleToWidth(
+            img.width as number,
+            img.height as number,
+            ctx.notefieldDisplay.data.columnWidth,
+        );
+        const y = adjustToBaseline(
+            ctx.notefieldDisplay,
+            ctx.viewport.tReceptor.value * ctx.notefield.pixelsPerSecond,
+            h,
+        );
 
         receptors.push({
-            img, key, h, y
+            img,
+            key,
+            h,
+            y,
         });
     }
 
@@ -72,7 +89,11 @@ export function getReceptors(ctx: NotefieldContext): Receptor[] {
 
 export function getTap(ctx: NotefieldContext, key: number, obj: ChartObject): Tap {
     const img = ctx.noteSkin.tap[key];
-    const h = scaleToWidth(img.width as number, img.height as number, ctx.notefieldDisplay.data.columnWidth);
+    const h = scaleToWidth(
+        img.width as number,
+        img.height as number,
+        ctx.notefieldDisplay.data.columnWidth,
+    );
 
     // TODO: Add time property to ChartObject
     const t = ctx.chart.bpms.timeAt(obj.beat);
