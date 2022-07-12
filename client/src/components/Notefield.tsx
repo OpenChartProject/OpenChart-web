@@ -1,3 +1,4 @@
+import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
 import React, { useEffect, useRef, useState } from "react";
@@ -106,7 +107,11 @@ export const Notefield = observer(({ store }: Props) => {
     useEffect(() => {
         const observers = [
             deepObserve(store.notefieldDisplay, () => processNotefieldChanges()),
-            deepObserve(store.notefield, () => processNotefieldChanges()),
+
+            // NOTE: It's *really* important that we listen to just the data and not the
+            // entire store. Redrawing updates other fields on the store which leads to
+            // infinite recursion if we also listen to those.
+            deepObserve(store.notefield.data, () => processNotefieldChanges()),
         ];
 
         return () => observers.forEach((disposer) => disposer());
@@ -143,17 +148,24 @@ export const Notefield = observer(({ store }: Props) => {
         updateDim();
     }, [refCanvas]);
 
+    // Handles the actual redrawing of the notefield canvas. This uses `autorun` since the
+    // state we are reacting to is not local state from a `useState()` hook.
+    // See the "useEffect and observables" tip: https://mobx.js.org/react-integration.html
     useEffect(() => {
-        if (!refCanvas.current) {
-            console.warn("Skipping redraw: canvas ref is null");
-            return;
-        } else if (!store.notefield.data.drawData || !context) {
-            console.warn("Skipping redraw: missing draw data or context");
-            return;
-        }
+        return autorun(() => {
+            const { ctx, drawData } = store.notefield;
 
-        drawNotefield(refCanvas.current, context, store.notefield.data.drawData);
-    }, [context]);
+            if (!ctx || !drawData) {
+                console.warn("Skipping redraw: missing draw data or context");
+                return;
+            } else if (!refCanvas.current) {
+                console.warn("Skipping redraw: canvas ref is null");
+                return;
+            }
+
+            drawNotefield(refCanvas.current, ctx, drawData);
+        });
+    }, []);
 
     let className = "notefield-container";
 

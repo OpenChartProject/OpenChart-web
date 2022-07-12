@@ -28,9 +28,6 @@ export interface NotefieldData {
     snap: BeatSnap;
 
     isPlaying: boolean;
-
-    ctx?: NotefieldContext;
-    drawData?: NotefieldDrawData;
 }
 
 /**
@@ -43,6 +40,15 @@ export class NotefieldStore {
     readonly root: RootStore;
 
     data: NotefieldData;
+
+    // The context and draw data are not included inside `data` to avoid recursion.
+    // The Notefield component watches `data` for changes to know when to redraw the
+    // notefield. It redraws by updating the context and draw data here. If these
+    // are included in `data`, then a redraw is considered a change, which triggers
+    // a redraw, etc.
+    ctx?: NotefieldContext;
+    drawData?: NotefieldDrawData;
+
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScrollController;
@@ -51,6 +57,8 @@ export class NotefieldStore {
         makeAutoObservable(this, {
             autoScroller: false,
             canvas: observable.ref,
+            ctx: observable.ref,
+            drawData: observable.ref,
             defaults: false,
             root: false,
         });
@@ -133,11 +141,11 @@ export class NotefieldStore {
     }
 
     setContext(ctx: NotefieldContext) {
-        this.data.ctx = ctx;
+        this.ctx = ctx;
     }
 
     setDrawData(drawData: NotefieldDrawData) {
-        this.data.drawData = drawData;
+        this.drawData = drawData;
     }
 
     /**
