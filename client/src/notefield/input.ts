@@ -30,7 +30,7 @@ export interface KeyBinds {
 /**
  * The different event types that can be handled by inputToAction.
  */
-export type InputActionType = "wheel" | "keydown";
+export type InputActionType = "keydown" | "mousedown" | "mouseup" | "wheel";
 
 /**
  * The args for inputToAction.
@@ -48,6 +48,9 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
     switch (e.type) {
         case "keydown":
             return keyboardInputToAction(e.event as KeyboardEvent, store);
+        case "mousedown":
+        case "mouseup":
+            return mouseInputToAction(e.event as MouseEvent, store);
         case "wheel":
             return wheelInputToAction(e.event as WheelEvent, store);
     }
@@ -115,6 +118,14 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
             return new PlayPauseAction(store);
     }
 
+    return null;
+}
+
+/**
+ * Maps a mouse event to an Action.
+ */
+export function mouseInputToAction(e: MouseEvent, store: RootStore): Action | null {
+    console.log(e.button, e.type);
     return null;
 }
 

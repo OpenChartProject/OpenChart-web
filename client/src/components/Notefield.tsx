@@ -70,6 +70,22 @@ export const Notefield = observer(({ store }: Props) => {
         }
     };
 
+    const onMouseDown = (e: MouseEvent) => {
+        const action = inputToAction({ type: "mousedown", event: e }, store);
+
+        if (action) {
+            action.run();
+        }
+    };
+
+    const onMouseUp = (e: MouseEvent) => {
+        const action = inputToAction({ type: "mouseup", event: e }, store);
+
+        if (action) {
+            action.run();
+        }
+    };
+
     const onScroll = (e: WheelEvent) => {
         const action = inputToAction({ type: "wheel", event: e }, store);
 
@@ -111,6 +127,8 @@ export const Notefield = observer(({ store }: Props) => {
         }
 
         window.addEventListener("keydown", onKeyDown);
+        window.addEventListener("mousedown", onMouseDown);
+        window.addEventListener("mouseup", onMouseUp);
         el.addEventListener("wheel", onScroll, { passive: false });
 
         return () => window.removeEventListener("keydown", onKeyDown);
