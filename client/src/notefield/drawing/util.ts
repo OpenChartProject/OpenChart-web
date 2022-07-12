@@ -14,13 +14,17 @@ import { NotefieldContext } from "../context";
  */
 export function absToCanvasY(ctx: NotefieldContext, y: number): number {
     let chartOrigin = -ctx.viewport.y0;
+    let canvasY: number;
 
     if (ctx.notefieldDisplay.data.scrollDirection === "down") {
-        chartOrigin += ctx.h;
         chartOrigin *= -1;
+        chartOrigin += ctx.h;
+        canvasY = chartOrigin - y;
+    } else {
+        canvasY = chartOrigin + y;
     }
 
-    return chartOrigin + y;
+    return canvasY;
 }
 
 /**

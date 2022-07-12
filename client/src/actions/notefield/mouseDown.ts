@@ -33,10 +33,32 @@ export class MouseDownAction implements Action {
     }
 
     private handleCanvas() {
-        const { taps } = this.store.notefield.data.drawData!.objects;
+        const { canvas, ctx, drawData } = this.store.notefield;
 
-        for (const t of taps) {
-            // do stuff
+        if (!canvas || !ctx || !drawData) {
+            return;
+        }
+
+        const e = this.args.event;
+
+        for (const t of drawData.objects.taps) {
+            const canvasRect = canvas.getBoundingClientRect();
+            const canvasY = absToCanvasY(ctx, t.absY);
+
+            // Calculate the bounding box of the tap note
+            const rect = {
+                x0: canvasRect.left + (t.key * ctx.notefieldDisplay.data.columnWidth),
+                y0: canvasY,
+                x1: canvasRect.left + ((t.key + 1) * ctx.notefieldDisplay.data.columnWidth),
+                y1: canvasY + t.h,
+            }
+
+            // Was the mouse pressed inside the bounding box?
+            const hit = (rect.x0 <= e.clientX && e.clientX <= rect.x1) && (rect.y0 <= e.clientY && e.clientY <= rect.y1);
+
+            if (hit) {
+                console.log("pressed tap");
+            }
         }
     }
 
