@@ -1,6 +1,17 @@
+import assert from "assert";
+
 import { Time, toTime } from "../../charting";
 import { Baseline, NotefieldDisplayStore, NotefieldStore } from "../../store";
 import { NotefieldContext } from "../context";
+
+import { KeyImage } from "./drawData";
+
+export interface Rect {
+    x0: number;
+    x1: number;
+    y0: number;
+    y1: number;
+}
 
 /**
  * Transforms an absolute Y position into the Y position that is drawn on the canvas.
@@ -52,6 +63,32 @@ export function adjustToBaseline(display: NotefieldDisplayStore, pos: number, h:
                 return pos + h / 2;
             }
     }
+}
+
+/**
+ * Returns the bounding rect of a key image on the Notefield canvas. In other words, the
+ * size and position of something like a tap note on the user's screen.
+ */
+export function getKeyImageBoundingBox(
+    ki: KeyImage,
+    notefield: NotefieldStore,
+    display: NotefieldDisplayStore,
+): Rect {
+    assert(notefield.canvas, "Canvas is undefined");
+    assert(notefield.ctx, "Notefield context is undefined");
+
+    const canvasRect = notefield.canvas.getBoundingClientRect();
+    const canvasY = absToCanvasY(notefield.ctx, ki.absY);
+
+    // Calculate the bounding box of the tap note
+    const rect: Rect = {
+        x0: canvasRect.left + ki.key * display.data.columnWidth,
+        y0: canvasY,
+        x1: canvasRect.left + (ki.key + 1) * display.data.columnWidth,
+        y1: canvasY + ki.h,
+    };
+
+    return rect;
 }
 
 /**

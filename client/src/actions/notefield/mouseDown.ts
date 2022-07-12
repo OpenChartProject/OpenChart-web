@@ -1,4 +1,4 @@
-import { absToCanvasY } from "../../notefield/drawing/util";
+import { getKeyImageBoundingBox } from "../../notefield/drawing/util";
 import { RootStore } from "../../store";
 import { Action } from "../action";
 
@@ -42,16 +42,11 @@ export class MouseDownAction implements Action {
         const e = this.args.event;
 
         for (const t of drawData.objects.taps) {
-            const canvasRect = canvas.getBoundingClientRect();
-            const canvasY = absToCanvasY(ctx, t.absY);
-
-            // Calculate the bounding box of the tap note
-            const rect = {
-                x0: canvasRect.left + t.key * ctx.notefieldDisplay.data.columnWidth,
-                y0: canvasY,
-                x1: canvasRect.left + (t.key + 1) * ctx.notefieldDisplay.data.columnWidth,
-                y1: canvasY + t.h,
-            };
+            const rect = getKeyImageBoundingBox(
+                t,
+                this.store.notefield,
+                this.store.notefieldDisplay,
+            );
 
             // Was the mouse pressed inside the bounding box?
             const hit =
@@ -61,10 +56,10 @@ export class MouseDownAction implements Action {
                 e.clientY <= rect.y1;
 
             if (hit) {
-                console.log("pressed tap");
+                // select note
             }
         }
     }
 
-    private handleContainer() {}
+    private handleContainer() { }
 }
