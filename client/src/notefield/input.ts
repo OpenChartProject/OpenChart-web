@@ -36,8 +36,17 @@ export type InputActionType = "keydown" | "mousedown" | "mouseup" | "wheel";
  * The args for inputToAction.
  */
 export interface InputActionArgs {
-    type: InputActionType;
+    /* The DOM event that was triggered. */
     event: Event;
+
+    /* Is true if the event target was specifically the canvas where we draw the notefield. */
+    inCanvas?: boolean;
+
+    /*
+    The type of event that was triggered. This is the same as `event.type`, but we can
+    explicitly say which events we can handle, adding a bit of type safety.
+    */
+    type: InputActionType;
 }
 
 /**
@@ -45,15 +54,17 @@ export interface InputActionArgs {
  * to anything, returns null.
  */
 export function inputToAction(e: InputActionArgs, store: RootStore): Action | null {
+    const inCanvas = !!e.inCanvas;
+
     switch (e.type) {
         case "keydown":
             return keyboardInputToAction(e.event as KeyboardEvent, store);
         case "mousedown":
-            return mouseDownInputToAction(e.event as MouseEvent, store);
+            return mouseDownInputToAction(e.event as MouseEvent, inCanvas, store);
         case "mouseup":
-            return mouseUpInputToAction(e.event as MouseEvent, store);
+            return mouseUpInputToAction(e.event as MouseEvent, inCanvas, store);
         case "wheel":
-            return wheelInputToAction(e.event as WheelEvent, store);
+            return wheelInputToAction(e.event as WheelEvent, inCanvas, store);
     }
 }
 
@@ -125,21 +136,21 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
 /**
  * Maps a mouse button press event to an Action.
  */
-export function mouseDownInputToAction(e: MouseEvent, store: RootStore): Action | null {
+export function mouseDownInputToAction(e: MouseEvent, inCanvas: boolean, store: RootStore): Action | null {
     return null;
 }
 
 /**
  * Maps a mouse button release event to an Action.
  */
-export function mouseUpInputToAction(e: MouseEvent, store: RootStore): Action | null {
+export function mouseUpInputToAction(e: MouseEvent, inCanvas: boolean, store: RootStore): Action | null {
     return null;
 }
 
 /**
  * Maps a mouse wheel event to an Action.
  */
-export function wheelInputToAction(e: WheelEvent, store: RootStore): Action | null {
+export function wheelInputToAction(e: WheelEvent, inCanvas: boolean, store: RootStore): Action | null {
     if (e.deltaY === 0) {
         return null;
     }

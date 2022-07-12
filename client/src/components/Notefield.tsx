@@ -71,7 +71,8 @@ export const Notefield = observer(({ store }: Props) => {
     };
 
     const onMouseDown = (e: MouseEvent) => {
-        const action = inputToAction({ type: "mousedown", event: e }, store);
+        const inCanvas = e.target === refCanvas.current;
+        const action = inputToAction({ type: "mousedown", event: e, inCanvas }, store);
 
         if (action) {
             action.run();
@@ -79,7 +80,8 @@ export const Notefield = observer(({ store }: Props) => {
     };
 
     const onMouseUp = (e: MouseEvent) => {
-        const action = inputToAction({ type: "mouseup", event: e }, store);
+        const inCanvas = e.target === refCanvas.current;
+        const action = inputToAction({ type: "mouseup", event: e, inCanvas }, store);
 
         if (action) {
             action.run();
@@ -126,9 +128,10 @@ export const Notefield = observer(({ store }: Props) => {
             return;
         }
 
+        // Key presses are emitted from the window, unless the user is focussed on an input
         window.addEventListener("keydown", onKeyDown);
-        window.addEventListener("mousedown", onMouseDown);
-        window.addEventListener("mouseup", onMouseUp);
+        el.addEventListener("mousedown", onMouseDown);
+        el.addEventListener("mouseup", onMouseUp);
         el.addEventListener("wheel", onScroll, { passive: false });
 
         return () => window.removeEventListener("keydown", onKeyDown);
