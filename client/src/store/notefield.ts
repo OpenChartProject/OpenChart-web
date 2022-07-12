@@ -4,6 +4,7 @@ import { makeAutoObservable, observable } from "mobx";
 
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
+import { NotefieldContext } from "../notefield/context";
 import { NotefieldDrawData } from "../notefield/drawing/drawData";
 
 import { AutoScrollController } from "./controllers";
@@ -28,6 +29,7 @@ export interface NotefieldData {
 
     isPlaying: boolean;
 
+    ctx?: NotefieldContext;
     drawData?: NotefieldDrawData;
 }
 
@@ -128,6 +130,10 @@ export class NotefieldStore {
     setChart(chart: Chart) {
         this.data.chart = chart;
         this.resetView();
+    }
+
+    setContext(ctx: NotefieldContext) {
+        this.data.ctx = ctx;
     }
 
     setDrawData(drawData: NotefieldDrawData) {

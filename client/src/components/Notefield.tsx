@@ -32,7 +32,6 @@ export interface Props {
 export const Notefield = observer(({ store }: Props) => {
     const refCanvas = useRef<HTMLCanvasElement>(null);
     const refContainer = useRef<HTMLDivElement>(null);
-    const [context, setContext] = useState<NotefieldContext>();
 
     const processNotefieldChanges = () => {
         if (!store.notefieldDisplay.data.noteSkin) {
@@ -40,7 +39,7 @@ export const Notefield = observer(({ store }: Props) => {
             return;
         }
 
-        const _context: NotefieldContext = {
+        const context: NotefieldContext = {
             chart: store.notefield.data.chart,
             w: store.notefield.data.width,
             h: store.notefield.data.height,
@@ -50,8 +49,8 @@ export const Notefield = observer(({ store }: Props) => {
             viewport: calculateViewport(store.notefieldDisplay, store.notefield),
         };
 
-        setContext(_context);
-        store.notefield.setDrawData(getNotefieldDrawData(_context));
+        store.notefield.setContext(context);
+        store.notefield.setDrawData(getNotefieldDrawData(context));
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
