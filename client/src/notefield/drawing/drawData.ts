@@ -8,7 +8,7 @@ import { adjustToBaseline, scaleToWidth, timeToPosition } from "./util";
 /**
  * A KeyImage represents an image on the notefield that corresponds to a specific key.
  * Taps, receptors, etc.
-*/
+ */
 export interface KeyImage {
     img: NoteSkinImage;
     key: number;

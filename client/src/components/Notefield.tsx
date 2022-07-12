@@ -1,10 +1,10 @@
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { deepObserve } from "mobx-utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { NotefieldContext } from "../notefield/context";
-import { getNotefieldDrawData, NotefieldDrawData } from "../notefield/drawing/drawData";
+import { getNotefieldDrawData } from "../notefield/drawing/drawData";
 import { drawNotefield } from "../notefield/drawing/drawing";
 import { calculateViewport } from "../notefield/drawing/viewport";
 import { inputToAction } from "../notefield/input";

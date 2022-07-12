@@ -47,14 +47,18 @@ export class MouseDownAction implements Action {
 
             // Calculate the bounding box of the tap note
             const rect = {
-                x0: canvasRect.left + (t.key * ctx.notefieldDisplay.data.columnWidth),
+                x0: canvasRect.left + t.key * ctx.notefieldDisplay.data.columnWidth,
                 y0: canvasY,
-                x1: canvasRect.left + ((t.key + 1) * ctx.notefieldDisplay.data.columnWidth),
+                x1: canvasRect.left + (t.key + 1) * ctx.notefieldDisplay.data.columnWidth,
                 y1: canvasY + t.h,
-            }
+            };
 
             // Was the mouse pressed inside the bounding box?
-            const hit = (rect.x0 <= e.clientX && e.clientX <= rect.x1) && (rect.y0 <= e.clientY && e.clientY <= rect.y1);
+            const hit =
+                rect.x0 <= e.clientX &&
+                e.clientX <= rect.x1 &&
+                rect.y0 <= e.clientY &&
+                e.clientY <= rect.y1;
 
             if (hit) {
                 console.log("pressed tap");
@@ -62,7 +66,5 @@ export class MouseDownAction implements Action {
         }
     }
 
-    private handleContainer() {
-
-    }
+    private handleContainer() {}
 }

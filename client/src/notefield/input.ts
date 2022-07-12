@@ -137,21 +137,33 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
 /**
  * Maps a mouse button press event to an Action.
  */
-export function mouseDownInputToAction(e: MouseEvent, inCanvas: boolean, store: RootStore): Action | null {
+export function mouseDownInputToAction(
+    e: MouseEvent,
+    inCanvas: boolean,
+    store: RootStore,
+): Action | null {
     return new MouseDownAction(store, { event: e, inCanvas });
 }
 
 /**
  * Maps a mouse button release event to an Action.
  */
-export function mouseUpInputToAction(e: MouseEvent, inCanvas: boolean, store: RootStore): Action | null {
+export function mouseUpInputToAction(
+    e: MouseEvent,
+    inCanvas: boolean,
+    store: RootStore,
+): Action | null {
     return null;
 }
 
 /**
  * Maps a mouse wheel event to an Action.
  */
-export function wheelInputToAction(e: WheelEvent, inCanvas: boolean, store: RootStore): Action | null {
+export function wheelInputToAction(
+    e: WheelEvent,
+    inCanvas: boolean,
+    store: RootStore,
+): Action | null {
     if (e.deltaY === 0) {
         return null;
     }
