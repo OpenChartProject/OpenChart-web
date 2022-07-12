@@ -61,5 +61,5 @@ export class MouseDownAction implements Action {
         }
     }
 
-    private handleContainer() { }
+    private handleContainer() {}
 }
