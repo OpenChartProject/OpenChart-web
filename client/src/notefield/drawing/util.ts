@@ -1,5 +1,27 @@
 import { Time, toTime } from "../../charting";
 import { Baseline, NotefieldDisplayStore, NotefieldStore } from "../../store";
+import { NotefieldContext } from "../context";
+
+/**
+ * Transforms an absolute Y position into the Y position that is drawn on the canvas.
+ *
+ * The canvas Y takes into account the receptor offset and the scroll direction.
+ * If the notefield is set to upscroll and the receptor offset is 0, the absolute Y
+ * and the canvas Y are the same.
+ *
+ * @param ctx The notefield context
+ * @param y The absolute Y position
+ */
+export function absToCanvasY(ctx: NotefieldContext, y: number): number {
+    let chartOrigin = -ctx.viewport.y0;
+
+    if (ctx.notefieldDisplay.data.scrollDirection === "down") {
+        chartOrigin += ctx.h;
+        chartOrigin *= -1;
+    }
+
+    return chartOrigin + y;
+}
 
 /**
  * Returns the new position of the object after taking the baseline into account.
