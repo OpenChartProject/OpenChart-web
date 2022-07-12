@@ -32,7 +32,6 @@ export interface Props {
 export const Notefield = observer(({ store }: Props) => {
     const refCanvas = useRef<HTMLCanvasElement>(null);
     const refContainer = useRef<HTMLDivElement>(null);
-    const [drawData, setDrawData] = useState<NotefieldDrawData>();
     const [context, setContext] = useState<NotefieldContext>();
 
     const processNotefieldChanges = () => {
@@ -52,7 +51,7 @@ export const Notefield = observer(({ store }: Props) => {
         };
 
         setContext(_context);
-        setDrawData(getNotefieldDrawData(_context));
+        store.notefield.setDrawData(getNotefieldDrawData(_context));
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -149,13 +148,13 @@ export const Notefield = observer(({ store }: Props) => {
         if (!refCanvas.current) {
             console.warn("Skipping redraw: canvas ref is null");
             return;
-        } else if (!drawData || !context) {
+        } else if (!store.notefield.data.drawData || !context) {
             console.warn("Skipping redraw: missing draw data or context");
             return;
         }
 
-        drawNotefield(refCanvas.current, context, drawData);
-    }, [drawData, context]);
+        drawNotefield(refCanvas.current, context, store.notefield.data.drawData);
+    }, [context]);
 
     let className = "notefield-container";
 
