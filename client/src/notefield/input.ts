@@ -6,6 +6,7 @@ import {
     SnapScrollAction,
     ZoomAction,
 } from "../actions/notefield";
+import { MouseDownAction } from "../actions/notefield/mouseDown";
 import { KeyIndex } from "../charting/";
 import { RootStore } from "../store/";
 
@@ -137,7 +138,7 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
  * Maps a mouse button press event to an Action.
  */
 export function mouseDownInputToAction(e: MouseEvent, inCanvas: boolean, store: RootStore): Action | null {
-    return null;
+    return new MouseDownAction(store, { event: e, inCanvas });
 }
 
 /**
