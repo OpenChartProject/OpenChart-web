@@ -49,8 +49,9 @@ export function inputToAction(e: InputActionArgs, store: RootStore): Action | nu
         case "keydown":
             return keyboardInputToAction(e.event as KeyboardEvent, store);
         case "mousedown":
+            return mouseDownInputToAction(e.event as MouseEvent, store);
         case "mouseup":
-            return mouseInputToAction(e.event as MouseEvent, store);
+            return mouseUpInputToAction(e.event as MouseEvent, store);
         case "wheel":
             return wheelInputToAction(e.event as WheelEvent, store);
     }
@@ -122,10 +123,16 @@ export function keyboardInputToAction(e: KeyboardEvent, store: RootStore): Actio
 }
 
 /**
- * Maps a mouse event to an Action.
+ * Maps a mouse button press event to an Action.
  */
-export function mouseInputToAction(e: MouseEvent, store: RootStore): Action | null {
-    console.log(e.button, e.type);
+export function mouseDownInputToAction(e: MouseEvent, store: RootStore): Action | null {
+    return null;
+}
+
+/**
+ * Maps a mouse button release event to an Action.
+ */
+export function mouseUpInputToAction(e: MouseEvent, store: RootStore): Action | null {
     return null;
 }
 
