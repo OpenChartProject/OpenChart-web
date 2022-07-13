@@ -112,6 +112,16 @@ export class NotefieldStore {
         return this.root.notefieldDisplay.data.pixelsPerSecond * this.data.zoom.valueOf();
     }
 
+    get selectedNoteCount(): number {
+        let count = 0;
+
+        for (const notes of this.data.selectedNotes) {
+            count += notes.length;
+        }
+
+        return count;
+    }
+
     /**
      * Clears any selected notes on the notefield.
      */
@@ -123,6 +133,10 @@ export class NotefieldStore {
         for (let i = 0; i < this.data.chart.keyCount.value; i++) {
             this.data.selectedNotes.push([]);
         }
+    }
+
+    isSelected(key: number, index: number): boolean {
+        return this.data.selectedNotes[key].indexOf(index) !== -1;
     }
 
     /**
@@ -150,7 +164,7 @@ export class NotefieldStore {
     selectNote(key: number, index: number): boolean {
         const notes = this.data.selectedNotes[key];
 
-        if (notes.indexOf(index) === -1) {
+        if (!this.isSelected(key, index)) {
             notes.push(index);
             notes.sort();
             return true;

@@ -1,7 +1,7 @@
 import { BeatLineStyle } from "../../store";
 import { NotefieldContext } from "../context";
 
-import { KeyImage, NotefieldDrawData } from "./drawData";
+import { KeyImage, NotefieldDrawData, Tap } from "./drawData";
 
 function clear(renderCtx: CanvasRenderingContext2D, w: number, h: number) {
     renderCtx.save();
@@ -57,6 +57,26 @@ function drawKeyImage(
     renderCtx.restore();
 }
 
+function drawSelection(renderCtx: CanvasRenderingContext2D,
+    ctx: NotefieldContext,
+    keyImage: KeyImage
+) {
+    renderCtx.save();
+    renderCtx.translate(keyImage.key * ctx.notefieldDisplay.data.columnWidth, keyImage.absY);
+
+    const w = ctx.notefieldDisplay.data.columnWidth;
+    const h = keyImage.h;
+
+    renderCtx.fillStyle = "rgba(255, 255, 255, 0.4)";
+    renderCtx.fillRect(0, 0, w, h);
+
+    renderCtx.lineWidth = 1;
+    renderCtx.strokeStyle = "white";
+    renderCtx.strokeRect(0, 0, w, h);
+
+    renderCtx.restore();
+}
+
 function drawReceptors(
     renderCtx: CanvasRenderingContext2D,
     ctx: NotefieldContext,
@@ -74,6 +94,12 @@ function drawTaps(
 ) {
     for (const tap of data.objects.taps) {
         drawKeyImage(renderCtx, ctx, tap);
+
+        const selected = ctx.notefield.data.selectedNotes[tap.key].indexOf(tap.index) !== -1;
+
+        if (selected) {
+            drawSelection(renderCtx, ctx, tap);
+        }
     }
 }
 

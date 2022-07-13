@@ -40,6 +40,7 @@ export class MouseDownAction implements Action {
         }
 
         const e = this.args.event;
+        let hitSomething = false;
 
         for (const t of drawData.objects.taps) {
             const rect = getKeyImageBoundingBox(
@@ -56,10 +57,31 @@ export class MouseDownAction implements Action {
                 e.clientY <= rect.y1;
 
             if (hit) {
+                if (!e.ctrlKey && !e.shiftKey) {
+                    // Check if there is just one note selected and the user is trying to toggle it
+                    const justOneAndToggling = this.store.notefield.selectedNoteCount === 1 && this.store.notefield.isSelected(t.key, t.index);
+
+                    // If the user isn't holding the ctrl or shift key we want to clear their
+                    // selection first, but only if they aren't just toggling a single note.
+                    // If we reset when trying to toggle a single note, it clears the selection
+                    // then selects the note again, leaving the note stuck on selected.
+                    if (!justOneAndToggling) {
+                        this.store.notefield.clearSelectedNotes();
+                    }
+                }
+
                 this.store.notefield.toggleSelectNote(t.key, t.index);
+                hitSomething = true;
+                break;
             }
+        }
+
+        if (!hitSomething) {
+            this.store.notefield.clearSelectedNotes();
         }
     }
 
-    private handleContainer() { }
+    private handleContainer() {
+        this.store.notefield.clearSelectedNotes();
+    }
 }
