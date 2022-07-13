@@ -56,10 +56,10 @@ export class MouseDownAction implements Action {
                 e.clientY <= rect.y1;
 
             if (hit) {
-                // select note
+                this.store.notefield.toggleSelectNote(t.key, t.index);
             }
         }
     }
 
-    private handleContainer() {}
+    private handleContainer() { }
 }

@@ -36,5 +36,7 @@ export class PlaceTapAction implements Action {
         chart.placeObject(new Tap(args.beat, args.key), {
             removeIfExists: true,
         });
+
+        this.store.notefield.clearSelectedNotes();
     }
 }

@@ -85,6 +85,7 @@ export class NotefieldStore {
         });
 
         this.autoScroller = new AutoScrollController(this.root);
+        this.clearSelectedNotes();
     }
 
     get defaults(): NotefieldData {
@@ -160,9 +161,15 @@ export class NotefieldStore {
 
     /**
      * Toggles a note between being selected and unselected.
+     *
+     * Returns false if it was unselected, true if it was selected.
      */
-    toggleSelectNote(key: number, index: number) {
-        this.unselectNote(key, index) || this.selectNote(key, index);
+    toggleSelectNote(key: number, index: number): boolean {
+        if (this.unselectNote(key, index)) {
+            return false;
+        }
+
+        return this.selectNote(key, index);
     }
 
     /**
