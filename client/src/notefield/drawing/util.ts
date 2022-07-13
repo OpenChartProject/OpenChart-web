@@ -74,8 +74,8 @@ export function getKeyImageBoundingBox(
     notefield: NotefieldStore,
     display: NotefieldDisplayStore,
 ): Rect {
-    assert(notefield.canvas, "Canvas is undefined");
-    assert(notefield.ctx, "Notefield context is undefined");
+    assert(notefield.canvas, "canvas cannot be undefined");
+    assert(notefield.ctx, "notefield context cannot be undefined");
 
     const canvasRect = notefield.canvas.getBoundingClientRect();
     const canvasY = absToCanvasY(notefield.ctx, ki.absY);
