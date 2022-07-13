@@ -5,7 +5,7 @@ import { BPM } from "./bpm";
 import { BPMList } from "./bpmList";
 import { KeyCount } from "./keyCount";
 import { KeyIndex } from "./keyIndex";
-import { ChartObject } from "./objects/";
+import { ChartObject, IndexedChartObject } from "./objects/";
 import { Time } from "./time";
 import { toKeyCount, toKeyIndex, toTime } from "./util";
 
@@ -13,6 +13,7 @@ import { toKeyCount, toKeyIndex, toTime } from "./util";
  * A list of ChartObjects for a key/column.
  */
 export type KeyObjects = ChartObject[];
+export type IndexedKeyObjects = IndexedChartObject[];
 
 export interface ChartOpts {
     bpms?: BPM[];
@@ -83,7 +84,7 @@ export class Chart {
         key: KeyIndex | number,
         start: Time | number,
         end: Time | number,
-    ): KeyObjects {
+    ): IndexedKeyObjects {
         key = toKeyIndex(key);
         start = toTime(start);
         end = toTime(end);
@@ -91,17 +92,19 @@ export class Chart {
         assert(key.value < this.keyCount.value, "key index is out of range");
         assert(start.value < end.value, "start must come before end");
 
-        const objs: KeyObjects = [];
+        const objs: IndexedKeyObjects = [];
 
-        for (const obj of this.objects[key.value]) {
+        for (const [i, obj] of this.objects[key.value].entries()) {
             // TODO: Calculate this ahead of time
             const t = this.bpms.timeAt(obj.beat);
 
-            if (t.value < start.value || t.value > end.value) {
+            if (t.value < start.value) {
                 continue;
+            } else if (t.value > end.value) {
+                break;
             }
 
-            objs.push(obj);
+            objs.push({ ...obj, index: i });
         }
 
         return objs;

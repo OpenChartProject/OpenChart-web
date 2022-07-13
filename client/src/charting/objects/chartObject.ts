@@ -6,3 +6,7 @@ export interface ChartObject {
     key: KeyIndex;
     type: "tap" | "hold";
 }
+
+export interface IndexedChartObject extends ChartObject {
+    index: number;
+}

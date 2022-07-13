@@ -96,11 +96,18 @@ describe("Chart", () => {
         });
 
         it("returns objects for each key", () => {
-            const objs = [[new Tap(0, 0)], [new Tap(1, 1)]];
+            const objs = [[new Tap(0, 0), new Tap(1, 0)], [new Tap(1, 1)]];
+            const indexed = [
+                [
+                    { ...objs[0][0], index: 0 },
+                    { ...objs[0][1], index: 1 },
+                ],
+                [{ ...objs[1][0], index: 0 }],
+            ];
             const c = new Chart({ keyCount: 2, objects: objs });
 
-            assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), objs[0]);
-            assert.deepStrictEqual(c.getObjectsInInterval(1, 0, 1), objs[1]);
+            assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), indexed[0]);
+            assert.deepStrictEqual(c.getObjectsInInterval(1, 0, 1), indexed[1]);
         });
 
         it("doesn't return objects outside the interval", () => {
@@ -108,10 +115,15 @@ describe("Chart", () => {
             c.bpms.setBPMs([new BPM(0, 60)]);
 
             const objs = [new Tap(0, 0), new Tap(1, 0), new Tap(2, 0)];
+            const indexed = [
+                { ...objs[0], index: 0 },
+                { ...objs[1], index: 1 },
+                { ...objs[2], index: 2 },
+            ];
             c.objects[0] = objs;
 
-            assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), objs.slice(0, 2));
-            assert.deepStrictEqual(c.getObjectsInInterval(0, 1, 2), objs.slice(1, 3));
+            assert.deepStrictEqual(c.getObjectsInInterval(0, 0, 1), indexed.slice(0, 2));
+            assert.deepStrictEqual(c.getObjectsInInterval(0, 1, 2), indexed.slice(1, 3));
         });
     });
 });

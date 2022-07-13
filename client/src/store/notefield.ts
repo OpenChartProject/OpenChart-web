@@ -28,6 +28,21 @@ export interface NotefieldData {
     snap: BeatSnap;
 
     isPlaying: boolean;
+
+    /**
+     * A 2D array for tracking which notes are selected.
+     *
+     * The first dimension of the array is the chart key. The second dimension is a list
+     * of indexes of selected notes.
+     *
+     * A note's index is the number of notes that come before it for that key. If a note
+     * is the first one for that key, its index is 0. The next note for that key is 1,
+     * then 2, etc.
+     *
+     * These indexes will potentially become invalid if you add or remove notes from the
+     * chart. For that reason, if any notes are added or removed, the selection is reset.
+     */
+    selectedNotes: number[][];
 }
 
 /**
@@ -70,6 +85,7 @@ export class NotefieldStore {
         });
 
         this.autoScroller = new AutoScrollController(this.root);
+        this.clearSelectedNotes();
     }
 
     get defaults(): NotefieldData {
@@ -84,6 +100,8 @@ export class NotefieldStore {
             snap: new BeatSnap(),
 
             isPlaying: false,
+
+            selectedNotes: [],
         };
     }
 
@@ -92,6 +110,80 @@ export class NotefieldStore {
      */
     get pixelsPerSecond(): number {
         return this.root.notefieldDisplay.data.pixelsPerSecond * this.data.zoom.valueOf();
+    }
+
+    get selectedNoteCount(): number {
+        let count = 0;
+
+        for (const notes of this.data.selectedNotes) {
+            count += notes.length;
+        }
+
+        return count;
+    }
+
+    /**
+     * Clears any selected notes on the notefield.
+     */
+    clearSelectedNotes() {
+        assert(this.data.chart, "chart must be set");
+
+        this.data.selectedNotes = [];
+
+        for (let i = 0; i < this.data.chart.keyCount.value; i++) {
+            this.data.selectedNotes.push([]);
+        }
+    }
+
+    isSelected(key: number, index: number): boolean {
+        return this.data.selectedNotes[key].indexOf(index) !== -1;
+    }
+
+    /**
+     * Unselects a single note by its index. Does nothing if the note wasn't selected.
+     *
+     * Returns true if the note was deselected.
+     */
+    unselectNote(key: number, index: number): boolean {
+        const notes = this.data.selectedNotes[key];
+        const i = notes.indexOf(index);
+
+        if (i !== -1) {
+            notes.splice(i, 1);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Selects a single note by its index. Does nothing if the note was already selected.
+     *
+     * Returns true if the note was selected.
+     */
+    selectNote(key: number, index: number): boolean {
+        const notes = this.data.selectedNotes[key];
+
+        if (!this.isSelected(key, index)) {
+            notes.push(index);
+            notes.sort();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Toggles a note between being selected and unselected.
+     *
+     * Returns false if it was unselected, true if it was selected.
+     */
+    toggleSelectNote(key: number, index: number): boolean {
+        if (this.unselectNote(key, index)) {
+            return false;
+        }
+
+        return this.selectNote(key, index);
     }
 
     /**
@@ -137,6 +229,7 @@ export class NotefieldStore {
      */
     setChart(chart: Chart) {
         this.data.chart = chart;
+        this.clearSelectedNotes();
         this.resetView();
     }
 
