@@ -57,6 +57,9 @@ function drawKeyImage(
     renderCtx.restore();
 }
 
+/**
+ * Draws a bounding box around a selected key image.
+ */
 function drawSelection(renderCtx: CanvasRenderingContext2D,
     ctx: NotefieldContext,
     keyImage: KeyImage
@@ -64,13 +67,19 @@ function drawSelection(renderCtx: CanvasRenderingContext2D,
     renderCtx.save();
     renderCtx.translate(keyImage.key * ctx.notefieldDisplay.data.columnWidth, keyImage.absY);
 
+    // The outline for the selection boxes is a bit blurry when the transform isn't
+    // lined up with a whole pixel. This just takes the existing transform and aligns it
+    // by making the translate values whole numbers.
+    const { a, b, c, d, e, f } = renderCtx.getTransform();
+    renderCtx.setTransform(a, b, c, d, Math.floor(e), Math.floor(f));
+
     const w = ctx.notefieldDisplay.data.columnWidth;
     const h = keyImage.h;
 
     renderCtx.fillStyle = "rgba(255, 255, 255, 0.4)";
     renderCtx.fillRect(0, 0, w, h);
 
-    renderCtx.lineWidth = 1;
+    renderCtx.lineWidth = 2;
     renderCtx.strokeStyle = "white";
     renderCtx.strokeRect(0, 0, w, h);
 
