@@ -42,7 +42,7 @@ export class MouseDownAction implements Action {
         const e = this.args.event;
         let hitSomething = false;
 
-        for (const t of drawData.objects.taps) {
+        for (const t of drawData.objects.taps.reverse()) {
             const rect = getKeyImageBoundingBox(
                 t,
                 this.store.notefield,
