@@ -1,4 +1,4 @@
-import { ChartObject } from "../../charting/objects";
+import { IndexedChartObject } from "../../charting/objects";
 import { NoteSkinImage } from "../../noteskin";
 import { getBeatLineTimes } from "../beatlines";
 import { NotefieldContext } from "../context";
@@ -32,7 +32,12 @@ export interface BeatLines {
 }
 
 export type Receptor = KeyImage;
-export type Tap = KeyImage;
+export interface Tap extends KeyImage {
+    /**
+     * The objects index in the chart for this key.
+     */
+    index: number;
+}
 
 export interface ChartObjects {
     taps: Tap[];
@@ -100,7 +105,7 @@ export function getReceptors(ctx: NotefieldContext): Receptor[] {
     return receptors;
 }
 
-export function getTap(ctx: NotefieldContext, key: number, obj: ChartObject): Tap {
+export function getTap(ctx: NotefieldContext, key: number, obj: IndexedChartObject): Tap {
     const img = ctx.noteSkin.tap[key];
     const h = scaleToWidth(
         img.width as number,
@@ -108,11 +113,11 @@ export function getTap(ctx: NotefieldContext, key: number, obj: ChartObject): Ta
         ctx.notefieldDisplay.data.columnWidth,
     );
 
-    // TODO: Add time property to ChartObject
+    // TODO: Add time property to IndexedChartObject
     const t = ctx.chart.bpms.timeAt(obj.beat);
     const absY = adjustToBaseline(ctx.notefieldDisplay, timeToPosition(ctx.notefield, t), h);
 
-    return { img, key, h, absY };
+    return { img, index: obj.index, key, h, absY };
 }
 
 export function getChartObjects(ctx: NotefieldContext): ChartObjects {
