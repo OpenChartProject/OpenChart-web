@@ -5,11 +5,24 @@ import { NotefieldContext } from "../context";
 
 import { adjustToBaseline, scaleToWidth, timeToPosition } from "./util";
 
+/**
+ * A KeyImage represents an image on the notefield that corresponds to a specific key.
+ * Taps, receptors, etc.
+ */
 export interface KeyImage {
     img: NoteSkinImage;
     key: number;
+
+    /**
+     * The height of the image, scaled based on the image's size and the notefield width.
+     */
     h: number;
-    y: number;
+
+    /**
+     * The absolute Y position (origin) of the image. This is where the image is drawn relative
+     * to the first beat line. Affected by the note size setting and zoom level.
+     */
+    absY: number;
 }
 
 export interface BeatLines {
@@ -70,7 +83,7 @@ export function getReceptors(ctx: NotefieldContext): Receptor[] {
             img.height as number,
             ctx.notefieldDisplay.data.columnWidth,
         );
-        const y = adjustToBaseline(
+        const absY = adjustToBaseline(
             ctx.notefieldDisplay,
             ctx.viewport.tReceptor.value * ctx.notefield.pixelsPerSecond,
             h,
@@ -80,7 +93,7 @@ export function getReceptors(ctx: NotefieldContext): Receptor[] {
             img,
             key,
             h,
-            y,
+            absY,
         });
     }
 
@@ -97,9 +110,9 @@ export function getTap(ctx: NotefieldContext, key: number, obj: ChartObject): Ta
 
     // TODO: Add time property to ChartObject
     const t = ctx.chart.bpms.timeAt(obj.beat);
-    const y = adjustToBaseline(ctx.notefieldDisplay, timeToPosition(ctx.notefield, t), h);
+    const absY = adjustToBaseline(ctx.notefieldDisplay, timeToPosition(ctx.notefield, t), h);
 
-    return { img, key, h, y };
+    return { img, key, h, absY };
 }
 
 export function getChartObjects(ctx: NotefieldContext): ChartObjects {

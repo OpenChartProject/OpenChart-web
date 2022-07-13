@@ -45,7 +45,7 @@ function drawKeyImage(
     keyImage: KeyImage,
 ) {
     renderCtx.save();
-    renderCtx.translate(keyImage.key * ctx.notefieldDisplay.data.columnWidth, keyImage.y);
+    renderCtx.translate(keyImage.key * ctx.notefieldDisplay.data.columnWidth, keyImage.absY);
 
     // We need to mirror images vertically to preserve their appearance, since we mirror the
     // notefield when we start drawing if the scroll direction is down

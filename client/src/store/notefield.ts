@@ -4,6 +4,8 @@ import { makeAutoObservable, observable } from "mobx";
 
 import { Beat, BeatTime, Chart, Time } from "../charting";
 import { BeatSnap } from "../notefield/beatsnap";
+import { NotefieldContext } from "../notefield/context";
+import { NotefieldDrawData } from "../notefield/drawing/drawData";
 
 import { AutoScrollController } from "./controllers";
 import { RootStore } from "./root";
@@ -38,6 +40,15 @@ export class NotefieldStore {
     readonly root: RootStore;
 
     data: NotefieldData;
+
+    // The context and draw data are not included inside `data` to avoid recursion.
+    // The Notefield component watches `data` for changes to know when to redraw the
+    // notefield. It redraws by updating the context and draw data here. If these
+    // are included in `data`, then a redraw is considered a change, which triggers
+    // a redraw, etc.
+    ctx?: NotefieldContext;
+    drawData?: NotefieldDrawData;
+
     canvas?: HTMLCanvasElement;
 
     readonly autoScroller: AutoScrollController;
@@ -46,6 +57,8 @@ export class NotefieldStore {
         makeAutoObservable(this, {
             autoScroller: false,
             canvas: observable.ref,
+            ctx: observable.ref,
+            drawData: observable.ref,
             defaults: false,
             root: false,
         });
@@ -125,6 +138,14 @@ export class NotefieldStore {
     setChart(chart: Chart) {
         this.data.chart = chart;
         this.resetView();
+    }
+
+    setContext(ctx: NotefieldContext) {
+        this.ctx = ctx;
+    }
+
+    setDrawData(drawData: NotefieldDrawData) {
+        this.drawData = drawData;
     }
 
     /**
