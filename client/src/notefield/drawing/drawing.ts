@@ -1,7 +1,7 @@
 import { BeatLineStyle } from "../../store";
 import { NotefieldContext } from "../context";
 
-import { KeyImage, NotefieldDrawData, Tap } from "./drawData";
+import { KeyImage, NotefieldDrawData } from "./drawData";
 
 function clear(renderCtx: CanvasRenderingContext2D, w: number, h: number) {
     renderCtx.save();
@@ -60,9 +60,10 @@ function drawKeyImage(
 /**
  * Draws a bounding box around a selected key image.
  */
-function drawSelection(renderCtx: CanvasRenderingContext2D,
+function drawSelection(
+    renderCtx: CanvasRenderingContext2D,
     ctx: NotefieldContext,
-    keyImage: KeyImage
+    keyImage: KeyImage,
 ) {
     renderCtx.save();
     renderCtx.translate(keyImage.key * ctx.notefieldDisplay.data.columnWidth, keyImage.absY);

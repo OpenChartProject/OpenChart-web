@@ -59,7 +59,9 @@ export class MouseDownAction implements Action {
             if (hit) {
                 if (!e.ctrlKey && !e.shiftKey) {
                     // Check if there is just one note selected and the user is trying to toggle it
-                    const justOneAndToggling = this.store.notefield.selectedNoteCount === 1 && this.store.notefield.isSelected(t.key, t.index);
+                    const justOneAndToggling =
+                        this.store.notefield.selectedNoteCount === 1 &&
+                        this.store.notefield.isSelected(t.key, t.index);
 
                     // If the user isn't holding the ctrl or shift key we want to clear their
                     // selection first, but only if they aren't just toggling a single note.
