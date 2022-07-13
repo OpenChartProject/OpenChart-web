@@ -71,6 +71,7 @@ function drawSelection(
     // The outline for the selection boxes is a bit blurry when the transform isn't
     // lined up with a whole pixel. This just takes the existing transform and aligns it
     // by making the translate values whole numbers.
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/transform#syntax
     const { a, b, c, d, e, f } = renderCtx.getTransform();
     renderCtx.setTransform(a, b, c, d, Math.floor(e), Math.floor(f));
 
