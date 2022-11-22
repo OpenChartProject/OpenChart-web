@@ -13,6 +13,8 @@ export interface ScrollDirectionArgs {
  */
 export class ScrollDirectionAction implements Action {
     args: ScrollDirectionArgs;
+    oldDirection!: ScrollDirection;
+
     store: RootStore;
 
     constructor(store: RootStore, args: ScrollDirectionArgs) {
@@ -24,6 +26,8 @@ export class ScrollDirectionAction implements Action {
         const { to } = this.args;
         const { data } = this.store.notefieldDisplay;
 
+        this.oldDirection = this.store.notefieldDisplay.data.scrollDirection;
+
         if (to === "swap") {
             if (data.scrollDirection === "up") {
                 this.store.notefieldDisplay.update({ scrollDirection: "down" });
@@ -33,5 +37,9 @@ export class ScrollDirectionAction implements Action {
         } else {
             this.store.notefieldDisplay.update({ scrollDirection: to });
         }
+    }
+
+    undo(): void {
+        this.store.notefieldDisplay.update({ scrollDirection: this.oldDirection });
     }
 }

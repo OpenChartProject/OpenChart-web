@@ -39,4 +39,9 @@ export class PlaceTapAction implements Action {
 
         this.store.notefield.clearSelectedNotes();
     }
+
+    undo(): void {
+        // FIXME: This won't work correctly if placing a note gets rid of a hold.
+        this.run();
+    }
 }

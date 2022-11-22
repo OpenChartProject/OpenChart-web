@@ -1,5 +1,6 @@
 import assert from "assert";
 import Fraction from "fraction.js";
+import { BeatSnap } from "../../notefield/beatsnap";
 
 import { RootStore } from "../../store";
 import { Action } from "../action";
@@ -17,6 +18,8 @@ export interface SnapAdjustArgs {
  */
 export class SnapAdjustAction implements Action {
     args: SnapAdjustArgs;
+    oldSnap!: BeatSnap;
+
     store: RootStore;
 
     constructor(store: RootStore, args: SnapAdjustArgs) {
@@ -30,6 +33,8 @@ export class SnapAdjustAction implements Action {
         const args = this.args;
         const { snap } = this.store.notefield.data;
 
+        this.oldSnap = snap;
+
         if (args.adjust === "next") {
             snap.nextSnap();
         } else if (args.adjust === "prev") {
@@ -37,5 +42,9 @@ export class SnapAdjustAction implements Action {
         } else if (args.to) {
             snap.setSnap(args.to);
         }
+    }
+
+    undo(): void {
+        this.store.notefield.data.snap.setSnap(this.oldSnap.current);
     }
 }

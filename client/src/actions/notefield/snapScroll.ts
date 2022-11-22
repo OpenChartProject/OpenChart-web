@@ -1,3 +1,4 @@
+import { Beat } from "../../charting";
 import { RootStore } from "../../store";
 import { Action } from "../action";
 
@@ -14,6 +15,8 @@ export interface SnapScrollArgs {
  */
 export class SnapScrollAction implements Action {
     args: SnapScrollArgs;
+    oldScroll!: Beat;
+
     store: RootStore;
 
     constructor(store: RootStore, args: SnapScrollArgs) {
@@ -34,6 +37,8 @@ export class SnapScrollAction implements Action {
             return;
         }
 
+        this.oldScroll = notefield.data.scroll.beat;
+
         const { scroll, snap } = notefield.data;
         let dir = this.args.direction;
 
@@ -44,5 +49,9 @@ export class SnapScrollAction implements Action {
         const beat = dir === "forward" ? snap.nextBeat(scroll.beat) : snap.prevBeat(scroll.beat);
 
         this.store.notefield.setScroll({ beat });
+    }
+
+    undo(): void {
+        this.store.notefield.setScroll({ beat: this.oldScroll });
     }
 }
